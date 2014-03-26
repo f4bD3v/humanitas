@@ -23,7 +23,9 @@ def get_tweets():
     with open('tweets.pickle', 'rb') as f:
         while True:
             try:
-                tweets += pickle.load(f)
+                new_tweets = pickle.load(f)
+                tweets += new_tweets
+                print 'loaded',len(new_tweets),'tweets'
             except:
                 break
     return tweets
@@ -31,7 +33,7 @@ def get_tweets():
 def main():
     tweets = get_tweets()
     with open('tweets.csv', 'w+') as f:
-        f = csv.writer(f)
+        f = csv.writer(f, quoting=csv.QUOTE_ALL)
         f.writerow(columns)
         for t in tweets:
             f.writerow(map(lambda c:unicode(get_column(t,

@@ -2,9 +2,6 @@ eat
 extra
 need
 debt
-more
-less
-must
 afford
 cheap
 pay
@@ -23,7 +20,6 @@ availability
 supply
 demand
 essential
-should
 daily
 weekly
 cook

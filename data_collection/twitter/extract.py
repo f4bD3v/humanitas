@@ -19,6 +19,7 @@ def get_words():
     predictor_words = set()
     food_words = set()
 
+    # XXX `apple' used to be on the list but it just gives too much bad data
     for fn, var in (('predictor-words.txt', predictor_words),
                     ('food-words.txt', food_words)):
         with open(fn, 'r') as f:
@@ -31,11 +32,13 @@ def get_coords():
     with open('india-coords.txt', 'r') as f:
         return map(lambda x:map(float,x.split(',')), f.readlines())
 
-def make_twitter_query(predictor_words, food_words):
-    lhs = ' OR '.join(predictor_words)
-    # query fails with >18
-    rhs = ' OR '.join(list(food_words)[0:10])
-    return '(%s) (%s)' % (lhs, rhs)
+def make_twitter_queries(predictor_words, food_words):
+    queries = []
+    for i in xrange(0,len(food_words),7):
+        lhs = ' OR '.join(predictor_words)
+        rhs = ' OR '.join(list(food_words)[i:i+7])
+        queries.append( '(%s) (%s)' % (lhs, rhs) )
+    return queries
 
 def download_geolocated_tweets(twitter, lat, lng, query, resume_at=None,
                                limit=5000):
@@ -72,7 +75,7 @@ def main():
     logging.basicConfig(level=logging.INFO)
 
     predictor_words, food_words = get_words()
-    query = make_twitter_query(predictor_words, food_words)
+    queries = make_twitter_queries(predictor_words, food_words)
     coords = get_coords()
 
     twitter = Twython(APP_KEY, APP_SECRET, oauth_version=2)
@@ -82,7 +85,7 @@ def main():
     logging.info('Loading previous state')
 
     tweets = []
-    
+
     try:
         with open('state.pickle', 'r+b') as f:
             state = pickle.load(f)
@@ -91,20 +94,24 @@ def main():
 
     logging.info('Downloading new tweets')
     for lat, lng in coords:
-        try:
-            if (lat, lng) not in state:
-                state[(lat, lng)] = None
-            elif state[(lat, lng)] == 0:
-                logging.info('Already covered all of (%f, %f), moving on',
-                        lat, lng)
-                continue
-            new_tweets, resume_at = \
-                    download_geolocated_tweets(twitter, lat, lng, query,
-                            state[(lat, lng)])
-            tweets += new_tweets
-            state[(lat, lng)] = resume_at
-        except Exception, e:
-            logging.exception(e)
+        for query in queries:
+            print 'QUERY:',query
+            try:
+                if (lat, lng, query) not in state:
+                    state[(lat, lng, query)] = None
+                elif state[(lat, lng, query)] == 0:
+                    logging.info('Already covered all of (%f, %f), moving on',
+                            lat, lng)
+                    continue
+
+                new_tweets, resume_at = \
+                        download_geolocated_tweets(twitter, lat, lng, query,
+                                state[(lat, lng, query)])
+                tweets += new_tweets
+                state[(lat, lng, query)] = resume_at
+
+            except Exception, e:
+                logging.exception(e)
 
     logging.info('Saving tweets and state')
 
