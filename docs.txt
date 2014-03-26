@@ -1,0 +1,19 @@
+data_collection/twitter
+    extract.py
+        INPUT: predictor-words.txt, food-words.txt, india-coords.txt
+        OUTPUT: tweets.pickle
+        - downloads tweets w/ keywords from predictor-words.txt and
+          food-words.txt
+        - queries only geolocated tweets at india-coords.txt
+        - serializes output into tweets.pickle (pickle = serialization lib of
+          python)
+    to_csv.py
+        INPUT: tweets.pickle
+        OUTPUT: tweets.csv (customizable list of columns)
+
+data_crunching/twitter/
+    process_tweets.py
+        INPUT: tweets.pickle
+        OUTPUT: twitter-features.csv
+        - performs NLP, sentiment analysis etc. on tweets, then extracts
+          various features from a tweet
