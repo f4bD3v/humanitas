@@ -1,0 +1,55 @@
+% ---------------------------------------------
+%
+% Project Report "Humanitas"
+% Scope: Big Data Course @EPFL 
+% by Alexander John Busser, Anton Ovchinnikov, Ching-Chia Wang, Duy Nguyen, Fabian Brix, Gabriel Grill, Julien Graisse, Joseph Boyd, Stefan Mihaila (contributors in alphabetical order)
+% Spring 2014
+%
+% ---------------------------------------------
+
+\documentclass[12pt,a4paper, openany]{memoir}
+% openany --> no white page after \chapter, default option causing white pages is ``normal''
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{titlesec}  %needs recent version of »titlesec«
+\usepackage{xcolor}
+
+\makeatletter
+\newlength\drop
+\newcommand*{\titleGM}{%
+\thispagestyle{empty}
+\begingroup% Gentle Madness
+\drop = 0.1\textheight
+\vspace*{\baselineskip}
+\vfill
+\hbox{%
+  \hspace*{0.1\textwidth}%
+  \rule{10pt}{\dimexpr\textheight-28pt\relax}%
+  \hspace*{0.05\textwidth}% 
+  \parbox[b]{0.80\textwidth}{%
+    \vbox{%
+      \vspace{\drop}
+      {\Huge\bfseries\raggedright\@title\par}\vskip2.37\baselineskip
+      {\Large\bfseries\@author\par}
+      \vspace{0.5\textheight}
+    }% end of vbox
+  }% end of parbox
+}% end of hbox
+\vfill
+\null
+\endgroup}
+\makeatother
+
+\title{\Huge\textbf{\textsc{Humanitas}}\\\Large \textit{A prediction tool for volatile commodity prices in developing countries}}
+\author{\large \textbf{Students:} Alexander John Busser, Anton Ovchinnikov, Ching-Chia Wang, Duy Nguyen, Fabian Brix, Gabriel Grill, Julien Graisse, Joseph Boyd, Stefan Mihaila}
+\date{\Large{\today}}
+
+\begin{document}
+
+\titleGM
+
+\input{./abstract.tex}
+
+\input{./chapters/1_mltheory+datarequests.tex}
+
+\end{document}
