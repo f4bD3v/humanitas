@@ -1,0 +1,122 @@
+Andhra Pradesh
+	Chittoor	13.217096	79.100674
+	Guntur	16.306652	80.436540
+	Hyderabad	17.385044	78.486671
+	Kurnool	15.828126	78.037279
+	Vishakapatnam	17.686816	83.218482
+
+Arunachal Pradesh
+	Itanagar	27.086901	93.608610
+
+Assam
+	Dibrugarh	27.472833	94.911962
+	Dispur	26.143346	91.789795
+	Guwahati	26.144517	91.736237
+
+Bihar
+	Patna	25.610460	85.141667
+
+Goa
+	Panaji
+
+Gujarat
+	Rajkot
+	Gandhi Nagar
+	Vadodra
+
+Haryana
+	Hissar
+	Karnal
+
+Himachal Pradesh
+	Mandi
+
+Jammu Kashmir
+	Jammu
+	Shrinagar
+
+Jharkhand
+	Dhanbad
+	Ranchi
+
+Karnataka
+	Bangalore
+	Bijapur
+	Hubli
+	Tumkur
+
+Kerala
+	Ernakulam
+	Khozhikode
+	Trivandrum
+
+Madhya Pradesh
+	Bhillai
+	Bhopal
+	Sehore	
+
+Maharashtra
+	Mumbai
+	Nagpur
+
+Manipur
+	Imphal
+
+Meghalaya
+	Shillong
+
+Mizoram
+	Aizwal
+
+Nagaland
+	Kohima
+
+National Capital
+	Delhi
+
+Orissa
+	Bhawanipatna
+	Bhubneshwar
+	Cuttack
+
+Punjab
+	Amritsar
+	Bhatinda
+	Ludhiana
+
+Rajasthan
+	Dausa
+	Jaipur
+	Jodhpur
+	Swaimadhopur
+	Udaipur
+
+Sikkim
+	Gangtok
+
+Tamilnadu
+	Chennai
+	Coimbatore
+	Madurai
+	Salem
+
+Tripura
+	Agartala
+
+Uttar Pradesh
+	Agra
+	Allahabad
+	Gorakhpur
+	Kanpur
+	Lucknow	
+	Saharanpur
+
+Uttaranchal
+	Srinagar
+
+West Bengal
+	Asanol
+	Howrah
+	Jalpaiguri
+	Kolkata
+	Malda
