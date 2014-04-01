@@ -7,31 +7,31 @@ import csv
 sys.path += ['../../data_collection/twitter']
 from to_csv import get_column, get_tweets
 
-header = ['Text', 'Favorited count', 'Retweeted count',
-          'Contains word meal', 'Contains word food']
 
-def process_tweets(tweets):
-    for t in tweets:
-        # insert your NLP and other techniques for processing tweets here
-        # for the keys of the dictionary `t', see
-        # https://dev.twitter.com/docs/platform-objects/tweets
-        contains_word_meal = 'meal' in t['text']
-        contains_word_food = 'food' in t['text']
-        features = [t['text'], t['favorite_count'], t['retweet_count'],
-                contains_word_food, contains_word_meal]
-        yield features
+def usage():
+    print '''python %s <filter> [input file] [output file]'
+    Defaults: input file = ../data_collection/twitter/tweets.pickle
+              output file = filter_results/tweets-<filtername>.pickle
+    To learn how to create a filter, see filters/example.py''' % sys.argv[0]
+    
 
 def main():
-    cwd = os.getcwd()
-    os.chdir('../../data_collection/twitter')
-    tweets = get_tweets()
-    os.chdir(cwd)
+    if len(sys.argv) < 2:
+        usage()
+        sys.exit(-1)
+    filter_ = sys.argv[1]
+    input_file = sys.argv[2] if len(sys.argv) > 2 else \
+            '../../data_collection/twitter/tweets.pickle'
+    output_file = sys.argv[3] if len(sys.argv) > 3 else \
+            ('filter_results/tweets-%s.pickle' % filter_)
+    tweets = get_tweets(input_file)
 
-    with open('twitter-features.csv', 'w+') as f:
-        f = csv.writer(f, quoting=csv.QUOTE_ALL)
-        f.writerow(header)
-        for row in process_tweets(tweets):
-            f.writerow(map(lambda s:unicode(s).encode('unicode-escape'), row))
+    mod = __import__('filters.' + filter_, fromlist=['*'])
+
+    with open(output_file, 'w+b') as f:
+        pickle.dump([row for row in mod.process_tweets(tweets)], f,
+                protocol=pickle.HIGHEST_PROTOCOL)
+
 
 if __name__ == '__main__':
     main()

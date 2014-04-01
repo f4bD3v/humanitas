@@ -18,9 +18,9 @@ def get_column(d, col):
         d = d[c]
     return d
 
-def get_tweets():
+def get_tweets(fname='tweets.pickle'):
     tweets = []
-    with open('tweets.pickle', 'rb') as f:
+    with open(fname, 'rb') as f:
         while True:
             try:
                 new_tweets = pickle.load(f)
