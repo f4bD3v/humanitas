@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  26 MAR 2014 15:11
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  2 APR 2014 23:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -489,26 +489,42 @@ Underfull \hbox (badness 2384) in paragraph at lines 49--49
 
 (./abstract.tex) (./chapters/1_mltheory+datarequests.tex [1
 
-{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]) [2]
-(./humanitas_report.aux) ) 
+{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+
+LaTeX Warning: Citation `jaeger_echo_state_RNN' on page 2 undefined on input li
+ne 6.
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 14.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 14.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 14.
+) [2] (./humanitas_report.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
 Here is how much of TeX's memory you used:
- 5747 strings out of 493315
- 75571 string characters out of 6137904
- 170521 words of memory out of 5000000
- 9202 multiletter control sequences out of 15000+600000
- 11078 words of font info for 25 fonts, out of 8000000 for 9000
+ 5778 strings out of 493315
+ 75954 string characters out of 6137904
+ 172520 words of memory out of 5000000
+ 9224 multiletter control sequences out of 15000+600000
+ 15060 words of font info for 35 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 31i,11n,35p,221b,248s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/c
-m-super/cm-super-t1.enc}</usr/local/texlive/2013/texmf-dist/fonts/type1/public/
-cm-super/sfbi1728.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm
--super/sfbx1440.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-s
-uper/sfrm1200.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-sup
-er/sfxc2488.pfb>
-Output written on humanitas_report.pdf (2 pages, 60563 bytes).
+ 31i,11n,35p,415b,248s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
+</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
+/usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbi1728.pfb></u
+sr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr
+/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/l
+ocal/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/loc
+al/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local
+/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfxc2488.pfb>
+Output written on humanitas_report.pdf (2 pages, 99229 bytes).
 PDF statistics:
- 28 PDF objects out of 1000 (max. 8388607)
- 19 compressed objects within 1 object stream
+ 40 PDF objects out of 1000 (max. 8388607)
+ 28 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

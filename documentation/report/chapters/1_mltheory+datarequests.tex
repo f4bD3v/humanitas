@@ -1,1 +1,16 @@
-Lorem Ipsum dolor sit amet
+\section*{Prediction Models}
+
+\subsection*{Echo State Networks (ESN)}
+Echo State Networks are a type of Recurrent Neural Network (RNN) applicable to many domains because unlike other RNNs they are easy to train.
+
+\cite{jaeger_echo_state_RNN}
+The third section explains how echo state networks can be trained in a
+supervised way. The natural approach here is to adapt only the weights
+of network-to-output connections. Essentially, this trains readout functions
+which transform the echo state into the desired output signal. Technically,
+this amounts to a linear regression task.
+
+\subsubsection*{Echo States}
+For our task we need a discrete time neural network which is incidentally also the constraint in which Echo State Networks are defined. The ESN is assumed to have $N$ input units, $K$ internal network units and $L$ output units. Direct connections from input to output units and from output to output units are allowed.
+
+\subsubsection*{Training ESN}
