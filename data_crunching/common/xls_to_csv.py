@@ -64,9 +64,6 @@ def process_dir(dirpath):
 
 def main(path):
     check_xls2csv()
-    # Change current directory
-    script_dir = os.path.dirname(sys.argv[0])
-    os.chdir(script_dir)
     full_current_path = os.getcwd()
     # Get absolute path of the given path
     if not os.path.isabs(path):
