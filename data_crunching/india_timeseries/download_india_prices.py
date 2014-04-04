@@ -5,16 +5,25 @@ import shutil
 import re
 import sys
 import datetime
+import os
+from optparse import OptionParser
 
 usage_str = """
 This scripts downloads weekly food prices from http://rpms.dacnet.nic.in/Bulletin.aspx in XLS format. 
 
-Provide date in DD/MM/YYYY format and ensure that the date entered is Friday (hehe, otherwise the document will be empty).
+Usage:
+    python2 download_india_prices.py [options]
 
-Example:
+    -d DATE                 -- download spreadsheet for this date (ensure it is Friday!)
+    -r STARTDATE ENDDATE    -- download all spreadsheets in this date range
 
-    ./download_india_prices.py 02/03/2012
+Examples:
+
+    python2 download_india_prices.py -d 02/03/2012
+    python2 download_india_prices.py -r 20/01/2013 20/03/2013
 """
+
+out_dir = 'xls_out'
 
 def download_spreadsheet(date_string):
     """Download weekly prices in XLS and save them to file"""
@@ -28,36 +37,75 @@ def download_spreadsheet(date_string):
     req = urllib2.Request(main_url, params)
     response = urllib2.urlopen(req)
 
-    out_file_name = re.sub('/', '_', date) + '.xls'
+    out_file_name = out_dir + '/' + re.sub('/', '_', date_string) + '.xls'
     print "### Output file:", out_file_name
     myfile = open(out_file_name, 'wb')
     shutil.copyfileobj(response.fp, myfile)
     myfile.close()
-    print "### Finished."
 
+def download_range(drange):
+    srange, erange = drange
+    sdate = validate_date(srange)
+    edate = validate_date(erange)
+    friday_num = 4
+    while sdate.weekday() != friday_num:
+        sdate += datetime.timedelta(days=1)
+    
+    while edate.weekday() != friday_num:
+        edate -= datetime.timedelta(days=1)
+    
+    if sdate > edate:
+        sys.exit("ERROR: start date > end date")
+
+    curdate = sdate
+    while curdate < edate:
+        download_spreadsheet(curdate.strftime("%d/%m/%Y"))
+        curdate += datetime.timedelta(days=7)
 
 def validate_date(date_string):
-    """Check date: it has to be Friday, don't forget"""
-
     match = re.match(r'(\d{2})/(\d{2})/(\d{4})', date_string)
     if not match:
-        sys.exit("ERROR: invalid date")
+        sys.exit("ERROR: invalid date, " + date_string)
     day, month, year = int(match.group(1)), int(match.group(2)), int(match.group(3))
     date = datetime.date(year, month, day)
-    if date.weekday() != 4:
-        sys.exit("ERROR: the date entered is not Friday, too bad")
+    return date
 
+def check_out_dir():
+    if not os.path.exists(out_dir):
+        os.makedirs(out_dir)
 
 def usage():
     print usage_str
 
+def usage_callback(option, opt, value, parser):
+    usage()
+    sys.exit(1)
 
 if __name__ == "__main__":
-    if len(sys.argv) == 1 or sys.argv[1] in ['-h', '--help']:
-        usage()
-        sys.exit(0)
+    os.chdir(os.path.dirname(sys.argv[0]))
+    parser = OptionParser(add_help_option=False)
+    parser.add_option("-h", "--help",
+                      action="callback", callback=usage_callback)
 
-    date = sys.argv[1]
-    validate_date(date)
-    download_spreadsheet(date)
+    parser.add_option("-r", "--range",
+                      action="store", nargs=2, dest="drange")
+
+    parser.add_option("-d", "--date",
+                      action="store", nargs=1, dest="date")
+    
+    (options, args) = parser.parse_args()
+
+    check_out_dir()
+    if options.date:
+        date_str = options.date
+        date = validate_date(date_str)
+        if date.weekday() != 4:
+            sys.exit("ERROR: the date entered is not Friday, too bad")
+        download_spreadsheet(date_str)
+    elif options.drange:
+        download_range(options.drange)
+    else:
+        usage()
+        sys.exit(1)
+    print "### Finished."
 
