@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  2 APR 2014 23:54
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  3 APR 2014 20:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -490,16 +490,21 @@ Underfull \hbox (badness 2384) in paragraph at lines 49--49
 (./abstract.tex) (./chapters/1_mltheory+datarequests.tex [1
 
 {/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+Overfull \hbox (5.42624pt too wide) in paragraph at lines 4--5
+\T1/cmr/m/n/12 automate in-ter-pre-ta-tion to a cer-tain ex-tent by learn-ing a
+bout cir-cum-stances through
+ []
+
 
 LaTeX Warning: Citation `jaeger_echo_state_RNN' on page 2 undefined on input li
-ne 6.
+ne 11.
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 14.
+(Font)              <12> on input line 19.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 14.
+(Font)              <8> on input line 19.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 14.
+(Font)              <6> on input line 19.
 ) [2] (./humanitas_report.aux)
 
 LaTeX Warning: There were undefined references.
@@ -521,7 +526,7 @@ sr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr
 ocal/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/loc
 al/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local
 /texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfxc2488.pfb>
-Output written on humanitas_report.pdf (2 pages, 99229 bytes).
+Output written on humanitas_report.pdf (2 pages, 102264 bytes).
 PDF statistics:
  40 PDF objects out of 1000 (max. 8388607)
  28 compressed objects within 1 object stream
