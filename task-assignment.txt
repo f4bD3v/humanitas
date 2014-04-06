@@ -1,0 +1,44 @@
+assignments 25th of march --> milestone 6th april
+
+- Stefan: Twitter Requests, Recurrent Neural Networks Models and Methods, "how to" incorporate social media indicators in model
+- Fabian: same + finish setting up git repo
+- Ching-Chia: Time Series Analysis Models and Methods
+- Gabriel: Feature extraction from tweets and other textual content, Clustering of these features using Spark's MLlib
+- Joseph: In charge of tweet aggregator (architecture), Scrapy
+- Duy: storing tweets in database (NoSQL)
+- Anton: @me send him pdfs, further check out sentiment packages, help Gabriel on feature extraction (on lexical level of NLP)
+- Alexander: Research package for association rule learning
+- Julien: Regression Models and Methods (@me send pdf), Inquire about Microsoft computing resources, set up environment in case of success
+
+update:
+
+IMPORTANT: everyone if required to document theoretical aspects of their tasks
+
+* Data collection
+    * Twitter
+        * Web archive filtering of keywords to see if there's anything of
+          value there
+          [Gabriel (India), Ching-Chia (Indonesia)]
+        * Get user ids of twitter users from India with many tweets
+          [Joseph, Stefan helps]
+        * storing tweets
+          [Duy, contact Joseph and Gabriel]
+    * Crawl daily and weekly price data and stocks; sources in data/india/sources.txt
+        [Anton, request help where needed]
+
+* Data processing
+    * All data sources must be tabular, csv with the columns discussed on
+      github
+        [Anton, Fabian]
+
+* Prediction model
+    * detecting seasonal effects (TM analysis)
+        [Ching-Chia]
+    * Choosing input params:
+        Price transmission analysis, Association rule learning
+        [Alex]
+    * FF neural networks and Echo-state neural networks
+        [Fabian, Stefan]
+    * Support Vector Regression
+        [Julien]
+
