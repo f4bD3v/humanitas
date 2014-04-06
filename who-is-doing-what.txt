@@ -1,0 +1,20 @@
+* Data collection
+    * Twitter
+        * Web archive filtering of keywords to see if there's anything of
+          value there
+          [Gabriel, Ching-Chia]
+        * Get user ids of twitter users from India with many tweets
+          [Joseph, Stefan helps]
+    * Crawl daily and weekly price data
+        [Anton]
+    * add all data sources here and who's responsible of getting them
+
+* Data processing
+    * All data sources must be tabular, csv with the columns discussed on
+      github
+
+* Prediction model
+    * FF neural networks and Echo-state neural networks
+        [Fabian, Stefan]
+    * Support Vector Regression
+
