@@ -3,14 +3,58 @@
 \subsection*{Interpretation}
 automate interpretation to a certain extent by learning about circumstances through online data.
 
-\section*{Prediction Models}
 
 \subsection*{Time Series Analysis}
-checking stationarity
+Time series data has a natural temporal relation between different data points.
+It is important in the analysis to extract significant temporal statistics out
+of data. We will focus on analyze stationarity, autocorrelation, trend, volatility
+change, and seasonality of our price datasets in R.
 
-autocorrelation
+Stationarity of a series guarantees that the mean and variance of the data do not
+change over time. This is crucial for a meaningful analysis, since if the data is
+not stationary, we can not be sure that anything we derive from the present will
+be consistent in the future. We can transform our data into a stationary one by
+taking k-th difference to remove the underlying trend, and then apply standard
+test procedures such as KPSS test [1] to see if the differenced series is stationary.
 
-ARMA Model
+Autocorrelation is another important trait in time series data. It suggests the
+degree of correlation between different time periods. By plotting correlograms
+(autocorrelation plots) of our data, we will be able to identify if the fluctuation
+of prices may be due to white noise or other hidden structures.
+
+Seasonality is reasonably expected in our agricultural related time series. Several
+methods might help us to detect seasonality, such as common run charts, seasonal
+subseries plots, periodograms, and the correolograms we mentioned before.
+
+(trend and volatility change is straightforward and can be concluded once we have the datasets)
+
+[1] Kwiatkowski, D.; Phillips, P. C. B.; Schmidt, P.; Shin, Y. (1992). "Testing the null hypothesis of stationarity against the alternative of a unit root". Journal of Econometrics 54 (1–3): 159–178.
+
+
+\section*{Prediction Models}
+
+\subsection*{Time Series Forecasting}
+
+\subsubsection*{ARMA Model}
+The classical Time series forecasting approach is to use the ARMA (Auto-Regressive
+Moving Average) model to predict the target variable as a linear function which
+consists of the auto-regressive part (lag variables) and the moving average part
+(effects from recent random shocks).
+
+The ARMA(p,q) model: (will refine math representations later)
+
+Phi(B) * Y_t = Theta(B) * eps_t
+
+The fitting of the model and the historical
+data can be accomplished by maximum likelihood estimation.
+
+\subsubsection*{Regression}
+We can also apply ARMA to the linear regression model. It is formulated as such:
+
+Y = Beta*X + eps,   eps ~ ARMA(p,q)
+
+Through OLS (Ordinary Leasat Square) or GLS (General Least Square) processes,
+we can obtain an optimal Beta.
 
 \subsection*{Echo State Networks (ESN)}
 Echo State Networks are a type of Recurrent Neural Network (RNN) applicable to many domains because unlike other RNNs they are easy to train.
@@ -26,4 +70,3 @@ this amounts to a linear regression task.
 For our task we need a discrete time neural network which is incidentally also the constraint in which Echo State Networks are defined. The ESN is assumed to have $N$ input units, $K$ internal network units and $L$ output units. Direct connections from input to output units and from output to output units are allowed.
 
 \subsubsection*{Training ESN}
-
