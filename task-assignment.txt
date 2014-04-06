@@ -26,7 +26,7 @@ IMPORTANT: everyone if required to document theoretical aspects of their tasks
     * Crawl daily and weekly price data and stocks; sources in data/india/sources.txt
         [Anton, request help where needed]
         - also document shortly what to pay attention to using the gov sites in sources.txt
-    * additional data (India+Indonesia): food production, food stocks, weather, Consumer Price Index (CPI), currency exchange rate (w.r.t $), currency value
+    * additional data (India+Indonesia): food production, food stocks, weather, Consumer Price Index (CPI), currency exchange rate (w.r.t $), crude oil price 
         [Duy, Julien, Alex]
 
 * Data processing

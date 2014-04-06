@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  3 APR 2014 20:53
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  7 APR 2014 00:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -487,49 +487,61 @@ Underfull \hbox (badness 2384) in paragraph at lines 49--49
 \T1/cmr/bx/n/14.4 Fabian Brix, Gabriel Grill, Julien Graisse,
  []
 
-(./abstract.tex) (./chapters/1_mltheory+datarequests.tex [1
+(./abstract.tex) (./chapters/datacollection+processing.tex [1
 
-{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}])
+(./chapters/analysis+prediction.tex
 Overfull \hbox (5.42624pt too wide) in paragraph at lines 4--5
 \T1/cmr/m/n/12 automate in-ter-pre-ta-tion to a cer-tain ex-tent by learn-ing a
 bout cir-cum-stances through
  []
 
+[2]
+Overfull \hbox (3.57669pt too wide) in paragraph at lines 39--43
+\T1/cmr/m/n/12 The clas-si-cal Time se-ries fore-cast-ing ap-proach is to use t
+he ARMA (Auto-Regressive
+ []
 
-LaTeX Warning: Citation `jaeger_echo_state_RNN' on page 2 undefined on input li
-ne 11.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 46.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 46.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 46.
+[3]
 
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 19.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 19.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 19.
-) [2] (./humanitas_report.aux)
+LaTeX Warning: Citation `jaeger_echo_state_RNN' on page 4 undefined on input li
+ne 62.
+
+) [4] (./humanitas_report.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 5778 strings out of 493315
- 75954 string characters out of 6137904
- 172520 words of memory out of 5000000
- 9224 multiletter control sequences out of 15000+600000
+ 5788 strings out of 493315
+ 76196 string characters out of 6137904
+ 174520 words of memory out of 5000000
+ 9231 multiletter control sequences out of 15000+600000
  15060 words of font info for 35 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 31i,11n,35p,415b,248s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,12n,35p,395b,252s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
 </usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
-/usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbi1728.pfb></u
-sr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr
-/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/l
-ocal/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/loc
-al/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local
-/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfxc2488.pfb>
-Output written on humanitas_report.pdf (2 pages, 102264 bytes).
+/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></u
+sr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
+/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/
+local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbi1728.pfb></usr/lo
+cal/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/loca
+l/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/
+texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/te
+xlive/2013/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texl
+ive/2013/texmf-dist/fonts/type1/public/cm-super/sfsl1200.pfb></usr/local/texliv
+e/2013/texmf-dist/fonts/type1/public/cm-super/sfxc2488.pfb>
+Output written on humanitas_report.pdf (4 pages, 153381 bytes).
 PDF statistics:
- 40 PDF objects out of 1000 (max. 8388607)
- 28 compressed objects within 1 object stream
+ 62 PDF objects out of 1000 (max. 8388607)
+ 44 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

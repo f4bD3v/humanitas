@@ -1,17 +1,25 @@
-* Directorate of Marketing & Inspection (DMI), Ministry of Agriculture 
-	-link: http://www.agmarknet.nic.in/
-	-use: allows querying daily range of wholesale prices and stock arrival at market places throughout the country 
-	-query: http://agmarknet.nic.in/cmmlist_today.asp?dt=06/04/2014; simply change "dt" variable to desired date 
-	-data range: data available dating back to 2005
-* Retail Price Information System, Department of Agriculture and Cooperation, Ministry of Agriculture
-	-link: http://rpms.dacnet.nic.in/
+* Daily Wholesale? Prices
+Directorate of Marketing & Inspection (DMI), Ministry of Agriculture 
+	- link: http://www.agmarknet.nic.in/
+	- use: allows querying daily range of wholesale prices and stock arrival at market places throughout the country 
+	- query: http://agmarknet.nic.in/cmmlist_today.asp?dt=06/04/2014; simply change "dt" variable to desired date 
+	- data range: data available dating back to 2005
+* Weekly/Monthly Retail Prices
+Retail Price Information System, Department of Agriculture and Cooperation, Ministry of Agriculture
+	- link: http://rpms.dacnet.nic.in/
 
 * Crop Production Stats, Dacnet also offers districtwise crop production stats.
-	-link:http://apy.dacnet.nic.in/crop_fryr_toyr.aspx
-	-note: export to excel downloads a file with name of webpage, but CAN BE OPENED WITH EXCEL
-	-data range: 1998-2011
+	- link:http://apy.dacnet.nic.in/crop_fryr_toyr.aspx
+	- note: export to excel downloads a file with name of webpage, but CAN BE OPENED WITH EXCEL
+	- data range: 1998-2011
+
+* Weeky Wholesale Price Index
+	- link: http://www.eaindustry.nic.in/
+	- data range: e.g. rice 2005-2012
 
 CRAWLING
 	* The Times of India - topic: "food prices" 
-	-link: http://timesofindia.indiatimes.com/topic/food-prices
+	- link: http://timesofindia.indiatimes.com/topic/food-prices
+
+	* Supermarket website: http://www.naturesbasket.co.in/
 	 
