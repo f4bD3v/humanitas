@@ -1,8 +1,17 @@
-Directorate of Marketing & Inspection (DMI), 
-Ministry of Agriculture 
-- http://www.agmarknet.nic.in/
+* Directorate of Marketing & Inspection (DMI), Ministry of Agriculture 
+	-link: http://www.agmarknet.nic.in/
+	-use: allows querying daily range of wholesale prices and stock arrival at market places throughout the country 
+	-query: http://agmarknet.nic.in/cmmlist_today.asp?dt=06/04/2014; simply change "dt" variable to desired date 
+	-data range: data available dating back to 2005
+* Retail Price Information System, Department of Agriculture and Cooperation, Ministry of Agriculture
+	-link: http://rpms.dacnet.nic.in/
 
-Retail Price Information System,
-Department of Agriculture and Cooperation,
-Ministry of Agriculture
-- http://rpms.dacnet.nic.in/
+* Crop Production Stats, Dacnet also offers districtwise crop production stats.
+	-link:http://apy.dacnet.nic.in/crop_fryr_toyr.aspx
+	-note: export to excel downloads a file with name of webpage, but CAN BE OPENED WITH EXCEL
+	-data range: 1998-2011
+
+CRAWLING
+	* The Times of India - topic: "food prices" 
+	-link: http://timesofindia.indiatimes.com/topic/food-prices
+	 
