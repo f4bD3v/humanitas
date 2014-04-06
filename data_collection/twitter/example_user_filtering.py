@@ -44,6 +44,7 @@ def get_good_followers(followers, locations, min_tweets):
     nolocation = 0
     badlocation = 0
     accepted = 0
+    protected = 0
 
     for follower in followers:
         good_location = False
@@ -56,6 +57,11 @@ def get_good_followers(followers, locations, min_tweets):
             print 'Skipping "%s" because he has no location' % (
                     follower['screen_name'])
             nolocation += 1
+            continue
+        if follower['protected']:
+            print 'Skipping "%s" because he is protected' % (
+                    follower['screen_name'])
+            protected += 1
             continue
         for location_part in re.split('[ ,]+', re.sub(r'[^a-zA-Z, ]', '', 
                 follower['location']).strip()):
@@ -76,7 +82,8 @@ def get_good_followers(followers, locations, min_tweets):
     for str, val in (('Bad location', badlocation),
                      ('No location', nolocation),
                      ('Too few tweets', fewtweets),
-                     ('Accepted', accepted)):
+                     ('Accepted', accepted),
+                     ('Protected', protected)):
         print '\t%s: %d (%.02f%%)' % (str, val, val*100./len(followers))
 
 
@@ -100,6 +107,8 @@ def main():
     for f in followers:
         print 'Found "%s" with %d tweets from %s' % (f['screen_name'],
                 f['statuses_count'], f['location'])
+
+    print ' '.join(map(lambda x:x['screen_name'], followers))
 
 if __name__ == '__main__':
     main()
