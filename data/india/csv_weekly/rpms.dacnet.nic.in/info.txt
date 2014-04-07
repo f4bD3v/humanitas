@@ -1,0 +1,1 @@
+* all_commodities_weekly_india_2005-2014.zip -- archive of weekly price data from rpms.dacnet.nic.in. For raw .xls files, see https://www.dropbox.com/sh/xl4o14wpyjpxqee/1cS4CpLmjR
