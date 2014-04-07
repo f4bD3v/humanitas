@@ -5,6 +5,7 @@ import shutil
 import re
 import sys
 import datetime
+import time
 import os
 from optparse import OptionParser
 
@@ -34,6 +35,7 @@ def download_spreadsheet(date_string):
     params = '__VIEWSTATE=%2FwEPDwUKLTMyOTA3MjI1Ng9kFgICAQ9kFgQCDQ8QZGQWAWZkAhgPFCsABWQoKVhTeXN0ZW0uR3VpZCwgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5JDc5NWYyNmMxLTc5OTYtNDljNy04ZmNiLTEwMWYyZTVjMDljYQIBFCsAATwrAAQBAGZkFgICAQ9kFgJmD2QWAmYPZBYMAgEPDxYCHgdWaXNpYmxlaGRkAgIPZBYCAgIPFgIeBVZhbHVlBQVmYWxzZWQCAw9kFgJmD2QWAmYPDxYCHwBoZGQCBQ9kFgICAg8WAh8BBQVmYWxzZWQCBg9kFgJmD2QWAmYPZBYEZg8PZBYCHgVzdHlsZQUQdmlzaWJpbGl0eTpub25lO2QCAw9kFgQCAQ8WAh4HRW5hYmxlZGhkAgQPFgIfAQUDMTAwZAIKD2QWAgIBDxYCHwEFBUZhbHNlZBgBBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WAgUdUmVwb3J0Vmlld2VyMTpUb2dnbGVQYXJhbTppbWcFF1JlcG9ydFZpZXdlcjE6X2N0bDg6aW1ngH4V0uEh9SSOm1xq3bgJgGyDNgIP96LELxzNCJ%2FutD8%3D&__EVENTVALIDATION=%2FwEWHgLr9e3WDgKkjKiDDgKgwpPxDQKsrPr5DAK896w2Ap6Ss%2BMJAvHkkI8EAveMotMNAu7cnNENAqLH6hoC0veCxAoCjOeKxgYC3YHBwAQCyYC91AwCyIC91AwCp5zChwMCp5z%2BmA0CyI%2B56wYCxNb9oA8CzO7%2BnQkC6MPz%2FQkCvKm9vQwC0vCh0QoC4qOPjw8C9%2FmBmAICstrw7ggC%2Fa2qigkCgoOCmg8CgoOW9QcCgoPa4w062z2PEYfDeoZgfbqdsNPMXUtlCnyUt5wzsv6RVn9PnA%3D%3D&TxtDate=#{TXTDATE}&RadioButtonList1=Food+Items&DDLReportFormat=MS+Excel&Button1=Generate+Report&TxtVolume=XXXX+NO+03&ReportViewer1%3A_ctl3%3A_ctl0=&ReportViewer1%3A_ctl3%3A_ctl1=&ReportViewer1%3A_ctl11=&ReportViewer1%3A_ctl12=quirks&ReportViewer1%3AAsyncWait%3AHiddenCancelField=False&ReportViewer1%3AToggleParam%3Astore=&ReportViewer1%3AToggleParam%3Acollapse=false&ReportViewer1%3A_ctl9%3AClientClickedId=&ReportViewer1%3A_ctl8%3Astore=&ReportViewer1%3A_ctl8%3Acollapse=false&ReportViewer1%3A_ctl10%3AVisibilityState%3A_ctl0=None&ReportViewer1%3A_ctl10%3AScrollPosition=&ReportViewer1%3A_ctl10%3AReportControl%3A_ctl2=&ReportViewer1%3A_ctl10%3AReportControl%3A_ctl3=&ReportViewer1%3A_ctl10%3AReportControl%3A_ctl4=100'
 
     params = params.replace('#{TXTDATE}', date_string)
+    time.sleep(1)
     req = urllib2.Request(main_url, params)
     response = urllib2.urlopen(req)
 
@@ -58,7 +60,7 @@ def download_range(drange):
         sys.exit("ERROR: start date > end date")
 
     curdate = sdate
-    while curdate < edate:
+    while curdate <= edate:
         download_spreadsheet(curdate.strftime("%d/%m/%Y"))
         curdate += datetime.timedelta(days=7)
 
