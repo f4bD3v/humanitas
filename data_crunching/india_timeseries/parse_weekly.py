@@ -50,6 +50,7 @@ def main(filename):
     f = open(filename,'r')
     prevline = ''
     all_products = india_data.all_products
+
     cur_product = ''
     for line in f:
         line = line.rstrip()
@@ -60,6 +61,10 @@ def main(filename):
             print_line(prevline)
             prevline = line
             continue
+
+        if not all_products:
+            # Bad document, unable to get product names properly
+            sys.exit(1)
         if re.search(r'^,"[^"\d]+","', prevline):
             # Previous line belongs to new product
             cur_product = all_products.pop(0)
