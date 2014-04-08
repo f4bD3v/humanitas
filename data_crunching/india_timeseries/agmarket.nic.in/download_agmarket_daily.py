@@ -111,8 +111,6 @@ def usage_callback(option, opt, value, parser):
     sys.exit(1)
 
 if __name__ == "__main__":
-    #os.chdir(os.path.dirname(sys.argv[0]))
-
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
     parser = OptionParser(add_help_option=False)
