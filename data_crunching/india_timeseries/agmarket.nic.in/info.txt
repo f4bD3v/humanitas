@@ -1,0 +1,2 @@
+* download_agmarket_daily.py -- download daily price for a given commodity and a given date range (or date)
+* download_all_years.sh -- shell script to automate downloading daily data for a given commodity (it will run a separate job for each year)
