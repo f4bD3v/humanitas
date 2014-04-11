@@ -1,0 +1,5 @@
+The files chunked.py and tarchunk.py are copies from:
+https://github.com/maugier/cs422/tree/master/extraction
+
+The file filter.py is a changed version of send-chunks.py from:
+https://github.com/maugier/cs422/tree/master/extraction
