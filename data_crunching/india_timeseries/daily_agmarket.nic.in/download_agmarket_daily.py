@@ -27,7 +27,8 @@ Examples:
     python2 download_agmarket_daily.py -r 20/01/2013 20/03/2013 -c Tea
 """
 
-out_dir = 'csv_out'
+csv_out_dir = 'csv_out'
+raw_out_dir = 'raw_out'
 commodity = ''
 
 def download_data(date_string):
@@ -41,6 +42,7 @@ def download_data(date_string):
     print_csv(date_string, commodity, result_html)
 
 def print_csv(date_string, commodity, html):
+    html = re.sub(r'&nbsp;?', '', html)
     soup = BeautifulSoup(html)
     tables = soup.findAll('table')
     if len(tables) < 4:
@@ -54,7 +56,6 @@ def print_csv(date_string, commodity, html):
         cur_row = []
         for td in row.findAll("td"):
             text = td.getText()
-            text = re.sub('&nbsp;', '', text)
             cur_row.append(text)
         if len(cur_row) != 7: continue
         if cur_row[0] == 'Market': continue
@@ -65,17 +66,26 @@ def print_csv(date_string, commodity, html):
         cur_row = map(lambda s: re.sub(',', '_', s), cur_row)
         all_rows.append(cur_row)
 
-    out_file_name = out_dir + '/' + commodity  + '_' \
+    out_file_name = csv_out_dir + '/' + commodity  + '_' \
                     + re.sub('/', '_', date_string) + '.csv'
+    raw_file_name = raw_out_dir + '/' + commodity  + '_' \
+                    + re.sub('/', '_', date_string) + '.html'
     print "### Output file:", out_file_name
     out_file = open(out_file_name, "w")
 
     for r in all_rows:
         # Use modal value
-        row_string = "%s,day,India,%s,%s,%s,%s\n" % \
-                (date_string, r[0], commodity, r[3], r[6])
+        tonnes = float('0' + re.sub(r'[^\d\.]', '', r[1]))
+        row_string = "%s,day,India,%s,%s,%s,%s,%s\n" % \
+                (date_string, r[0], commodity, r[3], r[6], tonnes)
         out_file.write(row_string)
     out_file.close()
+
+    # Save raw file
+    table = str(table)
+    raw_file = open(raw_file_name, "w")
+    raw_file.write(table)
+    raw_file.close()
 
 def download_range(drange):
     srange, erange = drange
@@ -100,8 +110,10 @@ def validate_date(date_string):
     return date
 
 def check_out_dir():
-    if not os.path.exists(out_dir):
-        os.makedirs(out_dir)
+    if not os.path.exists(csv_out_dir):
+        os.makedirs(csv_out_dir)
+    if not os.path.exists(raw_out_dir):
+        os.makedirs(raw_out_dir)
 
 def usage():
     print usage_str
