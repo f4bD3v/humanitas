@@ -14,6 +14,9 @@
 \usepackage{titlesec}  %needs recent version of »titlesec«
 \usepackage{xcolor}
 
+\let\emph\textbf
+\renewcommand{\emph}[1]{\emph{{\textcolor{cyan}##1}}}
+
 \makeatletter
 \newlength\drop
 \newcommand*{\titleGM}{%
