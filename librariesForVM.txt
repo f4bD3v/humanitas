@@ -1,0 +1,8 @@
+Spark,
+R,
+Python,
+JVM,
+JDK,
+Pybrain,
+SentiStrength,
+CoreNLP

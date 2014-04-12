@@ -10,7 +10,7 @@ assignments 25th of march --> milestone 6th april
 - Alexander: Research package for association rule learning
 - Julien: Regression Models and Methods (@me send pdf), Inquire about Microsoft computing resources, set up environment in case of success
 
-update:
+update 06.04.2014:
 
 IMPORTANT: everyone if required to document theoretical aspects of their tasks
 
@@ -37,9 +37,9 @@ IMPORTANT: everyone if required to document theoretical aspects of their tasks
 * Prediction model
     * detecting seasonal effects (TM analysis)
         [Ching-Chia]
-    * Choosing input params:
+    * Choosing input params (how to relate series):
         Price transmission analysis, Association rule learning
-        [Alex]
+        [Alex, Gabriel]
     * FF neural networks and Echo-state neural networks
         [Fabian, Stefan]
     * Support Vector Regression

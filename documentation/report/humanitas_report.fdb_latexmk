@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1396822742 "humanitas_report.tex" "humanitas_report.pdf" "humanitas_report" 1396822743
+["pdflatex"] 1397331424 "humanitas_report.tex" "humanitas_report.pdf" "humanitas_report" 1397331549
   "/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii" 1337017135 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/ifxetex/ifxetex.sty" 1284331290 1458 43ab4710dc82f3edeabecd0d099626b2 ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/ifluatex.sty" 1303254447 7324 11d14f318d865f420e692d4e6c9c18c3 ""
@@ -23,8 +23,8 @@
   "/usr/local/texlive/2013/texmf-dist/tex/plain/ifetex/ifetex.tex" 1320621834 1166 4b66ad073c6073cb1bde651c18b7dbb2 ""
   "abstract.tex" 1395842160 0 d41d8cd98f00b204e9800998ecf8427e ""
   "chapters/analysis+prediction.tex" 1396822738 3610 13d40b66e319d6e0a915b28eb205c32a ""
-  "chapters/datacollection+processing.tex" 1396822699 529 40b76182ad17d95beb5415d147945e6c ""
-  "humanitas_report.aux" 1396822743 210 72fdaab030ae4ff5f3bfc2880a58b39c ""
+  "chapters/datacollection+processing.tex" 1397331418 1339 f7a4e9cb4f3edfaee9837a0d8636c7f0 ""
+  "humanitas_report.aux" 1397331425 136 434c27941a9ea2c24e233f766cefdd19 ""
   "humanitas_report.tex" 1396822715 1679 4745a9ab53c58c8ec62b2a2b0a2c01dc ""
   (generated)
   "humanitas_report.log"
