@@ -56,8 +56,37 @@ $Y = Beta*X + eps,   eps ~ ARMA(p,q)$
 Through OLS (Ordinary Leasat Square) or GLS (General Least Square) processes,
 we can obtain an optimal Beta.
 
+\subsection*{Multilayer Perceptrons}
+taken from M. Seegers course on Pattern Recognition and ML
+
+\subsection*{Recurrent Neural Networks (RNN)}
+source: scholarpedia
+A recurrent neural network (RNN) is a special network in which neurons send feedback signals to each other. %We have to distinguish between artificial neural networks (aRNN) and biological recurrent neural networks (bRNN) that are responsible for most of the brains dynamics. 
+The key feature is that the weight matrix for each layer $l$ in the network contains input weights from \emph{all} other neurons in the network and not just the neurons from the previous layer. 
+
+\subsubsection*{Simple Recurrent Networks}
+These links enable signals to be fed back from a layer to a previous layer. The most simple form of an aRNN consists of an input, an output and one hidden layer. 
+
+\includegraphics{../simpe_rnn.svg}
+
+In a \emph{fully recurrent network} every neuron receives input from all other neurons and therefore is not easily arranged into layers. A small subset of neurons additionally receives the external input and another subset produces the output. 
+
+A \emph{Hopfield network} is an RNN all connections of which are symmetric and which requires stationary inputs. 
+
 \subsection*{Echo State Networks (ESN)}
-Echo State Networks are a type of Recurrent Neural Network (RNN) applicable to many domains because unlike other RNNs they are easy to train.
+Echo State Networks are a type of Recurrent Neural Network (RNN) applicable to many domains because unlike other RNNs they are easy to train. They have a sparsely connected random hidden layer with the effect that the weights of the output neurons are the only part of the network that can change and be trained. They are good at reproducing time series. (wikipedia)
+
+This property allows for the rest of the network to be topologically unrestricted.
+
+\subsubsection*{Finding the right topology for the specific prediction problem}
+
+\subsubsection*{Converge}
+conceive network that converges fast to speed up training\par
+"Known supervised training techniques for RNNS comprise Back Propagation Through Time (BPTT), Real Time Recurrent Learn- ing (RTRL) or Extended Kalman Filtering (EKF) all of which have some major drawbacks."
+{\em Application of BPTT to RNNs requires stacking identical copies of the network thus unfolding the cyclic paths in the synaptic connections. Unlike back-propagation used in feed-forward nets, BPTT is not guaranteed to con- verge to a local error minimum, computational cost is O(TN2) per time step where N is the number of nodes, T the number of epochs. In contrast RTRL needs O((N + L)4) (L denotes number of output units), which makes this algorithm only applicable for small nets. The algorithm complexity of EKF is O(LN2). EKF is mathematically very elaborate and only a few experts have trained predefined dynamical system behaviors successfully}\par
+
+
+\subsubsection*{Avoiding overfitting}
 
 \cite{jaeger_echo_state_RNN}
 The third section explains how echo state networks can be trained in a
