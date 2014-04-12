@@ -42,7 +42,9 @@ def download_data(date_string):
     print_csv(date_string, commodity, result_html)
 
 def print_csv(date_string, commodity, html):
+    # Remove some stuff
     html = re.sub(r'&nbsp;?', '', html)
+    html = re.sub(r'</?font[^>]*>', '', html)
     soup = BeautifulSoup(html)
     tables = soup.findAll('table')
     if len(tables) < 4:
