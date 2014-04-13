@@ -67,16 +67,46 @@ The key feature is that the weight matrix for each layer $l$ in the network cont
 \subsubsection*{Simple Recurrent Networks}
 These links enable signals to be fed back from a layer to a previous layer. The most simple form of an aRNN consists of an input, an output and one hidden layer. 
 
-\includegraphics{../simpe_rnn.svg}
+\includegraphics[width=.7\textwidth]{./img/simple_rnn.png}
 
-In a \emph{fully recurrent network} every neuron receives input from all other neurons and therefore is not easily arranged into layers. A small subset of neurons additionally receives the external input and another subset produces the output. 
+\subsubsection*{General description of a discrete time aRNN}
+graph with $K$ input units $\vec{u}$, $N$ internal network units $\vec{x}$ and $L$ output units $\vec{y}$. Activation (per layer) vectors at point n in time are denoted by $\vec{u}(n) = (u_1(n),...,u_n(n))$, $\vec{x}(n) = (x_1(n),...,x_n(n))$, $\vec{y}(n) = (y_1(n),...,y_n(n))$. Edges between the units in these sets are represented by weights $\omega_{ij}\neq0$ which are gathered in adjacency matrices. There are four types of matrices:\par
+\begin{itemize}
+	\item $\vec{W}^{in}_{N\times K}$ contains inputs weigths for an internal unit in each row respectively 
+	\item $\vec{W}_{N\times N}$ contains the internal weights. This matrix is usually sparse with densities $5\%-20\%$
+	\item $\vec{W}^{out}_{L\times (K+N+L)}$ contains the weights for edges, which can stem from the input, the internal units and the outputs themselves, leading to the output units.
+	\item $\vec{W}^{back}_{N\times L}$ contain weights for the edges that project back from the output units to the $N$ internal units
+\end{itemize}
+
+In a \emph{fully recurrent network} every unit receives input from all other units neurons and therefore input units can have direct impact on output units and output units can further be interconnected.\par
+
+\paragraph{Evaluation}
+\[
+\vec{x}(n+1)=\vec{f}(\vec{W}^{in}\vec{u}(n+1)+\vec{W}\vec{x}(n)+\vec{W}^{back}\vec{y}(n))
+\]
+where $f=(f_1,...,f_N)$
+\paragraph{Exploitation}
+\[
+\vec{y}(n+1)=f^{out}(\vec{W}^{out}(\vec{u}(n+1),\vec{x}(n+1),\vec{y}(n)))
+\]
+where $f^{out}=(f^{out}_1,...,f^{out}_L)$
 
 A \emph{Hopfield network} is an RNN all connections of which are symmetric and which requires stationary inputs. 
 
 \subsection*{Echo State Networks (ESN)}
-Echo State Networks are a type of Recurrent Neural Network (RNN) applicable to many domains because unlike other RNNs they are easy to train. They have a sparsely connected random hidden layer with the effect that the weights of the output neurons are the only part of the network that can change and be trained. They are good at reproducing time series. (wikipedia)
+Echo State Networks are a type of Recurrent Neural Network (RNN) applicable to many domains because unlike other RNNs they are easy to train. 
+For our task we need a discrete time neural network which is incidentally also the constraint in which Echo State Networks are defined.
+They have sparsely connected \emph{random} hidden layer consisting of the internal units with the effect that the weights of the output neurons are the only part of the network that can change and be trained. This property allows for the rest of the network to be topologically unrestricted.
+They are good at reproducing time series. (wikipedia)
 
-This property allows for the rest of the network to be topologically unrestricted.
+\paragraph{Echo State Property} Intuition: "If the network has been running long enough, its internal state is uniquely determined by the history of the input signal the teacher forced output."\par
+
+
+
+
+
+
+
 
 \subsubsection*{Finding the right topology for the specific prediction problem}
 
@@ -96,6 +126,5 @@ which transform the echo state into the desired output signal. Technically,
 this amounts to a linear regression task.
 
 \subsubsection*{Echo States}
-For our task we need a discrete time neural network which is incidentally also the constraint in which Echo State Networks are defined. The ESN is assumed to have $N$ input units, $K$ internal network units and $L$ output units. Direct connections from input to output units and from output to output units are allowed.
 
 \subsubsection*{Training ESN}
