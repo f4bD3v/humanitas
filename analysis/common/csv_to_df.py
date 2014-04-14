@@ -38,7 +38,7 @@ def csv2df_bulk(fp_lst):
         else:
             df_bulk = df_bulk.append(csv2df(file_path, True))
     print "formating dates"
-    df_bulk['date'] = pd.to_datetime(df_bulk['date'])
+    df_bulk['date'] = pd.to_datetime(df_bulk['date'], format='%d/%m/%Y')
     print "sorting by dates"
     df_bulk = df_bulk.sort('date')
     print "{} {} {}".format("csv loaded into df in",(time()-start_time),'secs.')

@@ -73,5 +73,5 @@ if __name__ == "__main__":
 
     #dump everything to pickle
     with open(pk_prod, 'w') as f:
-        pickle.dump([df_prod, subdf_lst, subs, all_dates, all_cities, all_products, all_subs], f)
-    print 'df_prod, subdf_lst, subs, all_dates... dumped to '+pk_prod
+        pickle.dump([df_prod, subdf_lst, subs, labels, all_dates, all_cities, all_products, all_subs], f)
+    print 'df_prod, subdf_lst, subs, labels, all_dates... dumped to '+pk_prod
