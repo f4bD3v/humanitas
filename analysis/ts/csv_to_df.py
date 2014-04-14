@@ -5,7 +5,7 @@ import os
 import pickle
 
 fp = os.environ['HOME']+"/work/india_data/all_commodities_weekly_india_"
-pk = 'all_india_weekly.pickle'
+pk = 'all_India_week.pickle'
 
 if __name__ == "__main__":
     fp_lst = []
