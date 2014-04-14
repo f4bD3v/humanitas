@@ -14,4 +14,6 @@ do
 done
 
 ### Might be useful
-cat csv_out/${COMMODITY}_*.csv > india_${COMMODITY}_2005-2014.csv
+OUTFILE="india_${COMMODITY}_2005-2014.csv"
+echo "Date,Period,Country,Town,Product,Subproduct,Price,Tonnes" > $OUTFILE
+cat csv_out/${COMMODITY}_*.csv >> $OUTFILE
