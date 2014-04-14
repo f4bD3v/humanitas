@@ -33,6 +33,8 @@ IMPORTANT: everyone if required to document theoretical aspects of their tasks
     * All data sources must be tabular, csv with the columns discussed on
       github
         [Anton, Fabian]
+    * Compute statistics and analyze the data to decide what models can work
+        [Stefan]
 
 * Prediction model
     * detecting seasonal effects (TM analysis)
