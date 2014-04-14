@@ -2,10 +2,15 @@ from time import time
 import matplotlib.pyplot as plt
 import pickle
 
-pk_all = 'all_india_weekly.pickle'
-pk_rice = 'rice_india_weekly.pickle'
 
-def get_metadata(df, verbose = True):
+product = 'Rice'
+country = 'India'
+freq = 'week'
+pk_all = 'all_India_week.pickle'
+pk_prod = '%s_%s_%s.pickle' %(product, country, freq)
+
+
+def get_metadata(df, title = '', verbose = True):
     index = df.index.values
     c,p,s = [],[],[]
     for i in range(0, len(index)):
@@ -18,6 +23,7 @@ def get_metadata(df, verbose = True):
     p = list(set(p))
     s = list(set(s))
     if verbose:
+        print title
         print "number of dates    = %3i, from %s to %s" %(len(d),str(d[0].date()),str(d[-1].date()) )
         print "number of cities   = %3i, from %s to %s" %(len(c), c[0], c[-1])
         print "number of products = %3i, from %s to %s" %(len(p), p[0], p[-1])
@@ -36,30 +42,36 @@ if __name__ == "__main__":
     with open(pk_all) as f:
         [df] = pickle.load(f)
     print pk_all+" is loaded into df"
-    # sample query: find fine rice price at city Mumbai for the whole period (2005-2014)
-    #q = df.query('product=="Rice" & sub=="Fine" & city=="Mumbai"')
-    #plt.figure()
-    #q.plot()
-    #plt.show()
 
     #create metadata lists
-    all_dates,all_cities,all_products,all_subs = get_metadata(df)
+    all_dates,all_cities,all_products,all_subs = get_metadata(df, 'dataframe of all data')
 
     #loop all combinations of Rice
     start_time = time()
-    product = 'Rice'
-    subs = get_subs_of(all_subs, product)
-    subdf_rice_lst = []
+
     count = 0
-    df_rice = df.query('product=="%s"' %(product))
+    subdf_lst = []
+    labels = []
+    subs = get_subs_of(all_subs, product)
+    df_prod = df.query('product=="%s"' %(product))
     for city in all_cities:
         for sub in subs:
             predicate = 'product=="%s" & sub=="%s" & city=="%s"' %(product,sub,city)
-            subdf_rice_lst.append(df_rice.query(predicate))
+            labels.append('(%s, %s, %s)' %(product,sub,city))
+            subdf = df_prod.query(predicate)
+            if subdf.shape[0] != 0:
+                subdf.drop_duplicates(cols = 'date', inplace=True)
+                subdf.set_index('date', inplace=True)
+                subdf = subdf.reindex(all_dates) #strange limitation, no parameter "inplace"
+                subdf.reset_index(inplace=True)
+                subdf.columns = ['date', 'price']
+            subdf_lst.append(subdf)
             count = count + 1
+
     print "All sub-df of "+product+" extracted."
     print "Number of loops: "+str(count)+", Elapsed time: "+str(time()-start_time)+" secs"
 
-    with open(pk_rice, 'w') as f:
-        pickle.dump([df_rice, subdf_rice_lst, all_dates, all_cities, all_products, all_subs], f)
-    print 'df_rice, subdf_rice_lst, all_dates... dumped to '+pk_rice
+    #dump everything to pickle
+    with open(pk_prod, 'w') as f:
+        pickle.dump([df_prod, subdf_lst, subs, labels, all_dates, all_cities, all_products, all_subs], f)
+    print 'df_prod, subdf_lst, subs, labels, all_dates... dumped to '+pk_prod

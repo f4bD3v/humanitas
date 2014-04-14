@@ -1,0 +1,140 @@
+> x=table(subproduct); x[x>10000]
+subproduct
+   1009 Kar       B P T Broken Rice      Coarse        Fine         III 
+      16528       37492       16187       65479       89642       54317 
+       IR-8      Masuri      Medium       Other  Super Fine 
+      10831       22856       40735      256482       14195 
+> mean(price[subproduct=='Masuri'])
+[1] 994.6296
+> mean(price[subproduct=='Coarse'])
+[1] 836.6092
+> mean(price[subproduct=='Fine'])
+[1] 1085.653
+> var(price[subproduct=='Fine'])
+[1] 366672
+> sd(price[subproduct=='Fine'])
+[1] 605.5345
+> table(subproduct)
+subproduct
+                                           1009 Kar                    ADT 39 
+                      515                     16528                        42 
+               Alur Sanna         Ambemohor Basmati       Amira Mogra Basmati 
+                     1295                         9                        11 
+      Amira Tibar Basmati        Amire Full Basmati         Amras Non Basmati 
+                        5                        39                        27 
+              andra Sanna                   anekowe                Annapoorna 
+                       15                         1                       217 
+         AP Raw Rice-1001          AP Raw Rice 5293  AP Raw Rice Baptla Ponni 
+                     8548                       434                        19 
+     AP Raw Rice PLR Soma      AP Raw Rice SilkyRaw    AP Raw-Rice Sona Ponni 
+                       16                        67                       311 
+           Arcot Kichikdi              Arti Mashuri                  Balesuli 
+                       20                       170                         1 
+             Bangar Kaddi               Bangarkhovi               Bangarsanna 
+                        2                         1                         2 
+                  Bantwal             Basamti Dawat               Basmati-370 
+                        1                       121                        20 
+              Basmati-385               Basmati-386      Basmatibar (Raw/New) 
+                        4                         1                        17 
+     Basmatibar (Raw/Old)               Basmati Car            Basmati Charmi 
+                      246                         2                       547 
+ Basmati Dawat Roz-(20KG)      Basmatidubar Raw/New   Basmati Golden Sela New 
+                        4                         1                         7 
+  Basmati Golden Sela Old Basmati Haryana Sela(New)   Basmati Mogra (Raw/New) 
+                        6                         1                         1 
+            Basmati Paddy            Basmati (Rose)    Basmati Silky Kohinoor 
+                      694                       404                       177 
+   Basmati Super Kohinoor            Basmati Trophy        Basmati U.P. (New) 
+                      545                       581                       665 
+       Basmati U.P. (Old)                 Basumathi             Bellary Sanna 
+                      677                      4079                        27 
+              Boiled Rice                     B P T               Broken Rice 
+                     7194                     37492                     16187 
+                  BT Sona                   Chinoor          Chintamani Sanna 
+                      649                         9                        36 
+                    CO 36     CO-43 (Medium) Boiled                    Coarse 
+                      328                      2480                     65479 
+          Coarse (I.R.20)   CR 1009 (Coarse) Boiled            Culture Ponni1 
+                     2106                      1893                         7 
+           Culture Ponni2                     Dappa        Dawal Full Basmati 
+                        6                      6258                         3 
+                    Dawat        Doon Kinki Basmati                 Dosa Rice 
+                        6                         1                       451 
+        Duplicate Basmati            Durbar Basmati                EMR Boiled 
+                       33                         4                        10 
+            Export Parmal                Farm Kaddi           FCI Non Basmati 
+                        4                         5                         1 
+               FCI Parmal                      Fine             Fine(Basmati) 
+                       39                     89642                      2924 
+            Govt. Quality                Gowrisanna                 Hamsa St. 
+                     1351                         1                       142 
+                    Hansa              Hassan Dappa              HMT Fine Raw 
+                     3046                       209                         6 
+            HMT Sona Best           HMT Sona Medium                    H.Y.V. 
+                      190                         6                      4249 
+                      III                     IR 20            IR 20 Fine Raw 
+                    54317                       235                       194 
+      IR 20 Medium Boiled                     IR 50                      IR-8 
+                       52                       295                     10831 
+           IR-8 Raw (New)                 IR-8 Wand                      Jaya 
+                     1173                         2                      7839 
+              Jeera Samba             Jhilli Medium            Kachha Basmati 
+                       73                         1                      5514 
+                    Kaddi                  Kalimuch              Kapila Sanna 
+                       11                       338                         2 
+              Kattasambar            Kesari (Coorg)                   Kichudi 
+                     2954                         2                         1 
+        Kolam-Non Basmati                  Lashkari                 Long Bold 
+                      709                         5                        86 
+           Madhu (MR 136)                    Manila        Masoori-Non Basmti 
+                        2                        28                       104 
+                   Masuri           Mataa Parboiled                    Medium 
+                    22856                       836                     40735 
+                   Milled                Mnadyavani     Motta (Coarse) Boiled 
+                      155                         1                      3921 
+              Mull Bhatte                      Naya             Nellore Sanna 
+                        2                        48                         6 
+    Non Basmati Kalimunch          Original Basmati                     Other 
+                      149                         5                    256482 
+                    Padma             Parimal (New)             Parimal (Old) 
+                       55                       457                       545 
+                   Parmal            Parmal (Paddy)          Parmal Raw (New) 
+                     5504                         4                        10 
+              Parmal Wand                     Ponni       Ponni (Fine) Boiled 
+                        1                      3103                         2 
+           Ponni Fine Raw           Ponni parboiled           Popular Basmati 
+                       63                        16                        66 
+                   PR-103                    PR-106                    PR-111 
+                       18                       354                         2 
+Punjab Parmal Non Basmati      Pusa Basmati (Paddy)    Pusa Basmati Raw (New) 
+                       16                        15                      1023 
+   Pusa Basmati Raw (Old)   Pusa Basmati Sela (Old)                 Rajahamsa 
+                     1162                       593                       107 
+                     Rasi    Ratnachudi (718 5-749)                Rice Floor 
+                        6                      9126                       225 
+                 Sadharan                    Sambar              Sanna Bhatta 
+                      300                       190                         8 
+              Sanna Honsu               Sarbati Raw         Sarbati Raw (New) 
+                        1                      1046                        20 
+        Sarbati Raw (Old)        Sarbati Sela (New)        Sarbati Sela (Old) 
+                       88                       335                       339 
+             Sela Basmati                    Shakti          Sharbati (Paddy) 
+                        8                         5                       116 
+                     Sona               Sona Boiled               Sona Coarse 
+                     9393                       111                      1037 
+                Sona Fine Sona Mansoori Non Basmati               Sona Medium 
+                     3594                      8408                        79 
+             Sona Raw New              Sona Raw Old            Sujatha (B. T) 
+                      436                         4                         2 
+               Super Fine              Suvarna Best            Suvarna Medium 
+                    14195                       854                      1338 
+      Swadras Non Basmati    Tallahamsa (Bilihamsa)              Tericot Sela 
+                        4                         6                         1 
+                   Vijaya                 White Car           White Parboiled 
+                        6                         2                       176 
+> 
+
+
+Ideas:
+    - there are way too many subproducts, maybe we only look at the k(5?) most
+      common for each product
