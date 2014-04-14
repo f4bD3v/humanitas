@@ -37,7 +37,7 @@ def csv2df_bulk(fp_lst):
             is_first = False
         else:
             df_bulk = df_bulk.append(csv2df(file_path, True))
-    print "organizing by dates"
+    print "formating dates"
     df_bulk['date'] = pd.to_datetime(df_bulk['date'])
     print "sorting by dates"
     df_bulk = df_bulk.sort('date')
