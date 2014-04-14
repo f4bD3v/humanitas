@@ -1,0 +1,18 @@
+Daily data from agmarket.nic.in
+-------------------------------
+
+
+# CSV data:
+
+Onion -- https://www.dropbox.com/s/r7a8ga32ogvn04f/india_daily_Onion_2005-2014.zip
+Rice -- https://www.dropbox.com/s/m50kybwjpc28xbx/india_daily_Rice_2005-2014.zip
+Wheat -- https://www.dropbox.com/s/2adhl6rfq1gpbru/india_daily_Wheat_2005-2014.zip
+
+# Raw (HTML) data:
+
+Onion -- https://www.dropbox.com/s/0dt1bvfy6yn3jps/india_raw_daily_Onion_2005-2014.zip
+Rice -- https://www.dropbox.com/s/dlw61arw2cznctk/india_raw_daily_Rice_2005-2014.zip
+Wheat -- https://www.dropbox.com/s/hm6vmo789pzigp8/india_raw_daily_Wheat_2005-2014.zip
+
+
+
