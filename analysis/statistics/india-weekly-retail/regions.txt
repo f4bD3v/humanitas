@@ -1,0 +1,123 @@
+Rows of data for each region (weekly retail dataset).
+
+> table(region)
+region
+      Agartala           Agra         Aizwal      Allahabad       Amritsar 
+         17147          13167          17703          20064          17584 
+       Asansol     Aurangabad      Bangalore       Bhatinda   Bhawanipatna 
+         13964           3599          13734          14804           2652 
+       Bhillai         Bhopal    Bhubneshwar        Bijapur     Chandigarh 
+          5528          22964          22896          12436           3299 
+       Chennai       Chittoor     Coimbatore        Cuttack          Dausa 
+         19860          22862          19391           9821          22922 
+         Delhi        Dhanbad         Dispur      Ernakulam   Gandhi Nagar 
+         20238          15399           6595          20897          18477 
+          Gaya      Gorakhpur         Guntur       Guwahati        Hajipur 
+           331          23086          14358          10269            935 
+        Hissar         Howrah          Hubli      Hyderabad       Itanagar 
+         20549           6462          14496          22266          11159 
+        Jaipur     Jalpaiguri          Jammu        Jodhpur         Karnal 
+         18792           9513          19601          21441          19357 
+    Khozhikode         Kohima        Kolkata        Kurnool        Lucknow 
+         22536          14269          17647          20986          22569 
+      Ludhiana        Madurai          Malda          Mandi         Mumbai 
+         22254          14209           8118          13529          20053 
+   Muzaffarpur          Nasik             NR         Panaji          Patna 
+           340           7857             43          22660          23449 
+   Pondicherry      Portblair           Pune         Ranchi           Rewa 
+          3620          21789            590          20624           5410 
+    Saharanpur          Salem         Sehore       Shillong         Shimla 
+         13975          17178           9659          19837           5177 
+     Shrinagar       Srinagar          Surat   Swaimadhopur    Tirunelveli 
+          3318           2140           5577          13776           8010 
+    Trivandrum         Tumkur        Udaipur        Vadodra Vishakhapatnam 
+         19811          16585          19013          10985          22129 
+     Ahmedabad      Ahmedapur        Aligarh       Balichak        Bankura 
+             6              8            140              2             20 
+     Basiwrhat          Belda   Bethuadahari         Contai      Dibrugarh 
+            12              7              4             54          10832 
+    Gangavathi          Gonda          Indus        Jalgaon       Jamnagar 
+             6             12             16              2            102 
+        Kanpur     Krishnagar      Mainpuiri       Melaghat       Mirzapur 
+         14451              8            130              5             66 
+    Muradnagar  Muzaffarnagar     Nedumangad        Palghat      Philibhit 
+             8             16              8             41             96 
+       Purulia        Tambram        Bhawani     Bishalgarh        Burdwan 
+            10            578             10              4             21 
+     Cuddalore         Hardoi         Imphal        Kaithal          Katwa 
+            21              3          10915              2              6 
+      Kolhapur          Mogra        Sonipet           Suri Tiruchirapalli 
+            24             10              6              4              8 
+       Vellore         Nagpur        Gangtok         Rajkot 
+            12           7647            582            794 
+
+Observations:
+    - we have very few data points for some regions, attempting to predict on
+      those is probably pointless
+
+We have 44 products, over 10 years (at 52weeks/year), so around 22k rows are
+to be expected (of course, this is a rough estimate, as some products may be
+found with multiple subproducts whereas others with none).
+
+Statistics on the number of rows:
+
+> quantile(as.numeric(table(region)), probs=seq(0,1,0.1))
+     0%     10%     20%     30%     40%     50%     60%     70%     80%     90% 
+    2.0     6.8    14.4   113.2  3302.8  8010.0 13456.6 16110.6 19685.0 21857.0 
+   100% 
+23449.0 
+
+We will need to choose a reasonable threshold and filter out only regions with
+at least that many rows.
+
+There are 55 regions with >=10000 rows, as follow:
+
+> x=table(region); x[x>=10000]
+region
+      Agartala           Agra         Aizwal      Allahabad       Amritsar 
+         17147          13167          17703          20064          17584 
+       Asansol      Bangalore       Bhatinda         Bhopal    Bhubneshwar 
+         13964          13734          14804          22964          22896 
+       Bijapur        Chennai       Chittoor     Coimbatore          Dausa 
+         12436          19860          22862          19391          22922 
+         Delhi        Dhanbad      Ernakulam   Gandhi Nagar      Gorakhpur 
+         20238          15399          20897          18477          23086 
+        Guntur       Guwahati         Hissar          Hubli      Hyderabad 
+         14358          10269          20549          14496          22266 
+      Itanagar         Jaipur          Jammu        Jodhpur         Karnal 
+         11159          18792          19601          21441          19357 
+    Khozhikode         Kohima        Kolkata        Kurnool        Lucknow 
+         22536          14269          17647          20986          22569 
+      Ludhiana        Madurai          Mandi         Mumbai         Panaji 
+         22254          14209          13529          20053          22660 
+         Patna      Portblair         Ranchi     Saharanpur          Salem 
+         23449          21789          20624          13975          17178 
+      Shillong   Swaimadhopur     Trivandrum         Tumkur        Udaipur 
+         19837          13776          19811          16585          19013 
+       Vadodra Vishakhapatnam      Dibrugarh         Kanpur         Imphal 
+         10985          22129          10832          14451          10915 
+> sum(x>=10000)
+[1] 55
+
+There are 37 regions with >=15000 rows, as follow:
+
+> x=table(region); x[x>=15000]
+region
+      Agartala         Aizwal      Allahabad       Amritsar         Bhopal 
+         17147          17703          20064          17584          22964 
+   Bhubneshwar        Chennai       Chittoor     Coimbatore          Dausa 
+         22896          19860          22862          19391          22922 
+         Delhi        Dhanbad      Ernakulam   Gandhi Nagar      Gorakhpur 
+         20238          15399          20897          18477          23086 
+        Hissar      Hyderabad         Jaipur          Jammu        Jodhpur 
+         20549          22266          18792          19601          21441 
+        Karnal     Khozhikode        Kolkata        Kurnool        Lucknow 
+         19357          22536          17647          20986          22569 
+      Ludhiana         Mumbai         Panaji          Patna      Portblair 
+         22254          20053          22660          23449          21789 
+        Ranchi          Salem       Shillong     Trivandrum         Tumkur 
+         20624          17178          19837          19811          16585 
+       Udaipur Vishakhapatnam 
+         19013          22129 
+> sum(x>=15000)
+[1] 37

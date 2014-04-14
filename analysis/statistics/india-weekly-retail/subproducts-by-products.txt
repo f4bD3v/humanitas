@@ -1,0 +1,86 @@
+Computed on weekly data (../../data/india/csv_weekly/rpms.dacnet.nic.in/)
+
+Number of different subproducts by product:
+
+
+> nb_subprods_by_prod()
+    Apple     Arhar      Atta     Bajra    Banana     Besan   Biscuit     Black 
+        1         1         1         1         1         1         1         1 
+    Bread   Brinjal    Butter   Chicken   Coconut Coriander    Cummin      Eggs 
+        1         1         1         1         3         1         1         1 
+     Fish      Ghee  Gingelly      Gram Groundnut       Gur     Jowar     Maida 
+        3         1         1         2         1         1         1         1 
+    Maize     Masur      Meat      Milk     Moong   Mustard     Onion    Potato 
+        1         1         1         2         1         1         1         1 
+     Ragi       Red      Rice      Salt     Sugar      Suji       Tea    Tomato 
+        1         1         3         2         1         1         2         1 
+ Turmeric      Urad Vanaspati     Wheat 
+        1         1         2         2 
+
+Good thing: Most products have a single subproduct.
+Bad things:
+    - for the products with multiple subproducts, data is incomplete (some
+      regions have data for one subproduct, some for another)
+    - there is missing data even for products with a single subproduct
+
+
+Products with more than one subproduct:
+  Coconut      Fish      Gram      Milk      Rice      Salt       Tea Vanaspati 
+        3         3         2         2         3         2         2         2 
+    Wheat 
+        2 
+
+Subproducts of the above:
+
+> subprods_of('Coconut')
+
+        Dry Fresh 
+20176 16574 17534 
+
+> subprods_of('Fish')
+
+     Cat Fish      Pomphret Rohu 1Kg Size 
+         8024          7904         18786 
+
+> subprods_of('Gram')
+
+Split Whole 
+22870 21819 
+
+> subprods_of('Milk')
+
+Cow/Buffalo       Dairy 
+      21757       19097 
+
+> subprods_of('Rice')
+
+Common/Coarse          Fine     Superfine 
+        23832         22200         19867 
+
+> subprods_of('Salt')
+
+  Loose(common) Packet(iodized) 
+          20258           22152 
+
+> subprods_of('Tea')
+
+Brooke Bond Red Label            Ctc(loose) 
+                18579                 18402 
+
+> subprods_of('Vanaspati')
+
+               Dalda/Rath/Any 
+         20837          11158 
+
+> subprods_of('Wheat')
+
+      Desi Kalyan HYV 
+     10303      19985 
+
+
+Possible solutions for getting rid of subproducts:
+    1) treat them as different products (reasonable)
+    2) pick only the most well-represented subproduct
+    3) for each product with multiple subproducts, try to predict the price of
+        all other subproducts using the price of one subproduct. this would 
+        again allow us to reduce things to only one subproduct.

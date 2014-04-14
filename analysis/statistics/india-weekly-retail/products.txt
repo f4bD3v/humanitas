@@ -1,0 +1,26 @@
+Rows of data for each product (weekly retail dataset).
+
+> table(product)
+product
+    Apple     Arhar      Atta     Bajra    Banana     Besan   Biscuit     Black 
+    20252     23758     22237     15650     22553     20621     20461     21221 
+    Bread   Brinjal    Butter   Chicken   Coconut Coriander    Cummin      Eggs 
+    17915     22787     19879     21449     54284     21258     20435     21631 
+     Fish      Ghee  Gingelly      Gram Groundnut       Gur     Jowar     Maida 
+    34714     20687     16163     44689     20096     22203     14666     22428 
+    Maize     Masur      Meat      Milk     Moong   Mustard     Onion    Potato 
+    17128     20929     22293     40854     23520     21048     23503     23572 
+     Ragi       Red      Rice      Salt     Sugar      Suji       Tea    Tomato 
+     9345     21914     65899     42410     22797     22016     36981     23034 
+ Turmeric      Urad Vanaspati     Wheat 
+    22116     23370     31995     30288 
+
+Number of products: 44
+
+Observations:
+    + all products are quite well represented:
+> quantile(as.numeric(table(product)),probs=seq(0,1,.1))
+     0%     10%     20%     30%     40%     50%     60%     70%     80%     90% 
+ 9345.0 17364.1 20361.8 20904.8 21485.4 22159.5 22528.0 23383.3 26370.0 39692.1 
+   100% 
+65899.0 
