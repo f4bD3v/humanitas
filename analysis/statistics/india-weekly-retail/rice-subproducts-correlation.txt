@@ -1,0 +1,47 @@
+# get only rows related to rice
+drice = d[product=='Rice',]
+# join on (week, region, year)
+drice = merge(drice, drice, by=as.character(list('week', 'region', 'year')))
+# filter only subproduct.x != subproduct.y
+drice = drice[drice$subproduct.x != drice$subproduct.y,]
+head(drice)
+
+# remove inexistent levels
+drice$subproduct.x = factor(drice$subproduct.x)
+drice$subproduct.y = factor(drice$subproduct.y)
+
+# compute avg(price.x-price.y), grouped by (subproduct.x, subproduct.y)
+
+tapply(drice$price.x - drice$price.y, list(drice$subproduct.x, drice$subproduct.y), mean)
+
+              Common/Coarse     Fine Superfine
+Common/Coarse            NA -7.42454 -20.86407
+Fine                7.42454       NA -13.77786
+Superfine          20.86407 13.77786        NA
+
+# do the same for just one region
+ddrice=drice[drice$region=='Agartala',]
+
+# For this region, compute correlation between different types of rice
+
+library(plyr)
+
+> ddply(ddrice, as.character(list('subproduct.x', 'subproduct.y')), function (x) cor(x$price.x, x$price.y))
+   subproduct.x  subproduct.y        V1
+1 Common/Coarse          Fine 0.8984028
+2 Common/Coarse     Superfine 0.8610836
+
+4          Fine     Superfine 0.6991259
+
+
+
+# For all regions
+
+> ddply(drice, as.character(list('subproduct.x', 'subproduct.y')), function (x) cor(x$price.x, x$price.y))
+   subproduct.x  subproduct.y        V1
+1 Common/Coarse          Fine 0.6385932
+2 Common/Coarse     Superfine 0.5263394
+
+4          Fine     Superfine 0.7195840
+
+
