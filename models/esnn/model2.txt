@@ -1,0 +1,14 @@
+Input:
+    R_iP_j
+
+Hidden:
+    N neurons w/ random weights
+
+Output:
+    R_iP_j
+
+Weights to learn:
+    r * p * N
+
+Datapoints:
+    ~3650

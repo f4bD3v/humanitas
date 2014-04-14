@@ -1,0 +1,16 @@
+Features:
+    R_1 .. R_r 		(all 0 except one; R_i = 1 means region i)
+    P_1 ... P_p 	(all 0 except one; P_j = 0 means product j)
+
+    V_(t-T) 		(price at time t-T)
+    ..
+    V_(t-1)		(price at time t-1)
+
+Output feature:
+    V_t
+
+Parameters of the model:
+    T
+
+Datapoints:
+    r * p * 3650

@@ -1,0 +1,13 @@
+One model for each product. Model of product `i':
+
+Input:
+    R_1P_i
+    R_2P_i
+    ..
+    R_rP_i
+
+Middle:
+    N neurons w/ random weights
+
+Output:
+    same as input

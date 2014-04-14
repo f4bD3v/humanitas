@@ -1,0 +1,28 @@
+Layer 0 (input):
+    R_iP_jS_k (region i, product j, subproduct k)
+        at times (t-T, .., t-1)
+
+Layer 1:
+    groups of neurons for R_iP_j
+
+Layer 2:
+    groups of neurons for R_i
+    groups of neurons for P_j
+
+Layer 3:
+    neurons G_l (general)
+
+Layer 4 (output):
+    R_iP_jS_k
+
+
+Links:
+    0 -> 1	R_iP_jS_k -> R_iP_j
+    1 -> 2	R_iP_j -> R_i
+                R_iP_j -> P_j
+    2 -> 3	{R_*,P_*} -> G_*
+    * -> 4	R_i -> R_iP_jS_k
+                P_j -> R_iP_jS_k
+                R_iP_j -> R_iP_jS_k
+                G_* -> R_iP_jS_k
+
