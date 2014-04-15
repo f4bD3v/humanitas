@@ -15,6 +15,7 @@ all_dates = []
 all_cities = []
 all_products = []
 all_prod_subs = []
+dup_records = []
 
 def get_subs_of(prod):
     subs = []
@@ -22,6 +23,13 @@ def get_subs_of(prod):
         if pair[0] == prod:
             subs.append(pair[1])
     return subs
+
+def extract_duplicates(subdf):
+    df_ret = pd.DataFrame()
+    dup_dates = list(subdf[subdf.duplicated('date')].date)
+    for d in dup_dates:
+        df_ret = df_ret.append(subdf[subdf['date']==d])
+    return df_ret
 
 if __name__ == "__main__":
     start_time = time()
@@ -63,7 +71,6 @@ if __name__ == "__main__":
 
     validcounts = []
     df_ts = pd.DataFrame()
-    excepts = []
     #prod_sub = all_prod_subs[0]
     #city = all_cities[0]
     for prod_sub in all_prod_subs:
@@ -76,8 +83,8 @@ if __name__ == "__main__":
                 subdf = subdf.reindex(all_dates)
             except:
                 print 'exception at '+str(label)
-                excepts.append(label)
                 subdf.reset_index(inplace=True)
+                dup_records.append((label, extract_duplicates(subdf)))
                 subdf.drop_duplicates(cols='date', inplace=True)
                 subdf.set_index('date', inplace=True)
                 subdf = subdf.reindex(all_dates)
@@ -89,7 +96,7 @@ if __name__ == "__main__":
 
 
     with open(pk_out, 'w') as f:
-        pickle.dump([df_ts, validcounts, all_dates, all_cities, all_products, all_prod_subs], f)
+        pickle.dump([df_ts, validcounts, dup_records, all_dates, all_cities, all_products, all_prod_subs], f)
     print 'Everything dumped to '+pk_out
 
     print 'Elapsed time: '+str(time()-start_time)
