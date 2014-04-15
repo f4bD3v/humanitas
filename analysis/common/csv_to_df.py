@@ -22,7 +22,7 @@ def csv2df(file_path, bulk=False):
     print 'loading '+file_path
     df = pd.read_csv(file_path, header=None)
     df.columns = ['date', 'freq', 'country', 'city', 'product', 'sub', 'price']
-    df.set_index(['product','sub','country','city','freq'], inplace=True)
+    #df.set_index(['product','sub','country','city','freq'], inplace=True)
     if bulk == False:
         df['date'] = pd.to_datetime(df['date'])
         df = df.sort('date')
@@ -38,7 +38,7 @@ def csv2df_bulk(fp_lst):
         else:
             df_bulk = df_bulk.append(csv2df(file_path, True))
     print "formating dates"
-    df_bulk['date'] = pd.to_datetime(df_bulk['date'])
+    df_bulk['date'] = pd.to_datetime(df_bulk['date'], format='%d/%m/%Y')
     print "sorting by dates"
     df_bulk = df_bulk.sort('date')
     print "{} {} {}".format("csv loaded into df in",(time()-start_time),'secs.')
