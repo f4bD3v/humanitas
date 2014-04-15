@@ -1,0 +1,273 @@
+Problems:
+    - there are way more regions (>250), each with few rows
+    - we may need to move each region into a larger group of regions
+
+> x=table(region); x[x>1000]
+region
+               Addanki                   Agra                  Ajuha 
+                  2186                   2186                   1721 
+              Akiveedu              Alappuzha                Alibagh 
+                  1294                   4685                   1708 
+               Aligarh             Alipurduar              Allagadda 
+                  2525                   4626                   1266 
+             Allahabad                 Amroha                  Angul 
+                  1570                   2140                   1536 
+                Atarra                Atmakur               Attabira 
+                  1056                   1333                   2268 
+               Auraiya               Azamgarh               Badayoun 
+                  1406                   1956                   1857 
+              Bahraich                 Ballia              Balrampur 
+                  2236                   2517                   1212 
+              Balugaon              Balurghat                Bampada 
+                  2477                   2621                   1409 
+                 Banda              Bangalore              Bangarmau 
+                  1977                   5504                   1069 
+             Bangarpet          Bankura Sadar               Bantwala 
+                  3791                   2182                   1813 
+               Barasat                 Baraut               Bareilly 
+                  5170                   1982                   2863 
+               Bargarh               Baripada      Baruipur(Canning) 
+                  1148                   1922                   1853 
+                 Basti               Baxirhat               Belacoba 
+                  2378                   1010                   2137 
+            Belthangdi           Bethuadahari               Bhandara 
+                  2471                   2685                   1405 
+           Bhanjanagar             Bhimavaram                  Bidar 
+                  2074                   1211                   3412 
+               Bijnaur                Birbhum             Bishalgarh 
+                  2562                   1714                   2935 
+             Bishnupur              Bohorihat          Bokaro (Chas) 
+                  4461                   1753                   2379 
+              Bolangir                 Bolpur             Bongiagaon 
+                  1008                   1906                   1243 
+                 Boudh           Buland Shahr                Burdwan 
+                  1768                   1828                   3424 
+                Cachar               Chaibasa               Chakulia 
+                  5933                   5859                   2658 
+           Champadanga             Chandabali              Chandausi 
+                  3211                   1425                   1563 
+              Chandoli             Chanthroor                 Charra 
+                  1894                   1623                   1333 
+            Chengannur              Cherthala             Chintamani 
+                  1278                   1050                   5357 
+               Chirala             Coochbehar                  Dahod 
+                  2409                   3061                   3036 
+            Daltenganj                Deogarh                Deoghar 
+                  1739                   2292                   3825 
+              Devariya                Dhanbad        Diamond Harbour 
+                  2014                   2458                   1998 
+                  Divi                  Dumka            Egra/contai 
+                  2916                   3853                   3162 
+         English Bazar              Ernakulam                 Etawah 
+                  3293                   1225                   1971 
+              Faizabad               Falakata             Farukhabad 
+                  2518                   1756                   1901 
+              Fatehpur              Firozabad               Gadarpur 
+                  2107                   1041                   1407 
+               Gadhwah       Gajapathinagaram             Gangavathi 
+                  2410                   2566                   1475 
+            Gannavaram                Gazipur                 Ghatal 
+                  1738                   2389                   1802 
+             Ghaziabad                Giridih                  Godda 
+                  2961                   4576                   2112 
+                 Gonda              Gorakhpur          Gowribidanoor 
+                  1725                   2320                   1112 
+              Gudiwada               Gulbarga                  Gumla 
+                  3897                   4498                   1686 
+                Gunpur               Haathras                  Habra 
+                  1043                   1935                   1342 
+            Hailakandi              Haldibari                  Hapur 
+                  1975                   1259                   2860 
+                Hardoi             Hazaribagh             Hinjilicut 
+                  1337                   1777                   1276 
+                 Howly                 Howrah                  Indus 
+                  1936                   1338                   1195 
+              Islampur          Jagatsinghpur                 Jajpur 
+                  1011                   2987                   1650 
+            Jalpaiguri    Jammu (Grain Mandi)             Jamshedpur 
+                  6997                   4068                   4788 
+               Jamtara                  Jasra                  Jatni 
+                  3669                   1135                   1287 
+               Jaunpur                 Jhansi               Jhargram 
+                  2668                   1853                   2431 
+             Kaikaluru              Kaliaganj              Kalimpong 
+                  2426                   1704                   1421 
+               Kalipur                 Kallur                  Kalna 
+                  2852                   1362                   4471 
+               Kalyani               Kandukur          Kanpur(Grain) 
+                  2757                   1945                   1879 
+             Karimpore                 Karjat                Karkala 
+                  1339                   1676                   1172 
+                 Karvi                Kasganj                  Katwa 
+                  1192                   1032                   1468 
+            Kendrapara               Keonjhar                  Khair 
+                  1198                   1771                   1603 
+              Khatauli                 Khatra                  Kheda 
+                  1308                   1284                   1723 
+                Khunti                Koderma    Kolhapur(Laxmipuri) 
+                  3974                   4882                   1815 
+                Kollam                Kondapi               Kopaganj 
+                  1590                   1986                   1251 
+             Kosikalan            Kothavalasa                 Kovvur 
+                  2122                   2779                   1479 
+             K.R.Nagar              Lakhimpur                Lalbagh 
+                  1276                   2140                   1496 
+              Lalitpur                  Lanka                Latehar 
+                  1800                   1627                   4273 
+               Lucknow          Machilipatnam               Madhupur 
+                  2223                   3998                   1446 
+                Mahoba               Mainpuri              Mangalore 
+                  1337                   1895                   5280 
+               Mangaon                Manjeri                 Martur 
+                  1532                   1860                   1323 
+           Mathabhanga                 Mawana                 Meerut 
+                  3121                   1332                   1911 
+              Melaghar                 Memari        Midnapur (East) 
+                  1887                   2712                   2680 
+              Mirzapur                   Moth                 Mumbai 
+                  2142                   1413                   2805 
+             Muradabad          Muzzafarnagar    Mysore (Bandipalya) 
+                  2209                   3763                   5757 
+                 Nadia                 Nagpur                Nandyal 
+                  1162                   2078                   1927 
+          Narasaraopet             Narsapuram                Naugarh 
+                  2019                   2028                   1495 
+              Nimapara                 Ongole                   Orai 
+                  2240                   2599                   1612 
+           Pabiacherra               Padampur                  Pakur 
+                  1672                   2232                   4814 
+              Palakole                Palghar                 Pandva 
+                  1979                   1277                   2630 
+        Parappanangadi          Parlakhemundi               Partaval 
+                  2533                   1604                   1731 
+              Payagpur                    Pen         Perinthalmanna 
+                  1046                   1760                   1387 
+   Pidugurala(Palnadu)               Pilibhit P.O. Uparhali Guwahati 
+                  1601                   1568                   5167 
+               Punalur              Pundibari                   Pune 
+                  1102                   1308                   1947 
+               Purulia                 Puttur            Raibareilly 
+                  2375                   3388                   2563 
+               Raiganj                Ramgarh                 Rampur 
+                  1447                   2466                   2660 
+             Rampurhat                 Ranchi                Repalli 
+                  2279                   7188                   2193 
+           Robertsganj             Saharanpur              Sahebganj 
+                  1156                   1699                   6261 
+            Sakhigopal              Sambalpur                Sambhal 
+                  1795                   1271                   1014 
+                 Samsi                 Sangli           Santir Bazar 
+                  3822                   1828                   1394 
+             Saraikela   Sealdah Koley Market           Shahjahanpur 
+                  3634                   2358                   2193 
+                Shamli            Sheoraphuly                Shimoga 
+                  1141                   1025                   5046 
+               Simdega              Sindhanur                Sitapur 
+                  8214                   4041                   2230 
+               Solapur         Tadepalligudem              Taliamura 
+                  2436                   2471                   1906 
+          Tamkuhi Road          Thirurrangadi     Thiruvananthapuram 
+                  1771                   2955                   3677 
+            Thodupuzha               Tiruvuru             Toofanganj 
+                  1598                   1842                   1185 
+                Tumsar                  Udala                  Udupi 
+                  1842                   1526                   1577 
+                 Unnao               Vadodara        Varanasi(Grain) 
+                  2673                   9159                   2684 
+         Visakhapatnam 
+                  2150 
+
+
+Example of a bad region:
+
+> d[region=='Wanaparthy town',]
+             date freq country          region product subproduct price year
+228335 2006-01-10  day   India Wanaparthy town    Rice       Sona  1220 2006
+399976 2006-01-17  day   India Wanaparthy town    Rice       Sona  1240 2006
+501116 2006-01-21  day   India Wanaparthy town    Rice       Sona  1220 2006
+697130 2006-01-29  day   India Wanaparthy town    Rice       Sona  1250 2006
+719537 2006-01-30  day   India Wanaparthy town    Rice       Sona  1260 2006
+740873 2006-01-31  day   India Wanaparthy town    Rice       Sona  1260 2006
+304551 2006-02-13  day   India Wanaparthy town    Rice       Sona  1300 2006
+352839 2006-02-15  day   India Wanaparthy town    Rice       Sona  1300 2006
+553752 2006-02-23  day   India Wanaparthy town    Rice       Sona  1320 2006
+578616 2006-02-24  day   India Wanaparthy town    Rice       Sona  1320 2006
+4561   2006-03-01  day   India Wanaparthy town    Rice       Sona  1330 2006
+54701  2006-03-03  day   India Wanaparthy town    Rice       Sona  1325 2006
+81077  2006-03-04  day   India Wanaparthy town    Rice       Sona  1360 2006
+106616 2006-03-05  day   India Wanaparthy town    Rice       Sona  1370 2006
+132322 2006-03-06  day   India Wanaparthy town    Rice  Sona Fine  1370 2006
+183717 2006-03-08  day   India Wanaparthy town    Rice       Sona  1375 2006
+306804 2006-03-13  day   India Wanaparthy town    Rice       Sona  1350 2006
+355314 2006-03-15  day   India Wanaparthy town    Rice       Sona  1350 2006
+605579 2006-03-25  day   India Wanaparthy town    Rice       Sona  1350 2006
+653097 2006-03-27  day   India Wanaparthy town    Rice       Sona  1350 2006
+56929  2006-04-03  day   India Wanaparthy town    Rice       Sona  1360 2006
+134692 2006-04-06  day   India Wanaparthy town    Rice       Sona  1350 2006
+309210 2006-04-13  day   India Wanaparthy town    Rice       Sona  1350 2006
+381573 2006-04-16  day   India Wanaparthy town    Rice       Sona  1360 2006
+406878 2006-04-17  day   India Wanaparthy town    Rice       Sona  1360 2006
+432323 2006-04-18  day   India Wanaparthy town    Rice       Sona  1350 2006
+457310 2006-04-19  day   India Wanaparthy town    Rice       Sona  1350 2006
+482689 2006-04-20  day   India Wanaparthy town    Rice       Sona  1350 2006
+582972 2006-04-24  day   India Wanaparthy town    Rice       Sona  1350 2006
+725663 2006-05-30  day   India Wanaparthy town    Rice       Sona  1350 2006
+313470 2008-06-13  day   India Wanaparthy town    Rice  Sona Fine  1450 2008
+192056 2006-07-08  day   India Wanaparthy town    Rice      B P T  1400 2006
+177332 2007-12-07  day   India Wanaparthy town    Rice       Sona  1355 2007
+226551 2006-12-09  day   India Wanaparthy town    Rice  Sona Fine  1160 2006
+275660 2006-12-11  day   India Wanaparthy town    Rice  Sona Fine  1150 2006
+325250 2006-12-13  day   India Wanaparthy town    Rice      Hansa  1030 2006
+325251 2006-12-13  day   India Wanaparthy town    Rice  Sona Fine  1150 2006
+348937 2006-12-14  day   India Wanaparthy town    Rice      Hansa   999 2006
+348938 2006-12-14  day   India Wanaparthy town    Rice  Sona Fine  1170 2006
+524747 2006-12-21  day   India Wanaparthy town    Rice       Sona  1200 2006
+598942 2005-12-24  day   India Wanaparthy town    Rice  Sona Fine  1220 2005
+717883 2006-12-29  day   India Wanaparthy town    Rice       Sona  1297 2006
+       week day
+228335   10   2
+399976   17   3
+501116   21   3
+697130   29   4
+719537   30   5
+740873   31   5
+304551   44   7
+352839   46   7
+553752   54   8
+578616   55   8
+4561     60   9
+54701    62   9
+81077    63   9
+106616   64   9
+132322   65  10
+183717   67  10
+306804   72  11
+355314   74  11
+605579   84  12
+653097   86  13
+56929    93  14
+134692   96  14
+309210  103  15
+381573  106  15
+406878  107  16
+432323  108  16
+457310  109  16
+482689  110  16
+582972  114  17
+725663  150  22
+313470  165  24
+192056  189  27
+177332  341  49
+226551  343  49
+275660  345  50
+325250  347  50
+325251  347  50
+348937  348  50
+348938  348  50
+524747  355  51
+598942  358  51
+717883  363  52
+
+
+Total regions: 1066
+Total regions >=1000: 256

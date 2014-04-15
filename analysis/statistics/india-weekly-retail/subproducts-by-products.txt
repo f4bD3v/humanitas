@@ -22,6 +22,9 @@ Bad things:
     - for the products with multiple subproducts, data is incomplete (some
       regions have data for one subproduct, some for another)
     - there is missing data even for products with a single subproduct
+    - daily rice data shows that there are ~170 subproducts only for rice;
+      this means that other products probably also have more subproducts,
+      they're just missing from the data
 
 
 Products with more than one subproduct:
