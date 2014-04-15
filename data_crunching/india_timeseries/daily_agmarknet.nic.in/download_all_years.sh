@@ -17,7 +17,7 @@ done
 OUTFILE_BASE="india_daily_${COMMODITY}_2005-2014"
 OUTFILE_CSV="${OUTFILE_BASE}.csv"
 
-echo "Date,Period,Country,Town,Product,Subproduct,Price,Tonnes" > $OUTFILE_CSV
+echo "date,freq,country,region,product,subproduct,price,tonnes" > $OUTFILE_CSV
 cat csv_out/${COMMODITY}_*.csv >> $OUTFILE_CSV
 
 ### Zip stuff
