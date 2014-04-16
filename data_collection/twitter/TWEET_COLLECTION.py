@@ -84,7 +84,7 @@ def get_good_followers(followers, locations, min_tweets):
 def check_clock(last_time):
     elapsed_time = (datetime.now() - last_time).seconds
     if elapsed_time < RATE_LIMIT_WINDOW:
-        print 'Sleeping...'
+        print 'Sleeping for %s seconds...' % (RATE_LIMIT_WINDOW - elapsed_time)
         sleep(RATE_LIMIT_WINDOW - elapsed_time)
 
 def get_followers():
@@ -93,10 +93,13 @@ def get_followers():
     csv_writer.writerow(['screen_name','statuses_count','location'])
     
     locations = set(get_all_locations_in_india())
-    num_followers = 100 #twitter.show_user(screen_name=root)['followers_count']
+    num_followers = 20000 #twitter.show_user(screen_name=root)['followers_count']
 
-    next_cursor = -1; num_requests = 0; users_downloaded = 0; page_number = 1; last_time = datetime.now()
-    
+    next_cursor = -1; num_requests = 0; users_downloaded = 0; page_number = 1; num_good_followers = 0
+
+    last_time = datetime.now()
+    time_start = datetime.now()
+
     while users_downloaded < num_followers:
         print 'Downloading followers page %d for %s' % (page_number, root)
         try:
@@ -105,8 +108,9 @@ def get_followers():
             continue
         followers = response['users']
         good_followers = (list(get_good_followers(followers, locations, MIN_TWEETS)))
+        num_good_followers += len(good_followers)
         for follower in good_followers:
-            csv_writer.writerow([follower['screen_name'], follower['statuses_count'], follower['location']])
+            csv_writer.writerow([follower['screen_name'].encode('utf8'), follower['statuses_count'], follower['location'].encode('utf8')])
         num_requests += 1
         if num_requests == FOLLOWER_RATE_LIMIT:
             check_clock(last_time)
@@ -117,6 +121,9 @@ def get_followers():
         page_number += 1
         
     f_followers.close()
+
+    duration = (datetime.now() - time_start).seconds
+    print 'Number of good followers listed %s in %s seconds' % (num_good_followers, duration)
 
 def get_twitter_data():
     f_followers = open('good_followers_of.csv', 'rb')
@@ -129,6 +136,8 @@ def get_twitter_data():
     
     num_requests = 0; tweet_count = 0; file_count = 1
     last_time = datetime.now()
+
+    time_start = datetime.now()
     
     for follower in follower_reader:
         screen_name = follower[0]; statuses_count = int(follower[1]); location = follower[2]
@@ -168,10 +177,12 @@ def get_twitter_data():
     
     f_tweets.close()
     f_followers.close()
-    print 'Number of tweets collected %s' % (tweet_count)
-                
+
+    duration = (datetime.now() - time_start).seconds    
+    print 'Number of tweets collected %s in %s seconds' % (tweet_count, duration)
+    
 def main():
-    #get_followers()
+    get_followers()
     get_twitter_data()
     
 if __name__ == '__main__':
