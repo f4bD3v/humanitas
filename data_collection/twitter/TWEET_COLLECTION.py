@@ -5,6 +5,7 @@ from sys import maxint
 import re
 import csv
 import sys
+import pickle
 
 APP_KEY = 'aylam3pBvHkhOUmycOWw'
 APP_SECRET = 'uXAuZwGX8FUno0P54gdIlGnkijhkY56lVFxRwgjgI'
@@ -88,10 +89,6 @@ def check_clock(last_time):
         sleep(RATE_LIMIT_WINDOW - elapsed_time)
 
 def get_followers(root, all_followers):
-    f_followers = open('good_followers_of.csv', 'wb')
-    csv_writer = csv.writer(f_followers)
-    csv_writer.writerow(['screen_name','statuses_count','location'])
-    
     locations = set(get_all_locations_in_india())
     
     if all_followers:
@@ -104,6 +101,8 @@ def get_followers(root, all_followers):
     last_time = datetime.now()
     time_start = datetime.now()
 
+    good_followers = []
+
     while users_downloaded < num_followers:
         print 'Downloading followers page %d for %s' % (page_number, root)
         try:
@@ -111,10 +110,7 @@ def get_followers(root, all_followers):
         except:
             continue
         followers = response['users']
-        good_followers = (list(get_good_followers(followers, locations, MIN_TWEETS)))
-        num_good_followers += len(good_followers)
-        for follower in good_followers:
-            csv_writer.writerow([follower['screen_name'].encode('utf8'), follower['statuses_count'], follower['location'].encode('utf8')])
+        good_followers.extend((list(get_good_followers(followers, locations, MIN_TWEETS))))
         num_requests += 1
         if num_requests == FOLLOWER_RATE_LIMIT:
             check_clock(last_time)
@@ -123,38 +119,38 @@ def get_followers(root, all_followers):
         next_cursor = response['next_cursor']
         users_downloaded += FOLLOWER_BATCH_SIZE
         page_number += 1
-        
+
+    f_followers = open('good_followers_of.pickle', 'wb')
+    pickle.dump(good_followers, f_followers) 
     f_followers.close()
 
     duration = (datetime.now() - time_start).seconds
     print 'Number of good followers listed %s in %s seconds' % (num_good_followers, duration)
 
 def get_twitter_data():
-    f_followers = open('good_followers_of.csv', 'rb')
-    follower_reader = csv.reader(f_followers)
-    next(follower_reader)
+    f_followers = open('good_followers_of.pickle', 'rb')
+    followers = pickle.load(f_followers)
+    f_followers.close()
     
-    f_tweets = open('tweets%s.csv'%(1), 'wb')
-    tweet_writer = csv.writer(f_tweets)
-    tweet_writer.writerow(['created_at','screen_name','text'])
-    
-    num_requests = 0; tweet_count = 0; file_count = 1
+    num_requests = 0; file_count = 1
     
     last_time = datetime.now()
     time_start = datetime.now()
+
+    tweets = []
     
-    for follower in follower_reader:
-        screen_name = follower[0]; statuses_count = int(follower[1]); location = follower[2]
-        num_tweets = min(statuses_count, MAX_TWEETS)
-        print 'Collecting %s tweets from %s' % (num_tweets, screen_name)
-        max_tweet_id = 0; tweets_collected = 0; tweets = []
+    for follower in followers:
+        num_tweets = min(follower['statuses_count'], MAX_TWEETS)
+        print 'Collecting %s tweets from %s' % (num_tweets, follower['screen_name'])
+        max_tweet_id = 0; tweets_collected = 0
         
         while tweets_collected < num_tweets:
+            new_tweets = []
             try:
                 if(max_tweet_id == 0):
-                    tweets = twitter.get_user_timeline(screen_name=screen_name, count=TWEET_BATCH_SIZE)
+                    new_tweets = twitter.get_user_timeline(screen_name=follower['screen_name'], count=TWEET_BATCH_SIZE)
                 else:
-                    tweets.extend(twitter.get_user_timeline(screen_name=screen_name, max_id=max_tweet_id, count=TWEET_BATCH_SIZE))
+                    new_tweets = twitter.get_user_timeline(screen_name=follower['screen_name'], max_id=max_tweet_id, count=TWEET_BATCH_SIZE)
                 tweets_collected += TWEET_BATCH_SIZE
             except TwythonRateLimitError:
                 continue
@@ -165,26 +161,17 @@ def get_twitter_data():
                 check_clock(last_time)
                 last_time = datetime.now()
                 num_requests = 1
-            for tweet in tweets:                   
+            for tweet in new_tweets:                   
                 if max_tweet_id == 0 or max_tweet_id > int(tweet['id']):
                     max_tweet_id = int(tweet['id'])
-        for tweet in tweets:
-            tweet_writer.writerow([tweet['created_at'].encode('utf8'),
-                                   tweet['user']['screen_name'].encode('utf8'),
-                                   tweet['text'].encode('utf8')])
-            tweet_count += 1
-            if(tweet_count%MAX_TWEETS_PER_FILE == 0):
-                f_tweets.close()
-                file_count += 1
-                f_tweets = open('tweets%s.csv'%(file_count), 'wb')
-                tweet_writer = csv.writer(f_tweets)
-                tweet_writer.writerow(['created_at','screen_name','text'])
-    
+            tweets.extend(new_tweets)
+
+    f_tweets = open('tweets.pickle', 'wb')
+    pickle.dump(tweets, f_tweets)
     f_tweets.close()
-    f_followers.close()
 
     duration = (datetime.now() - time_start).seconds    
-    print 'Number of tweets collected %s in %s seconds' % (tweet_count, duration)
+    print 'Number of tweets collected %s in %s seconds' % (len(tweets), duration)
     
 def main():
     if sys.argv > 1:
