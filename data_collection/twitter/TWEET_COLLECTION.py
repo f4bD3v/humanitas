@@ -4,6 +4,7 @@ from time import sleep
 from sys import maxint
 import re
 import csv
+import sys
 
 APP_KEY = 'aylam3pBvHkhOUmycOWw'
 APP_SECRET = 'uXAuZwGX8FUno0P54gdIlGnkijhkY56lVFxRwgjgI'
@@ -186,6 +187,8 @@ def get_twitter_data():
     print 'Number of tweets collected %s in %s seconds' % (tweet_count, duration)
     
 def main():
+    if sys.argv > 1:
+        root = sys.argv[1]
     get_followers(root, True)
     get_twitter_data()
     
