@@ -1,0 +1,70 @@
+Data Mining: 
+
+
+Implementation
+
+Dev-Environment: Python 2.7
+Install: Scipy, Orange 
+
+
+Data Preparation
+
+
+Suppose you have some sort of census data like the one below:
+
+SSN#    Age     Sex    Married   Num_kids  Income
+006     26      M      No        0         25000$
+345     54      F      Yes       2         55000$
+743     37      M      Yes       1         80000$
+
+What can you do with it? Let's look at each column:
+
+SSN#: this is unique for each entry, there is no sense to look for
+association rules involving SSN#, at least not in this data, since
+each SSN# appears only once in the whole data. So we can simply ignore
+this field for mining purposes.
+
+Age: this attribute can take a variety of values. ARtool cannot handle
+such attributes easily, in fact it only considers binary
+attributes. We need to discretize this attribute, replacing for
+example ages 0-21 with "very young age", 22-35 with "young age", 35-55
+with "middle age", etc
+
+Sex: this has two values: "male" and "female", so we could create two
+attributes out of it.
+
+Married: again we can create two attributes: "married" and "not
+married"
+
+Num_kids: this also has to be discretized, maybe in "no kids", "one
+kid", "several kids".
+
+Income: we could also discretize this into "small", "average", and
+"high".
+
+The discretization should be made such that it will identify clearly
+the ranges that present interest for the person who will do
+the mining of this data.
+
+With these changes we could represent the above data in .asc format
+as:
+
+1 very young age
+2 young age
+3 middle age
+4 old age
+5 male
+6 female
+7 married
+8 not married
+9 no kids
+10 one kid
+11 several kids
+12 small income
+13 average income
+14 high income
+BEGIN_DATA
+2 5 8 9 12
+3 6 7 11 13
+3 5 7 10 14
+END_DATA
