@@ -48,12 +48,15 @@ if __name__ == '__main__':
 
     leng = [len(all_dates), len(all_dates[(len(all_dates)/2-38):])]
     start_dates = ['2005-01', '2009-01']
+    thrsh = [0, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5]
+
     df_ts_0 = [pd.DataFrame(), pd.DataFrame()]
     df_ts_5 = [pd.DataFrame(), pd.DataFrame()]
     df_ts_10 = [pd.DataFrame(), pd.DataFrame()]
-
-    labels = [df_ts.columns[0]]
-    thrsh = [0, 0.05, 0.1]
+    df_ts_20 = [pd.DataFrame(), pd.DataFrame()]
+    df_ts_30 = [pd.DataFrame(), pd.DataFrame()]
+    df_ts_40 = [pd.DataFrame(), pd.DataFrame()]
+    df_ts_50 = [pd.DataFrame(), pd.DataFrame()]
 
     for label in df_ts.columns:
         for i in range(0,2):
@@ -65,17 +68,32 @@ if __name__ == '__main__':
                 df_ts_5[i][label] = series
             if nacount <= thrsh[2]:
                 df_ts_10[i][label] = series
+            if nacount <= thrsh[3]:
+                df_ts_20[i][label] = series
+            if nacount <= thrsh[4]:
+                df_ts_30[i][label] = series
+            if nacount <= thrsh[5]:
+                df_ts_40[i][label] = series
+            if nacount <= thrsh[6]:
+                df_ts_50[i][label] = series
 
     print "2005-2014"
     print "na cutoff rate "+str(thrsh[0])+", #series="+str(df_ts_0[0].shape[1])
     print "na cutoff rate "+str(thrsh[1])+", #series="+str(df_ts_5[0].shape[1])
     print "na cutoff rate "+str(thrsh[2])+", #series="+str(df_ts_10[0].shape[1])
-
+    print "na cutoff rate "+str(thrsh[3])+", #series="+str(df_ts_20[0].shape[1])
+    print "na cutoff rate "+str(thrsh[4])+", #series="+str(df_ts_30[0].shape[1])
+    print "na cutoff rate "+str(thrsh[5])+", #series="+str(df_ts_40[0].shape[1])
+    print "na cutoff rate "+str(thrsh[6])+", #series="+str(df_ts_50[0].shape[1])
 
     print "2009-2014"
     print "na cutoff rate "+str(thrsh[0])+", #series="+str(df_ts_0[1].shape[1])
     print "na cutoff rate "+str(thrsh[1])+", #series="+str(df_ts_5[1].shape[1])
     print "na cutoff rate "+str(thrsh[2])+", #series="+str(df_ts_10[1].shape[1])
+    print "na cutoff rate "+str(thrsh[3])+", #series="+str(df_ts_20[1].shape[1])
+    print "na cutoff rate "+str(thrsh[4])+", #series="+str(df_ts_30[1].shape[1])
+    print "na cutoff rate "+str(thrsh[5])+", #series="+str(df_ts_40[1].shape[1])
+    print "na cutoff rate "+str(thrsh[6])+", #series="+str(df_ts_50[1].shape[1])
 
     #interpolate missing data
     #for i in range(0,2):
