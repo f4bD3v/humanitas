@@ -59,7 +59,7 @@ def print_csv(date_string, commodity, html):
         for td in row.findAll("td"):
             text = td.getText()
             cur_row.append(text)
-        if len(cur_row) != 7: continue
+        if len(cur_row) < 7: continue
         if cur_row[0] == 'Market': continue
         if cur_row[0] == '':
             cur_row[0] = prev_city
@@ -75,11 +75,12 @@ def print_csv(date_string, commodity, html):
     print "### Output file:", out_file_name
     out_file = open(out_file_name, "w")
 
+
     for r in all_rows:
         # Use modal value
         tonnes = float('0' + re.sub(r'[^\d\.]', '', r[1]))
         row_string = "%s,day,India,%s,%s,%s,%s,%s\n" % \
-                (date_string, r[0], commodity, r[3], r[6], tonnes)
+                (date_string, r[0], commodity, r[3], r[-1], tonnes)
         out_file.write(row_string)
     out_file.close()
 

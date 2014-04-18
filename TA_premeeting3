@@ -1,0 +1,37 @@
+Filtering: 8 files are generated, 4 for Indonesia, 4 for India
+categories: geolocated tweets, associated places, containing cities or regions, by keywords)
+not parallelized yet
+
+Get UserIDs: Script nearly complete. Needs to be parallelized
+solutions:
+Run in parallel and use union (use shell) of lists
+
+Getting tweets: separate processes on 8 machines
+
+Define filters for users!
+location; > 50 tweets (users? check that out)
+different categories of users? (by join date?)
+
+Time Series Data: 
+daily data (but not for meat); chose products with most weekly data
+weekly data (pretty good meat)
+
+additional data sources:
+
+weather: imd.gov.in
+	wunderground.com (does it have a API?); focus on cities with airports
+
+crude oil: 
+
+association rules: orange python framework
+
+
+detecting seasonal effects:
+read CSV to pandas; indexed columns
+Problem: want to generate complete timeseries for each index
+NA data; counting NAs: 300 different kind of combination (rice, subproduct, cities)
+20% NAs => 150
+
+How to choose data?
+
+Fill NAs: functions in pandas, linear interpolation or duplication

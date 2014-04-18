@@ -7,12 +7,21 @@ Daily data from agmarket.nic.in
 Onion -- https://www.dropbox.com/s/r7a8ga32ogvn04f/india_daily_Onion_2005-2014.zip
 Rice -- https://www.dropbox.com/s/m50kybwjpc28xbx/india_daily_Rice_2005-2014.zip
 Wheat -- https://www.dropbox.com/s/2adhl6rfq1gpbru/india_daily_Wheat_2005-2014.zip
+Apple -- https://www.dropbox.com/s/8kmcvugwtnlppfd/india_daily_Apple_2005-2014.zip
+Banana -- https://www.dropbox.com/s/ckutdgqjgxmtbaq/india_daily_Banana_2005-2014.zip
+Coriander -- https://www.dropbox.com/s/h9vxz5cpsa0oefc/india_daily_Coriander_2005-2014.zip
+Potato -- https://www.dropbox.com/s/zzj8spyy0e3p6se/india_daily_Potato_2005-2014.zip
+Paddy(Dhan) -- https://www.dropbox.com/s/p9325h6sp9drsj5/india_daily_Paddy%28Dhan%29_2005-2014.zip
+Tomato -- https://www.dropbox.com/s/m0tplzl8uvem5ml/india_daily_Tomato_2005-2014.zip
 
 # Raw (HTML) data:
 
 Onion -- https://www.dropbox.com/s/0dt1bvfy6yn3jps/india_raw_daily_Onion_2005-2014.zip
 Rice -- https://www.dropbox.com/s/dlw61arw2cznctk/india_raw_daily_Rice_2005-2014.zip
 Wheat -- https://www.dropbox.com/s/hm6vmo789pzigp8/india_raw_daily_Wheat_2005-2014.zip
-
-
-
+Apple -- https://www.dropbox.com/s/io3gxebi432x36e/india_raw_daily_Apple_2005-2014.zip
+Banana -- https://www.dropbox.com/s/tozisqhqakylazf/india_raw_daily_Banana_2005-2014.zip
+Coriander -- https://www.dropbox.com/s/cbx89p5sw3p0cbv/india_raw_daily_Coriander_2005-2014.zip
+Potato -- https://www.dropbox.com/s/dx7x80w1wrxf87y/india_raw_daily_Potato_2005-2014.zip
+Paddy(Dhan) -- https://www.dropbox.com/s/bltv8kqwsdwt5kl/india_raw_daily_Paddy%28Dhan%29_2005-2014.zip
+Tomato -- https://www.dropbox.com/s/9bh5mm2p04f4fi2/india_raw_daily_Tomato_2005-2014.zip

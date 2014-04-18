@@ -24,7 +24,39 @@ Twitter
 \subsection*{Historical tweets}
 
 \subsubsection*{Approach 1: Fetching "historical" tweets via user graph}
-able to fetch 4-5 million users a day
+
+Using the Twython package for python we are able to interface with the Twitter API. Our methodology will be to select the twitter accounts of a number of regional celebrities as root nodes. These are likely to 'followed' by large numbers of local users. In a first phase, from each of these roots we may extract a list of followers and filter by various characteristics. Once a substantial list has been constructed, we may proceed to download the tweet activity (up to 3200 tweets) of each of these users in a second phase.
+
+Despite recent updates allowing developers greater access, Twitter still imposes troublesome constraints on the number of requests per unit time window (15 minutes) and, consequently, the data collection rate. It is therefore necessary to: 1) optimise the use of each request; and 2) parallelise the data collection effort.
+
+As far as optimisation is concerned, the \textbf{GET statuses/user\_timeline} call may be called 300 times per 15 minute time window with up to 200 tweets returned per request. This sets a hard upper bound of 60000 tweets per time window. This is why the filtering stage of the first phase is so crucial. Using the \textbf{GET followers/list} call (30 calls/time window), we may discard in advance the majority of twitter users with low numbers of tweets (often zero), so as to avoid burning the limited user timeline requests on fruitless users, thus increasing the data collection rate. With this approach we may approach optimality and achieve 4-5 million tweets daily per process. However, it may be prudent to strike a balance between collection and diversity of account. Therefore a nominal filter is currently set to 50 tweets minimum rather than 200. It is furthermore necessary to install dynamic time-tracking mechanisms within the source code so as to monitor the request rates and to impose a process 'sleep'
+
+Parallelisation will begin with obtaining N ($\approx 10$) sets of developer credentials from Twitter (https://dev.twitter.com/). These N credentials may then be used to launch N processes collecting tweet data in parallel. Given the decision to divide the follower collection and tweet collection into two separate phases (this may alternatively be done simultaneously), there is no need for distributed interaction between the processes to control overlap, as each process will simply take $1/N$ th of the follower list produced in phase 1 and process it accordingly. It should be relatively simple to initiate this parallel computation given the design of the scripts.
+
+\begin{center}
+  \begin{tabular}{ | c | c | c | c | c | }
+    \hline
+    Phase 1  \\ \hline
+    Users & Duration (s) & Sleep (s) & User Rate & Type \\ \hline
+    334 & 2795 & 2047 & - & Total \\ \hline	    
+    299 & 2700 & 2047 & 99.7 & Normalised (3 windows) \\ \hline
+    Phase 2 \\ \hline
+    Tweets (Users) & Duration (s) & Sleep (s) & Tweet Rate & Type \\ \hline
+    171990 (334) & 3108 & 922 & - & Total \\ \hline
+    150008 (309) & 2700 & 922 & 50002.7 &  Normalised (3 windows) \\ \hline
+  \end{tabular}
+  \end{center}
+
+A benchmarking test performed in order to support configuration choices for the parallelisation. The test involved collecting the tweets from all good users within the first 20000 followers of @KareenaOnline, the account of a local celebrity.
+
+The following observations can be made:
+\begin{itemize}
+\item only 1.5-2\% of users are considered "good" under the current choice of filters (location, min. 50 tweets etc.);
+\item Despite different levels of sleeping, phase 2 reads from users at roughly the same rate that phase 1 collects them (approximately 100 per time window in both cases);
+\item Phase 2 produces around 50000 tweets per time window.
+\end{itemize}
+
+\includegraphics[width=.7\textwidth]{./img/CollectionProcess.pdf}
 
 \subsubsection*{Approach 2: Filtering tweets provided by webarchive.org}
 https://archive.org/details/twitterstream
