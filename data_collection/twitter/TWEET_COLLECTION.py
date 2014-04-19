@@ -120,7 +120,7 @@ def get_followers(root, all_followers):
         users_downloaded += FOLLOWER_BATCH_SIZE
         page_number += 1
 
-    f_followers = open('good_followers_of.pickle', 'wb')
+    f_followers = open('good_followers_of_%s.pickle' % root, 'wb')
     pickle.dump(good_followers, f_followers) 
     f_followers.close()
 
@@ -128,7 +128,7 @@ def get_followers(root, all_followers):
     print 'Number of good followers listed %s in %s seconds' % (num_good_followers, duration)
 
 def get_twitter_data():
-    f_followers = open('good_followers_of.pickle', 'rb')
+    f_followers = open('good_followers_of_%s.pickle' % root, 'rb')
     followers = pickle.load(f_followers)
     f_followers.close()
     
@@ -166,7 +166,7 @@ def get_twitter_data():
                     max_tweet_id = int(tweet['id'])
             tweets.extend(new_tweets)
 
-    f_tweets = open('tweets.pickle', 'wb')
+    f_tweets = open('tweets_%s.pickle' % root, 'wb')
     pickle.dump(tweets, f_tweets)
     f_tweets.close()
 
@@ -174,7 +174,8 @@ def get_twitter_data():
     print 'Number of tweets collected %s in %s seconds' % (len(tweets), duration)
     
 def main():
-    if sys.argv > 1:
+    global root
+    if len(sys.argv) > 1:
         root = sys.argv[1]
     get_followers(root, True)
     get_twitter_data()
