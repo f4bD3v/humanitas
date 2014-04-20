@@ -1,0 +1,247 @@
+For each (commonsubprod, region) of a state, show the mean of the time series.
+
+> apply(subprods_by_state2('Uttar Pradesh'), c(1,2), as.integer)
+                    1009 Kar Broken Rice Coarse Fine  III Masuri Medium
+Achalda                    0           0      0    0  783      0      0
+Achnera                    0           0   1039    0  976      0      0
+Agra                       0           0      0    0  960      0      0
+Ahirora                    0           0      0    0  473      0      0
+Ajuha                      0        2970      0    0  581      0      0
+Aligarh                    0           0    595    0  884      0      0
+Allahabad                290           0      0    0  649      0      0
+Amroha                     0           0    764    0 1178      0      0
+Anandnagar                 0           0    341    0    0      0      0
+Anwala                     0           0    778    0    0      0      0
+Atarra                     0           0      0    0  998      0   3041
+Atrauli                    0           0      0    0  984      0      0
+Auraiya                    0           0      0    0  491      0      0
+Awagarh                    0           0      0    0  897      0      0
+Baberu                     0           0      0    0  960      0      0
+Badayoun                   0           0    785    0 1920      0      0
+Bahedi                     0           0    655    0    0      0      0
+Bahraich                   0           0   2808 1164  626      0      0
+Ballia                     0           0      0    0 1070      0      0
+Banda                      0           0      0 2885  890      0      0
+Bangarmau                  0           0      0    0  753      0    651
+Banthara                   0           0      0    0  650      0      0
+Barabanki                  0           0      0    0  619      0      0
+Baraut                     0           0      0    0  835      0      0
+Bareilly                   0           0    858    0    0      0      0
+Baruwasagar                0           0      0    0  539      0      0
+Bewar                      0           0    934    0    0      0      0
+Bharthana                  0           0      0    0  467      0      0
+Bharthna                   0           0      0    0  795      0      0
+Bharwari                   0           0      0    0  691      0      0
+Bijnaur                    0           0    711    0  595      0      0
+Bindki                     0           0      0    0  639      0    507
+Chaandpur                  0           0    114    0    0      0      0
+Chandausi                  0           0      0    0 1303      0      0
+Chhibramau                 0           0      0    0  732      0      0
+Chibramau                  0           0      0    0  632      0      0
+Chirgaon                   0           0      0    0  813      0      0
+Chitwadagaon               0           0      0    0  559      0      0
+Chorichora                 0           0   1281    0  954      0      0
+Choubepur                  0           0      0    0 1018      0      0
+Dadri                      0           0      0    0  949      0      0
+Devariya                   0           0    631    0 1124      0      0
+Dibiapur                   0           0      0    0  879      0      0
+Divai                      0           0      0    0  866      0      0
+Doharighat                 0           0    719    0    0      0      0
+Dudhi                      0           0      0    0  452      0      0
+Etah                       0           0      0    0  913      0      0
+Etawah                     0           0      0    0 1000      0      0
+Faizabad                   0           0      0    0 1880      0      0
+Farukhabad                 0           0      0    0  663      0      0
+Fatehpur Sikri             0           0   1027    0  952      0      0
+Firozabad                  0           0      0    0  978      0      0
+Gadaura                    0           0    498    0  643      0    369
+Gangoh                     0           0      0    0 2648      0      0
+Ganjdudwara                0           0    962    0    0      0      0
+Ghaziabad                  0           0    649    0  631      0      0
+Ghiraur                    0           0    964    0  923      0      0
+Gonda                      0           0      0    0  994      0      0
+Gopiganj                   0           0      0    0  229      0      0
+Gorakhpur                  0           0    888    0  993      0      0
+Gulavati                   0           0      0    0  886      0      0
+Gurusarai                  0           0      0    0  790      0      0
+Haathras                   0           0    661    0  897      0      0
+Hapur                      0           0      0 1729 1017      0      0
+Hasanpur                   0           0    730    0  723      0      0
+Jafarganj                  0           0      0    0  632      0      0
+Jagnair                    0           0   1027    0  947      0      0
+Jahanabad                  0           0      0    0  452      0      0
+Jalaun                   122           0      0    0    0      0      0
+Jasra                      0           0      0    0  586      0      0
+Jasvantnagar             860           0      0    0  907      0      0
+Jaunpur                    0           0      0    0 2085      0      0
+Jhansi                     0           0      0    0  904      0      0
+Jhijhank                   0           0      0    0  527      0      0
+Kamlaganj                  0           0      0    0  518      0      0
+Kannauj                    0           0    363    0  566      0      0
+Kanpur(Grain)              0           0    354    0  968      0      0
+Karnailganj                0           0      0    0 1006      0      0
+Karvi                      0           0   2966    0  927      0      0
+Kasganj                    0           0    950    0  924      0      0
+Kayamganj                  0           0      0    0  502      0      0
+Khair                      0           0    626    0  926      0      0
+Khairagarh                 0           0      0    0  931      0      0
+Khalilabad                 0           0    439    0    0      0      0
+Khatauli                   0           0      0 1370 1181      0   3041
+Khurja                     0           0      0    0  915      0      0
+Kiratpur                   0           0      0    0  667      0      0
+Kishunpur                  0           0      0  578  484      0      0
+Kopaganj                   0           0    389    0  885      0      0
+Kosikalan                  0           0      0    0  879      0      0
+Lakhimpur                  0           0      0    0 2083      0    987
+Lalganj                    0           0      0    0  951      0      0
+Lalitpur                   0           0      0    0 1212      0      0
+Lucknow                    0           0    582    0  945      0      0
+Mahoba                  1485           0      0    0  779      0      0
+Maigalganj                 0           0      0    0  322      0      0
+Mainpuri                   0           0    884    0 1010      0      0
+Mathura                    0           0      0    0  888      0      0
+Maudaha                    0           0      0    0  777      0      0
+Mauranipur                 0           0      0    0  687      0      0
+Mawana                     0           0      0    0 1076      0      0
+Meerut                     0           0      0    0  653      0      0
+Mehmoodabad                0           0      0    0 2945      0      0
+Mehrauni                   0           0      0    0    0      0   2932
+Mihipurwa                  0           0      0    0  725      0      0
+Mirzapur                   0           0      0    0  496      0      0
+Mohamadabad                0           0      0    0  544      0      0
+Mohammdi                   0           0      0    0  324      0      0
+Moth                       0           0      0    0  858      0      0
+Mugrabaadshahpur           0           0      0    0  521      0      0
+Muradabad                  0           0      0    0  718      0      0
+Muradnagar                 0           0      0    0 1109      0      0
+Muzzafarnagar              0           0      0  298    0      0      0
+Naanpara                   0           0      0    0  763      0      0
+Najibabad                  0           0    104    0  868      0      0
+Naugarh                    0           0    237    0    0      0   3041
+Nautnava                   0           0   1179    0    0      0      0
+Nawabganj                  0           0      0    0 1167      0      0
+Orai                       0           0      0    0  826      0      0
+Paliakala                  0           0      0    0  358      0      0
+Panchpedwa                 0           0      0    0  732      0      0
+Partaval                 722           0    670    0  778      0      0
+Payagpur                   0           0      0    0  672      0      0
+Pilibhit                   0           0   1048    0    0      0      0
+Pukhrayan                  0           0      0    0  621      0      0
+Purwa                      0           0      0    0  597      0      0
+Puwaha                     0           0    588   84    0      0      0
+Raibareilly                0           0      0    0  962      0      0
+Rasda                      0           0      0    0  774      0      0
+Risia                      0           0      0    0  709      0      0
+Robertsganj                0           0    162    0  335      0      0
+Rudauli                    0           0      0    0  681      0      0
+Rura                       0           0      0    0  786      0      0
+Safdarganj                 0           0      0    0  674      0      0
+Samsabad                   0           0   1027    0    0      0      0
+Sandila                    0           0      0    0  903      0      0
+Sardhana                   0           0      0    0 1032      0      0
+Sehjanwa                   0           0    426    0    0      0      0
+Shahabad(New Mandi)        0           0      0    0  877      0      0
+Shahganj                   0           0      0 3041  723      0    398
+Shahjahanpur               0           0    611    0    0      0      0
+Shikohabad                 0           0    913    0 1036      0      0
+Sikandraraau               0           0    191    0    0      0      0
+Sirsaganj                  0           0    909    0  993      0      0
+Siyana                     0           0      0    0  925      0      0
+Tamkuhi Road               0           0    696    0    0      0      0
+Tanda                      0         674      0    0    0      0    675
+Tikonia                    0           0      0    0  346      0      0
+Tilhar                     0           0   1046    0    0      0      0
+Tulsipur                   0           0      0    0  746      0      0
+Ujhani                     0           0      0    0  803      0      0
+Unnao                      0           0      0    0  897      0      0
+Utraula                    0           0      0    0  730      0      0
+Uttaripura                 0           0      0    0 1081      0      0
+Varanasi(F&V;)             0           0      0    0  502      0      0
+Varanasi(Grain)            0           0      0    0  185   1160      0
+Varipaal                   0           0      0    0  605      0      0
+Vilthararoad               0           0      0    0  625      0      0
+Wansi                      0           0   1059    0    0      0      0
+Yusufpur                   0           0      0    0  501      0      0
+
+> apply(subprods_by_state2('West Bengal'), c(1,2), as.integer)
+                     1009 Kar Coarse Fine Masuri Medium
+Alipurduar                  0      0 1063      0      0
+Asansol                     0      0 1265      0      0
+Balurghat                   0   1015    0   1276      0
+Bankura Sadar               0      0 1048      0      0
+Barasat                     0      0  533    702      0
+Baruipur(Canning)           0      0  872      0      0
+Baxirhat                    0    570 1778   1361      0
+Belacoba                    0      0 1307      0    335
+Beldanga                    0      0  939      0      0
+Bethuadahari                0      0 1136      0      0
+Birbhum                     0    320  530      0      0
+Bishnupur                   0      0  386    788      0
+Burdwan                     0   1196 1236      0      0
+Chakdah                     0      0  983    601    815
+Coochbehar                  0      0    0   1353      0
+Darjeeling                  0      0 1793      0      0
+Diamond Harbour             0      0 1625      0      0
+Dinhata                     0      0  446    900      0
+Durgapur                    0      0 1253      0      0
+Egra/contai                 0    733  913      0      0
+English Bazar               0    258 1041      0      0
+Falakata                    0      0 1360      0      0
+Gajol                       0      0 1199      0      0
+Gangarampur                 0      0 1923    785      0
+Ghatal                      0   1133  500      0      0
+Guskara                     0      0 1250      0      0
+Habra                       0    693  928    245      0
+Haldibari                   0      0 1496      0      0
+Howrah                      0      0 1041      0      0
+Indus                       0      0 1205    847      0
+Islampur                 1523    969  940      0   1063
+Jalpaiguri                  0      0  809      0      0
+Jhargram                    0      0 1232      0      0
+Jiaganj                     0      0  874      0      0
+Kaliaganj                   0      0    0   1143      0
+Kalna                       0    781  729      0      0
+Kalyani                     0      0 1253    534      0
+Kandi                       0      0 1117      0      0
+Karimpore                   0      0 1195      0      0
+Kolaghat                    0    695 1210      0      0
+Lalbagh                     0      0  606      0      0
+Mathabhanga                 0      0    0   1222      0
+Mekhliganj                  0      0 1120      0      0
+Memari                      0    694  819      0      0
+Midnapore Sadar             0      0  707      0      0
+Midnapur (East)             0   1018  701      0      0
+Midnapur (West)             0    493    0      0      0
+Nadia                       0      0  818      0    639
+Pundibari                   0    510 1221   1220      0
+Raiganj                     0      0    0   1421      0
+Sainthia                    0    731  959      0      0
+Samsi                       0      0 1293      0      0
+Sealdah Koley Market        0      0 1342      0      0
+Sheoraphuly                 0      0    0    858      0
+Toofanganj                  0      0 1761   1130      0
+
+> apply(subprods_by_state2('Jharkhand'), c(1,2), as.integer)
+           Broken Rice Coarse Fine Masuri Medium
+Bermo                0      0 1840      0   1448
+Chaibasa             0    775  912      0    878
+Chakulia             0    611 1103      0    728
+Daltenganj           0      0    0      0   1315
+Deoghar              0   1104 1352      0   1277
+Dhanbad              0   1179 1920    122   1493
+Dumka                0   1129    0      0    829
+Giridih              0      0 1488      0    845
+Godda               58    355  744      0    940
+Gumla             2474    691  729      0      0
+Jamshedpur           0      0 1162      0   1152
+Jamtara              0    623 1888      0    898
+Khunti               0    485 1355      0   1001
+Koderma              0    796 1154      0    752
+Latehar              0    240 1248      0    916
+Madhupur             0    541    0      0      0
+Pakur                0    705 1385      0    729
+Ramgarh           2909   1010 1541      0    574
+Ranchi               0    913 1282      0    846
+Sahebganj            0    872  860      0    735
+Saraikela            0      0    0      0    947
+Simdega           1132    641 1017      0    124
