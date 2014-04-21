@@ -22,7 +22,6 @@ FOLLOWER_BATCH_SIZE = 200
 TWEET_RATE_LIMIT = 300
 MIN_TWEETS = 50
 MAX_TWEETS = 3200
-MAX_TWEETS_PER_FILE = 250000
 MAX_FOLLOWERS = 1000000
 
 def get_all_locations_in_india():
@@ -89,7 +88,7 @@ def check_clock(last_time):
         print 'Sleeping for %s seconds...' % (RATE_LIMIT_WINDOW - elapsed_time)
         sleep(RATE_LIMIT_WINDOW - elapsed_time)
 
-def get_followers(root, all_followers):
+def get_followers(all_followers):
     locations = set(get_all_locations_in_india())
     
     if all_followers:
@@ -97,7 +96,7 @@ def get_followers(root, all_followers):
     else:
         num_followers = 200
 
-    next_cursor = -1; num_requests = 0; users_downloaded = 0; num_good_followers = 0; page_number = 1
+    next_cursor = -1; num_requests = 0; users_downloaded = 0; page_number = 1
 
     last_time = datetime.now()
     time_start = datetime.now()
@@ -126,7 +125,7 @@ def get_followers(root, all_followers):
     f_followers.close()
 
     duration = (datetime.now() - time_start).seconds
-    print 'Number of good followers listed %s in %s seconds' % (num_good_followers, duration)
+    print 'Number of good followers listed %s in %s seconds' % (len(good_followers), duration)
 
 def get_twitter_data():
     f_followers = open('%s_good_followers_of.pickle'%(root), 'rb')
@@ -175,9 +174,10 @@ def get_twitter_data():
     print 'Number of tweets collected %s in %s seconds' % (len(tweets), duration)
     
 def main():
+    global root
     if sys.argv > 1:
         root = sys.argv[1]
-    get_followers(root, True)
+    get_followers(False)
     get_twitter_data()
     
 if __name__ == '__main__':
