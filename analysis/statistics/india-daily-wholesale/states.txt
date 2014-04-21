@@ -1,0 +1,552 @@
+> dd = merge(map, d)
+> sort(table(dd$state))
+
+Number of rows per state:
+
+          Mizoram          Nagaland  Himachal Pradesh Arunachal Pradesh 
+               11                14                34                46 
+      Chattisgarh               Goa    Madhya Pradesh        Tamil Nadu 
+               69               115               122               500 
+     NCT of Delhi         Meghalaya           Manipur           Haryana 
+              605              1568              1574              1644 
+           Punjab         Rajasthan Jammu and Kashmir        Uttrakhand 
+             1734              3263              4056              5687 
+          Tripura             Bihar           Gujarat             Assam 
+            12463             12523             19001             25975 
+      Maharashtra            Kerala            Orissa    Andhra Pradesh 
+            31328             32369             57127             70048 
+        Karnataka         Jharkhand       West Bengal     Uttar Pradesh 
+            75056             92382            123855            179462 
+
+Pick most common subproducts:
+    > tbl=table(dd$subproduct)
+    > subprods=names(tbl[tbl>15000])
+    > subprods=setdiff(subprods, list('Other'))
+    > subprods
+    [1] "1009 Kar"    "B P T"       "Broken Rice" "Coarse"      "Fine"       
+    [6] "III"         "Masuri"      "Medium"     
+    > 
+
+
+For each (commonsubprod, region) of a state, show how many rows we have.
+
+subprods_by_state = function(s) {
+    cond = (dd$state == s) & (dd$subproduct %in% subprods)
+    tbl = table(dd$region[cond], dd$subproduct[cond])
+    print(tbl[apply(tbl, 1, sum)>0,apply(tbl,2,sum)>0])
+}
+
+Results for the most common states:
+
+
+
+> subprods_by_state('Uttar Pradesh')
+                     
+                      1009 Kar Broken Rice Coarse Fine  III Masuri Medium
+  Achalda                    0           0      0    0  711      0      0
+  Achnera                    0           0      1    0    3      0      0
+  Agra                       0           0      0    0  348      0      0
+  Ahirora                    0           0      0    0  597      0      0
+  Ajuha                      0           1      0    0 1204      0      0
+  Aligarh                    0           0     32    0  592      0      0
+  Allahabad                  1           0      0    0 1283      0      0
+  Amroha                     0           0    157    0  339      0      0
+  Anandnagar                 0           0      8    0    0      0      0
+  Anwala                     0           0     48    0    0      0      0
+  Atarra                     0           0      0    0  896      0     91
+  Atrauli                    0           0      0    0    1      0      0
+  Auraiya                    0           0      0    0 1206      0      0
+  Awagarh                    0           0      0    0    3      0      0
+  Baberu                     0           0      0    0  432      0      0
+  Badayoun                   0           0     50    0  489      0      0
+  Bahedi                     0           0    385    0    0      0      0
+  Bahraich                   0           0    300  300 1008      0      0
+  Ballia                     0           0      0    0 1650      0      0
+  Banda                      0           0      0   12 1686      0      0
+  Bangarmau                  0           0      0    0  767      0      2
+  Banthara                   0           0      0    0   16      0      0
+  Barabanki                  0           0      0    0  206      0      0
+  Baraut                     0           0      0    0  494      0      0
+  Bareilly                   0           0   2804    0    0      0      0
+  Baruwasagar                0           0      0    0   29      0      0
+  Bewar                      0           0      2    0    0      0      0
+  Bharthana                  0           0      0    0   82      0      0
+  Bharthna                   0           0      0    0  248      0      0
+  Bharwari                   0           0      0    0  497      0      0
+  Bijnaur                    0           0      9    0 1202      0      0
+  Bindki                     0           0      0    0  412      0     20
+  Chaandpur                  0           0     19    0    0      0      0
+  Chandausi                  0           0      0    0 1092      0      0
+  Chhibramau                 0           0      0    0   71      0      0
+  Chibramau                  0           0      0    0  161      0      0
+  Chirgaon                   0           0      0    0  208      0      0
+  Chitwadagaon               0           0      0    0  275      0      0
+  Chorichora                 0           0    298    0  192      0      0
+  Choubepur                  0           0      0    0    4      0      0
+  Dadri                      0           0      0    0  539      0      0
+  Devariya                   0           0   1283    0  236      0      0
+  Dibiapur                   0           0      0    0  518      0      0
+  Divai                      0           0      0    0  258      0      0
+  Doharighat                 0           0    417    0    0      0      0
+  Dudhi                      0           0      0    0  223      0      0
+  Etah                       0           0      0    0  461      0      0
+  Etawah                     0           0      0    0 1924      0      0
+  Faizabad                   0           0      0    0  842      0      0
+  Farukhabad                 0           0      0    0 1142      0      0
+  Fatehpur Sikri             0           0      1    0    3      0      0
+  Firozabad                  0           0      0    0  253      0      0
+  Gadaura                    0           0    285    0  179      0     10
+  Gangoh                     0           0      0    0    1      0      0
+  Ganjdudwara                0           0      1    0    0      0      0
+  Ghaziabad                  0           0    144    0 1019      0      0
+  Ghiraur                    0           0      8    0    1      0      0
+  Gonda                      0           0      0    0    8      0      0
+  Gopiganj                   0           0      0    0  264      0      0
+  Gorakhpur                  0           0   2056    0  201      0      0
+  Gulavati                   0           0      0    0  301      0      0
+  Gurusarai                  0           0      0    0   40      0      0
+  Haathras                   0           0    998    0    2      0      0
+  Hapur                      0           0      0  214  856      0      0
+  Hasanpur                   0           0    896    0    4      0      0
+  Jafarganj                  0           0      0    0   84      0      0
+  Jagnair                    0           0      1    0    8      0      0
+  Jahanabad                  0           0      0    0   79      0      0
+  Jalaun                    50           0      0    0    0      0      0
+  Jasra                      0           0      0    0 1099      0      0
+  Jasvantnagar               2           0      0    0  502      0      0
+  Jaunpur                    0           0      0    0  926      0      0
+  Jhansi                     0           0      0    0  653      0      0
+  Jhijhank                   0           0      0    0   53      0      0
+  Kamlaganj                  0           0      0    0  380      0      0
+  Kannauj                    0           0     77    0  722      0      0
+  Kanpur(Grain)              0           0     88    0 1785      0      0
+  Karnailganj                0           0      0    0    2      0      0
+  Karvi                      0           0     51    0  865      0      0
+  Kasganj                    0           0    346    0   96      0      0
+  Kayamganj                  0           0      0    0  409      0      0
+  Khair                      0           0     36    0  474      0      0
+  Khairagarh                 0           0      0    0   20      0      0
+  Khalilabad                 0           0    220    0    0      0      0
+  Khatauli                   0           0      0  104  606      0      6
+  Khurja                     0           0      0    0  354      0      0
+  Kiratpur                   0           0      0    0   39      0      0
+  Kishunpur                  0           0      0   11  588      0      0
+  Kopaganj                   0           0    628    0    2      0      0
+  Kosikalan                  0           0      0    0  715      0      0
+  Lakhimpur                  0           0      0    0  680      0    255
+  Lalganj                    0           0      0    0  190      0      0
+  Lalitpur                   0           0      0    0  622      0      0
+  Lucknow                    0           0    133    0  966      0      0
+  Mahoba                    62           0      0    0   68      0      0
+  Maigalganj                 0           0      0    0    9      0      0
+  Mainpuri                   0           0    617    0   36      0      0
+  Mathura                    0           0      0    0  686      0      0
+  Maudaha                    0           0      0    0   66      0      0
+  Mauranipur                 0           0      0    0   78      0      0
+  Mawana                     0           0      0    0   34      0      0
+  Meerut                     0           0      0    0  425      0      0
+  Mehmoodabad                0           0      0    0    1      0      0
+  Mehrauni                   0           0      0    0    0      0      1
+  Mihipurwa                  0           0      0    0    7      0      0
+  Mirzapur                   0           0      0    0 1587      0      0
+  Mohamadabad                0           0      0    0  124      0      0
+  Mohammdi                   0           0      0    0   10      0      0
+  Moth                       0           0      0    0    7      0      0
+  Mugrabaadshahpur           0           0      0    0  517      0      0
+  Muradabad                  0           0      0    0    5      0      0
+  Muradnagar                 0           0      0    0    1      0      0
+  Muzzafarnagar              0           0      0  643    0      0      0
+  Naanpara                   0           0      0    0  388      0      0
+  Najibabad                  0           0     17    0  346      0      0
+  Naugarh                    0           0    260    0    0      0      1
+  Nautnava                   0           0    304    0    0      0      0
+  Nawabganj                  0           0      0    0    1      0      0
+  Orai                       0           0      0    0   87      0      0
+  Paliakala                  0           0      0    0    9      0      0
+  Panchpedwa                 0           0      0    0   78      0      0
+  Partaval                   1           0    869    0  469      0      0
+  Payagpur                   0           0      0    0  748      0      0
+  Pilibhit                   0           0    100    0    0      0      0
+  Pukhrayan                  0           0      0    0  810      0      0
+  Purwa                      0           0      0    0  282      0      0
+  Puwaha                     0           0     54   80    0      0      0
+  Raibareilly                0           0      0    0    3      0      0
+  Rasda                      0           0      0    0   14      0      0
+  Risia                      0           0      0    0    8      0      0
+  Robertsganj                0           0      1    0  429      0      0
+  Rudauli                    0           0      0    0    5      0      0
+  Rura                       0           0      0    0  553      0      0
+  Safdarganj                 0           0      0    0    8      0      0
+  Samsabad                   0           0      1    0    0      0      0
+  Sandila                    0           0      0    0  256      0      0
+  Sardhana                   0           0      0    0  260      0      0
+  Sehjanwa                   0           0    316    0    0      0      0
+  Shahabad(New Mandi)        0           0      0    0  335      0      0
+  Shahganj                   0           0      0    2   85      0     32
+  Shahjahanpur               0           0   1064    0    0      0      0
+  Shikohabad                 0           0      5    0  215      0      0
+  Sikandraraau               0           0    385    0    0      0      0
+  Sirsaganj                  0           0      3    0  263      0      0
+  Siyana                     0           0      0    0  484      0      0
+  Tamkuhi Road               0           0    706    0    0      0      0
+  Tanda                      0          51      0    0    0      0    141
+  Tikonia                    0           0      0    0    9      0      0
+  Tilhar                     0           0    196    0    0      0      0
+  Tulsipur                   0           0      0    0    3      0      0
+  Ujhani                     0           0      0    0  139      0      0
+  Unnao                      0           0      0    0 2615      0      0
+  Utraula                    0           0      0    0    2      0      0
+  Uttaripura                 0           0      0    0    4      0      0
+  Varanasi(F&V;)             0           0      0    0   38      0      0
+  Varanasi(Grain)            0           0      0    0  145    930      0
+  Varipaal                   0           0      0    0  544      0      0
+  Vilthararoad               0           0      0    0   75      0      0
+  Wansi                      0           0    238    0    0      0      0
+  Yusufpur                   0           0      0    0   35      0      0
+> subprods_by_state('West Bengal')
+                      
+                       1009 Kar Coarse Fine Masuri Medium
+  Alipurduar                  0      0 1554      0      0
+  Asansol                     0      0  143      0      0
+  Balurghat                   0      4    0   1562      0
+  Bankura Sadar               0      0  275      0      0
+  Barasat                     0      0  566   1667      0
+  Baruipur(Canning)           0      0  447      0      0
+  Baxirhat                    0      3   94    593      0
+  Belacoba                    0      0  726      0     13
+  Beldanga                    0      0  141      0      0
+  Bethuadahari                0      0 2683      0      0
+  Birbhum                     0    374 1107      0      0
+  Bishnupur                   0      0  381   1703      0
+  Burdwan                     0    381  543      0      0
+  Chakdah                     0      0  206    206     51
+  Coochbehar                  0      0    0   1382      0
+  Darjeeling                  0      0    2      0      0
+  Diamond Harbour             0      0  696      0      0
+  Dinhata                     0      0  270    129      0
+  Durgapur                    0      0  484      0      0
+  Egra/contai                 0   1576 1574      0      0
+  English Bazar               0      2 1641      0      0
+  Falakata                    0      0  586      0      0
+  Gajol                       0      0  178      0      0
+  Gangarampur                 0      0   78      1      0
+  Ghatal                      0    893  782      0      0
+  Guskara                     0      0  270      0      0
+  Habra                       0     14  680      1      0
+  Haldibari                   0      0  344      0      0
+  Howrah                      0      0  186      0      0
+  Indus                       0      0  112     14      0
+  Islampur                    2      3  840      0    152
+  Jalpaiguri                  0      0 2334      0      0
+  Jhargram                    0      0  807      0      0
+  Jiaganj                     0      0  145      0      0
+  Kaliaganj                   0      0    0   1582      0
+  Kalna                       0   2232 2233      0      0
+  Kalyani                     0      0  920    440      0
+  Kandi                       0      0   24      0      0
+  Karimpore                   0      0 1089      0      0
+  Kolaghat                    0     18   18      0      0
+  Lalbagh                     0      0  788      0      0
+  Mathabhanga                 0      0    0   1352      0
+  Mekhliganj                  0      0   72      0      0
+  Memari                      0   1342 1340      0      0
+  Midnapore Sadar             0      0   49      0      0
+  Midnapur (East)             0    601 1341      0      0
+  Midnapur (West)             0    156    0      0      0
+  Nadia                       0      0 1165      0      1
+  Pundibari                   0    304    9    216      0
+  Raiganj                     0      0    0   1431      0
+  Sainthia                    0    216  218      0      0
+  Samsi                       0      0 1609      0      0
+  Sealdah Koley Market        0      0 1173      0      0
+  Sheoraphuly                 0      0    0      4      0
+  Toofanganj                  0      0   91    758      0
+> 
+
+> subprods_by_state('Jharkhand')
+            
+             Broken Rice Coarse Fine Masuri Medium
+  Bermo                0      0   92      0     92
+  Chaibasa             0   1951 1954      0   1954
+  Chakulia             0    249 1033      0     62
+  Daltenganj           0      0    0      0     64
+  Deoghar              0   1314 1355      0   1110
+  Dhanbad              0    246  185      2    274
+  Dumka                0   1924    0      0   1917
+  Giridih              0      0 1527      0   1521
+  Godda                2    213  331      0    782
+  Gumla               72      6    5      0      0
+  Jamshedpur           0      0 2232      0   1355
+  Jamtara              0   1549  499      0   1564
+  Khunti               0   1333 1318      0   1322
+  Koderma              0     14 1570      0   1628
+  Latehar              0    185 1359      0   1359
+  Madhupur             0    562    0      0      0
+  Pakur                0   1462 1645      0   1162
+  Ramgarh              1    413  715      0     70
+  Ranchi               0   2387 2387      0   2387
+  Sahebganj            0   2066 2069      0   2082
+  Saraikela            0      0    0      0   2308
+  Simdega           1892   1853 2112      0      9
+
+
+> subprods_by_state('Karnataka')
+                     
+                      Broken Rice Coarse Fine Masuri Medium
+  Annigeri                     11     34    0      0      5
+  Arasikere                     0      0    0      0     22
+  Athani                        0      0    6      0      0
+  Bagepalli                     4      0    0      0     13
+  Bailahongal                   0     43    0      0      0
+  Bangalore                     0      0 1652      0   1633
+  Bangarpet                  1649     35   20      0    957
+  Belthangdi                    0      0  823      0      0
+  Belur                         0    463    0      0      0
+  Bhadravathi                 155      4    0      0    281
+  Bidar                      1696    348    0      0      0
+  Chamaraj Nagar                4    117    0      0      0
+  Channagiri                    1      4    2      0      0
+  Channapatana                 10      0    0      0    104
+  Channarayapatna               5    189    0      0      0
+  Chickkaballapura             44      4    8      9     43
+  Chikkamagalore                0     11    0      0      0
+  Chintamani                 1671      0    0      0      0
+  Davangere                     0      1    1      0     22
+  Doddaballa Pur              211      0    0      0      0
+  Gadag                         0      0    0      0     38
+  Gangavathi                  702      1    2      0     51
+  Gonikappal                    0     65    0      0      0
+  Gowribidanoor               286      0    0      0      0
+  Gubbi                         2      0    0      0      0
+  Gulbarga                   1807    683 1854      0      0
+  Gundlupet                    32    137    0      0      0
+  Hanagal                      58    218    0      0      0
+  Harappana Halli               0      8    0      0      0
+  Harihara                      3      0    0      0      0
+  Hassan                      301    377    0      0      0
+  Haveri                        0    110    0      0      0
+  H.B. Halli                   32      2    0      0      0
+  Hirekerur                     0      0    0      0      3
+  Holenarsipura               188    359    6      0      0
+  Honnali                       1     10    1      0      0
+  Hosadurga                     1      0    0      0      0
+  Hospet                      310      0    0     75      0
+  Hubli (Amaragol)              0      0    0      0      4
+  Huliyar                       0      0   12      0      0
+  Humanabad                    24     20    0      0      0
+  Hunsur                       11     74    0      0    189
+  Jamakhandi                    0     14    0      0      0
+  Kadur                         0     16    0      0      0
+  Kanakapura                    0      0    0      0     19
+  Karatgi                       1      0    0      0      0
+  Karwar                        0    168   47      1    150
+  Kolar                        63      1  151      0     26
+  Kollegal                      3     99    0      0      0
+  Kottur                        1      0    0      0      0
+  K.R.Nagar                    33    675   54      0      0
+  K.R. Pet                     15     93    1      0      0
+  Kumta                         0      0    0      0     12
+  Kundagol                      0      0    0      0     55
+  Kunigal                      26     14    0      0      0
+  Maddur                       63      9    0      0     36
+  Madhugiri                    26    145    0      0      0
+  Madikeri                      7     66    6      0      1
+  Malur                        55     43    0      0      0
+  Mandya                        0      0    1      0      0
+  Mangalore                     0      0 2243      0      0
+  Manvi                         0      0    0      0      1
+  Moodigere                     0     21    0      0      0
+  Mulabagilu                  240      0   30      0    178
+  Mundgod                       1      0    0      0      0
+  Mysore (Bandipalya)         476    957 1802      0   1572
+  Nagamangala                  22     93   13      0     28
+  Nanjangud                    62      7    0      0     22
+  Nippani                       3      8    0      0      6
+  Pandavapura                   6      0    0      0      0
+  Pavagada                     72    186    0      9      0
+  Piriya Pattana                1     20    0      0      0
+  Puttur                        0    812  813      0      0
+  Ramanagara                  169      0    8      0    110
+  Ranebennur                   18      2    0      0     12
+  Sagar                         1      0    0      0      2
+  Sakaleshpura                 12    364    0      0      0
+  Santhesargur                  3      3   14      0      0
+  Sedam                         0      5    0      0      0
+  Shikaripura                 180     96  101      0      0
+  Shimoga                      59    840 1685      0   1666
+  Siddapur                      1      0    0      0      0
+  Sindagi                       0      0    6      0      0
+  Sindagi(Hendi)                0      2    0      0      0
+  Sindhanur                  1013      0    0      0      0
+  Sira                         11      0    0     20      0
+  Sirguppa                    259      0    0      3      0
+  Somvarpet                     6    228    0      0      0
+  Sringeri                      0      6    9      0      5
+  Srinivasapur                339     28   91      0    272
+  Srirangapattana              31      0    2      0     27
+  Tarikere                      1      0    0      0      0
+  Thirthahalli                 10     28    0      0      0
+  T. Narasipura               174      0    0      0      0
+  Tumkur                        2      0    0      0      0
+  Turvekere                    17      7    2      0      5
+  Udupi                         1      0    0      0      0
+  Yellapur                      0      0   31      0     64
+                     
+
+> subprods_by_state('Andhra Pradesh')
+                      1009 Kar B P T Broken Rice Coarse Fine III Masuri Medium
+  Addanki                    0  2168           0      0    0   0      0      0
+  Adilabad                   0     0           0      0    0   3      0      0
+  Akiveedu                   1   116           0      0    0   0      0      0
+  Allagadda                  0    12           1      0    1   0      0      0
+  Alur                       0     2           0      0    0   0      0      0
+  Anakapally                 0     2           0      0    0   0      0      0
+  Anaparthy                  0     1           0      0    0   0      0      0
+  Armoor                     0     1           0      0    0   0      0      0
+  Atmakur                    0     8           0      0    0   0      0      0
+  Atmakur(SPS)               0     0           0      0    0   0      1      0
+  Badvel                     0     1           0      0    0   0      6      0
+  Banswada                   0     4           0      0    0   0      0      0
+  Bapatla                    0   665           0      0    0   0      0      0
+  Bhimadole                  0     0           0      0    0   0     33      0
+  Bhimavaram                 0   657           0      0  157   0    156      0
+  Bhodhan                    0    11           0      0    0   0      0      0
+  Bobbili                    0     1           0      0    0   0      0      0
+  Chevella                   0     1           0      0    0   0      0      0
+  Chilakaluripet             0    15           0      0    0   0      0      0
+  Chinnoar                   0     0           0      5   10   0      0      0
+  Chipurupalli               0     1           0      0    0   0      0      0
+  Chirala                    1  2394           0      0    0   0      0      0
+  Choutuppal                 0     1           0      0    0   0      0      0
+  Cuddapah                   0     0           0     92   98   0     11      4
+  Dammapet                   0     3           0      0    0   0      5      0
+  Denduluru                  0     0           0      0    0   0      0      2
+  Devarakadra                0     0           0      0    0   0      1      0
+  Dharmaram                  0     0           0      0    0   0      0      1
+  Divi                       0  2178           0      0  715   0      0      1
+  Duggirala                  0     1           0      0    0   0      0      0
+  Eluru                      0     3           0      0    0   0      0      0
+  Enkoor                     0     0           0      0    0   0      6      0
+  Gajapathinagaram           5     1           0      0    0   0      0      0
+  Gannavaram                 0  1725           0      0    0   0      0      0
+  Ghanpur                    0     3           0      0    0   0      1      0
+  Giddalur                   0     4           0      0    0   0      0      0
+  Gooti                      0     1           0      0    0   0      1      0
+  Gopalavaram                0     2           0      0  306   0      0      0
+  Gudiwada                   0  1939           0      0    0   0      0      0
+  Guntur                     0     4           0      0    0   0      0      0
+  Hiramandalam               0     0           0      4    1   0     72      1
+  Huzurnagar                 0    52           0      0    0   0      0      0
+  Ipur                       0    53           0      0    0   0      0      0
+  Jagtial                    0     1           0      0    0   0      0      0
+  Kagaznagar                 0     1           0      0    0   0      0      0
+  Kaikaluru                  0  1204           0      0    0   0      0      0
+  Kakinada                   0     1           0      0    0   0      0      0
+  Kalidindi                  0   147           0      0    0   0      0      0
+  Kallur                     0  1227           0      0    1   0    107      0
+  Kandukur                   0  1929           0      0    0   0      0      0
+  Kavali                     1    69           0      0  257   0    249     89
+  Khammam                    0     1           0      0    0   0      1      0
+  Kondapi                    0  1967           0      0    0   0      0      0
+  Koratla                    0     3           0      0    0   0      0      0
+  Kothagudem                 0     1           0      0    0   0      0      0
+  Kothavalasa                1  1432           0      0    0   0      0      0
+  Kovvur                     2     2           0      0    0   0      3      0
+  Krosuru                    0    50           0      0    0   0      0      0
+  Kuchinapudi                0   355           0      0    0   0      0      0
+  Macharla                   0    37           0      0    0   0      0      0
+  Machilipatnam              0  2088           0   1883    0   0      0      0
+  Madanapalli                0     0           0      0    0   0    167      0
+  Maddipadu                  0     7           0      0    0   0      0      0
+  Malleswaram                0     5           0      0    0   0      0      0
+  Mancharial                 0    14           0      0    0   0      0      0
+  Mangalagiri                0   435           0      0    0   0      0      0
+  Markapur                   0     1           0      0    0   0      0      0
+  Martur                     0  1315           0      0    0   0      0      0
+  Medchal                    1     1           0      0    0   0      0      0
+  Movva Hqs                  0     1           0      0    1   0      0      0
+  Mylavaram                  0    62           0      0    0   0      0      0
+  Nakrekal                   0     1           0      0    0   0      0      0
+  Nandigama                  0     1           0      1    0   0      0      0
+  Nandyal                    1     0           0      0    3   0      0      0
+  Narasannapet               0     1           0      0   22   0     11      0
+  Narasaraopet               0  2016           0      0    0   0      0      0
+  Narsapur                   0     1           0      0    0   0      0      0
+  Narsapuram                 0     1           0      0    0   0      0      0
+  Narsipatnam                0     1           0      0    0   0      0      0
+  Nelakondapally             1     0           0      0    0   0    241      0
+  Nellore                    0     0           0      0    0   0    638      0
+  Nidamanoor                 0     6           0      0    0   0      0      0
+  Ongole                     2  2571           0      0    0   0      0      0
+  Pamarru                    0     1           0      1    0   0      0      0
+  Parchur                    0     1           0      0    0   0      0      0
+  Parvathipuram              1     2           0      0    0   0      4      0
+  Peddapuram                 0     1           0      0    0   0      0      0
+  Penamaluru                 0    16           0      0    0   0      0      0
+  Pidugurala(Palnadu)        0  1565           0      0    0   0      0      0
+  Pithapuram                 0     4           0      0    0   0      0      0
+  Podili                     0    10           0      0    0   0      0      0
+  Ponnur                     0   555           0      0    0   0     23      0
+  Proddatur                  0     0           0      0    0   0      2      0
+  Rajahmundry                0     1           0      0    0   0      0      0
+  Repalli                    0  1576           0      0    0   0      0      0
+  Sattenapalli               0   408           0      0    0   0      0      0
+  Sattupalli                 0   631           0      0    0   0     69      0
+  Tadepalligudem             1     0           0      0  207   0      0      0
+  Tadikonda                  0   109           0      0    0   0      0      0
+  Tanuku                     0     1           0      0    0   0      0      0
+  Tekkali                    0     0           0      0    0   0      2      0
+  Tellarevu                  0     0           0      0    0   0      0      2
+  Tenali                     0   356           0      0    0   0      0      0
+  Thorrur                    0     1           0      0    0   0      0      0
+  Tiruvuru                   0     1           0      0 1140   0      0      0
+  Tuni                       0   130           0      0    0   0      0      0
+  Undi                       0   292           0      0    1   0      0      0
+  Ungatur                    0     0           0      0    6   0      0      0
+  Vijayanagaram              0     0           0      0    0   0      1      0
+  Visakhapatnam              0  2126           0      0    0   0      1      0
+  Wanaparthy town            0     1           0      0    0   0      0      0
+  Wyra                       0     0           0      0    1   0     37      0
+  Yellandu                   0    98           0      0    0   0     11      0
+
+
+> subprods_by_state('Orissa')
+                         1009 Kar B P T Broken Rice Coarse Fine Masuri Medium
+  Attabira                      0     0           0   1815  124      0      0
+  Bahadajholla                  0     0           0      0    0      8      0
+  Balugaon                      0     0           0      0   13      0      0
+  Bargarh                       0     0           0    414    0      0      0
+  Baripada                      0     0          11      0    0      0      0
+  Bhadrak                      52     0           0      0    0      0      0
+  Bhanjanagar                   0     0           0      0    0      2      0
+  Bhawanipatna                  0     0           0      0    6      0      0
+  Birmaharajpur                 0     0         149      0    0      0      0
+  Chandabali                    0     0           0      0  186      0      0
+  Deogarh                       0     0           0    244    1      0      1
+  Dhenkanal                     0     0           0      0    0      0      1
+  Digapahandi                   0     0           0      7    9      0      0
+  Dungurapalli                  0     0           0      0    6      0      0
+  Gunpur                        0   496           2      0   60     42      0
+  Gunupur(Maniguda)             0    37           0     46    8    249      1
+  Jagatsinghpur               227     0         884      0    0      0      0
+  Jajpur                      675     0           0      0   90      0    384
+  Jatni                       488     0           0      0    0      0      0
+  Jhumpura                     89     0           0      0    0      0      0
+  Kasinagar                     4     0           0      0    0    251      0
+  Kendrapara                    0     0           0      0    0      0    139
+  Kendupatna                    0     0           6      0    0      0      0
+  Kendupatna(Niali)             0     0           2      0    0      0      0
+  Malkanagiri                   0     0           0     16   17      1      0
+  Mukhiguda                     0     0           3      0    0      0      0
+  Nabarangpur(Umerkote)         0     0           2      0    0      0      0
+  Nimapara                      3     0           0      0    0      0      0
+  Nobarangpur                   0     0          33    300    4      0      0
+  Padampur                      0     0           0    857  996      0      0
+  Panposh                       0     0           2      0    0      0      0
+  Parlakhemundi                 0     0           0      0  329    274     53
+  Rayagada                      0     0           0    149    0     18      0
+  Sahidngar                     7     0           0      0    0      0      0
+  Sakhigopal                    0     0           0    300   57      0      0
+  Sakhigopal(Brahmagiri)        0     0           0      2    0      0      0
+  Sohela                        0     0           0      0   72      0      0
+> 

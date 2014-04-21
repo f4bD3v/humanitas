@@ -14,6 +14,15 @@ def redirected(stdout):
     yield
     sys.stdout = saved_stdout
 
+def print_by_rows(var):
+    for v in var:
+        print v
+
+def save_print(var, file):
+    with redirected(stdout=file):
+        print_by_rows(var)
+    print 'some print saved to '+file
+
 def filter(vcounts, threshold):
     ret = 0
     for c in vcounts:
@@ -30,21 +39,22 @@ def plot_by_product(df_ts, product):
     df_ts[labels].plot(title = '5 percent na cutoff rate: '+product+', #labels='+str(len(labels)), legend=False)
 
 
+def len_longest_na(series):
+    len_na = 0
+    longest = 0
+    for elem in series.iteritems():
+        if np.isnan(elem[1]):
+            len_na = len_na+1
+        else:
+            len_na=0
+        if len_na > longest:
+            longest = len_na
+    return longest
 
 if __name__ == '__main__':
     with open(pk_in) as f:
-        [df_ts, validcounts, dup_records, all_dates, all_cities, all_products, all_prod_subs] = pickle.load(f)
+        [df_ts, validcounts, dup_record, all_dates, all_cities, all_products, all_prod_subs] = pickle.load(f)
     print pk_in+' is loaded'
-
-
-
-    with redirected(stdout='dup.txt'):
-        print dup_records
-    print 'dup_records saved to dup.txt'
-
-    with redirected(stdout='validcounts.txt'):
-        print validcounts
-    print 'validcounts saved to validcounts.txt'
 
     leng = [len(all_dates), len(all_dates[(len(all_dates)/2-38):])]
     start_dates = ['2005-01', '2009-01']
@@ -54,14 +64,14 @@ if __name__ == '__main__':
     df_ts_5 = [pd.DataFrame(), pd.DataFrame()]
     df_ts_10 = [pd.DataFrame(), pd.DataFrame()]
     df_ts_20 = [pd.DataFrame(), pd.DataFrame()]
-    df_ts_30 = [pd.DataFrame(), pd.DataFrame()]
-    df_ts_40 = [pd.DataFrame(), pd.DataFrame()]
-    df_ts_50 = [pd.DataFrame(), pd.DataFrame()]
+    na_record = [dict(), dict()]
 
     for label in df_ts.columns:
         for i in range(0,2):
             series = df_ts[label].loc[start_dates[i]:]
             nacount = float(leng[i] - series.count())/leng[i]
+            nalen = len_longest_na(series)
+            na_record[i][label] = (nacount, nalen)
             if nacount == thrsh[0]:
                 df_ts_0[i][label] = series
             if nacount <= thrsh[1]:
@@ -70,31 +80,22 @@ if __name__ == '__main__':
                 df_ts_10[i][label] = series
             if nacount <= thrsh[3]:
                 df_ts_20[i][label] = series
-            if nacount <= thrsh[4]:
-                df_ts_30[i][label] = series
-            if nacount <= thrsh[5]:
-                df_ts_40[i][label] = series
-            if nacount <= thrsh[6]:
-                df_ts_50[i][label] = series
 
+
+    #na_record = [sorted(na_record[0]), sorted(na_record[1])]
     print "2005-2014"
     print "na cutoff rate "+str(thrsh[0])+", #series="+str(df_ts_0[0].shape[1])
     print "na cutoff rate "+str(thrsh[1])+", #series="+str(df_ts_5[0].shape[1])
     print "na cutoff rate "+str(thrsh[2])+", #series="+str(df_ts_10[0].shape[1])
     print "na cutoff rate "+str(thrsh[3])+", #series="+str(df_ts_20[0].shape[1])
-    print "na cutoff rate "+str(thrsh[4])+", #series="+str(df_ts_30[0].shape[1])
-    print "na cutoff rate "+str(thrsh[5])+", #series="+str(df_ts_40[0].shape[1])
-    print "na cutoff rate "+str(thrsh[6])+", #series="+str(df_ts_50[0].shape[1])
+
 
     print "2009-2014"
     print "na cutoff rate "+str(thrsh[0])+", #series="+str(df_ts_0[1].shape[1])
     print "na cutoff rate "+str(thrsh[1])+", #series="+str(df_ts_5[1].shape[1])
     print "na cutoff rate "+str(thrsh[2])+", #series="+str(df_ts_10[1].shape[1])
     print "na cutoff rate "+str(thrsh[3])+", #series="+str(df_ts_20[1].shape[1])
-    print "na cutoff rate "+str(thrsh[4])+", #series="+str(df_ts_30[1].shape[1])
-    print "na cutoff rate "+str(thrsh[5])+", #series="+str(df_ts_40[1].shape[1])
-    print "na cutoff rate "+str(thrsh[6])+", #series="+str(df_ts_50[1].shape[1])
-
+    
     #interpolate missing data
     #for i in range(0,2):
     #    df_ts_5[i] = df_ts_5[i].interpolate() #can't use inplace for interpolate, might be a Pandas bug
@@ -115,3 +116,7 @@ if __name__ == '__main__':
 
 
     plt.show()
+
+    #output valuable variables
+    save_print(dup_record, 'dup.txt')
+    save_print(na_record[0], 'na.txt')

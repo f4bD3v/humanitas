@@ -23,6 +23,7 @@ TWEET_RATE_LIMIT = 300
 MIN_TWEETS = 50
 MAX_TWEETS = 3200
 MAX_TWEETS_PER_FILE = 250000
+MAX_FOLLOWERS = 1000000
 
 def get_all_locations_in_india():
     yield 'india'
@@ -92,7 +93,7 @@ def get_followers(root, all_followers):
     locations = set(get_all_locations_in_india())
     
     if all_followers:
-        num_followers = twitter.show_user(screen_name=root)['followers_count']
+        num_followers = min(MAX_FOLLOWERS, twitter.show_user(screen_name=root)['followers_count'])
     else:
         num_followers = 200
 
@@ -120,7 +121,7 @@ def get_followers(root, all_followers):
         users_downloaded += FOLLOWER_BATCH_SIZE
         page_number += 1
 
-    f_followers = open('good_followers_of_%s.pickle' % root, 'wb')
+    f_followers = open('%s_good_followers_of.pickle'%(root), 'wb')
     pickle.dump(good_followers, f_followers) 
     f_followers.close()
 
@@ -128,7 +129,7 @@ def get_followers(root, all_followers):
     print 'Number of good followers listed %s in %s seconds' % (num_good_followers, duration)
 
 def get_twitter_data():
-    f_followers = open('good_followers_of_%s.pickle' % root, 'rb')
+    f_followers = open('%s_good_followers_of.pickle'%(root), 'rb')
     followers = pickle.load(f_followers)
     f_followers.close()
     
@@ -166,7 +167,7 @@ def get_twitter_data():
                     max_tweet_id = int(tweet['id'])
             tweets.extend(new_tweets)
 
-    f_tweets = open('tweets_%s.pickle' % root, 'wb')
+    f_tweets = open('%s_tweets.pickle'%(root), 'wb')
     pickle.dump(tweets, f_tweets)
     f_tweets.close()
 
@@ -174,8 +175,7 @@ def get_twitter_data():
     print 'Number of tweets collected %s in %s seconds' % (len(tweets), duration)
     
 def main():
-    global root
-    if len(sys.argv) > 1:
+    if sys.argv > 1:
         root = sys.argv[1]
     get_followers(root, True)
     get_twitter_data()
