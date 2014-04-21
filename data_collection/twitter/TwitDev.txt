@@ -1,0 +1,39 @@
+Alexander
+
+APP_KEY = 'ga4lAwhQL5TbOkPJtCtjGh823'
+APP_SECRET = 'fzK7HgQqzUkTlurqD0dyW2AfIIhiAEqb5jGwqHDESR6te89S5a'
+
+Anton
+
+APP_KEY = 'hY83pr25xd95tPz1S98L6ZEOE'
+APP_SECRET = 'z5DqCLiECxYXinmwAPBBklGY2P4t8CVBRqsSKuT8hsAAL7l5ze'
+
+Ching-Chia
+
+APP_KEY = '67lCcSq3FUpWBbsZk1IUVlFAY'
+APP_SECRET = 'mcgxMMI3aTTAuDOwEgUiVfBtp1in3sLj0XyicGHrMe8zDDmsyj'
+
+Duy
+
+APP_KEY = 'FnhKTRfCgpHKMsFwetVbNUtGc'
+APP_SECRET = 'yqeWtr8ST9ewzhvjleWED0UGxgzX5EEMu9YltO5uEnVr7srqdg'
+
+Fabian
+
+APP_KEY = 'AwsZtQnXmFnD4KXG98EhObgJQ'
+APP_SECRET = 'hoKbTI7uNfMOYaCFQBE4xKhGhVTI2DwnTsuReOgTVE4PefFccq'
+
+Gabriel
+
+APP_KEY = 'uU56V5a139qqcjPfAKUeG1UXD'
+APP_SECRET = 'V1ltcFIr8vaausLHky5mpWb0JM035lGf17kKST9bIbpB6CPhu6'
+
+Joseph
+
+APP_KEY = 'aylam3pBvHkhOUmycOWw'
+APP_SECRET = 'uXAuZwGX8FUno0P54gdIlGnkijhkY56lVFxRwgjgI'
+
+Stefan
+
+APP_KEY = 'pdSvpPsuBfT9R21ii6KPqw'
+APP_SECRET = 'X1nyXfoLsYWeMhM01rRgwlskfmFPEo60mq5QUszBwo8'

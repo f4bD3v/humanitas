@@ -14,4 +14,4 @@ Server side:
 
 Call:
 
-	python TWEET_COLLECTION.py [root]
+	python TWEET_COLLECTION.py [root] [APP_KEY] [APP_SECRET]
