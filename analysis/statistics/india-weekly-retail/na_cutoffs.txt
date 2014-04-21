@@ -1,0 +1,21 @@
+2005-2014
+na cutoff rate 0, #series=7
+na cutoff rate 0.05, #series=223
+na cutoff rate 0.1, #series=593
+na cutoff rate 0.2, #series=934
+na cutoff rate 0.3, #series=1212
+na cutoff rate 0.4, #series=1436
+na cutoff rate 0.5, #series=1746
+
+2009-2014
+na cutoff rate 0, #series=18
+na cutoff rate 0.05, #series=319
+na cutoff rate 0.1, #series=603
+na cutoff rate 0.2, #series=955
+na cutoff rate 0.3, #series=1180
+na cutoff rate 0.4, #series=1366
+na cutoff rate 0.5, #series=1621
+
+
+Observation:
+There is little difference in numbers of good series between 2005-2014 and 2009-2014.

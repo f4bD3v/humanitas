@@ -38,8 +38,6 @@ tomatoes
 ragi
 sugi
 oil
-meal
-meals
 onion
 onions
 atta
@@ -57,7 +55,6 @@ curry
 arhar
 besan
 biscuit
-black
 brinjal
 gingelly
 gram
@@ -65,7 +62,6 @@ gur
 jowar
 maida
 masur
-red
 suji
 turmeric
 cow

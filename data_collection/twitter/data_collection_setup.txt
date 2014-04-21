@@ -1,0 +1,17 @@
+Client side from humanitas/data_collection/twitter:
+
+	scp TWEET_COLLECTION.py josephboyd@humanitas2.cloudapp.net:
+
+	scp cities-in-india.txt josephboyd@humanitas2.cloudapp.net:
+
+	scp india_state_centres.txt josephboyd@humanitas2.cloudapp.net:
+
+Server side:
+
+	sudo apt-get install python-setuptools
+
+	sudo easy_install twython
+
+Call:
+
+	python TWEET_COLLECTION.py [root]
