@@ -50,6 +50,7 @@ if __name__ == "__main__":
     # query Fine Rice in Mumbai:
     # df[(df['product']=='Rice') & (df['city']=='Mumbai') & (df['sub']=='Fine')]
 
+    #generate metadata: all_dates, all_cities...
     all_dates = sorted(list(set(df['date'])))
     all_cities = sorted(list(set(df['city'])))
     all_products = sorted(list(set(df['product'])))
@@ -67,33 +68,36 @@ if __name__ == "__main__":
     all_prod_subs = sorted(all_prod_subs)
 
 
-    df_mulidx = df.set_index(['product','sub','country','city','freq'])
-
-    validcounts = []
+    # build up dataframe where columns are time serieses
     df_ts = pd.DataFrame()
-    #prod_sub = all_prod_subs[0]
-    #city = all_cities[0]
+    df_mulidx = df.set_index(['product','sub','country','city','freq'])
+    validcounts = []
+    empty_label = []
     for prod_sub in all_prod_subs:
         for city in all_cities:
             predicate = 'product=="{}" & sub=="{}" & city=="{}"'.format(prod_sub[0], prod_sub[1], city)
             label = (prod_sub[0],prod_sub[1],city)
             subdf = df_mulidx.query(predicate)
-            try:
-                subdf.set_index('date', inplace=True)
-                subdf = subdf.reindex(all_dates)
-            except:
-                print 'exception at '+str(label)
-                subdf.reset_index(inplace=True)
-                dup_records.append((label, extract_duplicates(subdf)))
-                subdf.drop_duplicates(cols='date', inplace=True)
-                subdf.set_index('date', inplace=True)
-                subdf = subdf.reindex(all_dates)
-            df_ts[label] = subdf['price']
-            if subdf.shape[0] != 0:
-                validcounts.append(subdf.count().price)
-            else:
-                validcounts.append(0)
 
+            if subdf.shape[0] == 0:
+                empty_label.append(label)
+                validcounts.append(0)
+            else:
+                subdf.set_index('date', inplace=True)
+                try:
+                    subdf = subdf.reindex(all_dates)
+                except: #handle series with duplicate dates
+                    print str(label)+ ' has duplicated dates.'
+                    subdf.reset_index(inplace=True)
+                    dupdf = extract_duplicates(subdf)
+                    dup_records.append((label, dupdf))
+                    dup_dates = list(set(dupdf['date']))
+                    non_dup_index = subdf['date'].map(lambda x: x not in dup_dates)
+                    subdf = subdf[non_dup_index]
+                    subdf.set_index('date', inplace=True)
+                    subdf = subdf.reindex(all_dates)
+                df_ts[label] = subdf['price']
+                validcounts.append(subdf.count().price)
 
     with open(pk_out, 'w') as f:
         pickle.dump([df_ts, validcounts, dup_records, all_dates, all_cities, all_products, all_prod_subs], f)

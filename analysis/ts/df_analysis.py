@@ -3,6 +3,7 @@ import sys
 from contextlib import contextmanager
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 pk_in = 'all_India_week_timeseries.pickle'
 pk_out = ''
@@ -95,7 +96,7 @@ if __name__ == '__main__':
     print "na cutoff rate "+str(thrsh[1])+", #series="+str(df_ts_5[1].shape[1])
     print "na cutoff rate "+str(thrsh[2])+", #series="+str(df_ts_10[1].shape[1])
     print "na cutoff rate "+str(thrsh[3])+", #series="+str(df_ts_20[1].shape[1])
-    
+
     #interpolate missing data
     #for i in range(0,2):
     #    df_ts_5[i] = df_ts_5[i].interpolate() #can't use inplace for interpolate, might be a Pandas bug
