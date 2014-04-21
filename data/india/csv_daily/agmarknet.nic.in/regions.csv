@@ -1,5 +1,7 @@
-region,state
+city,state
 
+Karnal,Haryana
+Hissar,Haryana
 Uchana,Haryana
 Fatehabad,Haryana
 Kaithal,Haryana
@@ -15,7 +17,9 @@ Barwala,Haryana
 Narnaul,Haryana
 Rohtak,Haryana
 Bhiwani,Haryana
-Bhikhiwind,Punjab
+Amritsar,Punjab
+Bhatinda,Punjab
+Ludhiana,Punjab
 Bhikhiwind(Khalra),Punjab
 Khem karan,Punjab
 Jalalabad,Punjab
@@ -36,6 +40,9 @@ Sunam,Punjab
 Jalandhar City(Jalandhar),Punjab
 Dinanagar,Punjab
 Panaji,Goa
+Ernakulam,Kerala
+Khozhikode,Kerala
+Trivandrum,Kerala
 Kottayam,Kerala
 Parakkodu,Kerala
 Kollam,Kerala
@@ -119,6 +126,7 @@ Arwal,Bihar
 Shekhpura,Bihar
 Narkatiaganj,Bihar
 Saidpurhat,Bihar
+Coimbatore,Tamil Nadu
 Sathur,Tamil Nadu
 Madurai,Tamil Nadu
 Chennai,Tamil Nadu
@@ -133,6 +141,7 @@ Anthiyur,Tamil Nadu
 Ulundurpettai,Tamil Nadu
 Salem,Tamil Nadu
 Vellore,Tamil Nadu
+Shrinagar,Jammu and Kashmir
 Jammu (Grain Mandi),Jammu and Kashmir
 Bokaro (Chas),Jharkhand
 Chaibasa,Jharkhand
@@ -246,6 +255,8 @@ Anandapur,Orissa
 Bhadrak,Orissa
 Kandhamal,Orissa
 Bhawanipatna,Orissa
+Bhubneshwar,Orissa
+Cuttack,Orissa
 Panposh,Orissa
 Bahadajholla,Orissa
 Barikpur,Orissa
@@ -270,6 +281,8 @@ Bonai(Bonai),Orissa
 Kantabanji(Patnagarh),Orissa
 Nabarangpur(Umerkote),Orissa
 Saraskana,Orissa
+Dispur,Assam
+Guwahati,Assam
 Cachar,Assam
 Golaghat,Assam
 Bongiagaon,Assam
@@ -293,6 +306,9 @@ Kharupetia,Assam
 Goreswar,Assam
 North Lakhimpur,Assam
 Srirampur,Assam
+Sehore,Madhya Pradesh
+Bhillai,Madhya Pradesh
+Bhopal,Madhya Pradesh
 Gadarwada,Madhya Pradesh
 Chaakghat,Madhya Pradesh
 Badwaha,Madhya Pradesh
@@ -320,6 +336,11 @@ Lamlong Bazaar,Manipur
 Moreh,Manipur
 Thoubal,Manipur
 Bishenpur,Manipur
+Udaipur,Rajasthan
+Dausa,Rajasthan
+Jaipur,Rajasthan
+Jodhpur,Rajasthan
+Swaimadhopur,Rajasthan
 Jaitsar,Rajasthan
 Fatehpur,Rajasthan
 Hanumangarh,Rajasthan
@@ -732,9 +753,11 @@ Markapur,Andhra Pradesh
 Pamarru,Andhra Pradesh
 Duggirala,Andhra Pradesh
 Adilabad,Andhra Pradesh
+Chittoor,Andhra Pradesh
 Kothagudem,Andhra Pradesh
 Pathapatnam,Andhra Pradesh
 Palakonda,Andhra Pradesh
+Hyderabad,Andhra Pradesh
 Kamalapuram,Andhra Pradesh
 Malleswaram,Andhra Pradesh
 Choutuppal,Andhra Pradesh
@@ -756,11 +779,16 @@ Kagaznagar,Andhra Pradesh
 Anaparthy,Andhra Pradesh
 Srikakulam,Andhra Pradesh
 Attili,Andhra Pradesh
+Vishakapatnam,Andhra Pradesh
+Mandi,Himachal Pradesh
 Hamirpur,Himachal Pradesh
 Dharampur,Himachal Pradesh
 Dhanotu (Mandi),Himachal Pradesh
 4th Mile Dimapur,Nagaland
 Khuzama,Nagaland
+Kohima,Nagaland
+Rajkot,Gujarat
+Gandhi Nagar,Gujarat
 Khambhat,Gujarat
 Kheda,Gujarat
 Matar,Gujarat
@@ -801,6 +829,7 @@ Kheda(Nayaka),Gujarat
 Santrampur,Gujarat
 Baruch(Vagara),Gujarat
 Godhra(Kakanpur),Gujarat
+Itanagar,Arunachal Pradesh
 Tawang,Arunachal Pradesh
 Naharlagun,Arunachal Pradesh
 Pasighat,Arunachal Pradesh
@@ -904,6 +933,7 @@ Fruit Market,Maharashtra
 Goregaon,Maharashtra
 Pune(Pimpri),Maharashtra
 Barshi(Vairag),Maharashtra
+Agartala,Tripura
 Bishalgarh,Tripura
 Panisagar,Tripura
 Santir Bazar,Tripura
@@ -1045,6 +1075,7 @@ Sirsi,Karnataka
 Yalburga,Karnataka
 Bhalki,Karnataka
 Hiriyur,Karnataka
+Aizwal,Mizoram
 Bara Bazar,Mizoram
 Kusmee,Chattisgarh
 Narayanpur,Chattisgarh
