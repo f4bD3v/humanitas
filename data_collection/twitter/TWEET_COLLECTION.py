@@ -178,7 +178,7 @@ def main():
     twitter = Twython(APP_KEY, access_token=ACCESS_TOKEN)
     
     get_followers(twitter)
-    get_twitter_data(twitter)
+    #get_twitter_data(twitter)
     
 if __name__ == '__main__':
     main()
