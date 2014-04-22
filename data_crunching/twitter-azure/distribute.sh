@@ -50,10 +50,10 @@ elif [ "$1" == "-scp" ]; then
         for host in ${m[@]}
         do
             echo "$host:"
-            scp $2 "$host:"
+            scp -r $2 "$host:"
         done
     else
-        scp $2 "${m[$3 - 1]}:"
+        scp -r $2 "${m[$3 - 1]}:"
     fi
     exit 0
 fi
