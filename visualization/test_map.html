@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<!-- <link rel="stylesheet" href="demo.css"> -->
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<style type="text/css">
+    svg {
+      background: #eee;
+      }
+      
+    #india {
+      fill: #008000;
+      opacity: .8;
+      stroke: #000000;
+      stroke-width: .7;
+      }
+    </style>
+<body>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="http://d3js.org/d3.v3.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <script type="text/javascript" src="d3.geo.min.js"></script>
+  <h1 style="display:inline;">Data Map Test</h1>
+  <div id="vis" class="vis">
+  <script>
+    var w = 600;
+    var h = 600;
+    var proj = d3.geo.mercator();
+    var path = d3.geo.path().projection(proj);
+    var t = proj.translate(); // the projection's default translation
+    var s = proj.scale() // the projection's default scale
+ 
+    var map = d3.select("#vis").append("svg:svg")
+        .attr("width", w)
+        .attr("height", h)
+//        .call(d3.behavior.zoom().on("zoom", redraw))
+        .call(initialize);
+ 
+    var india = map.append("svg:g")
+        .attr("id", "india");
+ 
+    d3.json("states.json", function (json) {
+      india.selectAll("path")
+          .data(json.features)
+        .enter().append("path")
+          .attr("d", path);
+    });
+ 
+    function initialize() {
+      proj.scale(6700);
+      proj.translate([-1240, 720]);
+    }
+  </script>
+  </div>
+</body>
