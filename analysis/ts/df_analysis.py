@@ -4,6 +4,7 @@ from contextlib import contextmanager
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import collections
 
 pk_in = 'all_India_week_timeseries.pickle'
 pk_out = ''
@@ -15,13 +16,15 @@ def redirected(stdout):
     yield
     sys.stdout = saved_stdout
 
-def print_by_rows(var):
-    for v in var:
-        print v
+def save_print_dict(d, file):
+    with redirected(stdout=file):
+        for key, val in d.iteritems():
+            print key, ': ', val
+    print 'some dict saved to '+file
 
 def save_print(var, file):
     with redirected(stdout=file):
-        print_by_rows(var)
+        print var
     print 'some print saved to '+file
 
 def filter(vcounts, threshold):
@@ -31,14 +34,20 @@ def filter(vcounts, threshold):
             ret = ret+1
     return ret
 
-def plot_by_product(df_ts, product):
-    labels = []
-    for label in df_ts.columns:
-        if label[0] == product:
-            labels.append(label)
+def plot_by(df_ts, q, title=None, legend=False):
+    subdf = subset(df_ts, q)
+    subdf.plot(title= title+': '+q+', #labels='+str(len(subdf.columns)), legend=legend)
 
-    df_ts[labels].plot(title = '5 percent na cutoff rate: '+product+', #labels='+str(len(labels)), legend=False)
+def subset(df_ts, q1, q2=None, q3=None):
+    cn_lst = []
+    colnames = list(df_ts.columns)
+    for cn in colnames:
+        if (q1 in cn) and ((q2 == None) or q2 in cn) and (q3 == None or q3 in cn):
+            cn_lst.append(cn)
+    return df_ts[cn_lst]
 
+def subrcd(na_record, q):
+    nm_lst = []
 
 def len_longest_na(series):
     len_na = 0
@@ -52,6 +61,9 @@ def len_longest_na(series):
             longest = len_na
     return longest
 
+def na_analysis(na_record):
+    
+
 if __name__ == '__main__':
     with open(pk_in) as f:
         [df_ts, validcounts, dup_record, all_dates, all_cities, all_products, all_prod_subs] = pickle.load(f)
@@ -61,6 +73,7 @@ if __name__ == '__main__':
     start_dates = ['2005-01', '2009-01']
     thrsh = [0, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5]
 
+    #generate dataframes of different cutoff rate
     df_ts_0 = [pd.DataFrame(), pd.DataFrame()]
     df_ts_5 = [pd.DataFrame(), pd.DataFrame()]
     df_ts_10 = [pd.DataFrame(), pd.DataFrame()]
@@ -82,8 +95,9 @@ if __name__ == '__main__':
             if nacount <= thrsh[3]:
                 df_ts_20[i][label] = series
 
+    #sort na_record
+    na_record = [collections.OrderedDict(sorted(na_record[0].items())), collections.OrderedDict(sorted(na_record[1].items()))]
 
-    #na_record = [sorted(na_record[0]), sorted(na_record[1])]
     print "2005-2014"
     print "na cutoff rate "+str(thrsh[0])+", #series="+str(df_ts_0[0].shape[1])
     print "na cutoff rate "+str(thrsh[1])+", #series="+str(df_ts_5[0].shape[1])
@@ -97,18 +111,14 @@ if __name__ == '__main__':
     print "na cutoff rate "+str(thrsh[2])+", #series="+str(df_ts_10[1].shape[1])
     print "na cutoff rate "+str(thrsh[3])+", #series="+str(df_ts_20[1].shape[1])
 
-    #interpolate missing data
-    #for i in range(0,2):
-    #    df_ts_5[i] = df_ts_5[i].interpolate() #can't use inplace for interpolate, might be a Pandas bug
-    #    df_ts_10[i] = df_ts_10[i].interpolate()
-
-    #plot time series
-    #for i in range(0,2):
-        #for k in range(0,df_ts_5[i].shape[1]/5):
-        #    df_ts_5[i].ix[:,k*5:min(k*5+4, df_ts_5[i].shape[1]-1)].plot(title='df_ts_5')
-    plot_by_product(df_ts_5[0], 'Rice')
-    plot_by_product(df_ts_5[0], 'Wheat')
-    plot_by_product(df_ts_5[0], 'Chicken')
+    #linearly interpolate missing data
+    df_ts_5_itpo = []
+    df_ts_10_itpo = []
+    df_ts_20_itpo = []
+    for i in range(0,2):
+        df_ts_5_itpo.append(df_ts_5[i].interpolate())
+        df_ts_10_itpo.append(df_ts_10[i].interpolate())
+        df_ts_20_itpo.append(df_ts_20[i].interpolate())
 
     #generate weekly return dataframes
     df_ret_0 = [df_ts_0[0]/df_ts_0[0].shift(1)-1, df_ts_0[1]/df_ts_0[1].shift(1)-1]
@@ -116,8 +126,18 @@ if __name__ == '__main__':
     df_ret_10 = [df_ts_10[0]/df_ts_10[0].shift(1)-1, df_ts_10[1]/df_ts_10[1].shift(1)-1]
 
 
+    #plot time series
+    #plot_by(df_ts_5[0], 'Rice', 'na cutoff 5%')
+    #plot_by(df_ts_5[0], 'Wheat', 'na cutoff 5%')
+    #plot_by(df_ts_5[0], 'Chicken', 'na cutoff 5%')
+    #plot_by(df_ts_5_itpo[0], 'Rice', 'na cutoff 5% (interpolated)')
+    #plot_by(df_ts_5_itpo[0], 'Wheat', 'na cutoff 5% (interpolated)')
+    #plot_by(df_ts_5_itpo[0], 'Chicken', 'na cutoff 5% (interpolated)')
+
+
     plt.show()
 
     #output valuable variables
     save_print(dup_record, 'dup.txt')
-    save_print(na_record[0], 'na.txt')
+    save_print_dict(na_record[0], 'na2005.txt')
+    save_print_dict(na_record[1], 'na2009.txt')

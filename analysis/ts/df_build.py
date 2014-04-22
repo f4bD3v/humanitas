@@ -6,6 +6,7 @@ import pickle
 from time import time
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 fp = os.environ['HOME']+"/work/india_data/all_commodities_weekly_india_"
 pk_in = 'all_India_week.pickle'
