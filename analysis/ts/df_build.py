@@ -52,7 +52,9 @@ if __name__ == "__main__":
     # df[(df['product']=='Rice') & (df['city']=='Mumbai') & (df['sub']=='Fine')]
 
     #generate metadata: all_dates, all_cities...
-    all_dates = sorted(list(set(df['date'])))
+    all_dates_raw = sorted(list(set(df['date'])))
+    all_dates = pd.date_range(all_dates_raw[0], all_dates_raw[-1], freq='W-FRI')
+    date_diff = list(set(all_dates) - set(all_dates_raw))
     all_cities = sorted(list(set(df['city'])))
     all_products = sorted(list(set(df['product'])))
     prod_set = set(df['product'])
@@ -76,7 +78,10 @@ if __name__ == "__main__":
     empty_label = []
     for prod_sub in all_prod_subs:
         for city in all_cities:
-            predicate = 'product=="{}" & sub=="{}" & city=="{}"'.format(prod_sub[0], prod_sub[1], city)
+            if isinstance(prod_sub[1], str):
+                predicate = 'product=="{}" & sub=="{}" & city=="{}"'.format(prod_sub[0], prod_sub[1], city)
+            else:
+                predicate = 'product=="{}" & city=="{}"'.format(prod_sub[0], city)
             label = (prod_sub[0],prod_sub[1],city)
             subdf = df_mulidx.query(predicate)
 
