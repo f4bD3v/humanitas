@@ -6,6 +6,7 @@ import pickle
 from time import time
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 fp = os.environ['HOME']+"/work/india_data/all_commodities_weekly_india_"
 pk_in = 'all_India_week.pickle'
@@ -51,7 +52,9 @@ if __name__ == "__main__":
     # df[(df['product']=='Rice') & (df['city']=='Mumbai') & (df['sub']=='Fine')]
 
     #generate metadata: all_dates, all_cities...
-    all_dates = sorted(list(set(df['date'])))
+    all_dates_raw = sorted(list(set(df['date'])))
+    all_dates = pd.date_range(all_dates_raw[0], all_dates_raw[-1], freq='W-FRI')
+    date_diff = list(set(all_dates) - set(all_dates_raw))
     all_cities = sorted(list(set(df['city'])))
     all_products = sorted(list(set(df['product'])))
     prod_set = set(df['product'])
@@ -75,7 +78,10 @@ if __name__ == "__main__":
     empty_label = []
     for prod_sub in all_prod_subs:
         for city in all_cities:
-            predicate = 'product=="{}" & sub=="{}" & city=="{}"'.format(prod_sub[0], prod_sub[1], city)
+            if isinstance(prod_sub[1], str):
+                predicate = 'product=="{}" & sub=="{}" & city=="{}"'.format(prod_sub[0], prod_sub[1], city)
+            else:
+                predicate = 'product=="{}" & city=="{}"'.format(prod_sub[0], city)
             label = (prod_sub[0],prod_sub[1],city)
             subdf = df_mulidx.query(predicate)
 
@@ -103,4 +109,4 @@ if __name__ == "__main__":
         pickle.dump([df_ts, validcounts, dup_records, all_dates, all_cities, all_products, all_prod_subs], f)
     print 'Everything dumped to '+pk_out
 
-    print 'Elapsed time: '+str(time()-start_time)
+    print 'Elapsed time: '+str(time()-start_time)+' sec'

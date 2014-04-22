@@ -1,3 +1,78 @@
+update 22.04.2014:
+
+IMPORTANT: everyone is required to document theoretical aspects of their tasks
+
+* Data collection
+    * Twitter
+        * Web archive filtering of keywords to see if there's anything of
+          value there
+          [Gabriel (India), Ching-Chia (Indonesia)]
+            -- implementation nearly ready
+        * Get user ids of twitter users from India with many tweets
+          [Joseph, Stefan helps]
+            -- implementation nearly ready
+        * storing tweets
+          [Duy, contact Joseph and Gabriel]
+            -- implementation nearly ready
+
+    * Crawl daily and weekly price data and stocks; sources in data/india/sources.txt
+        [Anton, request help where needed]
+        -- also document shortly what to pay attention to using the gov sites in sources.txt
+
+    * additional data (India+Indonesia): food production, food stocks, weather, Consumer Price Index (CPI), currency exchange rate (w.r.t $), crude oil price 
+        [Duy, Alex]
+
+* Data processing
+    * All data sources must be tabular, csv with the columns discussed on
+      github
+        [Anton]
+        -- Anton will try to fix the weekly data problem next week
+
+    * Compute statistics and analyze the data to have more information on
+      which models can work
+        [Ching-Chia, Stefan]
+        -- mostly done
+
+    * Interpolate the missing values in each (R,C,P,SP) time-series
+        [Ching-Chia]
+
+    * Run PCA (or aggregate with averages) the (R,C,P,SP) time-series into
+      (R,P) time-series
+        [Ching-Chia, Stefan helps]
+
+* Prediction model
+    * detecting seasonal effects (TM analysis)
+        [Ching-Chia]
+
+    * Choosing input params (how to relate series):
+        Price transmission analysis, Association rule learning
+        [Alex, Gabriel]
+
+    * FF neural networks
+        [Fabian, Stefan]
+        -- use pybrain to implement, train and test the model at
+            models/ffnn/model?.txt
+        -- high priority
+        [Fabian, Stefan]
+
+    * Echo-state neural networks
+        -- implement, train and test the model at
+            models/esnn/model?.txt
+        -- lower priority
+        [Fabian, Stefan]
+
+    * Support Vector Regression
+        [Julien]
+        -- train and test the model at models/svr/model1.txt
+        -- lower priority
+
+* Maps, visualizations, displaying the data and results
+    [Duy, Fabian]
+
+
+
+Older assignments:
+============================================================
 assignments 25th of march --> milestone 6th april
 
 - Stefan: Twitter Requests, Recurrent Neural Networks Models and Methods, "how to" incorporate social media indicators in model
@@ -10,52 +85,4 @@ assignments 25th of march --> milestone 6th april
 - Alexander: Research package for association rule learning
 - Julien: Regression Models and Methods (@me send pdf), Inquire about Microsoft computing resources, set up environment in case of success
 
-update 15.04.2014:
-
-IMPORTANT: everyone if required to document theoretical aspects of their tasks
-
-* Data collection
-    * Twitter
-        * Web archive filtering of keywords to see if there's anything of
-          value there
-          [Gabriel (India), Ching-Chia (Indonesia)]
-        * Get user ids of twitter users from India with many tweets
-          [Joseph, Stefan helps]
-        * storing tweets
-          [Duy, contact Joseph and Gabriel]
-    * Crawl daily and weekly price data and stocks; sources in data/india/sources.txt
-        [Anton, request help where needed]
-        - also document shortly what to pay attention to using the gov sites in sources.txt
-    * additional data (India+Indonesia): food production, food stocks, weather, Consumer Price Index (CPI), currency exchange rate (w.r.t $), crude oil price 
-        [Duy, Alex]
-
-* Data processing
-    * All data sources must be tabular, csv with the columns discussed on
-      github
-        [Anton, Fabian]
-    * Compute statistics and analyze the data to have more information on
-      which models can work
-        -- high priority
-        [Stefan, Ching-Chia]
-
-* Prediction model
-    * detecting seasonal effects (TM analysis)
-        [Ching-Chia]
-    * Choosing input params (how to relate series):
-        Price transmission analysis, Association rule learning
-        [Alex, Gabriel]
-    * FF neural networks
-        [Fabian, Stefan]
-        -- use pybrain to implement, train and test the model at
-            models/ffnn/model?.txt
-        -- high priority
-        [Fabian, Stefan]
-    * Echo-state neural networks
-        -- implement, train and test the model at
-            models/esnn/model?.txt
-        -- lower priority
-        [Fabian, Stefan]
-    * Support Vector Regression
-        [Julien]
-        -- train and test the model at models/svr/model1.txt
-        -- high priority
+============================================================
