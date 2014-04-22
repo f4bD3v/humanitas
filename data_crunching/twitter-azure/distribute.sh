@@ -1,6 +1,6 @@
 #!/bin/bash
 
-usage="sh distribute.sh [-h] [-r | -l | -e command | -scp file] [-a | machine-nr]
+usage="sh distribute.sh [-h] [-r | -l | -e command [-f] | -scp file] [-a | machine-nr]
 
 where:
     -h           help
@@ -9,6 +9,7 @@ where:
     -e           execute command
     -a           all machines (useful for installing stuff)
     -scp         send a file to home dir
+    -f           return immediately
 
     machine-nr   machine number 1-8
     command      command to execute remotely"
@@ -29,6 +30,7 @@ fi
 
 cmd="ssh"
 remote_cmd=""
+pars=""
 
 if [ "$1" == "-r" ]; then
     cmd="ssh-copy-id"
@@ -37,7 +39,12 @@ elif [ "$1" == "-l" ]; then
     machine=$2
 elif [ "$1" == "-e" ]; then
     remote_cmd=$2
-    machine=$3
+    if [ "$3" == "-f" ]; then
+       pars=$3
+       machine=$4
+    else
+       machine=$3
+    fi
 elif [ "$1" == "-scp" ]; then
     if [ "$3" == "-a" ]; then
         for host in ${m[@]}
@@ -55,10 +62,10 @@ if [ "$machine" == "-a" ]; then
     for host in ${m[@]}
     do
         echo "$host:"
-        $cmd $host $remote_cmd
+        $cmd $pars $host $remote_cmd
     done
 else
-    $cmd ${m[$machine - 1]} $remote_cmd
+    $cmd $pars ${m[$machine - 1]} $remote_cmd
 fi
 
 
