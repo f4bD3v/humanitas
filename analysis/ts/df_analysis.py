@@ -61,14 +61,25 @@ def len_longest_na(series):
     return longest
 
 def na_analysis(na_record, all_cities, all_prod_subs):
-    na_table = pd.DataFrame(columns=all_cities, index=all_prod_subs)
-    nalen_table = pd.DataFrame(columns=all_cities, index=all_prod_subs)
-    for key in na_record:
-        (prod, sub, city) = key
-        na_table[city][(prod, sub)] = na_record[key][0]
-        nalen_table[city][(prod, sub)] = na_record[key][1]
-    return na_table, nalen_table
+    all_prod_subs_mod = []
+    for prod_sub in all_prod_subs:
+        if isinstance(prod_sub[1],str):
+            all_prod_subs_mod.append(prod_sub)
+        else:
+            all_prod_subs_mod.append((prod_sub[0], ' '))
 
+    na_table = pd.DataFrame(columns=all_cities, index=all_prod_subs_mod)
+    nalen_table = pd.DataFrame(columns=all_cities, index=all_prod_subs_mod)
+    for key in na_record.keys():
+        (prod, sub, city) = key
+        if isinstance(sub, str):
+            na_table[city][(prod,sub)] = na_record[key][0]
+            nalen_table[city][(prod,sub)] = na_record[key][1]
+        else:
+            na_table[city][(prod, ' ')] = na_record[key][0]
+            nalen_table[city][(prod,' ')] = na_record[key][1]
+    return na_table, nalen_table
+    
 def verify_none_nan(df):
     leng = df.shape[0]
     for label in df.columns:
@@ -80,9 +91,9 @@ if __name__ == '__main__':
         [df_ts, validcounts, dup_record, all_dates, all_cities, all_products, all_prod_subs] = pickle.load(f)
     print pk_in+' is loaded'
 
-    with open(pk_in2) as f:
-        [df] = pickle.load(f)
-    print pk_in2+' is loaded.'
+    #with open(pk_in2) as f:
+    #    [df] = pickle.load(f)
+    #print pk_in2+' is loaded.'
 
 
     leng = len(all_dates)
@@ -122,16 +133,19 @@ if __name__ == '__main__':
     for t in thrsh:
         df_ts_ret[t] = df_ts_cut[t]/df_ts_cut[t].shift(1)-1
 
+
+
+
     #na analysis
     na_table, nalen_table = na_analysis(na_record, all_cities, all_prod_subs)
 
     #plot time series
-    plot_by(df_ts_cut[0.3], 'Rice', 'na cutoff 0.3')
-    plot_by(df_ts_cut[0.3], 'Wheat', 'na cutoff 0.3')
-    plot_by(df_ts_cut[0.3], 'Chicken', 'na cutoff 0.3')
-    plot_by(df_ts_itpo[0.3], 'Rice', 'na cutoff 0.3 (interpolated)')
-    plot_by(df_ts_itpo[0.3], 'Wheat', 'na cutoff 0.3 (interpolated)')
-    plot_by(df_ts_itpo[0.3], 'Chicken', 'na cutoff 0.3 (interpolated)')
+    #plot_by(df_ts_cut[0.3], 'Rice', 'na cutoff 0.3')
+    #plot_by(df_ts_cut[0.3], 'Wheat', 'na cutoff 0.3')
+    #plot_by(df_ts_cut[0.3], 'Chicken', 'na cutoff 0.3')
+    #plot_by(df_ts_itpo[0.3], 'Rice', 'na cutoff 0.3 (interpolated)')
+    #plot_by(df_ts_itpo[0.3], 'Wheat', 'na cutoff 0.3 (interpolated)')
+    #plot_by(df_ts_itpo[0.3], 'Chicken', 'na cutoff 0.3 (interpolated)')
 
 
     plt.show()

@@ -109,4 +109,4 @@ if __name__ == "__main__":
         pickle.dump([df_ts, validcounts, dup_records, all_dates, all_cities, all_products, all_prod_subs], f)
     print 'Everything dumped to '+pk_out
 
-    print 'Elapsed time: '+str(time()-start_time)
+    print 'Elapsed time: '+str(time()-start_time)+' sec'
