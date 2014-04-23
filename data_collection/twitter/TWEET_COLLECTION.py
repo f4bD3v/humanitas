@@ -38,18 +38,18 @@ def get_good_followers(followers, locations, min_tweets):
     for follower in followers:
         good_location = False
         if follower['statuses_count'] < min_tweets:
-            print 'Skipping "%s" because he/she/it has only %d tweets' % (
-                    follower['screen_name'], follower['statuses_count'])
+##            print 'Skipping "%s" because he/she/it has only %d tweets' % (
+##                    follower['screen_name'], follower['statuses_count'])
             fewtweets += 1
             continue
         if not follower['location']:
-            print 'Skipping "%s" because he has no location' % (
-                    follower['screen_name'])
+##            print 'Skipping "%s" because he has no location' % (
+##                    follower['screen_name'])
             nolocation += 1
             continue
         if follower['protected']:
-            print 'Skipping "%s" because he is protected' % (
-                    follower['screen_name'])
+##            print 'Skipping "%s" because he is protected' % (
+##                    follower['screen_name'])
             protected += 1
             continue
         for location_part in re.split('[ ,]+', re.sub(r'[^a-zA-Z, ]', '',
@@ -60,11 +60,11 @@ def get_good_followers(followers, locations, min_tweets):
         if good_location:
             accepted += 1
             yield follower
-        else:
-            badlocation += 1
-            print 'Skipping "%s" because his location is ' \
-                    '"%s", and I do not have that in my list' % (
-                            follower['screen_name'], follower['location'])
+##        else:
+##            badlocation += 1
+##            print 'Skipping "%s" because his location is ' \
+##                    '"%s", and I do not have that in my list' % (
+##                            follower['screen_name'], follower['location'])
 
     print
     print 'Stats: '
@@ -97,7 +97,11 @@ def get_followers(twitter, root):
         print 'Downloading followers page %d for %s' % (page_number, root)
         try:
             response = twitter.get_followers_list(screen_name=root, count=FOLLOWER_BATCH_SIZE, cursor=next_cursor)
-        except:
+        except TwythonRateLimitError:
+            print 'Sleeping...'
+            sleep(RATE_LIMIT_WINDOW)
+            continue
+        except TwythonError:
             continue
         followers = response['users']
         good_followers.extend((list(get_good_followers(followers, locations, MIN_TWEETS))))
@@ -109,6 +113,9 @@ def get_followers(twitter, root):
         next_cursor = response['next_cursor']
         users_downloaded += FOLLOWER_BATCH_SIZE
         page_number += 1
+        f_log = open("log.txt", 'wb')
+        f_log.write(('%.02f%%\n')%(100.0 * users_downloaded / num_followers))
+        f_log.close()
 
     f_followers = open('%s_good_followers_of.pickle'%(root), 'wb')
     pickle.dump(good_followers, f_followers)
@@ -143,6 +150,8 @@ def get_twitter_data(twitter, root):
                     new_tweets = twitter.get_user_timeline(screen_name=follower['screen_name'], max_id=max_tweet_id, count=TWEET_BATCH_SIZE)
                 tweets_collected += TWEET_BATCH_SIZE
             except TwythonRateLimitError:
+                print 'Sleeping...'
+                sleep(RATE_LIMIT_WINDOW)
                 continue
             except TwythonError:
                 continue
