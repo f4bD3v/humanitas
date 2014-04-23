@@ -1,5 +1,3 @@
-import sys
-sys.path.insert(0, '../common')
 from csv_to_df import csv2df_bulk
 import os
 import pickle
