@@ -1,1 +1,0 @@
-h distribute.sh -e "sudo wget -b -P /mnt " 7

@@ -1,0 +1,2 @@
+The file filter.py is inspired by:
+https://github.com/maugier/cs422/tree/master/extraction

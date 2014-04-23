@@ -1,0 +1,1867 @@
+-- PASTED DIRECTLY FROM http://en.wikipedia.org/wiki/List_of_cities_and_towns_in_India --
+Achabal 	Jammu and Kashmir 	N.A.C 	5,834 	
+Achalpur 	Maharashtra 	M.Cl 	107,316 	
+Achhnera 	Uttar Pradesh 	MB 	20004 	
+Adari 	Uttar Pradesh 	NP 	11,977 	
+Adalaj 	Gujarat 	CT 	9,776 	
+Adilabad 	Andhra Pradesh 	UA 	129,403 	
+Adityana 	Gujarat 	CT 	17,238 	
+Pereyaapatna 	Karnataka 	CT 	4,236 	
+Adoni 	Andhra Pradesh 	UA 	270,458 	
+Adoor 	Kerala 	M 	28,952 	
+Adiyara 	Karnataka 	CT 	6,501 	
+Adra 	West Bengal 		22,030 	
+Afzalpura 	Karnataka 	TP 	19,335 	
+Agartala 	Tripura 	M.Corp 	438,408 	
+Agra 	Uttar Pradesh 	UA 	1,727,275 	
+Ahiwara 	Chhattisgarh 	NP 	18,719 	
+Ahmedabad 	Gujarat 	UA 	4,525,013 	
+Ahmedgarh 	Punjab 	M.Cl 	28,022 	
+Ahmednagar 	Maharashtra 	UA 	347,549 	
+Ahmedpur 	Maharashtra 	M.Cl 	35,805 	
+Aizawl 	Mizoram 	N.T 	228,280 	
+Ajmer 	Rajasthan 		485,197 	
+Ajra 	Maharashtra 	CT 	14,849 	
+Akaltara 	Chhattisgarh 	N.P 	20,367 	
+Akbarpur 	Uttar Pradesh 			
+Akathiyoor 	Kerala 	C.T 	5,274 	
+Akhnoor 	Jammu and Kashmir 	N.A.C 	10,896 	
+Akkalkot 	Maharashtra 	M.Cl 	38,213 	
+Akola 	Maharashtra 	M.Corp. 	400,520 	
+Akot 	Maharashtra 	M.Cl 	80,726 	
+Alandha 	Karnataka 	TMC 	35,245 	
+Alandi 	Maharashtra 	M.Cl 	17,565 	
+Alang 	Gujarat 	CT 	18,475 	
+Alappuzha 	Kerala 	UA 	282,675 	
+Aldona 	Goa 	CT 	6,588 	
+Alibag 	Maharashtra 	M.Cl 	19,496 	
+Aligarh 	Uttar Pradesh 	M Corp 	669,087 	
+Alipurduar 	West Bengal 		73,732 	
+Allahabad 	Uttar Pradesh 	UA 	1,042,229 	
+Almora 	Uttarakhand 	UA 	32,358 	
+Aalanavara 	Karnataka 	TP 	16,290 	
+Along 	Arunachal Pradesh 	CT 	17,033 	
+Alur 	Karnataka 	TP 	6,133 	
+Alwar 	Rajasthan 		160,245 	
+Amadalavalasa 	Andhra Pradesh 	N.P 	37,931 	
+Amalapuram 	Andhra Pradesh 	M 	51,444 	
+Amalner 	Maharashtra 	M.Cl 	91,490 	
+Amarpur 	Bihar 	N.A 	20,965 	
+Ambad 	Maharashtra 	M.Cl 	26,108 	
+Ambagarh Chowki 	Chhattisgarh 	NP 	8,513 	
+Ambaji 	Gujarat 	CT 	13,702 	
+Ambaliyasan 	Gujarat 	CT 	6,739 	
+Ambejogai 	Maharashtra 	M.Cl 	69,478 	
+Ambikaanagara 	Karnataka 	CT 	4,848 	
+Ambikapur 	Chhattisgarh 	UA 	90,967 	
+Ambivali Tarf Wankhal 	Maharashtra 	CT 	6,798 	
+Ameenapuram 	Andhra Pradesh 		1000 	
+Amguri 	Assam 	TC 	6,997 	
+Amini 	Lakshadweep 		7,353 	
+Amlabad 	Jharkhand 	C.T 	4,699 	
+Amli 	Dadra and Nagar Haveli 	C.T 	28,570 	
+Amravati 	Maharashtra 	M.Corp 	549,510 	
+Amreli 	Gujarat 	UA 	95,307 	
+Amritsar 	Punjab 	UA 	1,003,917 	
+Amroha 	Uttar Pradesh 	MB 	165,129 	
+Anakapalle 	Andhra Pradesh 	M 	85,486 	
+Anand 	Gujarat 	UA 	218,486 	
+Anandapur 	Odisha 	N.A.C 	35,048 	
+Anandnagaar 	Assam 	CT 	5,026 	
+Anantapur 	Andhra Pradesh 	UA 	243,143 	
+Anantnag 	Jammu and Kashmir 	UA 	97,896 	208,505
+Ancharakandy 	Kerala 	C.T 	21,878 	
+Andada 	Gujarat 	CT 	13,506 	
+Anekal 	Karnataka 	TMC 	33,157 	
+Ankola 	Karnataka 	UA 	26,138 	
+Anjar 	Gujarat 	M 	68,343 	
+Anjangaon 	Maharashtra 	M.Cl 	51,170 	
+Anklav 	Gujarat 	M 	19,803 	
+Ankleshwar 	Gujarat 	UA 	67,952 	
+Annigeri 	Karnataka 	TMC 	25,710 	
+Antaliya 	Gujarat 	CT 	4,990 	
+Anugul 	Odisha 	N.A.C 	38,018 	
+Ara 	Jharkhand 	C.T 	14,165 	
+Arambhada 	Gujarat 	CT 	15,011 	
+Arakkonam 	Tamil Nadu 	M 	82,500 	
+Araria 	Bihar 	M 	60,861 	
+Arang 	Chhattisgarh 	NP 	16,629 	
+Arambagh 	West Bengal 		60,594 	
+Arsikere 	Karnataka 	UA 	45,166 	
+Arcot 	Tamil Nadu 			
+Areraj 	Bihar 	N.A 	20,356 	
+Ariyalur 	TamilNadu 	N.A 	35,265 	
+Arkalgud 	Karnataka 	TP 	15,169 	
+Arki 	Himachal Pradesh 	N.P 	2,877 	
+Arnia 	Jammu and Kashmir 	N.A.C 	9,057 	
+Aroor 	Kerala 	C.T 	35,283 	
+Arrah 	Bihar 	M 	203,380 	
+Aruppukkottai 	Tamil Nadu 		84,029 	
+Arvi 	Maharashtra 	M.Cl 	40,575 	
+Arwal 	Bihar 	M 	600,000 	
+Asankhurd 	Haryana 	C.T 	8,066 	
+Asansol 	West Bengal 	UA 	486,304 	
+Asarganj 	Bihar 	CT 	5739 	
+Ashok Nagar 	Madhya Pradesh 		67,705 	
+Ashta 	Maharashtra 	M.Cl 	33,203 	
+Ashtamichira 	Kerala 			
+Asika 	Odisha 	N.A.C 	20,739 	
+Asola 	Delhi 	CT 	5,003 	
+Assandh 	Haryana 	M.C 	22,707 	
+Ateli 	Haryana 	M.C 	5,673 	
+Athni 	Karnataka 	UA 	40,950 	
+Attingal 	Kerala 	M 	35,693 	
+Atul 	Gujarat 	CT 	5352 	
+Aurad 	Karnataka 	TP 	15,804 	
+Aurangabad 	Bihar 	M 	79,393 	
+Aurangabad 	Maharashtra 		1,208,285 	
+Ausa 	Maharashtra 	M.Cl 	30,876 	
+Avinissery 	Kerala 	C.T 	11,462 	
+Awantipora 	Jammu and Kashmir 	N.A.C 	6,252 	
+Azamgarh 	Uttar Pradesh 	MB 	93,521 	
+Azmatgarh 	Uttar Pradesh 	NP 	11,978 	
+B
+Salt Lake Stadium, The second-largest stadium in the world and India's largest stadium situated in the Bidhanagar-the Salt Lake City, West Bengal
+Bhadrachalam Temple, Andhra Pradesh
+Side view of Mahabodhi temple, Bodh Gaya, Bihar
+Taj-Ul-Masajid Bhopal
+Bheemunipatnam Town, Andhra Pradesh
+Berhampur, Odisha
+Bhongir Fort, Andhra Pradesh
+Jor Bangla Temple, Bankura
+Bidar fort View
+Bhimavaram Pancharama Temple, Andhra Pradesh
+Evening Skyline of Bongaigaon City
+Bellary Fort, Karnataka
+Part of Bobbili fort, Andhra Pradesh
+Name of City/Town 	Name of State 	Classification 	Population (2001) 	Population (2011)
+Babaleshwar 	Karnataka 	T.P. 	23,410 	
+Babiyal 	Haryana 	C.T 	21,644 	
+Baddi 	Himachal Pradesh 	N.P 	22,601 	
+Bade Bacheli 	Chhattisgarh 	N.P 	20,411 	
+Badaun 	Uttar Pradesh 	U.P 	29,829 	
+Badagaon 	Madhya Pradesh 	N.P 	18,529 	
+Badepalle 	Andhra Pradesh 	C.T 	29,829 	
+Badharghat 	Tripura 	C.T 	47,713 	
+Bagaha 	Bihar 	M 	91,467 	
+Bageshwar 	Uttarakhand 	M 	91,467 	
+Bahadurgarh 	Haryana 	UA 	131,925 	
+Bahadurganj 	Bihar 	N.A 	28,118 	
+Baharampur 	West Bengal 		160,168 	
+Bahraich 	Uttar Pradesh 		168,376 	
+Bairgania 	Bihar 	N.A 	34,836 	
+Bakhtiarpur 	Bihar 	N.A 	32,293 	
+Balaghat 	Madhya Pradesh 	M 	75,061 	
+Balangir 	Odisha 	M 	85,261 	
+Balasore 	Odisha 			
+Baleshwar 	Odisha 	UA 	156,430 	177,557
+Bawana 	Delhi 	UA 	23,095 	
+Bhiwadi 	Rajasthan 			
+Bali 	Rajasthan 			
+Bally 	West Bengal 			
+Ballabhgarh 	Haryana 			
+Ballia 	Uttar Pradesh 			
+Balod 	Chhattisgarh 	N.P 	21,165 	
+Baloda Bazar 	Chhattisgarh 	N.P 	22,853 	
+Balrampur 	Uttar Pradesh 			
+Balurghat 	West Bengal 			
+Bamra 	Odisha 			
+Bandar 	Uttar Pradesh 			
+Bandikui 	Rajasthan 			
+Bandipore 	Jammu and Kashmir 	N.A.C 	25,795 	25,714
+Bangalore 	Karnataka 	MB 	93,410 	
+Banganapalle 	Andhra Pradesh 			
+Banka 	Bihar 	M 	35,455 	
+Banmankhi Bazar 	Bihar 	N.A 	25,187 	
+Banswara 	Rajasthan 			
+Bankura 	West Bengal 		219,255 	
+Bapatla 	Andhra Pradesh 	M 	68,397 	
+Barakar 	West Bengal 			
+Barahiya 	Bihar 	M 	39,865 	
+Baramati 	Maharashtra 			
+Baramula 	Jammu and Kashmir 	UA 	78,986 	167,986
+Baran 	Rajasthan 			
+Barasat 	West Bengal 			
+Bardhaman 	West Bengal 			
+Barauli 	Bihar 	N.A 	34,653 	
+Barbigha 	Bihar 	N.A 	38,200 	
+Bareilly 	Uttar Pradesh 			
+Barughutu 	Jharkhand 	C.T 	21, 092 	
+Basna 	Chhattisgarh 			
+Barbil 	Odisha 	M 	52,627 	
+Bargarh 	Odisha 	M 	63,678 	
+Barh 	Bihar 	M 	48,442 	
+Baripada 	Odisha 	UA 	100,651 	116,874
+Barmer 	Rajasthan 			
+Barnala 	Punjab 	M.Cl 	96,624 	
+Barpeta 	Assam 	M.B 	41,038 	
+Barpeta Road 	Assam 	M.B 	35,725 	
+Barrackpur 	West Bengal 			
+Barwani 	Madhya Pradesh 			
+Barwala 	Haryana 	M.C 	33,132 	
+Basavan Bagevadi 	Karnataka 	T.P. 	33,132 	
+Basudebpur 	Odisha 	N.A.C 	30,006 	
+Batala 	Punjab 	UA 	147,872 	
+Bathinda 	Punjab 	M.Cl 	217,256 	
+Bawal 	Haryana 			
+Bazpur 	Uttarakhand 	M.B 	21,792 	
+Beawar 	Rajasthan 			
+Begusarai 	Bihar 	M.Corp. 	107,623 	
+Behea 	Bihar 	N.A 	20,741 	
+Belgaum 	Karnataka 	M.Corp. 	876,523 	
+Bellampalle 	Andhra Pradesh 	M 	66,792 	
+Ballary 	Karnataka 			
+Belpahar 	Odisha 	N.A.C 	32,826 	
+Bemetra 	Chhattisgarh 	N.P 	23,315 	
+Berinag 	Uttarakhand 			
+Bethamcherla 	Andhra Pradesh 	C.T 	30,973 	
+Bettiah 	Bihar 	M 	116,670 	
+Betul 	Madhya Pradesh 			
+Bhabua 	Bihar 	M 	41,755 	
+Bhadrachalam 	Andhra Pradesh 	C.T 	42,650 	
+Bhadrak 	Odisha 	M 	92,515 	107,369
+Bhagalpur 	Bihar 	M.Corp. 	350,133 	
+Bhagha Purana 	Punjab 	N.P 	21,596 	
+Bhainsa 	Andhra Pradesh 	N.P 	41,331 	
+Bhajanpura 	Delhi 			
+Bhandara 	Maharashtra 			
+Bharatpur 	Rajasthan 			
+Bharthana 	Uttar Pradesh 			
+Bharuch 	Gujarat 		148,140 	
+Bhatapara 	Chhattisgarh 	M 	50,118 	
+Bhavani 	Tamil Nadu 			
+Bhavnagar 	Gujarat 	UA 	606,282 	
+Bhawanipatna 	Odisha 	M 	60,787 	
+Bheemunipatnam 	Andhra Pradesh 	UA 	48,664 	
+Bhilai 	Chhattisgarh 			
+Bhilwara 	Rajasthan 			
+Bhimavaram 	Andhra Pradesh 	UA 	142,064 	
+Bhinmal 	Rajasthan 			
+Bhiwandi 	Maharashtra 			
+Bhiwani 	Haryana 	M. Cl 	169,531 	
+Bhongir 	Andhra Pradesh 	M 	50,407 	
+Bhopal 	Madhya Pradesh 	M.Corp. 	5,785,245 	
+Bhuban 	Odisha 	N.A.C 	20,234 	
+Bhubaneswar* 	Odisha 	UA 	658,220 	881,988
+Bhuj 	Gujarat 		136,429 	
+Bhusawal 	Maharashtra 			
+Bidar 	Karnataka 			
+Bidhan Nagar 	West Bengal 			
+Bihar Sharif 	Bihar 	M.Corp. 	232,071 	
+Bijapur 	Karnataka 	M.Corp. 		
+Bijbehara 	Jammu and Kashmir 	UA 	13,986 	
+Bijnor 	Uttar Pradesh 			
+Bikaner 	Rajasthan 			
+Bikramganj 	Bihar 	N.A 	38,408 	
+Bilara 	Rajasthan 			
+Bilasipara 	Assam 	T.C 	31,171 	
+Bilaspur 	Chhattisgarh 	UA 	335,293 	
+Bilaspur 	Himachal Pradesh 			
+Biramitrapur 	Odisha 	M 	29,447 	
+Birgaon 	Chhattisgarh 	C.T 	23,562 	
+Bobbili 	Andhra Pradesh 	M 	50,096 	
+Bodhan 	Andhra Pradesh 	M 	71,520 	
+Bodh Gaya 	Bihar 	N.A 	30,857 	
+Bokaro Steel City 	Jharkhand 	UA 	497,780 	564,417
+Bongaigaon City 	Assam 	UA 	83,592 	1,09,815
+Bomdila 	Arunachal Pradesh 			
+Brahmapur 	Odisha 	UA 		355,823
+Brajrajnagar 	Odisha 	M 	76,959 	
+Budaun 	Uttar Pradesh 			
+Budhlada 	Punjab 	M.Cl 	23,521 	
+Bulandshahr 	Uttar Pradesh 			
+Burhanpur 	Madhya Pradesh 			
+Burla 	Odisha 			
+Buxar 	Bihar 	M 	83,168 	
+Byasanagar 	Odisha 	UA 	40,741 	
+C
+TIDEL Park, Chennai
+Coimbatore
+Chhatarpur, Madhya Pradesh
+Chirala in Andhra Pradesh
+Chitradurga fort, Karnataka
+Barabati fort at Cuttack
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+[[]] 	Gujarat 		93,197
+Chadchan 	Karnataka 	T.P. 	23,648
+Chaibasa 	Jharkhand 	M 	63,648
+Chakeri 	Uttar Pradesh 		
+Chakradharpur 	Jharkhand 	UA 	55,228
+Chalisgaon 	Maharashtra 		
+Chamba 	Himachal Pradesh 	M Cl 	20,327
+Chamba 	Uttarakhand 		
+Champa 	Chhattisgarh 	M 	37,951
+Champawat 	Uttarakhand 		
+Champhai 	Mizoram 	N.T 	26,465
+Chamarajanagara 	Karnataka 		
+Chandigarh-The Beautiful City* 	Chandigarh 	M. C 	808,515
+Chandil 	Jharkhand 		
+Chandauli 	Uttar Pradesh 		
+Chandausi 	Uttar Pradesh 		
+Chandrapura 	Jharkhand 	C.T 	22,396
+Chanpatia 	Bihar 	N.A 	22,038
+Charkhi Dadri 	Haryana 	M.C 	44,895
+Chapirevula 	Andhra Pradesh 		
+Chatra 	Jharkhand 	M 	42,020
+Charkhari 	Uttar Pradesh 		
+Chalakudy 	Kerala 	M 	48,380
+Chandrapur 	Maharashtra 		
+Changanassery 	Kerala 	M 	51,967
+Cheeka 	Haryana 	M.C 	32,128
+Chendamangalam 	Kerala 	C.T 	28,147
+Chengalpattu 	Tamil Nadu 		
+Chengannur 	Kerala 	M 	25,397
+Chennai* 	Tamil Nadu 		12,252,181
+Cherthala 	Kerala 	UA 	141,558
+Cheruthazham 	Kerala 	C.T 	26,239
+Chhapra 	Bihar 	M 	179,190
+Chhatarpur 	Madhya Pradesh 	N.A.C 	20,289
+Chhindwara 	Madhya Pradesh 		
+Chikkodi 	Karnataka 	T.M.C 	32,820
+Chikkamagalur 	Karnataka 		
+Chilakaluripet 	Andhra Pradesh 	M 	91,656
+Chinchani 	Maharashtra 	C.T. 	13,435
+Chinna salem 	Tamil nadu 	T.P 	35,000
+Chinthaamani 	Karnataka 		
+Chiplun 	Maharashtra 		
+Chirala 	Andhra Pradesh 	UA 	166,294
+Chirkunda 	Jharkhand 	UA 	106,227
+Chirmiri 	Chhattisgarh 	UA 	93,373
+Chinsura 	West Bengal 		106,227
+Chitradurga 	Karnataka 		
+Chittur-Thathamangalam 	Kerala 	UA 	67,935
+Chitrakoot 	Madhya Pradesh 		
+Chittoor 	Andhra Pradesh 	M 	152,654
+Chockli 	Kerala 	C.T 	31,772
+Churi 	Jharkhand 	C.T 	25,222
+Churu 	Rajasthan 		
+Coimbatore 	Tamil Nadu 	M.Corp 	930,882
+Colgong 	Bihar 	M 	22,049
+Contai 	West Bengal 		
+Cooch Behar 	West Bengal 		
+Coonoor 	Tamil Nadu 		
+Cuddalore 	Tamil Nadu 		
+Cuddapah 	Andhra Pradesh 	UA 	262,506
+Curchorem Cacora 	Goa 	M.Cl 	21,407
+Cuttack 	Odisha 	UA 	587,182
+Chikkaballapura 	Karnataka 		
+Chandan Bara 	Bihar 	M 	16,049
+Chaukori 	Uttarakhand 	M 	16,049
+D
+A train, hauled by a steam locomotive, running beside a road between two rows of buildings with a few people walking on the road.
+The "Toy Train" approaching Darjeeling, West Bengal
+F.R.I., Dehradun
+Dindigul, Tamil Nadu
+Republic Day celebrations at Nehru Stadium, Durgapur, West Bengal.
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+Dabra 	Madhya Pradesh 		
+Dadri 	Uttar Pradesh 		
+Dahod 	Gujarat 		79,185
+Dalhousie 	Himachal Pradesh 		
+Dalkhola 	West Bengal 		
+Dalli-Rajhara 	Chhattisgarh 	UA 	57,058
+Dalsinghsarai 	Bihar 	N.A 	20,196
+Daltonganj 	Jharkhand 	M 	71,422
+Daman and Diu 	Daman and Diu 	M.Cl 	35,770
+Damoh 	Madhya Pradesh 		
+Darbhanga 	Bihar 	M.Corp. 	267,348
+Darjeeling 	West Bengal 		
+Dasua 	Punjab 	M.Cl 	20,114
+Datia 	Madhya Pradesh 		
+Daudnagar 	Bihar 	M 	38,014
+Daund 	Maharashtra 		
+Davanagere 	Karnataka 	M.Corp. 	4,35,125
+Debagarh 	Orissa 	M 	20,096
+Deesa 	Gujarat 		83,340
+Dehegam 	Gujarat 		38,083
+Dehradun 	Uttarakhand 	UA 	530,263
+Dehri-on-Sone 	Bihar 	M 	119,057
+Delhi 	Delhi 	UA 	11,007,835
+Deoghar 	Jharkhand 	UA 	112,525 Devar Hipparagi
+Deoria 	Uttar Pradesh 		
+Devarakonda 	Andhra Pradesh 	C.T 	27,434
+Devar Hipparagi 	Karnataka 	T.P. 	27,434
+Devgarh 	Maharashtra 		
+Devgarh 	Rajasthan 		
+Dewas 	Madhya Pradesh 		
+Dhampur 	Uttar Pradesh 	MB 	75,000
+Dhamtari 	Chhattisgarh 	M 	82,111
+Dhanbad 	Jharkhand 	UA 	1,065,327
+Dhar 	Madhya Pradesh 		
+Dharampur 	Gujarat 		19,932
+Dharamsala 	Himachal Pradesh 		
+Dharmanagar 	Tripura 	N.P 	30,790
+Dharmapuri 	Tamil Nadu 	M 	
+Dharmavaram 	Andhra Pradesh 	M 	103,357
+Dharwad 	Karnataka 		
+Dhekiajuli 	Assam 	M.B 	25,349
+Dhenkanal 	Orissa 	M 	57,677
+Dholka 	Gujarat 		
+Dhoraji 	Gujarat 		1,20,000
+Dhubri 	Assam 	M.B 	64,168
+Dhule 	Maharashtra 		341,473
+Dhulian 	West Bengal 		
+Dhuri 	Punjab 	M.Cl 	132,406
+Dibrugarh 	Assam 	UA 	137,661
+Digboi 	Assam 	UA 	37,143
+Dighwara 	Bihar 	N.A 	27,367
+Dimapur 	Nagaland 	T.C 	393,119
+Dinanagar 	Punjab 	M.Cl 	21,502
+Dindigul 	Tamil Nadu 		
+Diphu 	Assam 	T.C 	52,310
+Dipka 	Chhattisgarh 	C.T 	20,150
+Dispur* 	Assam 		
+Dombivli 	Maharashtra 	M.Corp.(with Kalyan) 	1,256,614
+Dongargarh 	Chhattisgarh 	M 	34,441
+Duliajan Oil Town 	Assam 	C.T 	23,763
+Dumdum 	West Bengal 		
+Dumka 	Jharkhand 	M 	44,989
+Dumraon 	Bihar 	M 	45,806
+Durg-Bhilai Nagar 	Chhattisgarh 	UA 	927,864
+Durgapur 	Maharashtra 		
+Durgapur 	West Bengal 		
+Dwarka 	Gujarat 		33,614
+E
+Early 19th century lithograph of the Muslim ruins of Dakhil Darwaza at Gaur in English Bazar(Malda in West Bengal)
+Erode, Train Station
+Name of City/Town 	Name of State 	Classificatiom 	Population (2001)
+Ellenabad 	Haryana 	M.C 	32,795
+Eluru 	Andhra Pradesh 	UA 	515,000
+Erattupetta 	Kerala 	C.T 	29,682
+Erode 	Tamil Nadu 	M.Corp 	521,776
+Etah 	Uttar Pradesh 		
+Etawah 	Uttar Pradesh 		
+English Bazar(Malda) 	West Bengal 	C.T 	324,237
+Edathua 	Kerala 	T.P 	
+F
+Panch Mahal at Fatehpur Sikri, Uttar Pradesh
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+Faizabad 	Uttar Pradesh 		
+Falna 	Rajasthan 		
+Faridabad 	Haryana 	M.Corp. 	1,055,938
+Faridkot 	Punjab 	UA 	79,321
+Farooqnagar 	Andhra Pradesh 	C.T 	34,470
+Farrukhabad 	Uttar Pradesh 		
+Fatehabad 	Haryana 	M.C 	59,917
+Fatehabad 	Madhya Pradesh 		
+Fatehabad 	Uttar Pradesh 		
+Fatehgarh 	Uttar Pradesh 		
+Fatehpur Chaurasi 	Uttar Pradesh 		
+Fatehpur Sikri 	Uttar Pradesh 		
+Fatehpur 	Rajasthan 		
+Fatehpur 	Uttar Pradesh 		
+Fatehpur 	Uttar Pradesh 		
+Fatwah 	Bihar 	N.A 	38,672
+Fazilka 	Punjab 	M.Cl 	67,427
+Forbesganj 	Bihar 	M 	41,499
+Firozabad 	Uttar Pradesh 		
+Firozpur 	Punjab 	M.Cl 	95,475
+Firozpur Cantt. 	Punjab 	C.B 	57,678
+G
+Gobichettipalayam, Tamil Nadu
+Vishnupad Temple, Gaya
+Road in Guntur city
+Ghaziabad, Uttar Pradesh
+Gorakhpur
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+Gadarwara 	Madhya Pradesh 	CMC 	37,837
+Gadhaga/Gadag 	Karnataka 		
+Gadchiroli 	Maharashtra 		
+Gadwal 	Andhra Pradesh 	UA 	53,560
+Ganaur 	Haryana 	M.C 	29,006
+Gandhidham 	Gujarat 		
+Gandhinagar* 	Gujarat 		
+Gangtok* 	Sikkim 	N.T.A 	29,354
+Ganjam 	Odisha 		
+Garhwa 	Jharkhand 	M 	36,686
+Gauripur 	Assam 	T.C 	25,002
+Gauribidanur 	Karnataka 	T.M.C 	
+Gaya 	Bihar 	M.Corp. 	394,945
+Gharaunda 	Haryana 	M.C 	30,172
+Ghatampur 	Uttar Pradesh 		
+Ghatanji 	Maharashtra 		
+Ghatshila 	Jharkhand 	C.T 	37,854
+Ghaziabad 	Uttar Pradesh 		
+Ghazipur 	Uttar Pradesh 		
+Giddarbaha 	Punjab 	M.Cl 	36,598
+Gingee 	Tamil Nadu 	T.P 	
+Giridih 	Jharkhand 	UA 	105,634
+Goa Velha 	Goa 		
+Goalpara 	Assam 	M.B 	49,037
+Gobichettipalayam 	Tamil Nadu 	M 	60,279
+Gobindgarh 	Punjab 	UA 	60,677
+Gobranawapara 	Chhattisgarh 	M 	25,591
+Godda 	Jharkhand 	M 	37,008
+Godhra 	Gujarat 		1,00,000
+Gogri Jamalpur 	Bihar 	N.A 	31,106
+Gohana 	Haryana 	M.C 	48,532
+Gokak 	Karnataka 	C.M.C 	82,674
+Golaghat 	Assam 	M.B 	33,064
+Gomoh 	Jharkhand 	C.T 	29,587
+Gondiya 	Maharashtra 		
+Gooty 	Andhra Pradesh 	C.T 	43,389
+Gopalganj 	Bihar 	M 	54,449
+Gorakhpur 	Uttar Pradesh 		
+Greater Noida 	Uttar Pradesh 		
+Gudalur 	Tamil Nadu 		
+Gudalur 	Tamil Nadu 		
+Gudalur 	Tamil Nadu 		
+Gudivada 	Andhra Pradesh 	M 	113,054
+Gudur 	Andhra Pradesh 	UA 	68,782
+Gulbarga 	Karnataka 	M corp. 	7,45,356
+Gumia 	Jharkhand 	C.T 	45,548
+Gumla 	Jharkhand 	M 	39,761
+Guna 	Madhya Pradesh 		
+Gundlupet 	Karnataka 	T.M.C. 	26,368
+Guntakal 	Andhra Pradesh 	M 	117,103
+Guntur 	Andhra Pradesh 	M.Corp. 	514,461
+Gunupur 	Odisha 	UA 	24,706
+Gurdaspur 	Punjab 	UA 	68,441
+Gurgaon 	Haryana 	M.Corp. 	228,820
+Guruvayoor 	Kerala 	UA 	138,681
+Guwahati 	Assam 	UA 	1,005,543
+Gwalior 	Madhya pradesh 	M.Corp 	
+H
+Charminar in Hyderabad, Andhra Pradesh
+Chuchura Ghorir More clock tower, Hugli-Chuchura, West Bengal.
+Chandramouleshwara temple, Hubbali
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+Haflong 	Assam 	T.C 	36,302
+Hailakandi 	Assam 	M.B 	29,739
+Hajipur 	Bihar 	M 	119,412
+Haldia 	West Bengal 		
+Haldwani 	Uttarakhand 	UA 	158,896
+Hamirpur 	Himachal Pradesh 		
+Hamirpur 	Uttar Pradesh 	M.Corp. 	38,035
+Hansi 	Haryana 	M.Cl 	75,745
+Hanuman Junction 	Andhra Pradesh 		
+Hanumangarh 	Rajasthan 		
+Hapur 	Uttar Pradesh 	M.CI. 	211,536
+Harda 	Madhya Pradesh 		
+Hardoi 	Uttar Pradesh 		
+Haridwar 	Uttarakhand 	UA 	220,767
+Haripad 	Kerala 	TP 	19,064
+Harsawa 	Rajasthan 		
+Harur 	Tamil Nadu 	TP 	
+Haasana 	Karnataka 		
+Hastinapur 	Uttar Pradesh 		
+Hathras 	Uttar Pradesh 		
+Hazaribag 	Jharkhand 	UA 	135,473
+Hilsa 	Bihar 	N.A 	37,775
+Himatnagar 	Gujarat 		
+Hindupur 	Andhra Pradesh 	M 	125,074
+Hinjilicut 	Odisha 	N.A.C 	21,347
+Hisar 	Haryana 	UA 	263,186
+Hisua 	Bihar 	N.A 	25,205
+Hodal 	Haryana 	M.C 	38,309
+Hojai 	Assam 	M.B 	35,718
+Hoshiarpur 	Punjab 	M.Cl 	149,668
+Hosapet 	Karnataka 		
+Howrah 	West Bengal 		
+Hubbali 	Karnataka 		
+Hukkeri 	Karnataka 	T.P 	23,010
+Hugli-Chuchura 	West Bengal 		170, 201
+Hussainabad 	Jharkhand 	N.A 	23,441
+Hyderabad* 	Andhra Pradesh 	UA 	5,742,036
+I
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+Ichalkaranji 	Maharashtra 		420,000
+Ichchapuram 	Andhra Pradesh 	N.P 	32,662
+Idar 	Gujarat 		
+Imphal* 	Manipur 	UA 	250,234
+Indirapuram 	National Capital Region (India) 	
+Indi 	Karnataka 	T.M.C. 	
+Indore 	Madhya Pradesh 	M.Corp. 	2,167,447
+Indranagar 	Tripura 	C.T 	17,807
+Irinjalakuda 	Kerala 	M 	28,873
+Islampur 	Bihar 	N.A 	29,868
+Islampur 	West Bengal 		
+Itanagar* 	Arunachal Pradesh 	C.T 	35,022
+Itarsi 	Madhya Pradesh 	UA 	1,14,430
+Idukki 	Kerala 		
+J
+The Jhargram palace
+Jorhat City Skyline
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+Jabalpur 	Madhya Pradesh 	M. Corp. 	1,270,000 (2011)
+Jagadhri 	Haryana 		
+Jagatsinghapur 	Odisha 	N.A.C 	30,824
+Jagdalpur 	Chhattisgarh 	UA 	103,123
+Jagdispur 	Bihar 	M 	28,085
+Jaggaiahpet 	Andhra Pradesh 	N.P 	40,373
+Jagraon 	Punjab 	M.Cl 	60,080
+Jagtial 	Andhra Pradesh 	M 	85,521
+Jaipur* 	Rajasthan 		3110570 (2011)
+Jais 	Uttar Pradesh 		
+Jaisalmer 	Rajasthan 		
+Jaitaran 	Rajasthan 		
+Jaitu 	Punjab 	UA 	33,465
+Jajapur 	Odisha 	M 	32,239
+Jajmau 	Uttar Pradesh 	M. Corp. 	652,831
+Jalalabad 	Punjab 	UA 	32,924
+Jalna 	Maharashtra 		
+Jalandhar Cantt. 	Punjab 	C.B 	40,531
+Jalandhar 	Punjab 	UA 	714,077
+Jaleswar 	Odisha 	N.A.C 	21,387
+Jalgaon 	Maharashtra 		
+Jalpaiguri 	West Bengal 	U.A 	169,013
+Jalore 	Rajasthan 		
+Jamalpur 	Bihar 	M 	96,983
+Jammalamadugu 	Andhra Pradesh 	C.T 	40,514
+Jammu 	Jammu and Kashmir 	UA 	(2011) 951,373
+Jamnagar 	Gujarat 		1,910,000
+Jamshedpur 	Jharkhand 	UA 	1,618,524
+Jamtara 	Jharkhand 	N.A 	22,558
+Jamui 	Bihar 	M 	(2011)951.373
+Jandiala 	Punjab 	M.Cl 	23,834
+Jangaon 	Andhra Pradesh 	N.P 	43,996
+Janjgir 	Chhattisgarh 	M 	32,513
+Jashpurnagar 	Chhattisgarh 	N.P 	20,239
+Jaspur 	Uttarakhand 	M.B 	38,937
+Jatani 	Odisha 	UA 	57,957
+Jaunpur 	Uttar Pradesh 		
+Jayankondam 	Tamil Nadu 	M 	39,569
+Jehanabad 	Bihar 	M 	81,503
+Jeypur 	Odisha 	M 	76,625
+Jhabua 	Madhya Pradesh 		
+Jhajha 	Bihar 	N.A 	36,447
+Jhajjar 	Haryana 	M.C 	39,002
+Jhalawar 	Rajasthan 		
+Jhanjharpur 	Bihar 	N.A 	24,112
+Jhansi 	Uttar Pradesh 	M.Corp. 	504,292
+Jhargram 	West Bengal 	M 	53,158
+Jharsuguda 	Odisha 	M 	76,100
+Jhumri Tilaiya 	Jharkhand 	M 	69,503
+Jhunjhunu 	Rajasthan 		
+Jind 	Haryana 	M.Cl 	135,855
+Joda 	Odisha 	M 	38,689
+Jodhpur 	Rajasthan 		
+Jogabani 	Bihar 	N.A 	29,991
+Jogendranagar 	Tripura 	C.T 	34,850
+Jorhat 	Assam 	UA 	137,814
+Jowai 	Meghalaya 	M 	25,057
+Junagadh 	Gujarat 		
+Junnar 	Maharashtra 		
+Jhalda 	West Bengal 	M 	20,000
+K
+The 1500 year-old Ekambareswarar Temple, in Kanchipuram, Tamil Nadu
+Dakshineshwar Kali Temple, built on a raised platform, Kolkata.
+Institute Main Building, IIT Kharagpur, Kharagpur, West Bengal.
+Kanpur
+Kochi
+DLF IT Park, Rajarhat (New Town), Kolkata.
+From top: M.G park in Kollam Beach, Light House in Kollam, Clock tower in Kollam, Helipad in Kollam, Kollam Port
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+Kadapa 	Andhra Pradesh 		
+Kadi 	Gujarat 	UA 	60,026
+Kadiri 	Andhra Pradesh 	M 	76,252
+Kadirur 	Kerala 	C.T 	28,989
+Kagaznagar 	Andhra Pradesh 	M 	59,734
+Kailaras 	Madhya Pradesh 		
+Kailasahar 	Tripura 	N.P 	20,286
+Kaithal 	Haryana 	M.Cl 	117,285
+Kakching 	Manipur 	M.Cl 	28,724
+Kakinada 	Andhra Pradesh 	M.Corp 	376,861
+Kalan Wali 	Haryana 	M.C 	25,163
+Kalavad 	Gujarat 	M 	24,858
+Kalburgi 	Karnataka 		
+Kalimpong 	West Bengal 		
+Kalka 	Haryana 	M.C 	30,830
+Kalliasseri 	Kerala 	C.T 	28,068
+Kalpi 	Uttar Pradesh 	UA 	112,013
+Kalol 	Gujarat 	UA 	27,903
+Kalpetta 	Kerala 	M 	29,612
+Kalyan 	Maharashtra 		1,576,614
+Kalyandurg 	Andhra Pradesh 	C.T 	29,266
+Kamareddy 	Andhra Pradesh 	M 	64,496
+Kamthi 	Maharashtra 		
+Kanchipuram 	Tamil Nadu 		
+Kanda 	Uttarakhand 		
+Kandukur 	Andhra Pradesh 	M 	50,326
+Kanhangad 	Kerala 	UA 	129,367
+Kanjikkuzhi 	Kerala 	C.T 	align="right"21
+Kanker 	Chhattisgarh 	UA 	31,385
+Kannur 	Kerala 	UA 	498,207
+Kanpur 	Uttar Pradesh 	Megacity 	5,881,356
+Kantabanji 	Odisha 	N.A.C 	20,095
+Kanti 	Bihar 	N.A 	20,871
+Kapadvanj 	Gujarat 	M 	43,950
+Kapurthala 	Punjab 	M.Cl 	85,686
+Karad 	Maharashtra 		
+Karaikal 	Puducherry 	M 	74,438
+Karaikudi 	Tamil Nadu 		
+Karanjia 	Odisha 	N.A.C 	21,441
+Karimganj 	Assam 	M.B 	52,613
+Karimnagar 	Andhra Pradesh 	M.corp 	299,302
+Karjan 	Gujarat 	M 	26,358
+karjat 	maharashtra 	M 	217,363
+Kaarkala 	Karnataka 		
+Karnal 	Haryana 	UA 	12,74,843
+Karoran 	Punjab 	C.T 	20,361
+Kartarpur 	Punjab 	M.Cl 	25,157
+Karur 	Tamil Nadu 	UA 	153,675
+Karungal 	Tamil Nadu 		
+Karwar 	Karnataka 	C.M.C 	62,973
+Kasaragod 	Kerala 	UA 	75,968
+Kashipur 	Uttarakhand 	M.B 	92,967
+Kathua 	Jammu and Kashmir 	UA 	(2011)162,988
+Katihar 	Bihar 	UA 	190,873
+Katni 	Madhya Pradesh 		
+Katra 	Jammu & Kashmir 		
+Kavali 	Andhra Pradesh 	UA 	85,616
+Kavaratti* 	Lakshadweep 	C.T 	10,119
+Kawardha 	Chhattisgarh 	UA 	32,415
+Kayamkulam 	Kerala 	M 	68,585
+Kendrapara 	Odisha 	M 	41,407
+Kendujhar 	Odisha 	M 	51,845
+Keshod 	Gujarat 	M 	63,257
+Keylong 	Himachal Pradesh 		
+Khagaria 	Bihar 	M 	45,221
+Khalilabad 	Uttar Pradesh 	MB 	39,814
+Khambhalia 	Gujarat 	M 	36,479
+Khambhat 	Gujarat 	UA 	93,194
+Khammam 	Andhra Pradesh 	M.corp 	198,620
+Khanna 	Punjab 	M.Cl 	103,099
+Kharagpur 	Bihar 	N.A 	27,075
+Kharagpur 	West Bengal 	Urban Agglomeration 	3,72,339
+Kharar 	Punjab 	UA 	42,289
+Kheda 	Gujarat 	M 	24,136
+Khedbrahma 	Gujarat 	M 	25,556
+Kheralu 	Gujarat 	M 	20,141
+Kheri 	Uttar Pradesh 		
+Khordha 	Odisha 	M 	39,054
+Khowai 	Tripura 	N.P 	17,689
+Khunti 	Jharkhand 	N.A 	29,282
+Khurai 	Madhya Pradesh 		
+kichha 	Uttarakhand 	M.B 	30,503
+Kishanganj 	Bihar 	M 	85,590
+Kochi 	Kerala 	UA 	1,355,972
+Kodad 	Andhra Pradesh 		
+Kodinar 	Gujarat 	M 	32,610
+Kodungallur 	Kerala 	UA 	94,883
+Kohima* 	Nagaland 	T.C 	77,030
+Kokrajhar 	Assam 	M.B 	31,164
+Kolar 	Karnataka 		77,030
+Kolhar 	Karnataka 		31,164
+Kolhapur 	Maharashtra 		
+Kolkata 	West Bengal 	Urban Agglomeration 	14,617,882
+Kollam 	Kerala 	UA 	380,091
+Kollankodu 	Tamil Nadu 	T.P 	34,425
+Kondagaon 	Chhattisgarh 	M 	26,898
+Konnagar 	West Bengal 		
+Koothuparamba 	Kerala 	M 	29,532
+Koraput 	Odisha 	N.A.C 	39,548
+Korba 	Chhattisgarh 	M.Corp. 	365,073
+Koratla 	Andhra Pradesh 	M 	54,012
+Kot Kapura 	Punjab 	M.Cl 	80,785
+Kota 	Karnataka 		
+Kota 	Rajasthan 		
+Kota 	Uttar Pradesh 		
+Kotdwara 	Uttarakhand 	M.B 	24,947
+Kothagudem 	Andhra Pradesh 	UA 	105,266
+Kothamangalam 	Kerala 	M 	37,173
+Kothapeta 	Andhra Pradesh 		
+Kotma 	Madhya Pradesh 		
+Kottayam 	Kerala 	UA 	172,878
+Kovvur 	Andhra Pradesh 	N.P 	39,372
+Kozhikode 	Kerala 	UA 	1,080,247
+Kozhencherry 	Kerala 	CT 	13,500
+Krishnanagar 	West Bengal 		
+Kuchinda 	Odisha 		
+Kulpahar 	Uttar Pradesh 	N.P. 	17,437
+Kunnamkulam 	Kerala 	M 	51,592
+Kurali 	Punjab 	M.Cl 	23,047
+Kurnool 	Andhra Pradesh 	M.corp 	495,973
+Kurukshetra 	Haryana 	M.Cl 	
+Kyathampalle 	Andhra Pradesh 	C.T 	42,273
+Kamahi Devi 	Punjab 	C.T 	7
+Kalyani 	West bengal 	C.T 	7
+L
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+Lachhmangarh 	Rajasthan 	M 	47,345
+Ladnu 	Rajasthan 	M 	57,070
+Ladwa 	Haryana 	M.C 	22,339
+Lahar 	Madhya Pradesh 	N.P 	28,253
+Laharpur 	Uttar Pradesh 	M.B 	50,092
+Lakheri 	Rajasthan 	M 	32,183
+Lakhimpur 	Uttar Pradesh 	M.B 	121,486
+Lakhisarai 	Bihar 	M 	77,875
+Lakshmishawara 	Karnataka 	T.M.C 	33,417
+Lal Gopalganj Nindaura 	Uttar Pradesh 	N.P 	22,992
+Lalganj 	Bihar 	M 	29,873
+Lalgudi 	Tamil Nadu 	T.P 	23,405
+Lalitpur 	Uttar Pradesh 	M.B 	111,892
+Lalganj 	Uttar Pradesh 	N.P 	21,142
+Lalsot 	Rajasthan 	M 	28,249
+Lanka 	Assam 	T.C 	34,423
+Lar 	Uttar Pradesh 	N.P 	25,363
+Lathi 	Gujarat 	M 	20,966
+Latur 	Maharashtra 	M.Cl 	299,985
+Leh 	Jammu and Kashmir 	N.A.C 	(2011)27,513
+Lilong 	Manipur 	N.P 	20,257
+Limbdi 	Gujarat 	M 	40,071
+Lingsuguru 	Karnataka 	T.P 	27,306
+Loha 	Maharashtra 	M.Cl 	20,148
+Lohardaga 	Jharkhand 	M 	46,196
+Lonar 	Maharashtra 	M.Cl 	20,082
+Lonavla 	Maharashtra 	M.Cl 	55,652
+Longowal 	Punjab 	M.Cl 	20,239
+Loni 	Uttar Pradesh 	N.P 	120,945
+Losal 	Rajasthan 	M 	25,361
+Lucknow* 	Uttar Pradesh 	UA 	2,245,509
+Ludhiana 	Punjab 	M.Corp. 	1,398,467
+Lumding 	Assam 	UA 	50,570
+Lunawada 	Gujarat 	M 	33,369
+Lundi 	Madhya Pradesh 	N.P 	20,168
+Lunglei 	Mizoram 	N.T 	47,137
+M
+Mundi
+Mandi
+Madurai, Tamil Nadu
+Medak cathedral, Andhra Pradesh
+Mumbai
+Science Block of Vidyasagar University, Medinipur
+Machilipatnam, Andhra Pradesh
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+Macherla 	Andhra Pradesh 	M 	49,221
+Machilipatnam 	Andhra Pradesh 	M 	179,353
+Madanapalle 	Andhra Pradesh 	UA 	107,449
+Maddhuru 	Karnataka 	T.M.C 	26,521
+Margao 	Goa 		
+Madhepura 	Bihar 	M 	45,031
+Madhubani 	Bihar 	M 	66,340
+Madhugiri 	Karnataka 	T.M.C 	26,304
+Madhupur 	Jharkhand 	M 	47,326
+Madhyamgram 	Odisha 		
+Madikeri 	Karnataka 	T.M.C 	32,496
+Madurai 	Tamil Nadu 		1,230,015
+Maagadi 	Karnataka 	T.M.C 	25,031
+Mahabaleswar 	Maharashtra 		
+Mahad 	Maharashtra 	M.Cl 	24,276
+Mahbubnagar 	Andhra Pradesh 	UA 	139,662
+Mahalingapura 	Karnataka 	T.M.C 	30,858
+Maharajganj 	Bihar 	N.A 	20,860
+Maharajpur 	Madhya Pradesh 	NP 	21,490
+Mahasamund 	Chhattisgarh 	M 	47,100
+Mahe 	Puducherry 	M 	36,828
+Mahendragarh 	Chhattisgarh 	M 	30,758
+Mahendragarh 	Haryana 	M.C 	24,323
+Mahesana 	Gujarat 	UA 	141,453
+Mahidpur 	Madhya Pradesh 	UA 	29,379
+Mahnar Bazar 	Bihar 	M 	37,370
+Mahoba 	Uttar Pradesh 		
+Mahuli 	Maharashtra 		
+Mahuva 	Gujarat 	UA 	80,726
+Mahwa 	Rajasthan 		
+Maihar 	Madhya Pradesh 	M 	34,342
+Mainaguri 	West Bengal 	C.T 	27,106
+Makhdumpur 	Bihar 	N.A 	30,109
+Makrana 	Rajasthan 	UA 	91,853
+Mal 	West Bengal 	M 	23,218
+Malajkhand 	Madhya Pradesh 	M 	32,296
+Malappuram 	Kerala 	UA 	170,409
+Malavalli 	Karnataka 	T.M.C 	35,851
+Malegaon 	Maharashtra 	M.Cl 	409,403
+Malerkotla 	Punjab 	M.Cl 	107,009
+Malkangiri 	Odisha 	N.A.C 	23,114
+Malkapur 	Maharashtra 	M.Cl 	61,012
+Malout 	Punjab 	M.Cl 	70,765
+Malpura 	Rajasthan 	UA 	27,360
+Maaluru 	Karnataka 	T.M.C 	27,815
+Manasa 	Madhya Pradesh 	N.P 	22,623
+Manavadar 	Gujarat 	M 	27,563
+Manawar 	Madhya Pradesh 	M 	25,467
+Manchar 	Maharashtra 		
+Mancherial 	Andhra Pradesh 	UA 	118,195
+Mandalgarh 	Rajasthan 	M 	20,169
+Mandamarri 	Andhra Pradesh 	M 	66,596
+Mandapeta 	Andhra Pradesh 	M 	47,638
+Mandawa 	Rajasthan 	M 	20,830
+Mandi 	Himachal Pradesh 	M.Cl 	60,387
+Mandi Dabwali 	Haryana 	M.C 	53,811
+Mandideep 	Madhya Pradesh 	M 	39,859
+Mandla 	Madhya Pradesh 	UA 	60,542
+Mandsaur 	Madhya Pradesh 	UA 	117,555
+Mandvi 	Gujarat 	M 	42,355
+Mandya 	Karnataka 	C.M.C 	131,179
+Maner 	Bihar 	N.A 	30,082
+Manesar 	Haryana 		
+Mangalagiri 	Andhra Pradesh 		
+Mangaldoi 	Assam 	M.B 	23,920
+Mangalore 	Karnataka 	UA 	539,387
+Mangalvedhe 	Maharashtra 	M.Cl 	21,706
+Manglaur 	Uttarakhand 	M.B 	42,584
+Mangrol 	Gujarat 	UA 	56,320
+Mangrol 	Rajasthan 	M 	21,842
+Mangrulpir 	Maharashtra 	M.Cl 	27,815
+Manihari 	Bihar 	N.A 	21,803
+Manjlegaon 	Maharashtra 	M.Cl 	44,029
+Mankachar 	Assam 	C.T 	28,780
+Manmad 	Maharashtra 	M.Cl 	72,401
+Mansa 	Punjab 	M.Cl 	72,627
+Mansa 	Gujarat 	M 	27,922
+Manuguru 	Andhra Pradesh 	C.T 	32,893
+Maanvi 	Karnataka 	T.M.C 	37,613
+Manwath 	Maharashtra 	M.Cl 	29,218
+Mapusa 	Goa 	M.Cl 	40,487
+Margao 	Goa 	UA 	94,383
+Margherita 	Assam 	C.T 	24,049
+Marhaura 	Bihar 	N.A 	24,548
+Mariani 	Assam 	T.C 	20,997
+Marigaon 	Assam 	T.C 	20,811
+Markapur 	Andhra Pradesh 	M 	58,462
+Marmagao 	Goa 	UA 	104,758
+Masaurhi 	Bihar 	N.A 	45,248
+Mathabhanga 	West Bengal 	M 	21,107
+Mathura 	Uttar Pradesh 		
+Mattannur 	Kerala 	M 	44,313
+Mauganj 	Madhya Pradesh 	N.P 	23,024
+Maur 	Punjab 	M.Cl 	27,543
+Mavelikkara 	Kerala 	M 	28,439
+Mavoor 	Kerala 	C.T 	27,845
+Mayang Imphal 	Manipur 	N.P 	20,532
+Medak 	Andhra Pradesh 	N.P 	41,945
+Medinipur 	West Bengal 	M 	149,769
+Meerut 	Uttar Pradesh 	C.M.C 	1,309,023
+Mehkar 	Maharashtra 	M.Cl 	37,715
+Mehmedabad 	Gujarat 	M 	30,768
+Memari 	West Bengal 	M 	36,207
+Merta City 	Rajasthan 	M 	40,252
+Mhaswad 	Maharashtra 	M.Cl 	20,500
+Mhow Cantonment 	Madhya Pradesh 	UA 	92,364
+Mhowgaon 	Madhya Pradesh 	N.P 	20,523
+Mihijam 	Jharkhand 	N.A 	33,236
+Mira-Bhayandar 	Maharashtra 	UA 	520,301
+Miraj 	Maharashtra 		
+Mirganj 	Bihar 	N.A 	23,576
+Miryalaguda 	Andhra Pradesh 	UA 	91,359
+Mirzapur 	Uttar Pradesh 		
+Mithapur 	Gujarat 		
+Modasa 	Gujarat 	M 	54,135
+Modinagar 	Uttar Pradesh 	M 	272,918
+Moga 	Punjab 	UA 	135,279
+Mogalthur 	Andhra Pradesh 		
+Mohali 	Punjab 	M.Cl 	123,484
+Mohania 	Bihar 		
+Mokama 	Bihar 		
+Mokameh 	Bihar 	M 	56,615
+Mokokchung 	Nagaland 	T.C 	31,214
+Monoharpur 	West Bengal 	C.T 	20,846
+Moradabad 	Uttar Pradesh 		
+Morena 	Madhya Pradesh 	M 	150,959
+Morinda 	Punjab 	M.Cl 	22,635
+Morshi 	Maharashtra 	M.Cl 	33,607
+Morvi 	Gujarat 	UA 	178,055
+Motihari 	Bihar 	UA 	108,428
+Motipur 	Bihar 	N.A 	21,957
+Mount Abu 	Rajasthan 	M 	22,152
+Mudalagi 	Karnataka 	T.M.C 	29,893
+Mudabidri 	Karnataka 	T.M.C 	25,713
+Muddebihala 	Karnataka 	T.M.C 	28,219
+Mudhola 	Karnataka 	T.M.C 	42,461
+Mukatsar 	Punjab 		
+Mukerian 	Punjab 	M.Cl 	21,384
+Mukhed 	Maharashtra 	M.Cl 	25,933
+Muktsar 	Punjab 	M.Cl 	83,655
+Mul 	Maharashtra 	M.Cl 	22,330
+Mulabaagilu 	Karnataka 	T.M.C 	44,033
+Multai 	Madhya Pradesh 	N.P 	21,423
+Mumbai 	Maharashtra 	UA 	18,414,288
+Mundi 	Madhya Pradesh 	N.P 	30,000
+Mundaragi 	Karnataka 	T.P 	20,363
+Mungeli 	Chhattisgarh 	UA 	31,613
+Munger 	Bihar 	M 	188,050
+Muradnagar 	Uttar Pradesh 		
+Murliganj 	Bihar 	N.A 	22,936
+Murshidabad 	West Bengal 	M 	36,947
+Murtijapur 	Maharashtra 	M.Cl 	38,554
+Murwara 	Madhya Pradesh 	M.Corp. 	187,029
+Musabani 	Jharkhand 	C.T 	33,980
+Mussoorie 	Uttarakhand 	UA 	29,329
+Muvattupuzha 	Kerala 	M 	29,246
+Muzaffarnagar 	Uttar Pradesh 		
+Muzaffarpur 	Bihar 	M.Corp. 	305,525
+Delhi 	Karnataka 	UA 	799,228
+Meethari Marwar 	Rajasthan 	G.P. 	
+N
+View of Jubilee Bridge across River Hooghly in Naihati, West Bengal.
+Branch of RBI in Nagpur city
+Growing Sub-urb of Nashik
+View of Takht Shri Hazoor Sahib Gurudwara in Nanded
+View of Narayana Engineering College in Nellore
+View of IT park in NOIDA region
+Khilla Ramalayam Temple in Nizamabad
+View of Jubilee Bridge across River Hooghly in Naihati
+View of Clock Tower in Nagercoil
+View of Gandhi Sagar Dam in Neemuch
+A bridge under construction in Nagapattinam
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+Nabadwip 	West Bengal 	UA 	125,341
+Nabarangapur 	Odisha 	M 	28,005
+Nabha 	Punjab 	M.Cl 	61,593
+Nadbai 	Rajasthan 	M 	21,649
+Nadiad 	Gujarat 	UA 	196,793
+Nidagundi 	Karnataka 	T.P. 	26,793
+Nagaon 	Assam 	UA 	123,265
+Nagapattinam 	Tamil Nadu 	M 	93,148
+Nagar 	Rajasthan 	M 	21,350
+Nagari 	Andhra Pradesh 	C.T 	24,372
+Nagarkurnool 	Andhra Pradesh 	C.T 	26,157
+Nagaur 	Rajasthan 	UA 	93,915
+Nagda 	Madhya Pradesh 	M 	96,579
+Nagercoil 	Tamil Nadu 	M 	208,179
+Nagina 	Uttar Pradesh 	M.B 	71,350
+Nagla 	Uttarakhand 	C.T 	22,947
+Nagpur 	Maharashtra 	UA 	2,129,500
+Nahan 	Himachal Pradesh 	M.Cl 	26,053
+Naharlagun 	Arunachal Pradesh 	C.T 	27,020
+Naihati 	West Bengal 	M 	215,432
+Naila Janjgir 	Chhattisgarh 	M 	32,513
+Nainital 	Uttarakhand 	UA 	39,911
+Nainpur 	Madhya Pradesh 	M 	21,760
+Najafgarh 	Delhi 	UA 	9,011,500
+Najibabad 	Uttar Pradesh 	M.B 	79,025
+Nakodar 	Punjab 	M.Cl 	31,408
+Nakur 	Uttar Pradesh 	M.B 	20,715
+Nalasopara 	Maharashtra 	M.Cl 	184,538
+Nalanda 	Bihar 		
+Nalbari 	Assam 	M.B 	23,183
+Namagiripettai 	Tamil Nadu 	T.P 	21,446
+Namakkal 	Tamil Nadu 	M 	53,055
+Nanded-Waghala 	Maharashtra 	M.Corp. 	430,733
+Nandgaon 	Maharashtra 	M.Cl 	23,195
+Nandivaram-Guduvancheri 	Tamil Nadu 	T.P 	26,575
+Nandura 	Maharashtra 	M.Cl 	37,469
+Nandurbar 	Maharashtra 	M.Cl 	94,368
+Nandyal 	Andhra Pradesh 	UA 	157,120
+Nangal 	Punjab 	UA 	45,368
+Nanjanagoodu 	Karnataka 	T.M.C 	48,232
+Nanjikottai 	Tamil Nadu 	C.T 	21,935
+Nanpara 	Uttar Pradesh 	M.B 	42,773
+Narasapur 	Andhra Pradesh 	M 	58,604
+Narasaraopet 	Andhra Pradesh 	UA 	95,349
+Naraura 	Uttar Pradesh 	N.P 	20,407
+Narayanpet 	Andhra Pradesh 	N.P 	37,563
+Narela 	Delhi 	UA 	501,511
+Nargund 	Rajasthan 	T.M.C 	32,561
+Narkatiaganj 	Bihar 	N.A 	40,830
+Narkhed 	Maharashtra 	M.Cl 	21,537
+Narnaul 	Haryana 	M.Cl 	62,077
+Narsinghgarh 	Madhya Pradesh 	UA 	56,203
+Narsinghgarh 	Madhya Pradesh 	M 	27,723
+Narsipatnam 	Andhra Pradesh 	C.T 	32,623
+Narwana 	Haryana 	M.C 	50,435
+Nashik 	Maharashtra 	UA 	1,152,326
+Nasirabad 	Rajasthan 	C.B 	49,130
+Natham 	Tamil Nadu 	T.P 	22,545
+Nathdwara 	Rajasthan 	M 	37,026
+Naugachhia 	Bihar 	N.A 	38,287
+Naugawan Sadat 	Uttar Pradesh 	N.P 	27,066
+Nautanwa 	Uttar Pradesh 	M.B 	29,302
+Navalgund 	Rajasthan 	T.P 	22,202
+Navi Mumbai 	Maharashtra 	UA 	1,119,477
+Navsari 	Gujarat 	UA 	232,411
+Nawabganj 	Uttar Pradesh 	M.B 	30,606
+Nawada 	Bihar 	M 	81,891
+Nawagarh 	Chhattisgarh 	NP 	21,220
+Nawalgarh 	Rajasthan 	M 	56,491
+Nawanshahr 	Punjab 	UA 	31,967
+Nawapur 	Maharashtra 	M.Cl 	29,979
+Nedumangad 	Kerala 	M 	56,138
+Neem-Ka-Thana 	Rajasthan 	M 	29,548
+Neemuch 	Madhya Pradesh 	UA 	112,852
+Nehtaur 	Uttar Pradesh 	M.B 	44,320
+Nelamangala 	Rajasthan 	T.P 	25,287
+Nellikuppam 	Tamil Nadu 	M 	44,222
+Nellore 	Andhra Pradesh 	UA 	404,775
+Nepanagar 	Madhya Pradesh 	M 	31,638
+New Delhi* 	Delhi 	UA 	249,998
+Neyveli 	Tamil Nadu 	UA 	138,035
+Neyyattinkara 	Kerala 	M 	69,467
+Nidadavole 	Andhra Pradesh 	M 	43,143
+Nilanga 	Maharashtra 	M.Cl 	31,662
+Nilambur 	Kerala 	M 	41,211
+Nimbahera 	Rajasthan 	M 	53,327
+Nippani 	Karnataka 	C.M.C 	58,081
+Nirmal 	Andhra Pradesh 	M 	75,254
+Niwai 	Rajasthan 	M 	31,365
+Niwari 	Madhya Pradesh 	N.P 	20,713
+Nizamabad 	Andhra Pradesh 	M 	288,722
+Nohar 	Rajasthan 	M 	42,309
+Noida 	Uttar Pradesh 	C.T 	305,058
+Nokha 	Bihar 	N.A 	22,354
+Nokha 	Rajasthan 	M 	49,688
+Nongstoin 	Meghalaya 	T.C 	23,106
+Noorpur 	Uttar Pradesh 	M.B 	33,590
+North Lakhimpur 	Assam 	M.B 	54,285
+Nowgong 	Madhya Pradesh 	M 	33,024
+Nowrozabad 	Madhya Pradesh 	N.P 	22,403
+Nuzvid 	Andhra Pradesh 	M 	50,354
+O
+
+Nagalapuram
+Main entrance of Ongole railway station
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+O' Valley 	Tamil Nadu 	T.P 	24,793
+Oddanchatram 	Tamil Nadu 	T.P 	24,132
+Obra 	Uttar Pradesh 	N.P 	51,014
+Ongole 	Andhra Pradesh 	M.Corp. 	3,02,643
+
+
+(2013)
+Orai 	Uttar Pradesh 	M.B 	139,318
+Osmanabad 	Maharashtra 	M.Cl 	80,625
+Ottappalam 	Kerala 	M 	49,342
+Ozar 	Maharashtra 	C.T 	45,954
+P
+Crowded Roads of Pune
+Aerial View Of Patna
+Park Monunemt (Aayi Mandapam) at the Government Park in Puducherry
+View of Panipat railway station
+Paravur Railway Station in Paravoor, Kerala
+The Phuara Chowk, the central landmark of Patiala
+Twilight after Sunset in Parbhani
+Skyline of Porbandar
+View of Tippu's Fort in Palakkad from outside the northern wall
+View of Ravi River at Pathankot
+Rath Yatra festival in Puri at Shri Jagannath Temple
+View of Yadvindra Gardens in Pinjore
+A Busy Main Market in Pilibhit city
+Kirtistambh, an historical monument of Palanpur
+View of Puruliya railway station
+View of Dattu Prajapati in Patan
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+P.N.Patti 	Tamil Nadu 	T.P 	23,331
+Pachora 	Maharashtra 	M.Cl 	45,333
+Pachore 	Madhya Pradesh 	N.P 	20,939
+Pacode 	Tamil Nadu 	T.P 	22,781
+Padmanabhapuram 	Tamil Nadu 	M 	20,075
+Padra 	Gujarat 	UA 	39,205
+Padrauna 	Uttar Pradesh 	M.B 	44,383
+Paithan 	Maharashtra 	M.Cl 	34,518
+Pakaur 	Jharkhand 	M 	36,029
+Palacole 	Andhra Pradesh 	UA 	76,308
+Palai 	Kerala 	M 	22,640
+Palakkad 	Kerala 	UA 	197,369
+Palani 	Tamil Nadu 	M 	67,231
+Palanpur 	Gujarat 	UA 	122,300
+Palasa Kasibugga 	Andhra Pradesh 	N.P 	49,899
+Palghar 	Maharashtra 	M.Cl 	52,677
+Pali 	Rajasthan 	M.Cl 	187,641
+Pali 	Madhya Pradesh 	N.P 	20,942
+Palia Kalan 	Uttar Pradesh 	M.B 	35,029
+Palitana 	Gujarat 	M 	51,944
+Pondur 	Andhra pradesh 	N.A 	3,931
+Palladam 	Tamil Nadu 	T.P 	30,016
+Pallapatti 	Tamil Nadu 	C.T 	24,326
+Pallikonda 	Tamil Nadu 	T.P 	20,771
+Palwal 	Haryana 	M.Cl 	100,722
+Palwancha 	Andhra Pradesh 	M 	69,088
+Panagar 	Madhya Pradesh 	M 	25,199
+Panagudi 	Tamil Nadu 	T.P 	25,501
+Panaji* 	Goa 	UA 	99,677
+Panamattom 	Kerala 	N.A 	10,032
+Panchkula 	Haryana 	E.O 	140,925
+Panchla 	West Bengal 	C.T 	22,051
+Pandharkaoda 	Maharashtra 	M.Cl 	26,572
+Pandharpur 	Maharashtra 	M.Cl 	91,379
+Pandhurna 	Madhya Pradesh 	M 	40,931
+Pandua 	West Bengal 	C.T 	27,161
+Panipat 	Haryana 	M.Corp. 	354,148
+Panna 	Madhya Pradesh 	UA 	52,057
+Panniyannur 	Kerala 	C.T 	20,863
+Panruti 	Tamil Nadu 	M 	55,346
+Panvel 	Maharashtra 	M.Cl 	204,336
+Pappinisseri 	Kerala 	C.T 	33,273
+Paradip 	Odisha 	N.A.C 	73,625
+Paramakudi 	Tamil Nadu 	M 	84,321
+Parangipettai 	Tamil Nadu 	T.P 	20,912
+Parasi 	Uttar Pradesh 	C.T 	21,206
+Paravoor 	Kerala 	M 	38,652
+Parbhani 	Maharashtra 	M.Cl 	259,329
+Pardi 	Gujarat 	M 	25,275
+Parlakhemundi 	Odisha 	M 	43,097
+Parli 	Maharashtra 	M.Cl 	88,537
+Parola 	Maharashtra 	M.Cl 	34,799
+Partur 	Maharashtra 	M.Cl 	29,012
+Parvathipuram 	Andhra Pradesh 	M 	49,714
+Pasan 	Madhya Pradesh 	M 	29,565
+Paschim Punropara 	West Bengal 	C.T 	31,198
+Pasighat 	Arunachal Pradesh 	C.T 	21,965
+Patan 	Gujarat 	UA 	113,749
+Pathanamthitta 	Kerala 	M 	38,009
+Pathankot 	Punjab 	UA 	168,485
+Pathardi 	Maharashtra 	M.Cl 	22,827
+Pathri 	Maharashtra 	M.Cl 	32,001
+Patiala 	Punjab 	M.Corp. 	1,354,686
+Patna* 	Bihar 	M.Corp. 	1,697,976
+Patran 	Punjab 	N.P 	22,175
+Patratu 	Jharkhand 	C.T 	32,134
+Pattamundai 	Odisha 	N.A.C 	32,730
+Patti 	Punjab 	M.Cl 	34,444
+Pattukkottai 	Tamil Nadu 	M 	65,533
+Patur 	Maharashtra 	M.Cl 	20,538
+Pauni 	Maharashtra 	M.Cl 	22,587
+Pauri 	Uttarakhand 	M.B 	24,743
+Paavagada 	Karnataka 	T.P 	28,068
+Pedana 	Andhra Pradesh 	N.P 	29,613
+Peddapuram 	Andhra Pradesh 	M 	45,520
+Pehowa 	Haryana 	M.C 	33,564
+Pen 	Maharashtra 	M.Cl 	30,201
+Penuganchiprolu 	Andhra Pradesh 	G.P 	25,000
+Perambalur 	Tamil Nadu 	T.P 	37,631
+Peravurani 	Tamil Nadu 	T.P 	21,045
+Peringathur 	Kerala 	C.T 	37,699
+Perinthalmanna 	Kerala 	M 	44,612
+Periyakulam 	Tamil Nadu 	M 	42,012
+Periyasemur 	Tamil Nadu 	T.P 	32,024
+Pernampattu 	Tamil Nadu 	T.P 	41,499
+Perumbavoor 	Kerala 	M 	26,547
+Petlad 	Gujarat 	M 	51,147
+Phagwara 	Punjab 	UA 	102,253
+Phalodi 	Rajasthan 	UA 	44,868
+Phaltan 	Maharashtra 	M.Cl 	50,800
+Phillaur 	Punjab 	M.Cl 	22,302
+Phulabani 	Odisha 	N.A.C 	33,890
+Phulera 	Rajasthan 	M 	21,643
+Phulpur 	Uttar Pradesh 	N.P 	20,986
+Phusro 	Jharkhand 	UA 	174,402
+Pihani 	Uttar Pradesh 	M.B 	27,545
+Pilani 	Rajasthan 	UA 	40,590
+Pilibanga 	Rajasthan 	M 	33,608
+Pilibhit 	Uttar Pradesh 	M.B 	124,245
+Pilkhuwa 	Uttar Pradesh 	M.B 	66,907
+Pindwara 	Rajasthan 	M 	20,765
+Pinjore 	Haryana 	UA 	29,609
+Pipar City 	Rajasthan 	M 	32,735
+Pipariya 	Madhya Pradesh 	UA 	44,378
+Piro 	Bihar 	N.A 	25,811
+Pithampur 	Madhya Pradesh 	N.P 	68,080
+Pithapuram 	Andhra Pradesh 	M 	50,103
+Pithoragarh 	Uttarakhand 	M.B 	44,964
+Pollachi 	Tamil Nadu 	UA 	128,458
+Polur 	Tamil Nadu 	T.P 	25,505
+Pondicherry* 	Puducherry 	UA 	505,959
+Ponkunnam 	Kerala 	S.T.C 	26,121
+Ponnani 	Kerala 	M 	87,495
+Ponneri 	Tamil Nadu 	T.P 	24,309
+Ponnur 	Andhra Pradesh 	M 	57,640
+Porbandar 	Gujarat 	UA 	197,382
+Porsa 	Madhya Pradesh 	M 	33,103
+Port Blair* 	Andaman and Nicobar Islands 	M.Cl 	99,984
+Powayan 	Uttar Pradesh 	N.P 	23,406
+Prantij 	Rajasthan 	M 	22,282
+Pratapgarh 	Rajasthan 	M 	35,422
+Pratapgarh 	Tripura 	C.T 	26,837
+Prithvipur 	Madhya Pradesh 	N.P 	22,535
+Proddatur 	Andhra Pradesh 	M 	150,309
+Pudukkottai 	Tamil Nadu 	M 	109,217
+Pudupattinam 	Tamil Nadu 	C.T 	20,901
+Pukhrayan 	Uttar Pradesh 	M.B 	20,107
+Pulgaon 	Maharashtra 	M.Cl 	36,522
+Puliyankudi 	Tamil Nadu 	M 	60,080
+Punalur 	Kerala 	M 	47,235
+Punch 	Jammu and Kashmir 	M.B 	(2011)40,987
+Pune 	Maharashtra 	UA 	3,760,636
+Punjaipugalur 	Tamil Nadu 	T.P 	20,309
+Punganur 	Andhra Pradesh 	N.P 	44,314
+Puranpur 	Uttar Pradesh 	M.B 	37,233
+Purna 	Maharashtra 	M.Cl 	33,225
+Puri 	Odisha 	M 	157,837
+Purnia 	Bihar 	M.Corp. 	197,211
+Purquazi 	Uttar Pradesh 	UA 	23,599
+Purulia 	West Bengal 	M 	113,806
+Purwa 	Uttar Pradesh 	N.P 	21,271
+Pusad 	Maharashtra 	M.Cl 	67,116
+Puthooru 	Karnataka 	T.M.C 	48,070
+Puthuppally 	Kerala 	M 	18,850
+Puttur 	Andhra Pradesh 	C.T 	29,436
+Q
+View of Quilandy railway station
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+Qadian 	Punjab 	UA 	22,001
+Quilandy 	Kerala 	M 	68,982
+R
+G.D.Lang Institution, Raghunathpur, Purulia, West Bengal.
+View of Ranchi from Ranchi Hills
+Main building of NIT Raipur
+Main entrance of Rourkela railway station
+Athletic Stadium, Sector-6, Rohtak
+View of NTPC in Ramagundam
+Jaipur Express at Ratlam Railway Station
+Rampur Raza Library in Rampur
+A Dargah in Raichur
+Rewa Kund in Rewa
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+Rabakavi Banahatti 	Karnataka 	CMC 	70,248
+Radhanpur 	Gujarat 	M 	32,191
+Rae Bareli 	Uttar Pradesh 	M.B 	169,333
+Rafiganj 	Bihar 	N.A 	24,992
+Raghogarh-Vijaypur 	Madhya Pradesh 	M 	49,173
+Raghunathpur 	West Bengal 	M 	21,932
+Raghunathganj 	West Bengal 	M 	3,46,854
+Rahatgarh 	Madhya Pradesh 	N.P 	25,215
+Raichuri 	Maharashtra 	M.Cl 	34,476
+Raayachuru 	Karnataka 	CMC 	207,421
+Raiganj 	West Bengal 	UA 	175,047
+Raigarh 	Chhattisgarh 	UA 	115,908
+Ranipet 	Tamil Nadu 	UA 	262,346
+Raikot 	Punjab 	M.Cl 	24,769
+Raipur* 	Chhattisgarh 	UA 	700,113
+Rairangpur 	Odisha 	N.A.C 	21,896
+Raisen 	Madhya Pradesh 	M 	35,702
+Raisinghnagar 	Rajasthan 	M 	27,736
+Rajagangapur 	Odisha 	M 	43,594
+Rajahmundry 	Andhra Pradesh 	UA 	413,616
+Rajakhera 	Rajasthan 	M 	28,349
+Rajaldesar 	Rajasthan 	M 	22,836
+Rajam 	Andhra Pradesh 	C.T 	23,424
+Rajampet 	Andhra Pradesh 	M 	109,575
+Rajapalayam 	Tamil Nadu 	M 	122,307
+Rajauri 	Jammu and Kashmir 	N.A.C 	(2011) /41,552
+Rajgarh (Alwar) 	Rajasthan 	M 	25,009
+Rajgarh (Churu) 	Rajasthan 	UA 	51,640
+Rajgarh 	Madhya Pradesh 	N.P 	23,937
+Rajgir 	Bihar 	N.A 	33,738
+Rajkot 	Gujarat 	UA 	1,606,745(2012)
+Rajnandgaon 	Chhattisgarh 	M.Corp. 	143,770
+Rajpipla 	Gujarat 	M 	34,923
+Rajpura 	Punjab 	M.Cl 	82,956
+Rajsamand 	Rajasthan 	M 	55,687
+Rajula 	Gujarat 	M 	32,395
+Rajura 	Maharashtra 	M.Cl 	25,843
+Ramachandrapuram 	Andhra Pradesh 	M 	41,370
+Ramagundam 	Andhra Pradesh 	UA 	237,686
+Raamanagara 	Karnataka 	CMC 	79,394
+Ramanathapuram 	Tamil Nadu 	M 	62,050
+Raamadurga 	Karnataka 	UA 	36,649
+Rameshwaram 	Tamil Nadu 	T.P 	37,968
+Ramganj Mandi 	Rajasthan 	M 	30,973
+Ramngarh 	Jharkhand 	UA 	110,496
+Ramngarh 	Rajasthan 	M 	28,458
+Ramnagar 	Bihar 	N.A 	38,554
+Ramnagar 	Uttarakhand 	M.B 	46,205
+Rampur 	Uttar Pradesh 	M.B 	281,494
+Rampur Maniharan 	Uttar Pradesh 	N.P 	24,844
+Rampur Maniharan 	Uttar Pradesh 	N.P 	24,844
+Rampura Phul 	Punjab 	UA 	44,665
+Rampurhat 	West Bengal 	M 	50,613
+Ramtek 	Maharashtra 	M.Cl 	22,516
+Ranaghat 	West Bengal 	UA 	145,285
+Ranavav 	Gujarat 	UA 	29,645
+Ranchi* 	Jharkhand 	UA 	863,495
+Rangia 	Assam 	M.B 	25,151
+Rania 	Haryana 	M.C 	20,961
+Ranibennur 	Karnataka 	CMC 	89,618
+Rapar 	Gujarat 	M 	23,057
+Rasipuram 	Tamil Nadu 	M 	46,330
+Rasra 	Uttar Pradesh 	M.B 	29,238
+Ratangarh 	Rajasthan 	M 	63,486
+Rath 	Uttar Pradesh 	M.B 	55,950
+Ratia 	Haryana 	M.C 	23,826
+Ratlam 	Madhya Pradesh 	UA 	14,54,483 (2011)
+Ratnagiri 	Maharashtra 	M.Cl 	70,383
+Rau 	Madhya Pradesh 	N.P 	20,855
+Raurkela 	Odisha 	UA 	484,874
+Raver 	Maharashtra 	M.Cl 	25,993
+Rawatbhata 	Rajasthan 	M 	34,690
+Rawatsar 	Rajasthan 	M 	28,387
+Raxaul Bazar 	Bihar 	M 	41,610
+Rayachoti 	Andhra Pradesh 	C.T 	72,297
+Rayadurg 	Andhra Pradesh 	M 	54,125
+Rayagada 	Odisha 	M 	57,759
+Reengus 	Rajasthan 	M 	22,932
+Rehli 	Madhya Pradesh 	M 	25,890
+Renigunta 	Andhra Pradesh 	C.T 	23,862
+Renukoot 	Uttar Pradesh 	UA 	66,597
+Reoti 	Uttar Pradesh 	N.P 	22,082
+Repalle 	Andhra Pradesh 	M 	42,539
+Revelganj 	Bihar 	M 	34,042
+Rewa 	Madhya Pradesh 	M.Corp. 	183,274
+Rewari 	Haryana 	M.Cl 	100,684
+Rishikesh 	Uttarakhand 	UA 	78,805
+Risod 	Maharashtra 	M.Cl 	27,516
+Robertsganj 	Uttar Pradesh 	M.B 	32,243
+Robertson Pet 	Karnataka 	UA 	157,084
+Rohtak 	Haryana 	M.Corp. 	294,577
+Ron 	Karnataka 	T.P 	21,643
+Roorkee 	Uttarakhand 	UA 	115,278
+Rosera 	Bihar 	M 	27,492
+Rudauli 	Uttar Pradesh 	M.B 	36,776
+Rudrapur 	Uttarakhand 	M.B 	88,676
+Rudrapur 	Uttar Pradesh 	N.P 	26,683
+Rupnagar 	Punjab 	M.Cl 	49,159
+S
+SIT(siliguri Institute of Technology), Siliguri, West Bengal
+Siliguri, (SIEM)
+Streets of Surat
+A Township in Siliguri, West Bengal.
+View of Dal Lake and the city of Srinagar
+Areal view of Salem City
+Watercolor showing The Ganges Canal in Saharanpur
+Walchand College of Engineering in Sangli
+A view of College Sagar Institute of Research, Technology & Science in Sagar
+A Railcar running between Shimoga and Talaguppa
+Areal view of Shillong City
+View of Main street in Satna City during early houres
+Sambalpur Railway station in the lights of dark
+View of Silchar Airport
+Sambalpur Railway station in the lights of dark
+Outside view of Sitapur Railway
+Madhav National Park1 in Shivpuri
+Toy train in Shimla running between Shimla and Kalka
+Watercolor of Rashyatra during Rasotsav in Shantipur
+View of Mausolée de Sher Shah Suri à Sasaram in Sasaram
+Busy Streets of Sivakasi, Small Japan
+View of RTC complex in Srikakulam
+View of Satara City at sunset, from Charbhinti
+View of the Satpura Dam
+Pillalamarri, one of the oldest Hindu Temples in Suryapet
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+Sabalgarh 	Madhya Pradesh 	UA 	34,039
+Sadabad 	Uttar Pradesh 	N.P 	31,742
+Sadalaga 	Karnataka 	T.P 	20,202
+Sadasivpet 	Andhra Pradesh 	M 	36,334
+Sadri 	Rajasthan 	M 	24,413
+Sadulshahar 	Rajasthan 	M 	22,326
+Sadulpur 	Rajasthan 	M 	1,22,326
+Safidon 	Haryana 	M.C 	27,541
+Safipur 	Uttar Pradesh 	N.P 	22,378
+Sagar 	Madhya Pradesh 	UA 	308,922
+Sagara 	Karnataka 	T.M.C 	50,131
+Sagwara 	Rajasthan 	M 	31,127
+Saharanpur 	Uttar Pradesh 	M.B 	455,754
+Saharsa 	Bihar 	N.T 	125,167
+Sahaspur 	Uttar Pradesh 	N.P 	22,606
+Sahaswan 	Uttar Pradesh 	M.B 	58,184
+Sahawar 	Uttar Pradesh 	N.P 	20,470
+Sahibganj 	Jharkhand 	M 	80,154
+Sahjanwa 	Uttar Pradesh 	N.P 	25,107
+Saidpur 	Uttar Pradesh 	N.P 	21,568
+Saiha 	Mizoram 	N.T 	19,731
+Sailu 	Maharashtra 	M.Cl 	39,851
+Sainthia 	West Bengal 	M 	39,145
+Sakaleshapura 	Karnataka 	T.M.C 	23,176
+Sakti 	Chhattisgarh 	N.P 	20,213
+Salaya 	Gujarat 	M 	26,875
+Salem 	Tamil Nadu 	UA 	751,438
+Salur 	Andhra Pradesh 	M 	48,354
+Samalkha 	Haryana 	M.C 	29,866
+Samalkot 	Andhra Pradesh 	M 	53,602
+Samana 	Punjab 	M.Cl 	46,592
+Samastipur 	Bihar 	UA 	61,998
+Sambalpur 	Odisha 	UA 	226,469
+Sambhal 	Uttar Pradesh 	M.B 	182,478
+Sambhar 	Rajasthan 	M 	22,293
+Samdhan 	Uttar Pradesh 	N.P 	25,327
+Samthar 	Uttar Pradesh 	M.B 	20,217
+Sanand 	Gujarat 	M 	32,417
+Sanawad 	Madhya Pradesh 	M 	34,114
+Sanchore 	Rajasthan 	M 	25,884
+Sarsod 	Haryana 	G.P 	4,630
+Sindagi 	Karnataka 	T.M.C. 	23,234
+Sandi 	Uttar Pradesh 	M.B 	23,234
+Sandila 	Uttar Pradesh 	M.B 	48,899
+Sandur 	Karnataka 	T.P 	27,614
+Sangamner 	Maharashtra 	M.Cl 	61,958
+Sangareddy 	Andhra Pradesh 	M 	57,113
+Sangaria 	Rajasthan 	M 	34,537
+Sangli 	Maharashtra 	UA 	447,774
+Sangole 	Maharashtra 	M.Cl 	28,116
+Sangrur 	Punjab 	M.Cl 	77,989
+Sankarankoil 	Tamil Nadu 	M 	53,606
+Sankari 	Tamil Nadu 	T.P 	27,454
+Sankeshwara 	Karnataka 	T.M.C 	32,511
+Santipur 	West Bengal 	M 	138,235
+Sarangpur 	Madhya Pradesh 	M 	32,294
+Sardarshahar 	Rajasthan 	M 	81,394
+Sardhana 	Uttar Pradesh 	M.B 	48,314
+Sarni 	Madhya Pradesh 	M 	95,012
+Sasaram 	Bihar 	M 	131,172
+Sasvad 	Maharashtra 	M.Cl 	26,689
+Satana 	Maharashtra 	M.Cl 	32,561
+Satara 	Maharashtra 	M.Cl 	108,048
+Satna 	Madhya Pradesh 	UA 	229,307
+Sathyamangalam 	Tamil Nadu 	M 	33,722
+Sattenapalle 	Andhra Pradesh 	M 	51,404
+Sattur 	Tamil Nadu 	M 	31,443
+Saunda 	Jharkhand 	C.T 	85,075
+Soudaththi-Yellamma 	Karnataka 	T.M.C 	38,155
+Sausar 	Madhya Pradesh 	N.P 	24,312
+Savarkundla 	Gujarat 	M 	73,774
+Savanur 	Karnataka 	T.M.C 	35,563
+Savner 	Maharashtra 	M.Cl 	26,712
+Sawai Madhopur 	Rajasthan 	UA 	101,997
+Sawantwadi 	Maharashtra 	M.Cl 	22,901
+Sedam 	Karnataka 	T.M.C 	31,539
+Sehore 	Madhya Pradesh 	UA 	92,518
+Sendhwa 	Madhya Pradesh 	M 	48,941
+Seohara 	Uttar Pradesh 	UA 	47,575
+Seoni 	Madhya Pradesh 	M 	89,801
+Seoni-Malwa 	Madhya Pradesh 	M 	26,202
+Shahabad 	Karnataka 	UA 	66,550
+Shahabad, Hardoi 	Uttar Pradesh 	M.B 	67,751
+Shahabad, Rampur 	Uttar Pradesh 	N.P 	32,370
+Shahade 	Maharashtra 	M.Cl 	49,696
+Shahbad 	Haryana 	M.C 	37,289
+Shahdol 	Madhya Pradesh 	M 	78,624
+Shahganj 	Uttar Pradesh 	M.B 	24,602
+Shahjahanpur 	Uttar Pradesh 	UA 	321,885
+Shahapura 	Karnataka 	T.M.C 	38,907
+Shahpura 	Rajasthan 	M 	28,174
+Shahpura 	Rajasthan 	M 	27,792
+Shajapur 	Madhya Pradesh 	UA 	57,818
+Shamgarh 	Madhya Pradesh 	N.P 	21,507
+Shamli 	Uttar Pradesh 	M.B 	90,055
+Shamsabad, Agra 	Uttar Pradesh 	M.B 	27,338
+Shamsabad, Farrukhabad 	Uttar Pradesh 	N.P 	23,596
+Shegaon 	Maharashtra 	M.Cl 	52,423
+Sheikhpura 	Bihar 	M 	43,113
+Shendurjana 	Maharashtra 	M.Cl 	21,083
+Shenkottai 	Tamil Nadu 	M 	26,838
+Sheoganj 	Rajasthan 	M 	24,789
+Sheohar 	Bihar 	N.A 	21,262
+Sheopur 	Madhya Pradesh 	UA 	58,342
+Sherghati 	Bihar 	N.A 	32,526
+Sherkot 	Uttar Pradesh 	M.B 	52,880
+Shiggaavi 	Karnataka 	T.P 	24,327
+Shikapur 	Karnataka 	T.M.C 	31,516
+Shikarpur, Bulandshahr 	Uttar Pradesh 	M.B 	33,187
+Shikohabad 	Uttar Pradesh 	M.B 	88,161
+Shillong* 	Meghalaya 	UA 	267,662
+Shimla* 	Himachal Pradesh 	UA 	144,975
+Shivamogga 	Karnataka 	C.M.C 	274,352
+Shirdi 	Maharashtra 	M.Cl 	26,184
+Shirpur-Warwade 	Maharashtra 	M.Cl 	61,694
+Shirur 	Maharashtra 	M.Cl 	26,999
+Shishgarh 	Uttar Pradesh 	N.P 	20,684
+Shivpuri 	Madhya Pradesh 	M 	146,892
+Sholavandan 	Tamil Nadu 	T.P 	21,638
+Sholingur 	Tamil Nadu 	T.P 	26,652
+Shoranur 	Kerala 	M 	42,029
+Surapura 	Karnataka 	T.M.C 	43,622
+Shrigonda 	Maharashtra 	M.Cl 	26,324
+Shrirampur 	Maharashtra 	UA 	88,761
+Shree Rangapattana 	Karnataka 	T.M.C 	23,729
+Shujalpur 	Madhya Pradesh 	M 	42,461
+Siana 	Uttar Pradesh 	M.B 	38,999
+Sibsagar 	Assam 	M.B 	53,854
+Siddipet 	Andhra Pradesh 	M 	61,809
+Sidhi 	Madhya Pradesh 	M 	45,700
+Sidhpur 	Gujarat 	UA 	58,194
+Sidhalaghatta 	Karnataka 	T.M.C 	41,098
+Sihor 	Gujarat 	M 	46,960
+Sihora 	Madhya Pradesh 	M 	37,870
+Sikanderpur 	Uttar Pradesh 	N.P 	21,783
+Sikandra Rao 	Uttar Pradesh 	M.B 	37,938
+Sikandrabad 	Uttar Pradesh 	M.B 	69,867
+Sikar 	Rajasthan 	UA 	185,925
+Silao 	Bihar 	N.A 	20,177
+Silapathar 	Assam 	T.C 	22,516
+Silchar 	Assam 	UA 	184,105
+Siliguri 	West Bengal 	M.Corp. 	1,572,000
+Sillod 	Maharashtra 	M.Cl 	43,867
+Silvassa* 	Dadra and Nagar Haveli 	C.T 	21,893
+Simdega 	Jharkhand 	N.A 	33,981
+Sindhagi 	Karnataka 	T.M.C 	27,732
+Sindhanooru 	Karnataka 	T.M.C 	61,262
+Singapur 	Andhra Pradesh 	C.T 	23,468
+Singrauli 	Madhya Pradesh 	M.Corp. 	185,190
+Sinnar 	Maharashtra 	M.Cl 	31,630
+Sira 	Karnataka 	T.M.C 	50,088
+Sircilla 	Andhra Pradesh 	M 	65,314
+Sirhind Fatehgarh Sahib 	Punjab 	M.Cl 	49,825
+Sirkali 	Tamil Nadu 	M 	32,228
+Sirohi 	Rajasthan 	M 	35,544
+Sironj 	Madhya Pradesh 	M 	42,179
+Sirsa 	Haryana 	M.Cl 	160,735
+Sirsaganj 	Uttar Pradesh 	UA 	28,212
+Sirsi 	Karnataka 	UA 	65,335
+Sirsi 	Uttar Pradesh 	N.P 	21,373
+Sheraguppa 	Karnataka 	T.P 	42,919
+Sitamarhi 	Bihar 	UA 	87,279
+Sitapur 	Uttar Pradesh 	M.B 	151,908
+Sitarganj 	Uttarakhand 	M.B 	22,027
+Sivaganga 	Tamil Nadu 	UA 	40,220
+Sivagiri 	Tamil Nadu 	T.P 	20,380
+Sivakasi 	Tamil Nadu 	UA 	121,358
+Siwan 	Bihar 	M 	109,919
+Sohagpur 	Madhya Pradesh 	N.P 	22,339
+Sohna 	Haryana 	M.C 	27,570
+Sojat 	Rajasthan 	M 	38,883
+Solan 	Himachal Pradesh 	M.Cl 	34,206
+Solapur 	Maharashtra 	M.Corp. 	872,478
+Sonamukhi 	West Bengal 	M 	27,354
+Sonepur 	Bihar 	N.A 	33,490
+Songadh 	Gujarat 	M 	22,431
+Sonipat 	Haryana 	UA 	225,074
+Sopore 	Jammu and Kashmir 	UA 	(2011)66,963
+Soro 	Odisha 	N.A.C 	27,794
+Soron 	Uttar Pradesh 	M.B 	26,678
+Soyagaon 	Maharashtra 	C.T 	21,819
+Sri Madhopur 	Rajasthan 	M 	28,492
+Srikakulam 	Andhra Pradesh 	UA 	117,320
+Srikalahasti 	Andhra Pradesh 	M 	70,854
+Srinagar* 	Jammu and Kashmir 	UA 	style="text-align:right;"(2011)1,192,792
+Shreenivaasapura 	Karnataka 	T.P 	22,959
+Srisailam Project (Right Flank Colony) Township 	Andhra Pradesh 	C.T 	23,273
+Srirampore 	West Bengal 		19500
+Srivilliputhur 	Tamil Nadu 	M 	73,183
+Suar 	Uttar Pradesh 	M.B 	26,149
+Sugauli 	Bihar 	N.A 	31,432
+Sujangarh 	Rajasthan 	M 	83,846
+Sujanpur 	Punjab 	M.Cl 	21,815
+Sultanganj 	Bihar 	N.A 	41,958
+Sultanpur 	Uttar Pradesh 	M.B 	100,065
+Sumerpur 	Rajasthan 	M 	31,482
+Sumerpur 	Uttar Pradesh 	N.P 	24,661
+Sunabeda 	Odisha 	N.A.C 	58,884
+Sunam 	Punjab 	UA 	56,251
+Sundargarh 	Odisha 	M 	38,421
+Sundarnagar 	Himachal Pradesh 	M.Cl 	23,986
+Supaul 	Bihar 	M 	54,085
+Surandai 	Tamil Nadu 	T.P 	28,146
+Surat 	Gujarat 	M.Corp. 	2,876,374
+Suratgarh 	Rajasthan 	M 	58,119
+Suri 	West Bengal 	M 	61,806
+Suriyampalayam 	Tamil Nadu 	T.P 	21,923
+Suryapet 	Andhra Pradesh 	UA 	94,585
+T
+Skyline of Thrissur City shot from Vilangan Hill.
+Trivandrum
+Apartments coming up in the outskirts of Trivandrum
+View of Kaveri River and Srirangam Temple from Rock Fort Temple in Trichy city
+Busy streets of Tirunelveli City
+View of Masunda Lake in Thane city
+View of the world famous Tirumala temple in Tirupati
+Countryside viw of Tumkur
+Sea front of Tuticorin port in 1913
+Rajarajan Manimandapam during night in Thanjavur city
+View of the majestic Arunchaleshvara Temple from the Red Mountain in Tiruvannamalai city
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+Tadepalligudem 	Andhra Pradesh 	M 	102,622
+Tadpatri 	Andhra Pradesh 	M 	86,843
+Taki 	West Bengal 	M 	37,305
+Talaja 	Gujarat 	M 	26,104
+Talcher 	Odisha 	M 	34,998
+Talegaon Dabhade 	Maharashtra 	M.Cl 	42,578
+Thaalikote 	Karnataka 	T.M.C 	26,205
+Taliparamba 	Kerala 	M 	67,507
+Talode 	Maharashtra 	M.Cl 	25,036
+Talwara 	Punjab 	C.T 	22,574
+Tamluk 	West Bengal 	M 	45,830
+Tanda 	Uttar Pradesh 	M.B 	83,467
+Tanda 	Uttar Pradesh 	M.B 	40,013
+Tandur 	Andhra Pradesh 	M 	57,941
+Tanuku 	Andhra Pradesh 	UA 	72,970
+Tarakeswar 	West Bengal 	M 	28,187
+Tarana 	Madhya Pradesh 	N.P 	21,453
+Taranagar 	Rajasthan 	M 	27,066
+Taraori 	Haryana 	M.C 	22,201
+Tarbha 	Odisha 	N.A.C. 	10,117
+Tarikere 	Karnataka 	T.P 	34,066
+Tarn Taran 	Punjab 	M.Cl 	55,787
+Tasgaon 	Maharashtra 	M.Cl 	33,457
+Tehri 	Uttarakhand 	M.B 	25,423
+Tekkalakote 	Karnataka 	T.P 	23,583
+Tenali 	Andhra Pradesh 	M 	153,756
+Tenkasi 	Tamil Nadu 	M 	63,432
+Tenu Dam-cum-Kathhara 	Jharkhand 	C.T 	20,441
+Thergallu 	Karnataka 	T.P 	23,616
+Tetri Bazar 	Uttar Pradesh 	M.B 	21,931
+Tezpur 	Assam 	UA 	105,377
+Thakurdwara 	Uttar Pradesh 	M.B 	35,371
+Thammampatti 	Tamil Nadu 	T.P 	20,751
+Thana Bhawan 	Uttar Pradesh 	N.P 	31,161
+Thane 	Maharashtra 	UA 	1,818,872
+Thanesar 	Haryana 	UA 	122,319
+Thangadh 	Gujarat 	M 	36,880
+Thanjavur 	Tamil Nadu 	M 	215,314
+Tharad 	Gujarat 	M 	22,815
+Tharamangalam 	Tamil Nadu 	T.P 	22,144
+Tharangambadi 	Tamil Nadu 	T.P 	20,843
+Theni Allinagaram 	Tamil Nadu 	M 	85,498
+Thirumangalam 	Tamil Nadu 	M 	43,631
+Thirunindravur 	Tamil Nadu 	T.P 	29,332
+Thiruparappu 	Tamil Nadu 	T.P 	21,736
+Thirupuvanam 	Tamil Nadu 	T.P 	21,589
+Thiruthuraipoondi 	Tamil Nadu 	M 	22,905
+Thiruvalla 	Kerala 	M 	56,837
+Thiruvallur 	Tamil Nadu 	M 	45,732
+Trivandrum 	Kerala 	UA 	1,189,635
+Thiruvarur 	Tamil Nadu 	M 	56,341
+Thodupuzha 	Kerala 	M 	46,246
+Thoothukudi 	Tamil Nadu 	UA 	410,760[3]
+Thoubal 	Manipur 	M.Cl 	41,174
+Thrissur 	Kerala 	UA 	330,122
+Thuraiyur 	Tamil Nadu 	M 	31,005
+Tikamgarh 	Madhya Pradesh 	M 	68,426
+Tikota 	Karnataka 	T.P. 	28,426
+Tilda Newra 	Chhattisgarh 	UA 	26,909
+Tilhar 	Uttar Pradesh 	M.B 	52,911
+Talikota 	Karnataka 	T.P. 	52,911
+Tindivanam 	Tamil Nadu 	M 	67,737
+Tinsukia 	Assam 	UA 	108,123
+Thipatooru 	Karnataka 	T.M.C 	53,104
+Tirora 	Maharashtra 	M.Cl 	22,529
+Tiruchendur 	Tamil Nadu 	UA 	87,101
+Tiruchengode 	Tamil Nadu 	M 	80,187
+Tiruchirappalli 	Tamil Nadu 	UA 	866,354
+Tirukalukundram 	Tamil Nadu 	T.P 	23,715
+Tirukkoyilur 	Tamil Nadu 	T.P 	27,197
+Tirunelveli 	Tamil Nadu 	UA 	433,352
+Tirupathur 	Tamil Nadu 	T.P 	23,559
+Tirupathur 	Tamil Nadu 	M 	60,876
+Tirupati 	Andhra Pradesh 	UA 	303,521
+Tiruppur 	Tamil Nadu 	M.Corp 	550,826
+Tirur 	Kerala 	M 	53,654
+Tiruttani 	Tamil Nadu 	T.P 	38,314
+Tiruvannamalai 	Tamil Nadu 	M 	280,569
+Tiruvethipuram 	Tamil Nadu 	M 	35,201
+Tiruvuru 	Andhra Pradesh 	M 	35,201
+Tirwaganj 	Uttar Pradesh 	N.P 	20,231
+Titlagarh 	Odisha 	UA 	30,273
+Tittakudi 	Tamil Nadu 	T.P 	20,735
+Todabhim 	Rajasthan 	M 	20,845
+Todaraisingh 	Rajasthan 	M 	21,217
+Tohana 	Haryana 	M.C 	51,519
+Tonk 	Rajasthan 	M.Cl 	135,689
+Tuensang 	Nagaland 	T.C 	29,772
+Tuljapur 	Maharashtra 	M.Cl 	31,706
+Tulsipur 	Uttar Pradesh 	N.P 	21,243
+Tumkur 	Karnataka 	C.M.C 	248,929
+Tumsar 	Maharashtra 	M.Cl 	42,021
+Tundla 	Uttar Pradesh 	UA 	54,576
+Tuni 	Andhra Pradesh 	M 	50,368
+Tura 	Meghalaya 	M 	58,978
+U
+ISKON Temple in Ujjain
+View of City Palace in Udaipur
+Malpe Beach in Udupi
+NMR train climbs in Udhagamandalam
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+Uchgaon 	Maharashtra 	C.T 	22,548
+Udaipur 	Rajasthan 	M.Cl 	389,438
+Udaipur 	Tripura 	N.P 	21,758
+Udaipurwati 	Rajasthan 	M 	27,843
+Udgir 	Maharashtra 	M.Cl 	91,933
+Udhagamandalam 	Tamil Nadu 	M 	93,987
+Udhampur 	Jammu and Kashmir 	UA 	(2011) 182,778
+Udumalaipettai 	Tamil Nadu 	M 	59,668
+Udupi 	Karnataka 	UA 	127,124
+Ugar 	Karnataka 	T.P 	39,287
+Ujhani 	Madhya Pradesh 	M.B 	51,051
+Ujjain 	Madhya Pradesh 	UA 	1986597 (2011)
+Umarga 	Maharashtra 	M.Cl 	30,178
+Umaria 	Madhya Pradesh 	M 	26,842
+Umarkhed 	Maharashtra 	M.Cl 	34,059
+Umarkote 	Odisha 	N.A.C 	24,859
+Umbergaon 	Gujarat 	C.T 	21,684
+Umred 	Maharashtra 	M.Cl 	49,577
+Umreth 	Gujarat 	M 	32,191
+Una 	Gujarat 	M 	51,261
+Unjha 	Gujarat 	M 	53,876
+Unnamalaikadai 	Tamil Nadu 	T.P 	20,666
+Unnao 	Uttar Pradesh 	Sub-Metropolis 	644,662
+Upleta 	Gujarat 	M 	55,438
+Uran 	Maharashtra 	M.Cl 	23,251
+Uran Islampur 	Maharashtra 	M.Cl 	58,330
+Uravakonda 	Andhra Pradesh 	C.T 	31,856
+Urmar Tanda 	Punjab 	M.Cl 	22,048
+Usilampatti 	Tamil Nadu 	M 	30,601
+Uthamapalayam 	Tamil Nadu 	T.P 	22,104
+Uthiramerur 	Tamil Nadu 	T.P 	23,656
+Utraula 	Uttar Pradesh 	M.B 	27,502
+V
+Mahanagar Seva Sadan Building in Vadodara
+Areal view of Visakhapatnam city
+View of Varanasi from Ganges
+View of Vijayawada city
+view of vellore fort in vellore city
+View of Main building of CMC hospital in vellore city
+Technology Tower Building of VIT University in Vellore City
+Srimahalakshmi Golden Temple in vellore city
+View of Vizianagaram town
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+Vadakara 	Kerala 	UA 	124,083
+Vadakkuvalliyur 	Tamil Nadu 	T.P 	24,023
+Vadalur 	Tamil Nadu 	T.P 	26,016
+Vadgaon Kasba 	Maharashtra 	M.Cl 	22,758
+Vadipatti 	Tamil Nadu 	T.P 	21,833
+Vadnagar 	Gujarat 	M 	25,033
+Vadodara 	Gujarat 	UA 	1,491,045
+Vaijapur 	Maharashtra 	M.Cl 	37,064
+Vaikom 	Kerala 	M 	22,641
+Valparai 	Tamil Nadu 	T.P 	95,107
+Valsad 	Gujarat 	UA 	145,592
+Vandavasi 	Tamil Nadu 	M 	29,610
+Vaniyambadi 	Tamil Nadu 	UA 	103,950
+Vapi 	Gujarat 	I.N.A 	23,844
+Vapi 	Gujarat 	M 	71,406
+Varanasi 	Uttar Pradesh 	UA 	1,203,961
+Varkala 	Kerala 	M 	40,728
+Vasai 	Maharashtra 	UA 	174,396
+Vedaranyam 	Tamil Nadu 	T.P 	31,627
+Vellakoil 	Tamil Nadu 	T.P 	34,438
+Vellore 	Tamil Nadu 	M.corp 	756,045
+Venkatagiri 	Andhra Pradesh 	C.T 	31,341
+Veraval 	Gujarat 	UA 	158,032
+Vicarabad 	Andhra Pradesh 	N.P 	42,410
+Vidisha 	Madhya Pradesh 	M 	125,453
+Vijainagar 	Rajasthan 	M 	27,695
+Vijapur 	Gujarat 	UA 	30,961
+Vijaypur 	Uttarakhand 	T.M.C 	29,540
+Vijayapura 	Karnataka 	T.M.C 	29,540
+Vijayawada 	Andhra Pradesh 	UA 	1,039,518
+Vikramasingapuram 	Tamil Nadu 	T.P 	48,309
+Viluppuram 	Tamil Nadu 	M 	95,455
+Vinukonda 	Andhra Pradesh 	C.T 	52,519
+Viramgam 	Gujarat 	M 	53,094
+Virar 	Maharashtra 	M.Cl 	118,928
+Virudhachalam 	Tamil Nadu 	M 	60,164
+Virudhunagar 	Tamil Nadu 	M 	72,081
+Visakhapatnam 	Andhra Pradesh 	UA 	1,730,320
+Visnagar 	Gujarat 	UA 	73,488
+Viswanatham 	Tamil Nadu 	C.T 	22,154
+Vita 	Maharashtra 	M.Cl 	41,804
+Vizianagaram 	Andhra Pradesh 	UA 	195,801
+Vrindavan 	Uttar Pradesh 	M.B 	56,692
+Vyara 	Gujarat 	M 	36,226
+W
+A pillar in Warangal Fort
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+Wadgaon Road 	Maharashtra 	C.T 	30,756
+Wadhwan 	Gujarat 	UA 	219,585
+Wadi 	Karnataka 	UA 	34,714
+Wai 	Maharashtra 	M.Cl 	31,110
+Wanaparthy 	Andhra Pradesh 	N.P 	50,114
+Wani 	Maharashtra 	M.Cl 	52,834
+Wankaner 	Gujarat 	M 	40,191
+Wara Seoni 	Madhya Pradesh 	M 	24,757
+Warangal 	Andhra Pradesh 	UA 	1,087,000
+Wardha 	Maharashtra 	M.Cl 	111,118
+Warhapur 	Uttar Pradesh 	N.P 	20,866
+Warisaliganj 	Bihar 	N.A 	31,347
+Warora 	Maharashtra 	M.Cl 	41,971
+Warud 	Maharashtra 	M.Cl 	41,005
+Washim 	Maharashtra 	M.Cl 	62,956
+Wokha 	Nagaland 	T.C 	37,636
+Y
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+Yaadhagiri 	Karnataka 	T.M.C 	58,811
+Yamunanagar 	Haryana 	UA 	306,740
+Yanam 	Puducherry 	M 	31,394
+Yavatmal 	Maharashtra 	UA 	139,835
+Yawal 	Maharashtra 	M.Cl 	31,803
+Yellandu 	Andhra Pradesh 	N.P 	42,421
+Yemmiganur 	Andhra Pradesh 	M 	76,411
+Yerraguntla 	Andhra Pradesh 	C.T 	26,838
+Yevla 	Maharashtra 	M.Cl 	26,838
+Z
+Noor Muhammad Inter College in Zaidpur
+Name of City/Town 	Name of State 	Classification 	Population (2001)
+Zaid 	Uttar Pradesh 	N.P 	30,639
+Zamania 	Uttar Pradesh 	M.B 	29,391
+Zira 	Punjab 	UA 	31,783
+Zirakpur 	Punjab 	N.P 	25,022
+Zunheboto 	Nagaland 	T.C 	23,081

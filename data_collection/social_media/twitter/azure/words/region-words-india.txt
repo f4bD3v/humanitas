@@ -1,0 +1,201 @@
+india
+agartala
+agra
+aizwal
+allahabad
+amritsar
+asansol
+aurangabad
+bangalore
+bhatinda
+bhawanipatna
+bhillai
+bhopal
+bhubneshwar
+bijapur
+chandigarh
+chennai
+chittoor
+coimbatore
+cuttack
+dausa
+delhi
+mumbai
+dhanbad
+dispur
+ernakulam
+gandhi
+nagar
+gaya
+gorakhpur
+guntur
+guwahati
+hajipur
+hissar
+howrah
+hubli
+hyderabad
+itanagar
+jaipur
+jalpaiguri
+jammu
+jodhpur
+karnal
+khozhikode
+kohima
+kolkata
+kurnool
+lucknow
+ludhiana
+madurai
+malda
+mandi
+mumbai
+muzaffarpur
+nasik
+nr
+panaji
+patna
+pondicherry
+portblair
+pune
+ranchi
+rewa
+saharanpur
+salem
+sehore
+shillong
+shimla
+shrinagar
+srinagar
+surat
+swaimadhopur
+tirunelveli
+trivandrum
+tumkur
+udaipur
+vadodra
+vishakhapatnam
+
+Andhra Pradesh
+	Chittoor
+	Guntur
+	Hyderabad
+	Kurnool
+	Vishakapatnam
+
+Arunachal Pradesh
+	Itanagar
+
+Assam
+	Dibrugarh
+	Dispur
+	Guwahati
+
+Bihar
+	Patna
+
+Goa
+	Panaji
+
+Gujarat
+	Rajkot
+	Gandhi Nagar
+	Vadodra
+
+Haryana
+	Hissar
+	Karnal
+
+Himachal Pradesh
+	Mandi
+
+Jammu Kashmir
+	Jammu
+	Shrinagar
+
+Jharkhand
+	Dhanbad
+	Ranchi
+
+Karnataka
+	Bangalore
+	Bijapur
+	Hubli
+	Tumkur
+
+Kerala
+	Ernakulam
+	Khozhikode
+	Trivandrum
+
+Madhya Pradesh
+	Bhillai
+	Bhopal
+	Sehore	
+
+Maharashtra
+	Mumbai
+	Nagpur
+
+Manipur
+	Imphal
+
+Meghalaya
+	Shillong
+
+Mizoram
+	Aizwal
+
+Nagaland
+	Kohima
+
+National Capital
+	Delhi
+
+Orissa
+	Bhawanipatna
+	Bhubneshwar
+	Cuttack
+
+Punjab
+	Amritsar
+	Bhatinda
+	Ludhiana
+
+Rajasthan
+	Dausa
+	Jaipur
+	Jodhpur
+	Swaimadhopur
+	Udaipur
+
+Sikkim
+	Gangtok
+
+Tamilnadu
+	Chennai
+	Coimbatore
+	Madurai
+	Salem
+
+Tripura
+	Agartala
+
+Uttar Pradesh
+	Agra
+	Allahabad
+	Gorakhpur
+	Kanpur
+	Lucknow	
+	Saharanpur
+
+Uttaranchal
+	Srinagar
+
+West Bengal
+	Asanol
+	Howrah
+	Jalpaiguri
+	Kolkata
+	Malda

@@ -1,0 +1,8 @@
+##
+## commands for filtering tweets
+##
+
+sh distribute.sh -e "sudo wget -b -P /mnt url" -f machine-nr
+sh distribute.sh -scp "filter_word_and_country.py words/ filtered_tweets/" -a
+sh distribute.sh -e "python3 filter_word_and_country.py filtered_tweets /mnt/archiveteam-twitter-stream-*" -f -a
+

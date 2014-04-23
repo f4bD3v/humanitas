@@ -1,0 +1,24 @@
+humanitas1.cloudapp.net humaniac
+password: RdLf1@bC
+
+dns: humanitas2
+password: Humanitas9
+
+ssh humanitas3@humanitas3.cloudapp.net
+pass: GiveUsT3hpower
+
+ssh: humaniac@humanitas4.cloudapp.net
+pass: w0wSucH@Zur3
+
+#duy
+
+ssh: humaniac@humanitas6.cloudapp.net
+pass: Kochrocks@14
+
+#alex
+u: joshibuesser@hotmail.com
+humanitas2014
+
+
+sh: fabbrix@humanitas8.cloudapp.net
+pass: Esu7Nik1
