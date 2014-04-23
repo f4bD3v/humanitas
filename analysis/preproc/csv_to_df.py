@@ -20,8 +20,8 @@ def get_usage():
 
 def csv2df(file_path, bulk=False):
     print 'loading '+file_path
-    df = pd.read_csv(file_path, header=None)
-    df.columns = ['date', 'freq', 'country', 'city', 'product', 'sub', 'price']
+    df = pd.read_csv(file_path)
+    #df.columns = ['date', 'freq', 'country', 'city', 'product', 'sub', 'price']
     #df.set_index(['product','sub','country','city','freq'], inplace=True)
     if bulk == False:
         df['date'] = pd.to_datetime(df['date'])

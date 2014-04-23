@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<!-- <link rel="stylesheet" href="demo.css"> -->
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<style type="text/css">
+.subunit {
+  fill: none;
+  stroke: #597a99;
+  stroke-width: .5;
+}
+
+.subunit.INX {
+
+}
+
+.subunit.INA {
+}
+
+.subunit.INN {
+}
+
+.subunit.INL {
+}
+
+.subunit.natural-earth {
+  fill: none;
+}
+
+.graticule {
+  fill: none;
+  stroke: #80B7D5;
+  stroke-width: .5px;
+}
+
+.frame1 {
+  width: 952px;
+  height: 608px;
+  margin: 0 auto;
+  border: 2px solid #6b5d50;
+  padding: 2px;
+}
+
+.frame2 {
+  border: 1px solid #a19e8d;
+  padding: 20px;
+}
+
+.map {
+  background: #a3bfd5;
+}
+
+.place {
+  fill: rgba(255,255,255,0.01);
+  stroke: #584f46;
+}
+
+#states {
+  fill: rgba(255,255,255,0.01);
+  stroke: #7D947C;
+  stroke-width: .5px;
+}
+
+#state .active {
+  fill: orange;
+}
+
+.state.hover {
+  fill: rgba(255,255,255,0.50);
+}
+
+text {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  pointer-events: none;
+}
+
+.line {
+  fill: none;
+  stroke: #ddd;
+}
+
+.tooltip {
+  position: absolute;
+  background: rgba(200,200,200,0.75);
+  border: 1px solid #ddd;
+  padding: 5px 12px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px rgba(120,120,120,0.55);
+  text-shadow: 0 1px 0 #eee;
+}
+
+  .state-title {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+  }
+
+  .state-population {
+    font-size: 18px;
+  }
+
+</style>
+<body>
+  <h1 style="display:inline;">Data Map Test</h1>
+  <div class="frame1">
+    <div class="frame2">
+      <div class="map"></div>
+    </div>
+  </div>
+<script src="http://d3js.org/d3.v3.js"></script>
+<script src="http://d3js.org/d3.geo.tile.v0.min.js"></script>
+<script src="http://d3js.org/topojson.v0.min.js"></script>
+  <!-- <div id="vis" class="vis"> -->
+  <script>
+
+
+var width = 910,
+    height = 563;
+
+var projection = d3.geo.mercator()
+  .center([83, 23.5])
+  .scale(890);
+
+var path = d3.geo.path()
+  .projection(projection)
+  .pointRadius(2);
+
+var tile = d3.geo.tile()
+    .scale(projection.scale() * 2 * Math.PI)
+    .translate(projection([0, 0]))
+    .zoomDelta((window.devicePixelRatio || 1) - .5);
+
+var svg = d3.select(".map")
+  .append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+var tooltip = d3.select("body")
+  .append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+tooltip.append("div")
+    .attr("class", "state-title");
+tooltip.append("div")
+    .attr("class", "state-population");
+
+var defs = svg.append("defs");
+
+var ne = svg.append("g")
+  .attr("id", "natural-earth");
+
+var india = svg.append("g")
+  .attr("id", "india");
+
+var indiaPlaces = svg.append("g")
+  .attr("id", "places");
+
+var states = svg.append("g")
+  .attr("id", "states");
+
+var pop;
+
+var format1000 = d3.format(',');
+
+d3.json("in-map-major-cities.json", function(error, data) {
+  drawNaturalEarth();
+  drawIndia(data);
+  drawIndiaPlaces(data);
+  drawStates(function() {
+  });
+});
+
+function drawIndia(data) {
+  var subunits = topojson.object(data, data.objects.subunits);
+
+  india.selectAll("path.subpath")
+      .data(subunits.geometries)
+    .enter().append("path")
+      .attr('class', function(d) { return 'subunit ' + d.id; })
+      .attr('id', function(d) { return d.id; })
+      .attr("d", path);
+}
+
+function drawIndiaPlaces(data) {
+  indiaPlaces.selectAll("path.place")
+      .data(topojson.object(data, data.objects.places).geometries)
+    .enter().append("path")
+      .attr("d", path)
+      .attr("class", "place")
+      .on("mouseenter", function(d) {
+          tooltip.transition()
+            .duration(100)
+            .style("opacity", 1);
+
+          tooltip.select('.state-title')
+            .text(d.properties.name);
+          tooltip.select('.state-population')
+              .text('');
+        })
+      .on("mousemove", function(d) {
+        tooltip.style("left", (d3.event.pageX+5) + "px")
+          .style("top", (d3.event.pageY+5) + "px");
+      })
+      .on("mouseleave", function(d) {
+        tooltip.transition()
+          .duration(100)
+          .style("opacity", 0);
+      })
+      .on("click", clicked);;
+}
+
+// Code from D3 United States Example at http://bl.ocks.org/4150951
+function drawNaturalEarth() {
+  var tiles = tile();
+
+  india.selectAll('.subunit')
+    .classed('natural-earth', true);
+
+  var clips = defs.append("clipPath")
+      .attr("id", "clip");
+  clips.append("use")
+      .attr("xlink:href", "#INX");
+  clips.append("use")
+      .attr("xlink:href", "#INA");
+  clips.append("use")
+      .attr("xlink:href", "#INN");
+  clips.append("use")
+      .attr("xlink:href", "#INL");
+
+  ne.attr("clip-path", "url(#clip)")
+      .selectAll("image")
+        .data(tiles)
+      .enter().append("image")
+        .attr("xlink:href", function(d) { return "http://" + ["a", "b", "c", "d"][Math.random() * 4 | 0] + ".tiles.mapbox.com/v3/mapbox.natural-earth-2/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
+        .attr("width", Math.round(tiles.scale))
+        .attr("height", Math.round(tiles.scale))
+        .attr("x", function(d) { return Math.round((d[0] + tiles.translate[0]) * tiles.scale); })
+        .attr("y", function(d) { return Math.round((d[1] + tiles.translate[1]) * tiles.scale); });
+}
+
+function drawStates(callback) {
+  d3.json("in-states-topo.json", function(data) {
+    states.selectAll("path")
+        .data(topojson.object(data, data.objects.states).geometries)
+      .enter().append("path")
+        .attr('class', "state")
+        .attr("title", function(d) { return d.properties.name; })
+        .attr("d", path)
+        .on("mouseenter", function(d) {
+          d3.select(this).classed('hover', true);
+          tooltip.transition()
+            .duration(100)
+            .style("opacity", 1);
+
+          if (pop[d.id]) {
+            tooltip.select('.state-title')
+              .text(d.properties.name);
+            tooltip.select('.state-population')
+              .text(format1000(pop[d.id]));
+          }
+        })
+        .on("mousemove", function(d) {
+          tooltip.style("left", (d3.event.pageX+5) + "px")
+            .style("top", (d3.event.pageY+5) + "px");
+        })
+        .on("mouseleave", function(d) {
+          d3.select(this).classed('hover', false);
+          tooltip.transition()
+            .duration(100)
+            .style("opacity", 0);
+        });
+
+    drawPopulation(callback);
+  });
+}
+
+function drawPopulation(callback) {
+  d3.json("in-population.json", function(population) {
+    pop = population.states;
+      callback();
+  });
+}
+
+function clicked(d) {
+  var x, y, k;
+
+  if (d && centered !== d) {
+    var centroid = path.centroid(d);
+    x = centroid[0];
+    y = centroid[1];
+    k = 4;
+    centered = d;
+  } else {
+    x = width / 2;
+    y = height / 2;
+    k = 1;
+    centered = null;
+  }
+
+  g.selectAll("path")
+      .classed("active", centered && function(d) { return d === centered; });
+
+  g.transition()
+      .duration(750)
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+      .style("stroke-width", 1.5 / k + "px");
+}
+
+  d3.select(self.frameElement.parentElement).style('background', '#faf5e2');
+  d3.select(self.frameElement)
+    .style("height", "664px")
+    .style("border", "none");
+
+// ====================================================
+// cach ly US
+// ====================================================
+
+/*
+var width = 960,
+    height = 500,
+    centered;
+
+var projection = d3.geo.albersUsa()
+    .scale(1070)
+    .translate([width / 2, height / 2]);
+
+var path = d3.geo.path()
+    .projection(projection);
+
+var svg = d3.select("#vis").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+svg.append("rect")
+    .attr("class", "background")
+    .attr("width", width)
+    .attr("height", height)
+    .on("click", clicked);
+
+var g = svg.append("g");
+
+// d3.json("in-states-topo.json", function(error, ind) {
+d3.json("us.json", function(error, ind) {
+  g.append("g")
+      .attr("id", "states")
+    .selectAll("path")
+      .data(topojson.feature(ind, ind.objects.states).features)
+    .enter().append("path")
+      .attr("d", path)
+      .on("click", clicked);
+
+  g.append("path")
+      .datum(topojson.mesh(ind, ind.objects.states, function(a, b) { return a !== b; }))
+      .attr("id", "state-borders")
+      .attr("d", path);
+});
+
+function clicked(d) {
+  var x, y, k;
+
+  if (d && centered !== d) {
+    var centroid = path.centroid(d);
+    x = centroid[0];
+    y = centroid[1];
+    k = 4;
+    centered = d;
+  } else {
+    x = width / 2;
+    y = height / 2;
+    k = 1;
+    centered = null;
+  }
+
+  g.selectAll("path")
+      .classed("active", centered && function(d) { return d === centered; });
+
+  g.transition()
+      .duration(750)
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+      .style("stroke-width", 1.5 / k + "px");
+}
+*/
+
+// ====================================================
+// cach ly
+// ====================================================
+//     var w = 600;
+//     var h = 600;
+//     var proj = d3.geo.mercator();
+//     var path = d3.geo.path().projection(proj);
+//     var t = proj.translate(); // the projection's default translation
+//     var s = proj.scale() // the projection's default scale
+ 
+//     var map = d3.select("#vis").append("svg:svg")
+//         .attr("width", w)
+//         .attr("height", h)
+// //        .call(d3.behavior.zoom().on("zoom", redraw))
+//         .call(initialize);
+ 
+//     var india = map.append("svg:g")
+//         .attr("id", "india");
+ 
+//     d3.json("states.json", function (json) {
+//       india.selectAll("path")
+//           .data(json.features)
+//         .enter().append("path")
+//           .attr("d", path);
+//     });
+ 
+//     function initialize() {
+//       proj.scale(6700);
+//       proj.translate([-1240, 720]);
+//     }
+
+//     var zoom = d3.behavior.zoom()
+//         .on("zoom",function() {
+//             g.attr("transform","translate("+ 
+//                 d3.event.translate.join(",")+")scale("+d3.event.scale+")");
+//             g.selectAll("circle")
+//                 .attr("d", path.projection(projection));
+//             g.selectAll("path")  
+//                 .attr("d", path.projection(projection)); 
+
+//       });
+
+//     svg.call(zoom)
+
+  </script>
+  </div>
+</body>
