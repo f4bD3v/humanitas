@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <!-- <link rel="stylesheet" href="demo.css"> -->
-<link rel="stylesheet" href="http://leafletjs.com/dist/leaflet.css">
+<link rel="stylesheet" href="leaflet.css">
 <style>
 
 #map {
 	width: 800px;
-	height: 500px;
+	height: 700px;
 }
 
 .info {
@@ -38,10 +38,10 @@
 </style>
 <body>
 <div id="map"></div>
-<script src="http://leafletjs.com/dist/leaflet.js"></script>
-<script type="text/javascript" src="us-states.js"></script>
+<script src="leaflet.js"></script>
+<script type="text/javascript" src="ind-states.js"></script>
 <script>
-var map = L.map('map').setView([37.8, -96], 4);
+var map = L.map('map').setView([22, 83], 4.8);
 
 var cloudmade = L.tileLayer('http://{s}.tiles.mapbox.com/v3/examples.map-vyofok3q/{z}/{x}/{y}.png', {
 	attribution: 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
@@ -59,9 +59,9 @@ info.onAdd = function (map) {
 	return this._div;
 };
 
-info.update = function (props) {
-	this._div.innerHTML = '<h4>US Population Density</h4>' +  (props ?
-		'<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
+info.update = function (feature) {
+	this._div.innerHTML = '<h4>US Population Density</h4>' +  (feature ?
+		'<b>' + feature.id + '</b><br />' + feature.id + ' people / mi<sup>2</sup>'
 		: 'Hover over a state');
 };
 
@@ -105,7 +105,7 @@ function highlightFeature(e) {
 		layer.bringToFront();
 	}
 
-	info.update(layer.feature.properties);
+	info.update(layer.feature);
 }
 
 var geojson;
