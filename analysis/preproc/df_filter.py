@@ -8,7 +8,6 @@ import collections
 
 pk_in = 'all_India_week_timeseries.pickle'
 pk_out = ''
-pk_in2 = 'all_India_week.pickle'
 
 @contextmanager
 def redirected(stdout):
@@ -41,12 +40,6 @@ def subdf(df_ts, q1, q2=None, q3=None):
             cn_lst.append(cn)
     return df_ts[cn_lst]
 
-def subrcd(na_record, q):
-    rcd_lst = dict()
-    for key in na_record:
-        if q in key:
-            rcd_lst[key] = na_record[key]
-    return rcd_lst
 
 def len_longest_na(series):
     len_na = 0
@@ -61,15 +54,8 @@ def len_longest_na(series):
     return longest
 
 def na_analysis(na_record, all_cities, all_prod_subs):
-    all_prod_subs_mod = []
-    for prod_sub in all_prod_subs:
-        if isinstance(prod_sub[1],str):
-            all_prod_subs_mod.append(prod_sub)
-        else:
-            all_prod_subs_mod.append((prod_sub[0], ' '))
-
-    na_table = pd.DataFrame(columns=all_cities, index=all_prod_subs_mod)
-    nalen_table = pd.DataFrame(columns=all_cities, index=all_prod_subs_mod)
+    na_table = pd.DataFrame(columns=all_cities, index=all_prod_subs)
+    nalen_table = pd.DataFrame(columns=all_cities, index=all_prod_subs)
     for key in na_record.keys():
         (prod, sub, city) = key
         if isinstance(sub, str):
@@ -79,79 +65,31 @@ def na_analysis(na_record, all_cities, all_prod_subs):
             na_table[city][(prod, ' ')] = na_record[key][0]
             nalen_table[city][(prod,' ')] = na_record[key][1]
     return na_table, nalen_table
-    
-def verify_none_nan(df):
-    leng = df.shape[0]
-    for label in df.columns:
-        if df[label].count() != leng:
-            raise Exception("Inter/Extrapolation failed at "+label)
 
-if __name__ == '__main__':
+
+
+def main():
     with open(pk_in) as f:
-        [df_ts, validcounts, dup_record, all_dates, all_cities, all_products, all_prod_subs] = pickle.load(f)
+        df_ts = pickle.load(f)
     print pk_in+' is loaded'
 
-    #with open(pk_in2) as f:
-    #    [df] = pickle.load(f)
-    #print pk_in2+' is loaded.'
+    regions = get_regions()
 
-
-    leng = len(all_dates)
-    start_date = '2005-01'
-    thrsh = [0.1,0.2,0.3]
-
-    #generate dataframes of different cutoff rate
-    df_ts_cut = dict()
-    for t in thrsh:
-        df_ts_cut[t] = pd.DataFrame()
-    na_record = dict()
-
-    for label in df_ts.columns:
-        series = df_ts[label].loc[start_date:]
-        nacount = int(float(leng - series.count())/leng*100)/100.0
-        nalen = len_longest_na(series)
-        na_record[label] = (nacount, nalen)
-        for t in thrsh:
-            if nacount <= t:
-                df_ts_cut[t][label] = series
-
-    #sort na_record
-    na_record = collections.OrderedDict(sorted(na_record.items()))
-
-    print "2005-2014"
-    for t in thrsh:
-        print "na cutoff rate "+str(t)+", #series="+str(df_ts_cut[t].shape[1])
-
-    #linearly interpolate missing data
-    df_ts_itpo = dict()
-    for t in thrsh:
-        df_ts_itpo[t] = df_ts_cut[t].interpolate().bfill()
-        verify_none_nan(df_ts_itpo[t])
-
-    #generate weekly return dataframes
-    df_ts_ret = dict()
-    for t in thrsh:
-        df_ts_ret[t] = df_ts_cut[t]/df_ts_cut[t].shift(1)-1
-
-
-
-
+    for region in regions:
+        for city in region:
+            for product, subproduct
     #na analysis
+    #TODO modify to per region version
     na_table, nalen_table = na_analysis(na_record, all_cities, all_prod_subs)
 
-    #plot time series
-    #plot_by(df_ts_cut[0.3], 'Rice', 'na cutoff 0.3')
-    #plot_by(df_ts_cut[0.3], 'Wheat', 'na cutoff 0.3')
-    #plot_by(df_ts_cut[0.3], 'Chicken', 'na cutoff 0.3')
-    #plot_by(df_ts_itpo[0.3], 'Rice', 'na cutoff 0.3 (interpolated)')
-    #plot_by(df_ts_itpo[0.3], 'Wheat', 'na cutoff 0.3 (interpolated)')
-    #plot_by(df_ts_itpo[0.3], 'Chicken', 'na cutoff 0.3 (interpolated)')
 
-
-    plt.show()
+    #generate weekly return dataframes
+    df_ts_ret = df_ts_cut/df_ts_cut.shift(1)-1
 
     #output valuable variables
-    save_print(dup_record, 'dup.txt')
-    save_print_dict(na_record, 'na.txt')
     na_table.to_csv('na_table.csv')
     nalen_table.to_csv('nalen_table.csv')
+
+
+if __name__ == '__main__':
+    main()
