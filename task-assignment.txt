@@ -6,11 +6,16 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
     * Twitter
         * Web archive filtering of keywords to see if there's anything of
           value there
-          [Gabriel (India), Ching-Chia (Indonesia)]
-            -- implementation nearly ready
+          [Gabriel, Ching-Chia (Indonesia)]
+            -- ready
+        * distribution of tasks to azure nodes
+          [Gabriel, Joseph (use/adapt for user id download)]
+            -- ready
+        * clustering of tweets
+          [Gabriel, Fabian]
         * Get user ids of twitter users from India with many tweets
-          [Joseph, Stefan helps]
-            -- implementation nearly ready
+          [Joseph, Stefan&Gabriel helps]
+            -- ready
         * storing tweets
           [Duy, contact Joseph and Gabriel]
             -- implementation nearly ready
@@ -46,7 +51,7 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
 
     * Choosing input params (how to relate series):
         Price transmission analysis, Association rule learning
-        [Alex, Gabriel]
+        [Alex]
 
     * FF neural networks
         [Fabian, Stefan]
@@ -62,7 +67,7 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
         [Fabian, Stefan]
 
     * Support Vector Regression
-        [Julien]
+        [Gabriel]
         -- train and test the model at models/svr/model1.txt
         -- lower priority
 

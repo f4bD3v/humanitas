@@ -7,20 +7,20 @@
 5 - https://archive.org/download/archiveteam-twitter-stream-2013-06/archiveteam-twitter-stream-2013-06.tar
 6 - https://archive.org/download/archiveteam-twitter-stream-2013-05/archiveteam-twitter-stream-2013-05.tar
 
-https://archive.org/download/archiveteam-twitter-stream-2013-04/archiveteam-twitter-stream-2013-04.tar
-https://archive.org/download/archiveteam-twitter-stream-2013-03/archiveteam-twitter-stream-2013-03.tar
-https://archive.org/download/archiveteam-twitter-stream-2013-02/archiveteam-twitter-stream-2013-02.tar
-https://archive.org/download/archiveteam-twitter-stream-2013-01/archiveteam-twitter-stream-2013-01.tar
-https://archive.org/download/archiveteam-twitter-stream-2012-12/archiveteam-twitter-2012-12.tar
-https://archive.org/download/archiveteam-twitter-stream-2012-11/archiveteam-twitter-2012-11.tar
-https://archive.org/download/archiveteam-twitter-stream-2012-10/archiveteam-twitter-2012-10.tar
-https://archive.org/download/archiveteam-twitter-stream-2012-09/archiveteam-twitter-2012-09.tar
+1 - https://archive.org/download/archiveteam-twitter-stream-2013-04/archiveteam-twitter-stream-2013-04.tar
+2 - https://archive.org/download/archiveteam-twitter-stream-2013-03/archiveteam-twitter-stream-2013-03.tar
+3 - https://archive.org/download/archiveteam-twitter-stream-2013-02/archiveteam-twitter-stream-2013-02.tar
+4 - https://archive.org/download/archiveteam-twitter-stream-2013-01/archiveteam-twitter-stream-2013-01.tar
+5 - https://archive.org/download/archiveteam-twitter-stream-2012-12/archiveteam-twitter-2012-12.tar
+6 - https://archive.org/download/archiveteam-twitter-stream-2012-11/archiveteam-twitter-2012-11.tar
+7 - https://archive.org/download/archiveteam-twitter-stream-2012-10/archiveteam-twitter-2012-10.tar
+8 - https://archive.org/download/archiveteam-twitter-stream-2012-09/archiveteam-twitter-2012-09.tar
 
-https://archive.org/download/archiveteam-twitter-stream-2012-08/archiveteam-twitter-2012-08.tar
-https://archive.org/download/archiveteam-twitter-stream-2012-07/archiveteam-twitter-2012-07.tar
-https://archive.org/download/archiveteam-twitter-stream-2012-06/archiveteam-twitter-2012-06.tar
-https://archive.org/download/archiveteam-twitter-stream-2012-05/archiveteam-twitter-2012-05.tar
-https://archive.org/download/archiveteam-twitter-stream-2012-04/archiveteam-twitter-2012-04.tar
-https://archive.org/download/archiveteam-twitter-stream-2012-03/archiveteam-twitter-2012-03.tar
-https://archive.org/download/archiveteam-twitter-stream-2012-02/archiveteam-twitter-2012-02.tar
-https://archive.org/download/archiveteam-twitter-stream-2012-01/archiveteam-twitter-2012-01.tar
+1 - https://archive.org/download/archiveteam-twitter-stream-2012-08/archiveteam-twitter-2012-08.tar
+2 - https://archive.org/download/archiveteam-twitter-stream-2012-07/archiveteam-twitter-2012-07.tar
+3 - https://archive.org/download/archiveteam-twitter-stream-2012-06/archiveteam-twitter-2012-06.tar
+4 - https://archive.org/download/archiveteam-twitter-stream-2012-05/archiveteam-twitter-2012-05.tar
+5 - https://archive.org/download/archiveteam-twitter-stream-2012-04/archiveteam-twitter-2012-04.tar
+6 - https://archive.org/download/archiveteam-twitter-stream-2012-03/archiveteam-twitter-2012-03.tar
+7 - https://archive.org/download/archiveteam-twitter-stream-2012-02/archiveteam-twitter-2012-02.tar
+8 - https://archive.org/download/archiveteam-twitter-stream-2012-01/archiveteam-twitter-2012-01.tar
