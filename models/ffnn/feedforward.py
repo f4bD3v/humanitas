@@ -1,3 +1,7 @@
+"""
+	Authors: Fabian Brix, Stefan Mihaila
+"""
+
 from pybrain.structure import FeedForwardNetwork, LinearLayer, TanhLayer 
 from pybrain.structure.connections import FullConnection, IdentityConnection, MotherConnection, SharedFullConnection
 from pybrain.structure.connections.connection import Connection
@@ -42,7 +46,8 @@ class FFN:
 
 		k1 = T/25
 		h1 = k1*R*P
-		hiddenL_1 = TanhLayer(h1, name="hidden layer 1 - R_iP_j")
+		# weighted average
+		hiddenL_1 = LinearLayer(h1, name="hidden layer 1 - R_iP_j")
 
 		k2 = k1/2
 		h2 = k2*(R+P)
@@ -111,7 +116,7 @@ class FFN:
 			h2_inIndices[i] = (k2*i,k2*(i+1)-1)
 			print h2_inIndices[i]
 			# no outSlices for h2 since it will be fully connected to h3
-			h2_inSlices[i] = ModuleSlice(hiddenL_2, inSliceFrom=h2_inIndices[i][0], inSliceTo=h2_inIndices[i][1])#outSliceFrom=h2_inIndices[i][0], outSliceTo=h2_inIndices[i][1])
+			h2_inSlices[i] = ModuleSlice(hiddenL_2, inSliceFrom=h2_inIndices[i][0], inSliceTo=h2_inIndices[i][1])	#, outSliceFrom=h2_inIndices[i][0], outSliceTo=h2_inIndices[i][1])
 
 
 
