@@ -40,14 +40,16 @@ class FFN:
 		    k_1*R*P
 		"""
 
-		k1 = T/3
-		hiddenL_1 = TanhLayer(k1*R*P, name="hidden layer 1 - R_iP_j")
+		k1 = T/25
+		h1 = k1*R*P
+		hiddenL_1 = TanhLayer(h1, name="hidden layer 1 - R_iP_j")
 
-		k2 = k1
-		hiddenL_2 = TanhLayer(k2*(R+P), name="hidden layer 2 - R_i, P_j")
+		k2 = k1/2
+		h2 = k2*(R+P)
+		hiddenL_2 = TanhLayer(h2, name="hidden layer 2 - R_i, P_j")
 
-		k3 = 2*(R+P)
-		hiddenL_3 = TanhLayer(k3, name="hidden layer 3 - random nodes")
+		h3 = 2*h2
+		hiddenL_3 = TanhLayer(h3, name="hidden layer 3 - random nodes")
 
 		outputL = LinearLayer(R*P, "output layer")
 
@@ -87,19 +89,19 @@ class FFN:
 			outSlices[i] = (i*T,(i+1)*T-1)
 			inSlices[i] = (i*k1, (i+1)*k1-1)
 
-			#print outSlices[i], inSlices[i]
+			print outSlices[i], inSlices[i]
 
 			inputSlices[i] = ModuleSlice(inputL, inSliceFrom=outSlices[i][0], inSliceTo=outSlices[i][1], outSliceFrom=outSlices[i][0], outSliceTo=outSlices[i][1])
-			#print inputSlices[i]
+			print inputSlices[i]
 			h1Slices[i] = ModuleSlice(hiddenL_1, inSliceFrom=inSlices[i][0], inSliceTo=inSlices[i][1], outSliceFrom=inSlices[i][0],outSliceTo=inSlices[i][1])
-			#print h1Slices[i]
+			print h1Slices[i]
 
 			sharedConn[i] = SharedFullConnection(mc1,inputSlices[i],h1Slices[i])
 			#print sharedConn[i].params
 
 		for conn in sharedConn.itervalues():
-			print conn
-			print conn.params
+			#print conn
+			#print conn.params
 			self._ffn.addConnection(conn)
 
 		# 1ST HIDDEN LAYER => 2ND HIDDEN LAYER
@@ -111,32 +113,44 @@ class FFN:
 			# no outSlices for h2 since it will be fully connected to h3
 			h2_inSlices[i] = ModuleSlice(hiddenL_2, inSliceFrom=h2_inIndices[i][0], inSliceTo=h2_inIndices[i][1])#outSliceFrom=h2_inIndices[i][0], outSliceTo=h2_inIndices[i][1])
 
+
+
 		# link each R_iP_j h1Slice with R_i and P_j h2_inSlices respectively
 		h1h2Conn = dict()
 		# there are R*P h1 slices, take every P slices and link them to P_i
 		rj = 0 
-		pj = R	
+		pj = R-1	
 		for i in range(R*P):
-			if (i+1)%P==0:
+			#print "before",rj, pj,i
+			if i!=0 and i%P==0:
 				rj=rj+1
 				pj=R
 			else:
 				pj=pj+1
 
-			h1h2Conn[i] = FullConnection(h1Slices[i], h2_inSlices[rj])
-			h1h2Conn[R*P+i] = FullConnection(h1Slices[i], h2_inSlices[pj])
+			#print rj, pj
+
+			print h1Slices[i], h2_inSlices[rj]
+
+			h1h2Conn[i] = FullConnection(h1Slices[i], h2_inSlices[rj], name="h1_h2_"+str(i))
+			print h1Slices[i], h2_inSlices[pj]
+			h1h2Conn[R*P+i] = FullConnection(h1Slices[i], h2_inSlices[pj], name="h1_h2_"+str(R*P+i))
 
 		for conn in h1h2Conn.itervalues():
 			print conn
 			print conn.params
 			self._ffn.addConnection(conn)
-				
+
+		"""
+			CAREFUL: for test numbers only 3 params for each pair of connected slices although it should be 4*2=8??
+			
 		# full connection between Region and State layer and random hidden layer
 		self._ffn.addConnection(FullConnection(hiddenL_2, hiddenL_3))
 
 		# full connection from random to output layer
 		self._ffn.addConnection(FullConnection(hiddenL_3, outputL))
 
+		"""
 		self._ffn.sortModules()
 
 		#self.to_string()
@@ -152,7 +166,7 @@ class FFN:
 
 
 if __name__ == "__main__":
-	T=10#days
+	T=100#days
 	R=3 #regions
 	P=2 #products
 	ffn = FFN(R,P,T)		
