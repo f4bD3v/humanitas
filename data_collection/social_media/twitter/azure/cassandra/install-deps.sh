@@ -8,3 +8,6 @@ sudo apt-get install git
 sudo apt-get install ant1.7 ant1.7-optional  
 
 sudo apt-get install oracle-java7-set-default
+
+sudo apt-get install python-pip
+pip install cassandra-driver
