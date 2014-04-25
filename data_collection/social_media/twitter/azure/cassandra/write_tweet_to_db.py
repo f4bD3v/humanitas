@@ -12,21 +12,11 @@ from datetime import date, datetime
 log = logging.getLogger()
 log.setLevel('INFO')
 
-def get(tweet, attr):
-    if (attr in tweet):
-        return tweet[attr]
-    else:
-        return ""
-def getCoords(tweet, nr):
-    if ('coordinates' in tweet and tweet['coordinates'] is not None and
-      'coordinates' in tweet['coordinates']):
-        return tweet['coordinates']['coordinates'][nr]
-    else:
-        return ""
-
+#prepares 'text' values for the db
 def prep(x):
     return "'" + x.encode("ascii","ignore").replace("'", "") + "'"
 
+#reads tweets from a text file
 def open_tweets(fname):
     with open(fname) as f:
         try:   
@@ -36,6 +26,8 @@ def open_tweets(fname):
             print("Failed on {0}: {1}".format(fname, e))
 
 class SimpleClient:
+    #the CQL standard can be found here: https://github.com/pcmanus/cassandra/blob/3779/doc/cql3/CQL.textile
+    #the api to this cassandra lib can be found here: http://www.datastax.com/documentation/developer/python-driver/1.0/share/doctips/docTips.html
     session = None
     cols = ["id", "time", "user_id", "region", "city", "content",
             "lat", "long", "rt_count", "fav_count", "lang"]
@@ -43,15 +35,19 @@ class SimpleClient:
                   ("rt_count", "retweet_count", False),
                   ("fav_count", "favorite_count", False), ("lang", "lang", True)]
 
+    #takes as input a list of insert statements and sends them as a batch
+    #very fast, but batch construction and sending should be best done in a
+    #seperate thread for max. performance
     def send_batch(self, inserts):
-	self.session.execute("BEGIN BATCH\n" + inserts + "\nAPPLY BATCH;")
+	self.session.execute("BEGIN BATCH\n" + "\n".join(inserts) + "\nAPPLY BATCH;")
         log.info("batch of tweets loaded into db")
 
+    #returns a string representing an insert for a tweet
     def create_insert(self, t, user_id, region, city):
        col_str = ["user_id", "region", "city"]
        val_str = [prep(user_id), prep(region), prep(city)]
        for (col, val, shouldPrep) in self.tweet_cols:
-           if val in t:
+           if val in t and t[val] is not None:
                col_str.append(col)
                if(shouldPrep):
                    val_str.append(prep(t[val]))
@@ -63,44 +59,19 @@ class SimpleClient:
            val_str.append(str(t['coordinates']['coordinates'][0]))
            col_str.append("lat")
            val_str.append(str(t['coordinates']['coordinates'][1]))
-       if "created_at" in t:
+       if "created_at" in t and t["created_at"] is not None:
             col_str.append("time")
             val_str.append(prep(time.strftime('%Y-%m-%d %H:%M:%S', time.strptime(t['created_at'],'%a %b %d %H:%M:%S +0000 %Y'))))
        return "INSERT INTO tweets (" + ",".join(col_str) + ") VALUES (" + ",".join(val_str) + ");"
 
+    #inserts a tweet into the db
     def send_tweet(self, t, user_id, region, city):
-        '''
-	timestamp = ""
-	if "created_at" in t:
-            timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.strptime(t['created_at'],'%a %b %d %H:%M:%S +0000 %Y'))
-            #time.strptime(t["created_at"], "%a %b %d %H:%M:%S %z %Y").isoformat()
-        print(t["id"])
-
-        print( [get(t, "id"), timestamp, 
-             user_id, region, city, get(t, "text"),
-             getCoords(t, 1), #lat
-             getCoords(t, 0), #long
-             get(t, "retweet_count"), get(t, "favorite_count"),
-             get(t, "lang")
-            ])
-        self.session.execute("""
-            INSERT INTO tweets (id, time, user_id, region, city, content,
-                                lat, long, rt_count, fav_count, lang)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            """,
-            [get(t, "id"), timestamp, user_id,
-             region, city, get(t, "text"),
-             getCoords(t, 1), #lat
-             getCoords(t, 0), #long
-             get(t, "retweet_count"), get(t, "favorite_count"),
-             get(t, "lang")
-            ])
-        '''
         s = self.create_insert(t, user_id, region, city)
         print(s)
         self.session.execute(s)
         log.info("tweet loaded into db")
 
+    #connect to cluster
     def connect(self, nodes):
         cluster = Cluster(nodes)
         metadata = cluster.metadata
@@ -159,8 +130,9 @@ class SimpleClient:
         self.session.execute("DROP INDEX tweets_city;")
         self.session.execute("DROP INDEX tweets_region;")
 
+    #prints all saved tweets
     def print_rows(self):
-        results = self.session.execute("SELECT * FROM tweets")
+        results = self.session.execute("SELECT * FROM tweets;")
         print("Tweet table:")
         print("---------------------------------------------------------------")
         for row in results:
