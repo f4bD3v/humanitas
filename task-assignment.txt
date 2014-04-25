@@ -11,6 +11,12 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
         * distribution of tasks to azure nodes
           [Gabriel, Joseph (use/adapt for user id download)]
             -- ready
+        * set up and write driver for cassandra with spark
+          [Gabriel]
+            -- ready
+        * db scheme for cassandra
+          [Fabian, Gabriel helps]
+            -- ready
         * clustering of tweets
           [Gabriel, Fabian]
         * Get user ids of twitter users from India with many tweets
