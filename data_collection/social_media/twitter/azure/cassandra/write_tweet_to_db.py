@@ -44,8 +44,8 @@ class SimpleClient:
 
     #returns a string representing an insert for a tweet
     def create_insert(self, t, user_id, region, city):
-       col_str = ["user_id", "region", "city"]
-       val_str = [prep(user_id), prep(region), prep(city)]
+       col_str = ["user_id"]
+       val_str = [prep(user_id)]
        for (col, val, shouldPrep) in self.tweet_cols:
            if val in t and t[val] is not None:
                col_str.append(col)
@@ -53,6 +53,13 @@ class SimpleClient:
                    val_str.append(prep(t[val]))
                else:
                    val_str.append(str(t[val]))
+       if(region != ""):
+           col_str.append("region")
+           val_str.append(prep(region))
+       if(city != ""):
+           col_str.append("city")
+           val_str.append(prep(city))
+
        if ('coordinates' in t and t['coordinates'] is not None and
           'coordinates' in t['coordinates']):
            col_str.append("long")
