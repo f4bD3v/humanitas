@@ -24,7 +24,9 @@ CREATE TABLE tweets (
     content text,
     lat float,
     long float,
-   	rt boolean,
+   	rt_count int,
+    fav_count int,
+    lang text,
     PRIMARY KEY (id, time));
 
 CREATE INDEX tweets_region
