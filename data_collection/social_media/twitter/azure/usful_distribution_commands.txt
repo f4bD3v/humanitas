@@ -4,5 +4,10 @@
 
 sh distribute.sh -e "sudo wget -b -P /mnt url" -f machine-nr
 sh distribute.sh -scp "filter_word_and_country.py words/ filtered_tweets/" -a
-sh distribute.sh -e "python3 filter_word_and_country.py filtered_tweets /mnt/archiveteam-twitter-stream-*" -f -a
+sh distribute.sh -e "python3 filter_word_and_country.py filtered_tweets /mnt/archiveteam-twitter-*" -f -a
 
+sh distribute.sh -scp "filtered_tweets2/" -a
+sh distribute.sh -e "python3 filter_word_and_country.py filtered_tweets2 /mnt/archiveteam-twitter-*" -f -a
+
+sh distribute.sh -scp "filtered_tweets3/" -a
+sh distribute.sh -e "python3 filter_word_and_country.py filtered_tweets3 /mnt/archiveteam-twitter-*" -f -a

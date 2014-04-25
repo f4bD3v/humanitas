@@ -15,7 +15,7 @@ FOLLOWER_BATCH_SIZE = 200
 TWEET_RATE_LIMIT = 300
 MIN_TWEETS = 50
 MAX_TWEETS = 3200
-MAX_FOLLOWERS = 1000000
+MAX_FOLLOWERS = 500000
 
 def get_all_locations_in_india():
     yield 'india'
@@ -60,8 +60,8 @@ def get_good_followers(followers, locations, min_tweets):
         if good_location:
             accepted += 1
             yield follower
-##        else:
-##            badlocation += 1
+        else:
+            badlocation += 1
 ##            print 'Skipping "%s" because his location is ' \
 ##                    '"%s", and I do not have that in my list' % (
 ##                            follower['screen_name'], follower['location'])
@@ -81,6 +81,11 @@ def check_clock(last_time):
         print 'Sleeping for %s seconds...' % (RATE_LIMIT_WINDOW + BUFFER - elapsed_time)
         sleep(RATE_LIMIT_WINDOW + BUFFER - elapsed_time)
 
+def write_log(message):
+    f_log = open("log.txt", 'wb')
+    f_log.write(message)
+    f_log.close()
+
 def get_followers(twitter, root):
     locations = set(get_all_locations_in_india())
     
@@ -96,14 +101,22 @@ def get_followers(twitter, root):
     while users_downloaded < num_followers:
         print 'Downloading followers page %d for %s' % (page_number, root)
         try:
-            response = twitter.get_followers_list(screen_name=root, count=FOLLOWER_BATCH_SIZE, cursor=next_cursor)
+            response = twitter.get_followers_list(screen_name=root, count=FOLLOWER_BATCH_SIZE, cursor=next_cursor)            
+            followers = response['users']
         except TwythonRateLimitError:
             print 'Sleeping...'
             sleep(RATE_LIMIT_WINDOW)
             continue
         except TwythonError:
             continue
-        followers = response['users']
+        except KeyError:
+            f_followers = open('emergency_backup.pickle'%(root), 'wb')
+            pickle.dump(good_followers, f_followers)
+            f_followers.close()
+            print 'Sleeping...'
+            sleep(RATE_LIMIT_WINDOW)
+            continue
+        
         good_followers.extend((list(get_good_followers(followers, locations, MIN_TWEETS))))
         num_requests += 1
         if num_requests == FOLLOWER_RATE_LIMIT:
@@ -113,9 +126,7 @@ def get_followers(twitter, root):
         next_cursor = response['next_cursor']
         users_downloaded += FOLLOWER_BATCH_SIZE
         page_number += 1
-        f_log = open("log.txt", 'wb')
-        f_log.write(('%.02f%%\n')%(100.0 * users_downloaded / num_followers))
-        f_log.close()
+        write_log(('%.02f%%\n')%(100.0 * users_downloaded / num_followers))
 
     f_followers = open('%s_good_followers_of.pickle'%(root), 'wb')
     pickle.dump(good_followers, f_followers)
