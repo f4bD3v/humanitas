@@ -1,6 +1,7 @@
 import cPickle as pickle
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 
 pk_in = 'india_week_df_full.pickle'
@@ -36,10 +37,30 @@ def na_analysis(df):
 
     return na_table, nalen_table
 
+def flatten(df, one = False):
+    df_ts = pd.DataFrame()
+    for (state, city, product, subproduct), group in \
+            df.groupby(['state', 'city','product','subproduct']):
+        group.set_index('date')
+        df_ts[(state, city, product, subproduct)] = group['price']
+        if one:
+            break
+    return df_ts
 
 if __name__ == '__main__':
     with open(pk_in, 'rb') as f:
         df = pickle.load(f)
     print "df loaded in"
+
+    one=True
+    df_ts = pd.DataFrame()
+    for (state, city, product, subproduct), group in \
+            df.groupby(['state', 'city','product','subproduct']):
+        group.set_index('date', inplace=True)
+        df_ts[(state, city, product, subproduct)] = group['price']
+        if one:
+            break
+
+
 
     #na_table, nalen_table = na_analysis(df)

@@ -29,5 +29,6 @@ def csv2df_bulk(fp_lst):
         print 'loading '+file_path
         pieces.append(pd.read_csv(file_path))
     df_bulk = pd.concat(pieces)
-    
+    df_bulk.subproduct.fillna('', inplace=True)
+
     return df_bulk
