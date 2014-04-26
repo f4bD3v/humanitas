@@ -99,15 +99,24 @@ For our task we need a discrete time neural network which is incidentally also t
 They have sparsely connected \emph{random} hidden layer consisting of the internal units with the effect that the weights of the output neurons are the only part of the network that can change and be trained. This property allows for the rest of the network to be topologically unrestricted.
 They are good at reproducing time series. (wikipedia)
 
+\subsubsection*{Echo States}
+
 \paragraph{Echo State Property} Intuition: "If the network has been running long enough, its internal state is uniquely determined by the history of the input signal the teacher forced output."\par
 
 
+\subsubsection*{Training ESN}
 
+\paragraph*{Ridge Regression}
 
+\paragraph*{Initial state determination}
+The network is run for a first set of inputs and the results are then discarded. If the spectral radius is close to unity, implying slow forgetting of the starting state, the initial set has to be a substantial part of the training dataset.
 
+"Likewise, when the trained network is used to predict a sequence, a long initial run of the sequence must be fed into the network before the actual prediction can start. This is a nuisance because such long initial transients are in principle unneccessary"
 
+"By contrast, a recurrent neural network such as our echo state network, but also such as the networks used in [5] need long initial runs to “tune in” to the to-be-predicted sequence. [5] tackle this problem by training a second, auxiliary “initiator” network."
+EchoStatesTechRep.pdf, p.32
 
-
+\begin{comment}
 \subsubsection*{Finding the right topology for the specific prediction problem}
 
 \subsubsection*{Converge}
@@ -124,7 +133,6 @@ supervised way. The natural approach here is to adapt only the weights
 of network-to-output connections. Essentially, this trains readout functions
 which transform the echo state into the desired output signal. Technically,
 this amounts to a linear regression task.
+\end{comment}
 
-\subsubsection*{Echo States}
 
-\subsubsection*{Training ESN}
