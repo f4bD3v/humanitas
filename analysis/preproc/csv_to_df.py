@@ -12,6 +12,17 @@ def get_usage():
     """
     return usage_str
 
+def csv2df(file_path, bulk=False):
+    print 'loading '+file_path
+    df = pd.read_csv(file_path)
+    #df.columns = ['date', 'freq', 'country', 'city', 'product', 'sub', 'price']
+    #df.set_index(['product','sub','country','city','freq'], inplace=True)
+    df.subproduct.fillna('', inplace=True)
+    if bulk == False:
+        df['date'] = pd.to_datetime(df['date'])
+        df = df.sort('date')
+    return df
+
 def csv2df_bulk(fp_lst):
     pieces = []
     for file_path in fp_lst:
