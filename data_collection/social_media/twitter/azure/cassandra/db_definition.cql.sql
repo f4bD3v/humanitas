@@ -16,7 +16,7 @@ use tweet_collector;
 
 # static column family for storing tweets
 CREATE TABLE tweets (
-	tweet_id int,
+	id int
     time timestamp,
 	user_id int,
 	region text,
@@ -24,8 +24,10 @@ CREATE TABLE tweets (
     content text,
     lat float,
     long float,
-   	rt_count int,
-    PRIMARY KEY (time, tweet_id));
+  	rt_count int,
+    fav_count int,
+    lang text,
+    PRIMARY KEY (id, time));
 
 CREATE INDEX tweets_region
   ON tweets (region);
