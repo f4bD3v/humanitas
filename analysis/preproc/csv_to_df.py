@@ -12,17 +12,11 @@ def get_usage():
     """
     return usage_str
 
-
 def csv2df_bulk(fp_lst):
-    start_time = time()
-    is_first = True
+    pieces = []
     for file_path in fp_lst:
         print 'loading '+file_path
-        if is_first == True:
-            df_bulk = pd.read_csv(file_path)
-            is_first = False
-        else:
-            df_bulk = df_bulk.append(pd.read_csv(file_path))
-    print "{} {} {}".format("csv loaded into df in",(time()-start_time),'secs.')
-    print "{} {}".format("size of df =", df_bulk.shape)
+        pieces.append(pd.read_csv(file_path))
+    df_bulk = pd.concat(pieces)
+    
     return df_bulk

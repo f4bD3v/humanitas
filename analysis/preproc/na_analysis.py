@@ -1,7 +1,9 @@
 import cPickle as pickle
+import numpy as np
+import pandas as pd
 
 
-pk_in = 'all_India_week.pickle'
+pk_in = 'india_week_df_full.pickle'
 
 
 def len_longest_na(series):
@@ -17,14 +19,12 @@ def len_longest_na(series):
     return longest
 
 def na_analysis(df):
-    for state, sgroup in df.groupby('state'):
-        #TODO
-
-    #junk
     all_cities = list(set(df['city']))
-    all_regions
-    na_table = pd.DataFrame(columns=all_cities, index=all_prod_subs)
-    nalen_table = pd.DataFrame(columns=all_cities, index=all_prod_subs)
+    all_states = list(set(df['state']))
+    #all_prod_subs =
+    na_table = pd.DataFrame(columns=all_states, index=all_prod_subs)
+    nalen_table = pd.DataFrame(columns=all_states, index=all_prod_subs)
+
     for key in na_record.keys():
         (prod, sub, city) = key
         if isinstance(sub, str):
@@ -33,12 +33,13 @@ def na_analysis(df):
         else:
             na_table[city][(prod, ' ')] = na_record[key][0]
             nalen_table[city][(prod,' ')] = na_record[key][1]
+
     return na_table, nalen_table
 
 
-if __name__ = '__main__':
+if __name__ == '__main__':
     with open(pk_in, 'rb') as f:
         df = pickle.load(f)
     print "df loaded in"
 
-    na_table, nalen_table = na_analysis(df)
+    #na_table, nalen_table = na_analysis(df)
