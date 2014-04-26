@@ -100,14 +100,11 @@ $( "#slider" ).labeledslider({
 });
 
 function redrawMap() {
-	
 	highlighted = null;
 	geojson = L.geoJson(statesData, {
-		style: style,
+		style: stateStyle,
 		onEachFeature: onEachFeature
 	}).addTo(map);
-
-	
 }
 
 // get color depending on population density value
@@ -120,13 +117,12 @@ function getColor(d) {
 	return colorScale[0];
 }
 
-function style(feature) {
+function stateStyle(feature) {
 	return {
 		weight: 1,
-		opacity: .8,
 		color: 'grey',
 		dashArray: '4',
-		fillOpacity: 0.7,
+		fillOpacity: 0.6,
 		fillColor: getColor(getDensity(feature.id).strength)
 	};
 }
@@ -147,17 +143,19 @@ function getDensity(id) {
 function highlightFeature(e) {
 	var layer = e.target;
 
-	layer.setStyle({
-		weight: 3,
-		color: 'green',
-		dashArray: '',
-		fillOpacity: 0.7
-	});
+	if (layer && highlighted !== layer) {
+		layer.setStyle({
+			weight: 3,
+			color: 'green',
+			dashArray: '',
+			fillOpacity: 0.6
+		});
 
-	if (!L.Browser.ie && !L.Browser.opera) {
-		layer.bringToFront();
+		// if (!L.Browser.ie && !L.Browser.opera) {
+		// 	layer.bringToFront();
+		// }
+
 	}
-
 	info.update(layer.feature);
 }
 
@@ -167,12 +165,24 @@ function resetHighlight(e) {
 }
 
 function zoomToFeature(e) {
-	if (e.target && highlighted !== e.target) {
+	var layer = e.target;
+	if (layer && highlighted !== layer) {
 		map.fitBounds(e.target.getBounds());
-		highlighted = e.target;
+		highlighted = layer;
+		// prev = highlighted;
+		// resetHighlight(prev._container);
+		// layer.setStyle({
+		// 	weight: 3,
+		// 	color: 'black',
+		// 	dashArray: '',
+		// 	fillOpacity: .4
+		// });
 	} else {
 		map.setView([22, 83], 4.7);
 		highlighted = null;
+		// e.target.setStyle({
+		// 	fillOpacity: 0.7
+		// });
 	}
 }
 
