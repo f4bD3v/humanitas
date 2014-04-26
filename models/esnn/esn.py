@@ -1,3 +1,9 @@
+"""
+	Author: Fabian Brix
+
+	inspired by
+	http://minds.jacobs-university.de/mantas
+"""
 
 from numpy import *
 from matplotlib.pyplot import *
@@ -21,8 +27,10 @@ class ESN:
 		self._data = data
 
 		self._Nu = R*P
+		# one element of prediction granularity less than actually available data
 		self._N = 1825 # 5 years worth of daily data?
 		self._initN = 365 # 1 year worth of initialization
+		self._Ny = 1
 
 		"""
 			Reservoir size
@@ -37,6 +45,7 @@ class ESN:
 			RANDOM GENERATION 
 			###
 		"""
+		random.seed(42)
 
 		"""tan
 			+Input weight scaling
@@ -80,22 +89,64 @@ class ESN:
 			Target matrix 
 			same as input sequence, only shifted by 1 timestep 
 		"""
-		Yt = data[initN+1:N+1] 
+		self._Yt = data[initN+1:N+1] 
 
 		# leaking rate - selected as free parameter
-		self._alpha =
+		self._alpha = 0.3
 
-	def train(self):		
+		# select v for concrete reservoir using validation, just rerun Y=W_out.bUX for different v
+		self._nu
+
+	def teacher_forced_run(self):		
 		# initial run vs. training
+		"""
+			Teacher forcing - use Y_target as input
+		"""
+		self._x = zeros((Nx,1))
 		for t in range(N):
+			# data contains a set of timeseries making u a vector
 			u = data[t]
 			xlast = self._x
-			xnext = tanh(dot(Win, vstack((1,u))+dot(W,xlast)
-			x = (1-self._alpha)*xlast+self._alpha*xnext
+			xnext = tanh(dot(Win, vstack((1,u)))+dot(W,xlast))
+			self._x = (1-self._alpha)*xlast+self._alpha*xnext
 
-	def get_error(self):
+	def ridge_regression(self):
+		"""
+			Run regulized regression once after training (BATCH)
+		"""
+		bUXT = self._bUX.T
+		self._Wout = dot(dot(self._Yt,bUXT), linalg.inv(dot(self._bUX,bUXT)+self._nu*eye(1+self._Nu+self._Nx)) )
+
+		# specify prediction horizon when calling function
+	def generative_run(self, horizon, pred_test = False):
+		Y = zeros((Ny,horizon))
+		# use last training points as input to make first prediction
+		u = data[N]
+		for t in range(horizon):
+			xlast = self._x
+			xnext = tanh( dot( Win, vstack((1,u)))+dot(W,xlast)))
+    		self._x = (1-self._a)*xlast + self._a*xnext
+    		y = dot(self._Wout, vstack((1,u,x)) )
+    		Y[:,t] = y
+
+    		# use prediction as input to the network
+    		u = y 
+
+    	if pred_test: 
+    		return calc_pred_err(Y, horizon)
+    	else:
+    		return Y
+
+    def calc_pred_err(self, Y, horizon):
+		mse = sum( square( data[N+1:Nx+horizon+1] - Y[0,0:horizon] ) ) / horizon 
+		return mse
 
 
+def main():
 
+	# load data and stuff	
+
+if __name__ == "__main__":
+	main()
 
 
