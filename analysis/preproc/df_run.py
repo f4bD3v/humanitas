@@ -14,7 +14,7 @@ usage = '''
         df      : an aggregate dataframe containing all csv data
         df_full : a patched version of df with all missing dates filled with NaN price
         df_ts   : a flattened version of df_full. Each column is a time series of
-                  prices of tuple (product, subproduct, city, state)
+                  prices of tuple (state, city, product, subproduct)
 
     general options:
         run_weekly         : True then convert india weekly into df_full and/or df_ts
@@ -27,30 +27,32 @@ usage = '''
                              Empty list means no pre-filtering. Once we decide
                              which products to use, we set filter_lst = daily_product_lst,
                              to avoid creating very large df_full and df_ts
+        with_interpolation : True then do linear interpolation on processed series
+
     df_ts options:
-        with_interpolation : True then do linear interpolation
         na_cutoff_rate     : filter out those series with more NaN than this rate
 '''
 
 ##============options================
 
-run_weekly = True
+run_weekly = False
 run_daily = True
 run_saving = True
 
-using_df_full = True
+using_df_full = False
 using_df_ts = True
 
-daily_product_lst = ['Rice']
+daily_product_lst = ['Rice']#['Rice','Banana','Wheat', 'Apple','Coriander','Potato']
 filter_lst = []
 
-with_interpolation = False
-na_cutoff_rate = 0.3
+with_interpolation = True
+
+na_cutoff_rate = 0.4
 
 ##====================================
 
 fp_csv_weekly = os.getcwd()+'/../../data/india/csv_weekly/rpms.dacnet.nic.in/all_commodities_weekly_india_'
-fp_csv_daily = os.getcwd()+'/../../data/india/csv_daily/agmarknet.nic.in/daily/india_'
+fp_csv_daily = os.getcwd()+'/../../data/india/csv_daily/agmarknet.nic.in/daily/india_daily_'
 fp_state = os.getcwd()+'/../../data/india/csv_daily/agmarknet.nic.in/regions.csv'
 
 pk_out1_template = 'india_df_full.pickle'   ## => "india_df_full_daily.pickle"
@@ -64,7 +66,8 @@ date_freq_daily = 'D'
 
 
 
-def main():
+if __name__ == '__main__':
+#def main():
     global run_weekly
 
     for i in range(0,run_weekly+run_daily):
@@ -101,6 +104,7 @@ def main():
                 filter_lst)
 
         #examine_fullness(df_full, len(all_dates))
+        examine_df_ts_fullness(df_ts, len(all_dates))
 
         if run_saving:
 
@@ -116,9 +120,9 @@ def main():
                 print 'saving df_ts'
                 with open(pk_out2, 'wb') as f:
                     pickle.dump(df_ts, f)
-                df_ts.to_csv(csv_out2)
+                df_ts.to_csv(csv_out2, index_label='date')
 
 
 
-if __name__ == '__main__':
-    main()
+#if __name__ == '__main__':
+    #main()

@@ -5,6 +5,7 @@ from time import time
 import numpy as np
 import pandas as pd
 import sys
+import csv
 
 usage = '''
         get_raw_weekly   : read india weekly csv into one big dataframe, df_raw
@@ -52,11 +53,21 @@ def get_data(fp_csv, fp_state, product_lst):
         df_raw = get_raw_weekly(fp_csv)
     df_reg = get_state(fp_state)
     df = pd.merge(df_raw, df_reg, how="left", on="city")
+
     print 'formatting dates'
     df['date'] = pd.to_datetime(df['date'], format='%d/%m/%Y')
     print 'sorting by dates'
     df = df.sort('date')
-    print("Cities not joined with states: "+str(list(set(df_raw["city"]) - set(df_reg["city"]))))
+    print 'replace NR in prices with NaN'
+    df['price'].replace('NR', np.nan, inplace=True)
+
+    missing_cities= list(set(df_raw["city"]) - set(df_reg["city"]))
+    if len(missing_cities) != 0:
+        print "Cities not joined with states", missing_cities
+        with open('missing_cities.csv', 'wb') as f:
+            wr = csv.writer(f)
+            wr.writerow(missing_cities)
+
     print "{} {} {}".format("csv loaded into df in",(time()-start_time),'secs.')
     print "{} {}".format("size of df =", df.shape)
     return df
@@ -79,6 +90,20 @@ def examine_fullness(df, leng):
         # elif group.shape[0] > leng:
         #     print 'over full', group.shape, (state, city, product, subproduct)
 
+def examine_df_ts_fullness(df_ts, leng):
+    passed = True
+    for label in list(df_ts.columns):
+        if df_ts[label].shape[0] < leng:
+            passed=False
+            print 'length not equal to full length', label, df_ts[label].shape[0],'/',leng
+        if df_ts[label].count() < leng:
+            passed=False
+            print 'not fully interpolated', label, df_ts[label].count(),'/',leng
+    if passed:
+        print 'examine fullness success.'
+    else:
+        print 'examine fullness failed!'
+
 def replace_nan_with(x, t):
     return x if isinstance(x, str) or isinstance(x, int) else t
 
@@ -99,7 +124,8 @@ def get_full_data(df, all_dates, \
     start_time = time()
     pieces = []
     count = 0
-    dup_count = 0
+    err_count = 0
+    df_full = pd.DataFrame()
     df_ts = pd.DataFrame()
 
     print 'Using df_full?', using_df_full
@@ -124,22 +150,25 @@ def get_full_data(df, all_dates, \
 
         try:
             group = group.reindex(all_dates)
-        except:
-            print (state, city, product, subproduct), 'dup dates'
-            dup_count += 1
+        except Exception, e:
+            print (state, city, product, subproduct)
+            print e
+            err_count += 1
             continue
 
         #df_ts part
         # note that it's "larger than" valid_rate
         if using_df_ts and group['price'].count() * 1. / len(all_dates) > 1. - na_cutoff_rate:
             if with_interpolation:
-                df_ts[(product, subproduct, city, state)] = \
-                    group['price'].interpolate().bfill()
+                df_ts[(state, city, product, subproduct)] = group['price'].interpolate().bfill().ffill()
             else:
-                df_ts[(product, subproduct, city, state)] = group['price']
+                df_ts[(state, city, product, subproduct)] = group['price']
 
         #df_full part
         if using_df_full:
+            if with_interpolation:
+                group['price'] = group['price'].interpolate().bfill().ffill()
+
             group.reset_index(inplace=True)
             group.columns = mod_header(group.columns)
 
@@ -155,8 +184,13 @@ def get_full_data(df, all_dates, \
         count += 1
 
     print 'number of labels = ', count
-    print 'number of labels with dup dates = ', dup_count
+    print 'number of labels with errors = ', err_count
     print 'patch series with no dup dates in ', (time()-start_time)/60.0, ' min.'
+
+    #fix empty date header problem
+    #df_ts.reset_index(inplace=True)
+    #df_ts.columns = ['date']+list(df_ts.columns)[1:len(df_ts.columns)]
+    #print df_ts.index.name
 
 
     #report
