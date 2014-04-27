@@ -6,8 +6,10 @@ import re
 import csv
 import sys
 import pickle
+import traceback
 
 RATE_LIMIT_WINDOW = 30 * 60
+WAIT_BETWEEN_AUTH = 10 * 60
 BUFFER = 5
 TWEET_BATCH_SIZE = 200
 FOLLOWER_RATE_LIMIT = 30
@@ -83,14 +85,23 @@ def check_clock(last_time):
         sleep(RATE_LIMIT_WINDOW + BUFFER - elapsed_time)
 
 def write_log(message):
-    f_log = open("log.txt", 'wb')
+    f_log = open("log.txt", 'a')
     f_log.write(message)
     f_log.close()
 
 def authenticate(APP_KEY, APP_SECRET):
-    twitter = Twython(APP_KEY, APP_SECRET, oauth_version=2)
-    ACCESS_TOKEN = twitter.obtain_access_token()
-    return Twython(APP_KEY, access_token=ACCESS_TOKEN)
+    while True:
+        print 'Authenticating to Twitter...'
+        try:
+            twitter = Twython(APP_KEY, APP_SECRET, oauth_version=2)
+            ACCESS_TOKEN = twitter.obtain_access_token()
+            ret = Twython(APP_KEY, access_token=ACCESS_TOKEN)
+            print 'Authentication successful.'
+            return ret
+        except TwythonAuthError, e:
+            traceback.print_exc()
+            sleep(WAIT_BETWEEN_AUTH)
+
 
 def get_followers(root, APP_KEY, APP_SECRET):
     twitter = authenticate(APP_KEY, APP_SECRET)
@@ -178,13 +189,9 @@ def get_twitter_data(root, APP_KEY, APP_SECRET):
                 sleep(RATE_LIMIT_WINDOW + BUFFER)
                 continue
             except TwythonError, e:
-                print str(e)
+                traceback.print_exc()
                 sleep(RATE_LIMIT_WINDOW + BUFFER)
                 twitter = authenticate(APP_KEY, APP_SECRET)
-                continue
-            except TwythonAuthError, e:
-                print str(e)
-                sleep(RATE_LIMIT_WINDOW + BUFFER)
                 continue
 
             if (datetime.now() - log_time).seconds >= 120:
@@ -196,7 +203,7 @@ def get_twitter_data(root, APP_KEY, APP_SECRET):
                 check_clock(last_time)
                 last_time = datetime.now()
                 num_requests = 1
-                twitter = authenticate(APP_KEY, APP_SECRET)
+                #twitter = authenticate(APP_KEY, APP_SECRET)
                 
             for tweet in new_tweets:
                 if max_tweet_id == 0 or max_tweet_id > int(tweet['id']):
