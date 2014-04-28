@@ -9,6 +9,7 @@ import sys
 region_dict = {}
 
 def process_file(filename):
+    if filename.find('.html') < 0: return
     f = open(filename, 'r')
     lines = f.readlines()
     f.close()
