@@ -1,4 +1,4 @@
-update 22.04.2014:
+update 28.04.2014:
 
 IMPORTANT: everyone is required to document theoretical aspects of their tasks
 
@@ -17,21 +17,31 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
         * db scheme for cassandra
           [Fabian, Gabriel helps]
             -- ready
-        * clustering of tweets
-          [Gabriel, Fabian]
+        * Clustering of tweets
+          [Gabriel, Fabian, Anton]
+          IMPORTANT TODO, DEADLINE 3rd Mai
         * Get user ids of twitter users from India with many tweets
           [Joseph, Stefan&Gabriel helps]
-            -- ready
+            -- >100k users ready, still running
         * storing tweets
           [Duy, contact Joseph and Gabriel]
             -- implementation nearly ready
 
     * Crawl daily and weekly price data and stocks; sources in data/india/sources.txt
         [Anton, request help where needed]
+        IMPORTANT: fetch daily retail data from http://fcainfoweb.nic.in/PMSver2/Reports/Report_Menu_web.aspx and write to csv so it can be processed
         -- also document shortly what to pay attention to using the gov sites in sources.txt
 
     * additional data (India+Indonesia): food production, food stocks, weather, Consumer Price Index (CPI), currency exchange rate (w.r.t $), crude oil price 
-        [Duy, Alex]
+        [Alex, Joseph, Duy]
+        IMPORTANT: 
+        - Joseph scrape Indian weather data history from TuTiempo.net, data is located in html tables (Duy helps)
+        - Alex: analyze food production against prices before 2011
+
+
+* Twitter analysis
+    - Clustering of Tweets
+        [Anton, Fabian] 
 
 * Data processing
     * All data sources must be tabular, csv with the columns discussed on
@@ -46,18 +56,23 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
 
     * Interpolate the missing values in each (R,C,P,SP) time-series
         [Ching-Chia]
+        done
 
     * Run PCA (or aggregate with averages) the (R,C,P,SP) time-series into
       (R,P) time-series
+        TODO
         [Ching-Chia, Stefan helps]
+
 
 * Prediction model
     * detecting seasonal effects (TM analysis)
         [Ching-Chia]
+        *closed* - leaves this to be detected by neural network
 
     * Choosing input params (how to relate series):
         Price transmission analysis, Association rule learning
-        [Alex]
+        [Alex, Fabian]
+        IMPORTANT: we need to do more work on this part
 
     * FF neural networks
         [Fabian, Stefan]
@@ -67,18 +82,21 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
         [Fabian, Stefan]
 
     * Echo-state neural networks
-        -- implement, train and test the model at
-            models/esnn/model?.txt
-        -- lower priority
+        -- implemented
+        -- train and test the model with and without twitter indicators
+        -- add weather data and oil price as additional input
+        -- teacher force network on commodity price time series
+        -- high priority
         [Fabian, Stefan]
 
     * Support Vector Regression
         [Gabriel]
         -- train and test the model at models/svr/model1.txt
-        -- lower priority
+        -- very low priority
 
 * Maps, visualizations, displaying the data and results
     [Duy, Fabian]
+    TODO: put map on server, connect to cassandra, style it
 
 
 
