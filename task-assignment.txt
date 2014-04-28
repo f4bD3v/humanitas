@@ -97,8 +97,60 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
 * Maps, visualizations, displaying the data and results
     [Duy, Fabian]
     TODO: put map on server, connect to cassandra, style it
+    FINAL RESULT: predictions and twitter data interactively accessible through map
 
 
+
+* Documentation: 
+    * Data collection & processing
+        -- Time Series data
+                - Data types
+                    [Fabian, Anton, Alex]
+                - Collection (short) 
+                    [Anton]
+                - Choice of commodities 
+                    [Ching-Chia, Fabian] 
+                - Processing
+                    [Ching-Chia, Stefan]
+
+        -- Twitter 
+                - Issue of localization - mapping tweets to user location
+
+                - Historical Tweets
+                    Approach 1 - through API by user (extensive)          
+                        [Joseph]
+
+                    Approach 2 - through webarchive
+                        [Gabriel]
+
+                    Filtering
+
+                - Infrastructure, Cassandra 
+                    [Gabriel works his magic, Fabian helps] 
+
+    * Data analysis and prediction
+        * Twitter 
+            -- Clustering according to keywords 
+                => then according to predictor words
+
+        * Analysis 
+            -- Time Series analysis 
+                +PCA
+            -- Association rules
+
+        * Prediction Models
+            -- Time Series Forecasting 
+                [Ching-Chia]
+            -- (FeedForward NN)
+                [Stefan, Fabian]
+            -- Recurrent NN --> Echo State NN
+                [Fabian, Stefan]
+                Input
+                Training (Teacher forcing), Testing, Evaluation
+
+* Presentation
+    * Schema of Prediction Model (e.g. Echo State Network)
+    * Demo of Map
 
 Older assignments:
 ============================================================
