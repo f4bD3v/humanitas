@@ -1,4 +1,4 @@
-from twython import Twython, TwythonError, TwythonRateLimitError
+from twython import Twython, TwythonError, TwythonRateLimitError, TwythonAuthError
 from datetime import datetime
 from time import sleep
 from sys import maxint
@@ -6,8 +6,10 @@ import re
 import csv
 import sys
 import pickle
+import traceback
 
-RATE_LIMIT_WINDOW = 15 * 60
+RATE_LIMIT_WINDOW = 30 * 60
+WAIT_BETWEEN_AUTH = 10 * 60
 BUFFER = 5
 TWEET_BATCH_SIZE = 200
 FOLLOWER_RATE_LIMIT = 30
@@ -16,6 +18,7 @@ TWEET_RATE_LIMIT = 300
 MIN_TWEETS = 50
 MAX_TWEETS = 3200
 MAX_FOLLOWERS = 500000
+MAX_TWEETS_PER_FILE = 50000
 
 def get_all_locations_in_india():
     yield 'india'
@@ -82,15 +85,29 @@ def check_clock(last_time):
         sleep(RATE_LIMIT_WINDOW + BUFFER - elapsed_time)
 
 def write_log(message):
-    f_log = open("log.txt", 'wb')
+    f_log = open("log.txt", 'a')
     f_log.write(message)
     f_log.close()
 
-def get_followers(twitter, root):
+def authenticate(APP_KEY, APP_SECRET):
+    while True:
+        print 'Authenticating to Twitter...'
+        try:
+            twitter = Twython(APP_KEY, APP_SECRET, oauth_version=2)
+            ACCESS_TOKEN = twitter.obtain_access_token()
+            ret = Twython(APP_KEY, access_token=ACCESS_TOKEN)
+            print 'Authentication successful.'
+            return ret
+        except TwythonAuthError, e:
+            traceback.print_exc()
+            sleep(WAIT_BETWEEN_AUTH)
+
+
+def get_followers(root, APP_KEY, APP_SECRET):
+    twitter = authenticate(APP_KEY, APP_SECRET)
+
     locations = set(get_all_locations_in_india())
-    
     num_followers = min(MAX_FOLLOWERS, twitter.show_user(screen_name=root)['followers_count'])
-    
     next_cursor = -1; num_requests = 0; users_downloaded = 0; page_number = 1
 
     last_time = datetime.now()
@@ -108,9 +125,10 @@ def get_followers(twitter, root):
             sleep(RATE_LIMIT_WINDOW)
             continue
         except TwythonError:
+            twitter = authenticate(APP_KEY, APP_SECRET)
             continue
         except KeyError:
-            f_followers = open('emergency_backup.pickle'%(root), 'wb')
+            f_followers = open('emergency_backup.pickle', 'wb')
             pickle.dump(good_followers, f_followers)
             f_followers.close()
             print 'Sleeping...'
@@ -135,17 +153,22 @@ def get_followers(twitter, root):
     duration = (datetime.now() - time_start).seconds
     print 'Number of good followers listed %s in %s seconds' % (len(good_followers), duration)
 
-def get_twitter_data(twitter, root):
+def get_twitter_data(root, APP_KEY, APP_SECRET):
+    twitter = authenticate(APP_KEY, APP_SECRET)
+    
     f_followers = open('%s_good_followers_of.pickle'%(root), 'rb')
     followers = pickle.load(f_followers)
     f_followers.close()
     
-    num_requests = 0; file_count = 1
+    num_requests = 0; file_count = 1; total_tweets = 0
     
     last_time = datetime.now()
     time_start = datetime.now()
+    log_time = datetime.now()
 
     tweets = []
+    
+    print '%s followers available\n'%(len(followers))
     
     for follower in followers:
         num_tweets = min(follower['statuses_count'], MAX_TWEETS)
@@ -160,49 +183,59 @@ def get_twitter_data(twitter, root):
                 else:
                     new_tweets = twitter.get_user_timeline(screen_name=follower['screen_name'], max_id=max_tweet_id, count=TWEET_BATCH_SIZE)
                 tweets_collected += TWEET_BATCH_SIZE
+                total_tweets += len(new_tweets)
             except TwythonRateLimitError:
-                print 'Sleeping...'
-                sleep(RATE_LIMIT_WINDOW)
+                write_log('Rate limit error - sleeping...\n')
+                sleep(RATE_LIMIT_WINDOW + BUFFER)
                 continue
-            except TwythonError:
+            except TwythonError, e:
+                traceback.print_exc()
+                sleep(RATE_LIMIT_WINDOW + BUFFER)
+                twitter = authenticate(APP_KEY, APP_SECRET)
                 continue
+
+            if (datetime.now() - log_time).seconds >= 120:
+                print(str((datetime.now() - time_start).seconds))
+                log_time = datetime.now()
+            
             num_requests += 1
             if num_requests == TWEET_RATE_LIMIT:
                 check_clock(last_time)
                 last_time = datetime.now()
                 num_requests = 1
+                #twitter = authenticate(APP_KEY, APP_SECRET)
+                
             for tweet in new_tweets:
                 if max_tweet_id == 0 or max_tweet_id > int(tweet['id']):
                     max_tweet_id = int(tweet['id'])
             tweets.extend(new_tweets)
-
-    f_tweets = open('%s_tweets.pickle'%(root), 'wb')
+            sleep(2)
+            
+        if total_tweets >= file_count * MAX_TWEETS_PER_FILE:
+            f_tweets = open('%s_tweets_%s.pickle'%(root, file_count), 'wb')
+            pickle.dump(tweets, f_tweets)
+            f_tweets.close()
+            file_count += 1
+            tweets = []
+        write_log(('%s tweets collected\n')%(total_tweets))
+        
+    f_tweets = open('%s_tweets_%s.pickle'%(root, file_count), 'wb')
     pickle.dump(tweets, f_tweets)
     f_tweets.close()
 
     duration = (datetime.now() - time_start).seconds
-    print 'Number of tweets collected %s in %s seconds' % (len(tweets), duration)
+    print 'Number of tweets collected %s in %s seconds' % (total_tweets, duration)
     
 def main():
-    APP_KEY = 'aylam3pBvHkhOUmycOWw'
-    APP_SECRET = 'uXAuZwGX8FUno0P54gdIlGnkijhkY56lVFxRwgjgI'
-    root = "KareenaOnline"
-    option = 'both'
-    
-    if sys.argv > 1:
-        APP_KEY = sys.argv[1]
-        APP_SECRET = sys.argv[2]
-        root = sys.argv[3]
-        option = sys.argv[4]
-    
-    twitter = Twython(APP_KEY, APP_SECRET, oauth_version=2)
-    ACCESS_TOKEN = twitter.obtain_access_token()
-    twitter = Twython(APP_KEY, access_token=ACCESS_TOKEN)
-
+    APP_KEY = sys.argv[1]
+    APP_SECRET = sys.argv[2]
+    root = sys.argv[3]
+    option = sys.argv[4]
+        
     if option == 'users' or option == 'both':
-        get_followers(twitter, root)
+        get_followers(root, APP_KEY, APP_SECRET)
     if option == 'tweets' or option == 'both':
-        get_twitter_data(twitter, root)
+        get_twitter_data(root, APP_KEY, APP_SECRET)
     
 if __name__ == '__main__':
     main()
