@@ -37,7 +37,8 @@ usage = '''
 
 run_weekly = False
 run_daily = True
-run_saving = True
+run_saving_csv = True
+run_saving_pickle = False
 
 using_df_full = False
 using_df_ts = True
@@ -106,23 +107,28 @@ if __name__ == '__main__':
         #examine_fullness(df_full, len(all_dates))
         examine_df_ts_fullness(df_ts, len(all_dates))
 
-        if run_saving:
+        if run_saving_pickle:
 
             if using_df_full:
 
                 print 'saving df'
                 with open(pk_out1, 'wb') as f:
                     pickle.dump(df_full, f)
-                df_full.to_csv(csv_out1)
+
 
             if using_df_ts:
 
                 print 'saving df_ts'
                 with open(pk_out2, 'wb') as f:
                     pickle.dump(df_ts, f)
+
+        if run_saving_csv:
+
+            if using_df_full:
+                df_full.to_csv(csv_out1)
+
+            if using_df_ts:
                 df_ts.to_csv(csv_out2, index_label='date')
-
-
 
 #if __name__ == '__main__':
     #main()
