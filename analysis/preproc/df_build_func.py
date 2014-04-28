@@ -143,7 +143,7 @@ def get_full_data(df, all_dates, \
 
         #common part
 
-        if product in filter_lst:
+        if len(filter_lst) != 0 and product not in filter_lst:
             continue
 
         group.set_index('date', inplace=True)
