@@ -1,6 +1,7 @@
 from df_build_func import *
 
 
+
 usage = '''
     This script read India daily and/or weekly csv files into Pandas dataframes, df_full and/or df_ts
 
@@ -40,15 +41,15 @@ run_daily = True
 run_saving_csv = True
 run_saving_pickle = False
 
-using_df_full = False
+using_df_full = True
 using_df_ts = True
 
-daily_product_lst = ['Rice']#['Rice','Banana','Wheat', 'Apple','Coriander','Potato']
+daily_product_lst = ['Rice','Banana','Wheat', 'Apple','Coriander','Potato']#['Rice','Banana','Wheat', 'Apple','Coriander','Potato']
 filter_lst = []
 
 with_interpolation = True
 
-na_cutoff_rate = 0.4
+na_cutoff_rate = 1
 
 ##====================================
 
@@ -100,34 +101,37 @@ if __name__ == '__main__':
 
         all_dates = get_all_dates(df, date_freq)
 
-        df_full, df_ts = get_full_data(df, all_dates, \
+        df_full, df_ts, dup_records = get_full_data(df, all_dates, \
                 using_df_full, using_df_ts, na_cutoff_rate, with_interpolation,\
                 filter_lst)
 
-        #examine_fullness(df_full, len(all_dates))
+        #print dup_records
+        examine_fullness(df_full, len(all_dates))
         examine_df_ts_fullness(df_ts, len(all_dates))
 
         if run_saving_pickle:
 
             if using_df_full:
 
-                print 'saving df'
+                print 'saving df_full to pickle'
                 with open(pk_out1, 'wb') as f:
                     pickle.dump(df_full, f)
 
 
             if using_df_ts:
 
-                print 'saving df_ts'
+                print 'saving df_ts to pickle'
                 with open(pk_out2, 'wb') as f:
                     pickle.dump(df_ts, f)
 
         if run_saving_csv:
 
             if using_df_full:
+                print 'saving df_full to csv'
                 df_full.to_csv(csv_out1)
 
             if using_df_ts:
+                print 'saving df_ts to csv'
                 df_ts.to_csv(csv_out2, index_label='date')
 
 #if __name__ == '__main__':

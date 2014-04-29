@@ -6,6 +6,8 @@ import numpy as np
 import pandas as pd
 import sys
 import csv
+import collections
+import matplotlib.pyplot as plt
 
 usage = '''
         get_raw_weekly   : read india weekly csv into one big dataframe, df_raw
@@ -83,12 +85,24 @@ def mod_header(cols):
 
 
 def examine_fullness(df, leng):
+    passed = True
     for (state, city, product, subproduct), group in \
             df.groupby(['state', 'city','product','subproduct']):
         if group.shape[0] < leng:
-            print 'not full', group.shape, (state, city, product, subproduct)
-        # elif group.shape[0] > leng:
-        #     print 'over full', group.shape, (state, city, product, subproduct)
+            passed = False
+            print 'not full', group.shape, (state, city, product, subproduct), group.shape
+        elif group.shape[0] > leng:
+            passed = False
+            print 'over full', group.shape, (state, city, product, subproduct), group.shape
+        if group['price'].count() < leng:
+            passed = False
+            print 'not fully interpolated', (state, city, product, subproduct), group['price'].count()
+
+    if passed:
+        print 'examine df_full succeeds.'
+    else:
+        print 'examine df_full failed!'
+
 
 def examine_df_ts_fullness(df_ts, leng):
     passed = True
@@ -96,13 +110,16 @@ def examine_df_ts_fullness(df_ts, leng):
         if df_ts[label].shape[0] < leng:
             passed=False
             print 'length not equal to full length', label, df_ts[label].shape[0],'/',leng
+        elif df_ts[label].shape[0] > leng:
+            passed=False
+            print 'length larger than full length', label, df_ts[label].shape[0],'/',leng
         if df_ts[label].count() < leng:
             passed=False
             print 'not fully interpolated', label, df_ts[label].count(),'/',leng
     if passed:
-        print 'examine fullness success.'
+        print 'examine df_ts fullness succeeds.'
     else:
-        print 'examine fullness failed!'
+        print 'examine df_ts fullness failed!'
 
 def replace_nan_with(x, t):
     return x if isinstance(x, str) or isinstance(x, int) else t
@@ -132,6 +149,9 @@ def get_full_data(df, all_dates, \
     print 'Using df_ts?', using_df_ts
     print 'filter list = ', filter_lst
 
+    dup_records = []
+    #empty_subproduct = []
+
     for (state, city, product, subproduct, country, freq), group in \
             df.groupby(['state', 'city','product','subproduct', 'country', 'freq']):
 
@@ -143,18 +163,51 @@ def get_full_data(df, all_dates, \
 
         #common part
 
+        #filter out things not in filter_lst
         if len(filter_lst) != 0 and product not in filter_lst:
             continue
+
+        #skip those with only NaN data
+        if group['price'].count() == 0:
+            continue
+
+        # if freq == 'day':
+        #     if subproduct == '':
+        #         print 'ignore empty subproduct',(state, city, product, subproduct, country, freq)
+        #         #empty_subproduct.append(((state, city, product, subproduct, country, freq), group.shape))
+        #         continue
+
 
         group.set_index('date', inplace=True)
 
         try:
             group = group.reindex(all_dates)
         except Exception, e:
-            print (state, city, product, subproduct)
-            print e
+            print e, (state, city, product, subproduct, country, freq)
             err_count += 1
-            continue
+            #record duplicate
+            #group['price'].plot(legend=False)
+            #group.to_csv('group1.csv')
+            group.reset_index(inplace=True)
+            group.columns = mod_header(group.columns)
+            dupdf, dup_dates = extract_duplicates(group)
+            dup_records.append(((state, city, product, subproduct, country, freq), dupdf))
+            #print dup_dates
+
+            #handle duplicates of daily datasets
+            if freq == 'day':
+                group.drop_duplicates(cols='date', inplace=True)
+                #fill NaN in the missing dates again
+                group.set_index('date', inplace=True)
+                group = group.reindex(all_dates)
+                print 'duplicate handled, new length', group.shape[0], '/', len(all_dates)
+                #group.to_csv('group2.csv', index_label='date')
+                #group['price'].plot(legend=False)
+                #plt.show()
+                #if err_count > 0:
+                #    exit()
+            else:
+                continue
 
         #df_ts part
         # note that it's "larger than" valid_rate
@@ -178,6 +231,8 @@ def get_full_data(df, all_dates, \
             group['product'] = group['product'].apply(lambda x: replace_nan_with(x, product))
             group['subproduct'] = group['subproduct'].apply(lambda x: replace_nan_with(x, subproduct))
             group['state'] = group['state'].apply(lambda x: replace_nan_with(x, state))
+            if freq == 'day':
+                group['tonnes'] = group['tonnes'].apply(lambda x: replace_nan_with(x, -1))
 
             pieces.append(group)
 
@@ -185,7 +240,9 @@ def get_full_data(df, all_dates, \
 
     print 'number of labels = ', count
     print 'number of labels with errors = ', err_count
-    print 'patch series with no dup dates in ', (time()-start_time)/60.0, ' min.'
+    print 'patch series in ', (time()-start_time)/60.0, ' min.'
+
+
 
     #fix empty date header problem
     #df_ts.reset_index(inplace=True)
@@ -196,7 +253,7 @@ def get_full_data(df, all_dates, \
     #report
     if using_df_full:
         print 'combining'
-        df_full = pd.concat([df]+pieces)
+        df_full = pd.concat(pieces)
         print 'sorting by dates'
         df_full = df_full.sort('date')
         print 'size of df_full = ', df_full.shape
@@ -204,4 +261,12 @@ def get_full_data(df, all_dates, \
     if using_df_ts:
         print 'size of df_ts = ', df_ts.shape
 
-    return df_full, df_ts
+    return df_full, df_ts, dup_records
+
+
+def extract_duplicates(group):
+    df_ret = pd.DataFrame()
+    dup_dates = list(group[group.duplicated('date')].date)
+    for d in dup_dates:
+        df_ret = df_ret.append(group[group['date']==d])
+    return df_ret, dup_dates
