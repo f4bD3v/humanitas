@@ -109,7 +109,6 @@ Pillukhera,Haryana
 Dharsul,Haryana
 Pai,Haryana
 Ambala City(Subji Mandi),Haryana
-New Grain Market , Sonipat,Haryana
 Pehowa(Gumthala Gahru),Haryana
 Bhikhiwind,Punjab
 Bhikhiwind(Khalra),Punjab
@@ -645,9 +644,9 @@ Vessue,Jammu and Kashmir
 Kanispora Baramulla (F&V;),Jammu and Kashmir
 Akhnoor,Jammu and Kashmir
 Shopian,Jammu and Kashmir
-AMO, Amritsar,Jammu and Kashmir
+AMO_ Amritsar,Jammu and Kashmir
 Bumhama-Kupwara (F&V;),Jammu and Kashmir
-AMO, Mumbai,Jammu and Kashmir
+AMO_ Mumbai,Jammu and Kashmir
 Sambal,Jammu and Kashmir
 Bokaro (Chas),Jharkhand
 Chaibasa,Jharkhand
@@ -1678,7 +1677,7 @@ Gaddiannaram,Andhra Pradesh
 Hyderabad (F&V;),Andhra Pradesh
 Warangal,Andhra Pradesh
 Dhone,Andhra Pradesh
-P. Ramacharyulu Park,RBZ,Andhra Pradesh
+P. Ramacharyulu Park_RBZ,Andhra Pradesh
 Badepalli,Andhra Pradesh
 Bowenpally,Andhra Pradesh
 Vijayawada,Andhra Pradesh
@@ -1695,7 +1694,7 @@ Shankarapally,Andhra Pradesh
 Kalwakurthy,Andhra Pradesh
 Ibrahimputnam,Andhra Pradesh
 Saluru,Andhra Pradesh
-R and B Guest House,RBZ,Vizianagaram,Andhra Pradesh
+R and B Guest House_RBZ_Vizianagaram,Andhra Pradesh
 Ramachandrapuram,Andhra Pradesh
 Ichapuram,Andhra Pradesh
 Shadnagar,Andhra Pradesh
@@ -1828,7 +1827,7 @@ Mallial(Cheppial),Andhra Pradesh
 Gadwal(Lezza),Andhra Pradesh
 Chintapally,Andhra Pradesh
 Bangarupalem,Andhra Pradesh
-Kancharlapalem,RBZ,Andhra Pradesh
+Kancharlapalem_RBZ,Andhra Pradesh
 Bhainsa,Andhra Pradesh
 Lakkireddipally,Andhra Pradesh
 Asifabad,Andhra Pradesh
@@ -1865,10 +1864,9 @@ Kuber,Andhra Pradesh
 Parkal,Andhra Pradesh
 Madnoor(Bitchkonda),Andhra Pradesh
 Achampet,Andhra Pradesh
-Ganesh Chouk,Rajahmundry,RBZ,Andhra Pradesh
 Tadipatri,Andhra Pradesh
 Tenakallu,Andhra Pradesh
-Alwal,RBZ,Andhra Pradesh
+Alwal_RBZ,Andhra Pradesh
 Nagur,Andhra Pradesh
 Kalikiri,Andhra Pradesh
 Mulakalacheruvu,Andhra Pradesh
@@ -1877,9 +1875,9 @@ Vayalapadu,Andhra Pradesh
 Punganur,Andhra Pradesh
 Somala,Andhra Pradesh
 Rompicherla,Andhra Pradesh
-Proddatur,RBZ,Andhra Pradesh
-Eluru(P.Sri.Mkt),RBZ,Andhra Pradesh
-Eluru-II,RBZ,Andhra Pradesh
+Proddatur_RBZ,Andhra Pradesh
+Eluru(P.Sri.Mkt)_RBZ,Andhra Pradesh
+Eluru-II_RBZ,Andhra Pradesh
 Hamirpur,Himachal Pradesh
 Dharampur,Himachal Pradesh
 Dhanotu (Mandi),Himachal Pradesh
@@ -1973,7 +1971,7 @@ Baruch(Vagara),Gujarat
 Godhra(Kakanpur),Gujarat
 Gondal,Gujarat
 Vadodara(Navapura),Gujarat
-Ahmedabad(Fruit Market, Naroda),Gujarat
+Ahmedabad(Fruit Market_ Naroda),Gujarat
 Ahmedabad(Manekchowk),Gujarat
 Deesa(Deesa Veg Yard),Gujarat
 Junagadh,Gujarat
@@ -1985,7 +1983,7 @@ Lakhtar,Gujarat
 Ahmedabad(Chimanbhai Patal Market Vasana),Gujarat
 Dahod(Veg. Market),Gujarat
 Dholka,Gujarat
-Mehmadabad(Veg ,market),Gujarat
+Mehmadabad(Veg _market),Gujarat
 Rajkot,Gujarat
 Surat,Gujarat
 Vadhvan,Gujarat
@@ -2004,13 +2002,13 @@ Limdi,Gujarat
 Anand,Gujarat
 Nadiad,Gujarat
 Radheja,Gujarat
-Petlad(Veg Yard, Petlad),Gujarat
+Petlad(Veg Yard_ Petlad),Gujarat
 Vijapur,Gujarat
-Patan(Veg,Yard Patan),Gujarat
+Patan(Veg_Yard Patan),Gujarat
 Dholka(Market Yard Veg),Gujarat
 Mansa(Manas Veg Yard),Gujarat
 Viramgam,Gujarat
-Anand(Veg,Yard,Anand),Gujarat
+Anand(Veg_Yard_Anand),Gujarat
 Mehmadabad,Gujarat
 Talalagir,Gujarat
 Dhari(Chalala),Gujarat
@@ -2232,8 +2230,9 @@ Pune(Pimpri),Maharashtra
 Barshi(Vairag),Maharashtra
 Parbhani,Maharashtra
 Chandrapur,Maharashtra
-Sangli(Phale, Bhajipura Market),Maharashtra
+Sangli(Phale_ Bhajipura Market),Maharashtra
 Nasik,Maharashtra
+Amrawati(Frui & Veg. Market),Maharashtra
 Amrawati(Frui &amp; Veg. Market),Maharashtra
 Vashi New Mumbai,Maharashtra
 All India Cottonseed Crushers Association,Maharashtra
@@ -2584,7 +2583,7 @@ Sirsi,Karnataka
 Yalburga,Karnataka
 Bhalki,Karnataka
 Hiriyur,Karnataka
-Binny Mill (F&V;), Bangalore,Karnataka
+Binny Mill (F&V;)_ Bangalore,Karnataka
 Belgaum,Karnataka
 Holalkere,Karnataka
 Laxmeshwar,Karnataka
@@ -2766,4 +2765,3 @@ Khamhariya,Chattisgarh
 Rangpo,Sikkim
 Melli,Sikkim
 Gangtok,Sikkim
-
