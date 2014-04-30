@@ -39,20 +39,28 @@ def get_raw_daily(fp_csv, product_lst):
         fp_lst.append("{}{}{}".format(fp_csv,p,'_2005-2014.csv'))
     return csv2df_bulk(fp_lst)
 
-def isDaily(fp_csv):
-    return 'csv_daily' in fp_csv
+def get_raw_daily_retail(fp_csv):
+    return csv2df_bulk([fp_csv])
 
 def get_state(fp_state):
     return pd.read_csv(fp_state)
 
 def get_data(fp_csv, fp_state, product_lst):
     start_time = time()
-    if isDaily(fp_csv):
+    #wholesale daily
+    if 'agmarknet' in fp_csv:
         if len(product_lst) == 0:
             raise Exception('empty product_lst')
         df_raw = get_raw_daily(fp_csv, product_lst)
+    #retail daily
+    elif 'fcainfoweb' in fp_csv:
+        df_raw = get_raw_daily_retail(fp_csv)
+        df_raw['subproduct'] = df_raw['subproduct'].apply(lambda x: 'None')
+        df_raw['price'] = df_raw['price'].apply(lambda x: np.nan if x == 'NR' else x)
+    #retail weekly
     else:
         df_raw = get_raw_weekly(fp_csv)
+
     df_reg = get_state(fp_state)
     df = pd.merge(df_raw, df_reg, how="left", on="city")
 

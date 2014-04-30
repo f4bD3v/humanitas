@@ -36,7 +36,8 @@ usage = '''
 ##============options================
 
 run_retail_weekly = False
-run_wholesale_daily = True
+run_wholesale_daily = False
+run_retail_daily = True
 saving_csv = True
 saving_pickle = False
 
@@ -46,7 +47,7 @@ using_df_ts = True
 daily_product_lst = ['Rice','Wheat','Banana', 'Apple','Coriander','Potato', 'Onion']#['Rice','Banana','Wheat', 'Apple','Coriander','Potato']
 filter_lst = []
 
-with_interpolation = True
+with_interpolation = False
 
 na_cutoff_rate = 0.4
 
@@ -54,6 +55,7 @@ na_cutoff_rate = 0.4
 
 fp_csv_weekly = os.getcwd()+'/../../data/india/csv_weekly/rpms.dacnet.nic.in/all_commodities_weekly_india_'
 fp_csv_daily = os.getcwd()+'/../../data/india/csv_daily/agmarknet.nic.in/daily/india_daily_'
+fp_csv_daily_retail = os.getcwd()+'/../../data/india/csv_daily/fcainfoweb.nic.in/india_daily_fcainfo_retail_2009-2014.csv'
 fp_state = os.getcwd()+'/../../data/india/csv_daily/agmarknet.nic.in/regions.csv'
 
 pk_out1_template = 'india_df_full.pickle'   ## => "india_df_full_daily.pickle"
@@ -69,9 +71,9 @@ date_freq_daily = 'D'
 
 if __name__ == '__main__':
 #def main():
-    global run_retail_weekly
+    global run_retail_weekly, run_wholesale_daily
 
-    for i in range(0,run_retail_weekly+run_wholesale_daily):
+    for i in range(0,run_retail_weekly+run_wholesale_daily+run_retail_daily):
 
         if run_retail_weekly:
             print '\n\nRunning weekly ===============================\n\n'
@@ -89,7 +91,7 @@ if __name__ == '__main__':
             run_retail_weekly = False
 
         elif run_wholesale_daily:
-            print '\n\nRunning daily ===============================\n\n'
+            print '\n\nRunning wholesale daily ===============================\n\n'
             mid = '_wholesale_daily'
             if with_interpolation:
                 mid = mid + '_interpolated'
@@ -100,6 +102,20 @@ if __name__ == '__main__':
 
             [fp_csv, date_freq, csv_out1, csv_out2, pk_out1, pk_out2] = \
             [fp_csv_daily, date_freq_daily, csv_out1_daily, csv_out2_daily, pk_out1_daily, pk_out2_daily]
+            run_wholesale_daily = False
+
+        elif run_retail_daily:
+            print '\n\nRunning retail daily ===============================\n\n'
+            mid = '_retail_daily'
+            if with_interpolation:
+                mid = mid + '_interpolated'
+            csv_out1_daily = csv_out1_template.split('.')[0] + mid + '.' + csv_out1_template.split('.')[1]
+            csv_out2_daily = csv_out2_template.split('.')[0] + mid + '.' + csv_out2_template.split('.')[1]
+            pk_out1_daily = pk_out1_template.split('.')[0] + mid + '.' + pk_out1_template.split('.')[1]
+            pk_out2_daily = pk_out2_template.split('.')[0] + mid + '.' + pk_out2_template.split('.')[1]
+
+            [fp_csv, date_freq, csv_out1, csv_out2, pk_out1, pk_out2] = \
+            [fp_csv_daily_retail, date_freq_daily, csv_out1_daily, csv_out2_daily, pk_out1_daily, pk_out2_daily]
 
 
         df = get_data(fp_csv, fp_state, daily_product_lst)
