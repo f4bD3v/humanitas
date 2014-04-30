@@ -69,6 +69,8 @@ def get_data(fp_csv, fp_state, product_lst):
         with open('missing_cities.csv', 'wb') as f:
             wr = csv.writer(f)
             wr.writerow(missing_cities)
+        if missing_cities != ['NR']: #exception case in the weekly dataset
+            raise Exception('missing cities as above')
 
     print "{} {} {}".format("csv loaded into df in",(time()-start_time),'secs.')
     print "{} {}".format("size of df =", df.shape)
@@ -84,7 +86,7 @@ def mod_header(cols):
     return cols
 
 
-def examine_fullness(df, leng):
+def examine_fullness(df, leng, with_interpolation):
     passed = True
     for (state, city, product, subproduct), group in \
             df.groupby(['state', 'city','product','subproduct']):
@@ -94,9 +96,10 @@ def examine_fullness(df, leng):
         elif group.shape[0] > leng:
             passed = False
             print 'over full', group.shape, (state, city, product, subproduct), group.shape
-        if group['price'].count() < leng:
-            passed = False
-            print 'not fully interpolated', (state, city, product, subproduct), group['price'].count()
+        if with_interpolation:
+            if group['price'].count() < leng:
+                passed = False
+                print 'not fully interpolated', (state, city, product, subproduct), group['price'].count()
 
     if passed:
         print 'examine df_full succeeds.'
@@ -104,7 +107,7 @@ def examine_fullness(df, leng):
         print 'examine df_full failed!'
 
 
-def examine_df_ts_fullness(df_ts, leng):
+def examine_df_ts_fullness(df_ts, leng, with_interpolation):
     passed = True
     for label in list(df_ts.columns):
         if df_ts[label].shape[0] < leng:
@@ -113,9 +116,10 @@ def examine_df_ts_fullness(df_ts, leng):
         elif df_ts[label].shape[0] > leng:
             passed=False
             print 'length larger than full length', label, df_ts[label].shape[0],'/',leng
-        if df_ts[label].count() < leng:
-            passed=False
-            print 'not fully interpolated', label, df_ts[label].count(),'/',leng
+        if with_interpolation:
+            if df_ts[label].count() < leng:
+                passed=False
+                print 'not fully interpolated', label, df_ts[label].count(),'/',leng
     if passed:
         print 'examine df_ts fullness succeeds.'
     else:
@@ -171,11 +175,12 @@ def get_full_data(df, all_dates, \
         if group['price'].count() == 0:
             continue
 
-        # if freq == 'day':
-        #     if subproduct == '':
-        #         print 'ignore empty subproduct',(state, city, product, subproduct, country, freq)
-        #         #empty_subproduct.append(((state, city, product, subproduct, country, freq), group.shape))
-        #         continue
+        #data with empty subproduct in daily dataset is incorrect
+        if freq == 'day':
+            if subproduct == '':
+                print 'ignore empty daily subproduct',(state, city, product, subproduct, country, freq)
+                #empty_subproduct.append(((state, city, product, subproduct, country, freq), group.shape))
+                continue
 
 
         group.set_index('date', inplace=True)
@@ -185,43 +190,34 @@ def get_full_data(df, all_dates, \
         except Exception, e:
             print e, (state, city, product, subproduct, country, freq)
             err_count += 1
-            #record duplicate
-            #group['price'].plot(legend=False)
-            #group.to_csv('group1.csv')
             group.reset_index(inplace=True)
             group.columns = mod_header(group.columns)
             dupdf, dup_dates = extract_duplicates(group)
             dup_records.append(((state, city, product, subproduct, country, freq), dupdf))
-            #print dup_dates
 
-            #handle duplicates of daily datasets
-            if freq == 'day':
+            if freq == 'week':
+                continue
+            else:
+                #handle duplicates of daily datasets
                 group.drop_duplicates(cols='date', inplace=True)
                 #fill NaN in the missing dates again
                 group.set_index('date', inplace=True)
                 group = group.reindex(all_dates)
                 print 'duplicate handled, new length', group.shape[0], '/', len(all_dates)
-                #group.to_csv('group2.csv', index_label='date')
-                #group['price'].plot(legend=False)
-                #plt.show()
-                #if err_count > 0:
-                #    exit()
-            else:
-                continue
+
+        #skip those with more NaN than na_cutoff_rate
+        if 1. - group['price'].count() * 1. / len(all_dates) > na_cutoff_rate:
+            continue
+
+        if with_interpolation:
+            group['price'] = group['price'].interpolate().bfill().ffill()
 
         #df_ts part
-        # note that it's "larger than" valid_rate
-        if using_df_ts and group['price'].count() * 1. / len(all_dates) > 1. - na_cutoff_rate:
-            if with_interpolation:
-                df_ts[(state, city, product, subproduct)] = group['price'].interpolate().bfill().ffill()
-            else:
-                df_ts[(state, city, product, subproduct)] = group['price']
+        if using_df_ts:
+            df_ts[(state, city, product, subproduct)] = group['price']
 
         #df_full part
         if using_df_full:
-            if with_interpolation:
-                group['price'] = group['price'].interpolate().bfill().ffill()
-
             group.reset_index(inplace=True)
             group.columns = mod_header(group.columns)
 
