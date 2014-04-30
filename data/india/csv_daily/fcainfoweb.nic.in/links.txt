@@ -1,0 +1,12 @@
+Daily data from fcainfoweb.nic.in
+---------------------------------
+
+
+# CSV data:
+
+Retail -- https://www.dropbox.com/s/lf6gxdhuk4lz001/india_daily_fcainfo_retail_2009-2014.zip
+
+
+# Raw (HTML) data:
+
+Retail -- https://www.dropbox.com/s/7n8e7np2gsuf90y/india_daily_fcainfo_retail_raw_2009-2014.zip

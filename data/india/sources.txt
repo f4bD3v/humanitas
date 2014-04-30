@@ -8,6 +8,11 @@ Directorate of Marketing & Inspection (DMI), Ministry of Agriculture
 Retail Price Information System, Department of Agriculture and Cooperation, Ministry of Agriculture
 	- link: http://rpms.dacnet.nic.in/
 
+* Daily Retail Prices
+Department of Consumer Affairs
+    - link: http://fcainfoweb.nic.in/PMSver2/Reports/Report_Menu_web.aspx
+    - data range: 2009-2014
+
 * Crop Production Stats, Dacnet also offers districtwise crop production stats.
 	- link:http://apy.dacnet.nic.in/crop_fryr_toyr.aspx
 	- note: export to excel downloads a file with name of webpage, but CAN BE OPENED WITH EXCEL
