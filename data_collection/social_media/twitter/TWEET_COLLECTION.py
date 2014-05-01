@@ -21,15 +21,18 @@ MAX_FOLLOWERS = 10000000
 MAX_TWEETS_PER_FILE = 50000
 MAX_USERS_PER_FILE = 50000
 
+input_folder = "tweet_inputs/"
+output_folder = "tweet_tmp_store/"
+
 def get_all_locations_in_india():
     yield 'india'
-    with open('cities-in-india.txt', 'r') as f:
+    with open(input_folder + 'cities-in-india.txt', 'r') as f:
         for line in map(lambda x:re.split(r'[\s\t]+', x), f.readlines()):
             if len(line) != 4:
                 continue
             yield line[0].lower()
             yield line[1].lower()
-    with open('india_state_centres.txt', 'r') as f:
+    with open(input_folder + 'india_state_centres.txt', 'r') as f:
         for line in map(lambda x:x.strip().split(' '), f.readlines()):
             for word in line:
                 word = word.strip()
@@ -82,7 +85,7 @@ def get_good_followers(followers, locations, min_tweets):
 def check_clock(last_time):
     elapsed_time = (datetime.now() - last_time).seconds
     if elapsed_time < RATE_LIMIT_WINDOW:
-        print 'Sleeping for %s seconds...' % (RATE_LIMIT_WINDOW - elapsed_time)
+        write_log('Sleeping for %s seconds...\n' % (RATE_LIMIT_WINDOW - elapsed_time))
         sleep(RATE_LIMIT_WINDOW - elapsed_time)
 
 def write_log(message):
@@ -97,12 +100,12 @@ def data_dump(data, file_name):
 
 def authenticate(APP_KEY, APP_SECRET):
     while True:
-        print 'Authenticating to Twitter...'
+        write_log('Authenticating to Twitter...\n')
         try:
             twitter = Twython(APP_KEY, APP_SECRET, oauth_version=2)
             ACCESS_TOKEN = twitter.obtain_access_token()
             ret = Twython(APP_KEY, access_token=ACCESS_TOKEN)
-            print 'Authentication successful.'
+            write_log('Authentication successful\n')
             return ret
         except TwythonAuthError, e:
             traceback.print_exc()
@@ -121,19 +124,19 @@ def get_followers(root, APP_KEY, APP_SECRET):
     good_followers = []
 
     while users_downloaded < num_followers:
-        print 'Downloading followers page %d for %s' % (page_number, root)
+        write_log('Downloading followers page %d for %s' % (page_number, root))
         try:
             response = twitter.get_followers_list(screen_name=root, count=FOLLOWER_BATCH_SIZE, cursor=next_cursor)            
             followers = response['users']
         except TwythonRateLimitError:
-            print 'Sleeping...'
+            write_log('Sleeping...')
             sleep(RATE_LIMIT_WINDOW)
             continue
         except TwythonError:
             continue
         except KeyError:
             data_dump(good_followers, 'emergency_backup.pickle')
-            print 'Sleeping...'
+            write_log('Sleeping...')
             sleep(RATE_LIMIT_WINDOW)
             continue
         
@@ -159,24 +162,24 @@ def get_followers(root, APP_KEY, APP_SECRET):
     file_count += 1
     data_dump(good_followers, '%s_%s.pickle'%(root, file_count))
     duration = (datetime.now() - time_start).seconds
-    print 'Number of good followers listed %s in %s seconds' % (len(good_followers), duration)
+    write_log('Number of good followers listed %s in %s seconds' % (len(good_followers), duration))
 
 def get_twitter_data(root, APP_KEY, APP_SECRET):
     twitter = authenticate(APP_KEY, APP_SECRET)
     
-    f_followers = open('%.pickle'%(root), 'rb')
+    f_followers = open(input_folder + '%s.pickle'%(root), 'rb')
     followers = pickle.load(f_followers)
     f_followers.close()
     
-    num_requests = 0; file_count = 1; total_tweets = 0
+    num_requests = 0; file_count = 1; total_tweets = 0; follower_number = 0
     last_time = datetime.now(); time_start = datetime.now(); log_time = datetime.now()
     tweets = []
     
-    print '%s followers available\n'%(len(followers))
+    write_log('%s followers available\n'%(len(followers)))
     
     for follower in followers:
         num_tweets = min(follower['statuses_count'], MAX_TWEETS)
-        print 'Collecting %s tweets from %s' % (num_tweets, follower['screen_name'])
+        write_log('Collecting %s tweets from %s\n'%(num_tweets, follower['screen_name']))
         max_tweet_id = 0; tweets_collected = 0
         
         while tweets_collected < num_tweets:
@@ -185,7 +188,6 @@ def get_twitter_data(root, APP_KEY, APP_SECRET):
                 check_clock(last_time)
                 last_time = datetime.now()
                 num_requests = 1
-                
             try:
                 num_requests += 1
                 if max_tweet_id == 0:
@@ -202,22 +204,24 @@ def get_twitter_data(root, APP_KEY, APP_SECRET):
                 continue
             except TwythonError:
                 break
-            
             for tweet in new_tweets:
                 if max_tweet_id == 0 or max_tweet_id > int(tweet['id']):
                     max_tweet_id = int(tweet['id'])
             tweets.extend(new_tweets)
             
         if total_tweets >= file_count * MAX_TWEETS_PER_FILE:
-            data_dump(tweets, '\tweets\%s_tweets_%s.pickle'%(root, file_count))
+            data_dump(tweets, output_folder + '%s_tweets_%s.pickle'%(root, file_count))
             file_count += 1
             tweets = []
+
+        follower_number += 1
             
         write_log(('%s tweets collected\n')%(total_tweets))
+        write_log(('%.02f%%\n')%(100.0 * follower_number / len(followers)))
         
-    data_dump(tweets, '\tweets\%s_tweets_%s.pickle'%(root, file_count))
+    data_dump(tweets, output_folder + '%s_tweets_%s.pickle'%(root, file_count))
     duration = (datetime.now() - time_start).seconds
-    print 'Number of tweets collected %s in %s seconds' % (total_tweets, duration)
+    write_log('Number of tweets collected %s in %s seconds' % (total_tweets, duration))
     
 def main():
     APP_KEY = sys.argv[1]

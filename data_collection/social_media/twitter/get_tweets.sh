@@ -25,16 +25,16 @@ s[5]='mcgxMMI3aTTAuDOwEgUiVfBtp1in3sLj0XyicGHrMe8zDDmsyj'
 s[6]='fzK7HgQqzUkTlurqD0dyW2AfIIhiAEqb5jGwqHDESR6te89S5a'
 s[7]='hoKbTI7uNfMOYaCFQBE4xKhGhVTI2DwnTsuReOgTVE4PefFccq'
 
-r[0]='AshaBhosle'
-r[1]='Javedakhtarjadu'
-r[2]='anandmahindra'
-r[3]='actor_siddharth'
-r[4]='BDUTT'
-r[5]='Sushmaswarajbjp'
-r[6]='test'
-r[7]='test'
+r[0]='0'
+r[1]='1'
+r[2]='2'
+r[3]='3'
+r[4]='4'
+r[5]='5'
+r[6]='6'
+r[7]='7'
 
-for (( i=6; i<=7; i++ ))
+for (( i=0; i<=7; i++ ))
 do
     python="python TWEET_COLLECTION.py ${k[i]} ${s[i]} ${r[i]} tweets"
     "ssh" ${m[i]} "nohup" $python "&> errorlog.txt &"
