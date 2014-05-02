@@ -6,6 +6,7 @@ from time import sleep
 import tweet_db_handler
 
 WAIT = 30000 # somewhat more than 8 min
+BATCH_SIZE = 500
 
 class TweetProcessor(threading.Thread):
 	
@@ -16,6 +17,7 @@ class TweetProcessor(threading.Thread):
 		self.uname = 'test-user'
 		self.picklefs_proc = read_picklefs_proc()	
 		self.sleep_seq_count = 0
+                self.food_words = []
 		return
 
 
@@ -27,15 +29,42 @@ class TweetProcessor(threading.Thread):
 		filt_tuple = filter_tweets(tweet_set)	
 		tweets_to_db = filt_tuple[0]
 		tweets_to_disk = filt_tuple[1]
+                inserts = []
+
 		for t in tweets_to_db:
-			tweet_db_handler.send_tweet(t, uname, "testr", "testc")		
+                        if len(inserts) >= BATCH_SIZE:
+                                tweet_db_handler.send_batch(inserts)
+                                inserts = []
+                        else:
+                                inserts += tweet_db_handler.create_insert(t)
+			#tweet_db_handler.send_tweet(t)		
 
 	def write_tweets_to_disk(self):
 		# find out how to 
 
+        def contains_words(to_check, tweet):
+            for word in tweet:
+                if (word in to_check):
+                    return True
+                return False
+
 	def filter_tweets(self, tweet_set):
-		print tweet_set
-		return (0,0)
+                to_db = []
+                to_disk = []
+
+                for (tweet in tweet_set):
+                    if('text' in tweet and 'retweeted_status' not in tweet):
+                        tweet_text_lower = tweet['text'].lower()
+                        tweet_text_clean = ' '.join(tweet_text_lower for e in string if e.isalnum())
+                        tweet_text_tokens = tweet_text_clean.split()
+                        if(contains_words(self.food_words, tweet_text_tokens)):
+                            if("user" in tweet and tweet['user'] is not None):
+                                to_db += tweet
+                            else:
+                                to_disk += tweet
+                                println("Tweet without user: " + tweet)
+                        
+		return (to_db, to_disk)
 
 	def read_picklefs_proc(self):
 		f = open('processed_picklefs.txt', 'rb')

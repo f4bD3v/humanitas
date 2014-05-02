@@ -7,14 +7,54 @@ import time
 import json
 import io
 import sys
+import csv
 from datetime import date, datetime
 
 log = logging.getLogger()
 log.setLevel('INFO')
 
+def extract_features(t, col_str, val_str):
+    tweet_text_lower = tweet['text'].lower()
+    tweet_text_clean = ' '.join(tweet_text_lower for e in string if e.isalnum())
+    tweet_text_tokens = tweet_text_clean.split()
+    category_count = {}
+
+    for (token in tweet_text_tokens):
+        cat = getCategory(token)
+        if cat != "":
+            if cat in category_count:
+                category_count[cat] += 1
+            else:
+                category_count[cat] = 0
+
+    for (cat, count in category_count.iteritems()):
+           col_str.append(cat)
+           val_str.append(count)
+
+def load_location_dict(fname):
+    with open(fname, mode='r') as ifile:
+        reader = csv.reader(ifile)
+        next(reader, None) #ignore header
+        return {rows[0].lower():rows[1].lower() for rows in reader}
+
+def extract_location(loc, locs):
+    loc_tokens = ' '.join(loc.lower() for e in string if e.isalnum())
+      .strip().split()
+
+    for token in loc_tokens:
+        if token.lower() in locs:
+            return token
+    return ""
+
 #prepares 'text' values for the db
 def prep(x):
-    return "'" + x.encode("ascii","ignore").replace("'", "") + "'"
+    #return "'" + x + "'"
+    return "'" + ''.join(e for e in string if e.isalnum()) + "'"
+    #return "'" + x.encode("ascii","ignore").replace("'", "") + "'"
+
+#tweet contains field with content
+def has(t, val):
+    return val in t and t[val] is not None
 
 #reads tweets from a text file
 def open_tweets(fname):
@@ -29,11 +69,16 @@ class SimpleClient:
     #the CQL standard can be found here: https://github.com/pcmanus/cassandra/blob/3779/doc/cql3/CQL.textile
     #the api to this cassandra lib can be found here: http://www.datastax.com/documentation/developer/python-driver/1.0/share/doctips/docTips.html
     session = None
+
     cols = ["id", "time", "user_id", "region", "city", "content",
             "lat", "long", "rt_count", "fav_count", "lang"]
+ 
     tweet_cols = [("id", "id", False), ("content", "text", True),
                   ("rt_count", "retweet_count", False),
                   ("fav_count", "favorite_count", False), ("lang", "lang", True)]
+    city_region_dict = load_location_dict('regions.csv')
+    regions = set(city_region_dict.values())
+    cities = city_region_dict.keys()
 
     #takes as input a list of insert statements and sends them as a batch
     #very fast, but batch construction and sending should be best done in a
@@ -43,16 +88,35 @@ class SimpleClient:
         log.info("batch of tweets loaded into db")
 
     #returns a string representing an insert for a tweet
-    def create_insert(self, t, user_id, region, city):
-       col_str = ["user_id"]
-       val_str = [prep(user_id)]
+    def create_insert(self, t):
+       col_str = []
+       val_str = []
+       city = ""
+       region = ""
+
        for (col, val, shouldPrep) in self.tweet_cols:
-           if val in t and t[val] is not None:
+           if has(t,val):
                col_str.append(col)
                if(shouldPrep):
                    val_str.append(prep(t[val]))
                else:
                    val_str.append(str(t[val]))
+
+       if has(t,'user'):
+           if has(t['user'], 'id'):
+               col_str.append('user_id')
+               val_str.append(prep(t['user']['id']))
+           if has(t['user'],'location'):
+               city = extract_location(tweet['user']['location'], self.cities)
+               if city != "":
+                  region = self.city_region_dict[city]
+               else:
+                  region = extract_location(tweet['user']['location'], self.regions)
+
+       if has(t,'place') and has(t['place'],'name'):
+           col_str.append("place")
+           val_str.append(prep(t['place']['name']))
+
        if(region != ""):
            col_str.append("region")
            val_str.append(prep(region))
@@ -60,21 +124,22 @@ class SimpleClient:
            col_str.append("city")
            val_str.append(prep(city))
 
-       if ('coordinates' in t and t['coordinates'] is not None and
-          'coordinates' in t['coordinates']):
+       if has(t,'coordinates') and has(t['coordinates'],'coordinates'):
            col_str.append("long")
            val_str.append(str(t['coordinates']['coordinates'][0]))
            col_str.append("lat")
            val_str.append(str(t['coordinates']['coordinates'][1]))
-       if "created_at" in t and t["created_at"] is not None:
+       if has(t,"created_at"):
             col_str.append("time")
             val_str.append(prep(time.strftime('%Y-%m-%d %H:%M:%S', time.strptime(t['created_at'],'%a %b %d %H:%M:%S +0000 %Y'))))
+
+       extract_features(t, col_str, val_str)
+
        return "INSERT INTO tweets (" + ",".join(col_str) + ") VALUES (" + ",".join(val_str) + ");"
 
     #inserts a tweet into the db
-    def send_tweet(self, t, user_id, region, city):
-        s = self.create_insert(t, user_id, region, city)
-        print(s)
+    def send_tweet(self, t):
+        s = self.create_insert(t)
         self.session.execute(s)
         log.info("tweet loaded into db")
 
@@ -93,7 +158,7 @@ class SimpleClient:
         self.session.shutdown()
         log.info("Connection closed.")
 
-    def create_schema(self):
+    def extended_schema(self, categories):
         self.session.execute("""
             CREATE KEYSPACE tweet_collector WITH replication =
             {'class':'SimpleStrategy', 'replication_factor':1};""")
@@ -110,10 +175,12 @@ class SimpleClient:
                 content text,
                 lat float,
                 long float,
+                place text,
    	        rt_count int,
                 fav_count int,
-                lang text,
-                PRIMARY KEY (id, time));
+                lang text,\n""" +
+                ',\n'.join(map((lambda coln: coln + " int"), categories))
+                + """PRIMARY KEY (id, time));
         """)
         log.info("Schema created.")
 
@@ -147,11 +214,10 @@ class SimpleClient:
         log.info("Rows printed.")
 
 def usage():
-    print("""python %s <input file | -d> [node] [user]
+    print("""python %s <input file | -d> [node]
               -d     drop schema
 
     Defaults: node = 127.0.0.1
-              user = test-user
     stores tweets read from input file into a local cassandra db"""
     % sys.argv[0])
 
@@ -160,12 +226,9 @@ def main():
         usage()
         sys.exit(-1)
 
-    uname = "test-user"
     node = "127.0.0.1"
     if len(sys.argv) > 2:
         node = sys.argv[2]
-    if len(sys.argv) > 3:
-        uname = sys.argv[3]
 
     logging.basicConfig()
     client = SimpleClient()
@@ -176,15 +239,15 @@ def main():
         client.drop_schema()
         exit(0)
 
-    client.create_schema()
+    client.create_schema([])
     client.create_index()
 
     for t in open_tweets(sys.argv[1]):
-        client.send_tweet(t, uname, "testr", "testc")
+        client.send_tweet(t)
 
     client.print_rows()
     client.close()
 
 
 if __name__ == '__main__':
-    main()
+    main()o
