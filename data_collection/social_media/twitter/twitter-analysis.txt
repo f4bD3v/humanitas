@@ -1,0 +1,14 @@
+*) Filter food word category
+*) add features for food category + price level + shortage + indicator category + sentiment?
+
+--------------------------
+
+*) cluster food word
+
+*) calculate user score (how many relevant tweets)
+--> query
+
+*) statics per region (how many tweets per category) --> CQL
+--> query
+
+
