@@ -3,7 +3,19 @@
 # Install nltk: 'sudo pip install -U pyyaml nltk'
 from nltk.stem.lancaster import LancasterStemmer 
 
+negative_forms = set(['not', 'no', 'non',
+                  "don't", "dont", "doesn't", "doesnt",     # Present
+                  "aren't", "arent", "a'int", "aint",
+                  "isn't", "isnt",
+                  "didn't", "didnt", "haven't", "havent",   # Past
+                  "hasn't", "hasnt",
+                  "weren't", "werent", "wasn't", "wasnt",
+                  "won't", "wont",                          # Future
+                 ])
+
+
 c = {'cname1': ['hello', 'rice', 'increasing'], 'cname2': ['horses', 'horse']}
+
 c_stems = {}
 st = LancasterStemmer()
 
@@ -16,15 +28,25 @@ def init_stem_sets():
             stem_set.add(st.stem(word))
         c_stems[cname] = stem_set
 
-# 2. Get a category for a given word
-def get_category(w):
-    w_stem = st.stem(w)
+
+def lookup_stem_sets(w):
+    w = st.stem(w)
     for cname in c: 
         stem_set = c_stems[cname]
-        if w_stem in stem_set:
+        if w in stem_set:
             return cname
+    return None
+
+# 2. Get a category for a given word
+def get_category(w):
+    # Check if negation
+    if w in negative_forms: return 'Negation'
+    # Lookup in stem sets
+    category = lookup_stem_sets(w)
+    if category: return category
+    # Probably, there's a typo, try suggestions
     return None
 
 init_stem_sets()
 print c_stems
-print get_category('increases')
+print get_category('meow')

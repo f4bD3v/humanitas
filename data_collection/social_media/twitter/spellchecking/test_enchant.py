@@ -26,13 +26,14 @@ def suggest_from_dicts(w):
             return suggestion[0]
     return None
 
+min_word_len = 4
 def spellcheck(s):
     open_dicts()
     chkr = SpellChecker("en_US")
     words = s.split()
     out_words = []
     for w in words:
-        if len(w) <= 3 or chkr.check(w):
+        if len(w) < min_word_len or chkr.check(w):
             out_word = w
         else:
             out_word = suggest_from_dicts(w)
