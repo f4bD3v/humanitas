@@ -3,14 +3,15 @@
 # Install nltk: 'sudo pip install -U pyyaml nltk'
 from nltk.stem.lancaster import LancasterStemmer 
 
-negative_forms = set(['not', 'no', 'non',
+negative_forms = set(['not', 'no', 'non', 'nothing',
                   "don't", "dont", "doesn't", "doesnt",     # Present
                   "aren't", "arent", "a'int", "aint",
                   "isn't", "isnt",
                   "didn't", "didnt", "haven't", "havent",   # Past
-                  "hasn't", "hasnt",
+                  "hasn't", "hasnt", "hadn't", "hadnt",
                   "weren't", "werent", "wasn't", "wasnt",
-                  "won't", "wont",                          # Future
+                  "wouldn't", "wouldnt",
+                  "won't", "wont", "shan't", "shant",       # Future
                  ])
 
 
