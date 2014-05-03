@@ -19,17 +19,17 @@ sentiment['neutral'] = ['alright', 'average', 'stagnate', 'level', 'content']
 sentiment['negative'] = ['hungry', 'starving', 'anger', 'angry', 'hate', 'misfortune', 'craving', 'pessimist', 'complain', 'incontent', 'crying', 'disappointed', 'dissatisfied', 'distress', 'deprived', 'worry', 'upset', 'pain', 'depressed', 'agitated']
 
 poverty = {}
-poverty['high'] = ['poor', 'starving', 'craving', 'poverty', 'hardship', 'debt', 'misfortune'],['no money', 'no means']
+poverty['high'] = ['poor', 'starving', 'craving', 'poverty', 'hardship', 'debt', 'misfortune']
 poverty['low'] = ['lot', 'much', 'many', 'money', 'wealth', 'well-off', 'power', 'extravagance', 'affluence', 'worth', 'capital', 'estate', 'inheritance', 'plenty', 'thrive']
 
 needs = {}
 needs['low'] = ['satisfied', 'saturated', 'plenty', 'fortune', 'nonessential', 'comfort']
-needs['high'] = ['crave', 'long', 'want', 'relish', 'must', 'demand', 'wish', 'urgent', 'urge', 'essential']
+needs['high'] = ['crave', 'long', 'want', 'relish', 'must', 'demand', 'wish', 'urgent', 'urge', 'essential', 'need']
 
 # include cooking related words in high supply
 supply = {}
 supply['high'] = ['available', 'full', 'enough', 'sustain', 'access', 'convenient', 'dish', 'meal', 'ate', 'eat', 'cook', 'fry', 'heat', 'curry']
-supply['low'] = ['run-out', 'empty', 'depleted', 'rotting'],['nothing left']
+supply['low'] = ['run-out', 'empty', 'depleted', 'rotting']
 
 
 predictors_dict = {'predict': predict, 'price': price, 'sentiment': sentiment, 'poverty': poverty, 'needs': needs, 'supply': supply}
