@@ -4,6 +4,8 @@
 
 import glob
 import sys
+import threading
+import os
 
 from time import sleep
 
@@ -18,27 +20,27 @@ class ProcessManager(threading.Thread):
 
 		self.node = '127.0.0.1'
 		self.uname = 'test-user'
-        self.tmp_dir = tmp_dir
+        os.chdir(tmp_dir)
 
 		self.picklefs_proc = read_picklefs_proc()	
         
         self.threads = []
 
-        thread1 = TweetProcessor(tmp_dir)
+        thread1 = TweetProcessor()
         thread1.start()
         self.threads.append(thread1)
 
-        thread2 = TweetProcessor(tmp_dir)
+        thread2 = TweetProcessor()
         thread2.start()
         self.threads.append(thread2)
 
-        thread3 = TweetProcessor(tmp_dir)
+        thread3 = TweetProcessor()
         thread3.start()
         self.threads.append(thread3)
 
 
     def run():
-		tweet_db_handler.connect(nodes)
+		tweet_db_handler.connect([self.node])
 
         while True:
             picklefs = glob.glob('.pickle')
@@ -51,8 +53,8 @@ class ProcessManager(threading.Thread):
                 self.sleep_seq_count += 1
                 self.sleep_last_rnd = True
                 for t in self.threads:
-                    t.sleep(WAIT)
-                self.sleep(WAIT) 
+                    t.force_sleep(WAIT)
+                sleep(WAIT) 
                 continue
 
             if self.sleep_last_rnd:
@@ -86,21 +88,20 @@ class ProcessManager(threading.Thread):
 
 class TweetProcessor(ProcessManager):
 	
-	def __init__(self, tmp_dir):
+	def __init__(self):
 		threading.Thread.__init__(self)
-
 		self.sleep_seq_count = 0
         self.food_words = []
 
+    def force_sleep(self):
+        sleep(WAIT)
 
 	def load_tweets(self, picklef):
 		return pickle.load(open(picklef, 'rb'))
 
 	def process_tweets(self, tweet_set):
 		# filter by keywords, remove retweets, keep filtered out data (how?)
-		filt_tuple = filter_tweets(tweet_set)	
-		tweets_to_db = filt_tuple[0]
-		tweets_to_disk = filt_tuple[1]
+		tweets_to_db = filter_tweets(tweet_set)	
         inserts = []
 
 		for t in tweets_to_db:
@@ -110,9 +111,6 @@ class TweetProcessor(ProcessManager):
             else:
                 inserts += tweet_db_handler.create_insert(t)
 			#tweet_db_handler.send_tweet(t)		
-
-	def write_tweets_to_disk(self):
-		# find out how to 
 
     def contains_words(to_check, tweet):
         for word in tweet:
@@ -136,7 +134,7 @@ class TweetProcessor(ProcessManager):
                         to_disk += tweet
                         println("Tweet without user: " + tweet)
                         
-		return (to_db, to_disk)
+		return to_db 
 
     def run():
 		while True:
