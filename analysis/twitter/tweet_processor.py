@@ -72,7 +72,7 @@ class ProcessManager(threading.Thread):
         self.threads = []
         self.sleep_seq_count = 0
         self.sleep_last_rnd = False
-        self.funcAccLock = RLock()
+        self.funcAccLock = threading.RLock()
         self.picklefs_proc = self.read_picklefs_proc()	
         self.picklefs_selected = []
         
