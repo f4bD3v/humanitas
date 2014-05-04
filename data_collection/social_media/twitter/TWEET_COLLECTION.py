@@ -221,7 +221,7 @@ def get_twitter_data(root, APP_KEY, APP_SECRET):
         
     data_dump(tweets, output_folder + '%s_tweets_%s.pickle'%(root, file_count))
     duration = (datetime.now() - time_start).seconds
-    write_log('Number of tweets collected %s in %s seconds' % (total_tweets, duration))
+    write_log('Number of tweets collected %s in %s seconds\n' % (total_tweets, duration))
     
 def main():
     APP_KEY = sys.argv[1]
