@@ -245,7 +245,7 @@ class TweetProcessor(threading.Thread):
             self.proc_manager.append_picklefs_proc(picklef)
             print 'loading tweets from ', picklef
             tweet_set = self.load_tweets(picklef)
-            print 'processing loaded tweets; see sample ->', tweet_set[0:3]
+            print 'processing loaded tweets; see sample ->', tweet_set[0]['text']
             self.process_tweets(tweet_set)
 
 def main():
