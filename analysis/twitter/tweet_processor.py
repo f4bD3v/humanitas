@@ -72,8 +72,9 @@ class ProcessManager(threading.Thread):
         self.threads = []
         self.sleep_seq_count = 0
         self.sleep_last_rnd = False
-
+        self.funcAccLock = RLock()
         self.picklefs_proc = self.read_picklefs_proc()	
+        self.picklefs_selected = []
         
     def set_dir(self, tmp_dir):
         os.chdir(tmp_dir)
@@ -82,12 +83,18 @@ class ProcessManager(threading.Thread):
         self.threads.append(thread)
         print 'Added tweet processor thread '+str(thread)+' to process manager'
 
-    def get_picklefs_to_proc(self):
-        to_proc = self.picklefs_to_proc
-        return to_proc
-
     def append_picklefs_proc(self, picklef):
         self.picklefs_proc.append(picklef)
+
+    def select_picklef(self):
+        picklef = random.choice(self.picklefs_to_proc)
+        if picklef not in self.picklefs_selected:
+            return
+        else:
+            self.select_picklef()
+
+    def append_picklefs_selected(self, picklef):
+        self.picklefs_selected.append(picklef)
 
     def run(self):
         picklefs = glob.glob('*.pickle')
@@ -236,25 +243,27 @@ class TweetProcessor(threading.Thread):
             except AttributeError:
                 print('error')
             """
-            picklefs_to_proc = self.proc_manager.get_picklefs_to_proc()
+            self.proc_manager.funcAccLock.acquire()
+            picklef = self.proc_manager.select_picklef()
+            self.proc_manager.funcAccLock.release()
             if not picklefs_to_proc:
                 continue
-            picklef = random.choice(picklefs_to_proc)
             print self, ' chosen ', picklef
             #for picklef in self.picklefs_to_proc:
-            self.proc_manager.append_picklefs_proc(picklef)
             print 'loading tweets from ', picklef
             tweet_set = self.load_tweets(picklef)
             print 'processing loaded tweets; see sample ->', tweet_set[0]['text']
             self.process_tweets(tweet_set)
+
+            self.proc_manager.funcAccLock.acquire()
+            self.proc_manager.append_picklefs_proc(picklef)
+            self.proc_manager.funcAccLock.release()
 
 def main():
 
     init_stem_sets()
 
     sc = SimpleClient()
-    node = "127.0.0.1"
-    sc.connect([node])
     thread = ProcessManager() 
     thread.set_dir(sys.argv[1])
     thread.start()
@@ -271,10 +280,10 @@ def main():
     threads.append(thread3)
 
     for t in threads:
+        sc = SimpleClient()
+        node = "127.0.0.1"
+        sc.connect([node])
         t.set_client(sc)
-
-    sc.close()
-
 
 
 if __name__ == "__main__":
