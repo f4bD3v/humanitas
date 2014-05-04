@@ -1,7 +1,7 @@
 def get_food_words():
     food_words = {}
     food_words['rice'] = list(['rice'])
-    food_words['wheat'] = list(['wheat', 'bread', 'flour'])
+    food_words['wheat'] = list(['wheat', 'bread', 'flour', 'atta'])
     food_words['coriander'] = list(['coriander'])
     food_words['potato'] = list(['potato'])
     food_words['onion'] = list(['onion'])

@@ -172,10 +172,9 @@ class TweetProcessor(threading.Thread):
 
     def process_tweets(self, tweet_set):
         # filter by keywords, remove retweets, keep filtered out data (how?)
-        tweets_to_db = self.filter_tweets(tweet_set)	
         inserts = []
 
-        for t in tweets_to_db:
+        for t in self.filter_tweets(tweet_set):
             cat_count = self.extract_features(t, tokens) 
             inserts += self.client.create_insert(t, cat_count)
             if len(inserts) >= BATCH_SIZE:
@@ -190,8 +189,6 @@ class TweetProcessor(threading.Thread):
         return False
 
     def filter_tweets(self, tweet_set):
-        to_db= []
-        to_disk = []
         for tweet in tweet_set:
             if('text' in tweet and 'retweeted_status' not in tweet):
                 tweet_text_lower = tweet['text'].lower()
@@ -200,12 +197,7 @@ class TweetProcessor(threading.Thread):
 
                 if(self.contains_words(self.food_words, tweet_text_tokens)):
                     if("user" in tweet and tweet['user'] is not None):
-                        to_db += tweet
-                    else:
-                        to_disk += tweet
-                        println("Tweet without user: " + tweet)
-                        
-		return to_db 
+                        yield tweet
 
     def extract_features(t, tokens):
         category_count = {}
