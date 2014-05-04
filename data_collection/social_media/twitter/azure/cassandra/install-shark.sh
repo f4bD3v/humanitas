@@ -1,6 +1,6 @@
 wget https://s3.amazonaws.com/spark-related-packages/shark-0.9.1-bin-hadoop1.tgz
 tar zxvf shark-0.9.1-bin-hadoop1.tgz
-wget http://download1uk.softpedia.com/dl/fa075de8508970c21fa12c0fbfcf7bec/53642c48/100235649/software/database/hive-0.11.0-bin.tar.gz
+wget http://archive.apache.org/dist/hive/hive-0.11.0/hive-0.11.0-bin.tar.gz
 tar xzf hive-0.11.0-bin.tar.gz
 wget http://www.scala-lang.org/files/archive/scala-2.10.3.tgz
 tar zxvf scala-2.10.3.tgz
@@ -11,7 +11,8 @@ export SHARK_MASTER_MEM=1g
 export SCALA_HOME=\"~/scala-2.10.3\"
 export HIVE_HOME=\"~/hive-0.11.0-bin\"
 export SPARK_HOME=\"~/shark-0.9.1-bin-hadoop1\"
-export MASTER=\"spark://humanitas1:7077\"
+export MASTER=\"spark://100.88.212.102:7077\"
+export SPARK_MASTER_IP=100.88.212.102
 " >> .bashrc
 
 git clone https://github.com/tuplejump/cash.git

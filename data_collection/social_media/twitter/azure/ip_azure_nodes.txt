@@ -1,0 +1,27 @@
+#local azure node adresses
+
+m[0]='100.88.212.102'
+m[1]='100.88.224.23'
+m[2]='100.88.232.41'
+m[3]='100.88.174.68'
+m[4]='100.88.234.95'
+m[5]='100.88.234.57'
+m[6]='100.88.172.11'
+m[7]='100.88.238.59'
+
+#put slave configuration for spark here
+spark-0.9.1/conf/slaves
+
+#restart cassandra and clear previous cluster configurations
+ps auwx | grep cassandra
+sudo kill 
+sudo rm -r /var/lib/cassandra/data/*
+apache-cassandra-2.0.7-src/bin/cassandra
+
+#clear configuration on all clusters
+sh distribute.sh -e "sudo rm -r /var/lib/cassandra/*" -a
+#start cassandra on node 1
+sh distribute.sh -e "apache-cassandra-2.0.7-src/bin/cassandra" 1
+#get status of cassandra cluster on node 1
+sh distribute.sh -e "apache-cassandra-2.0.7-src/bin/nodetool status" 1
+
