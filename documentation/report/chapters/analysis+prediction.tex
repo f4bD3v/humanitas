@@ -61,16 +61,16 @@ taken from M. Seegers course on Pattern Recognition and ML
 
 \subsection*{Recurrent Neural Networks (RNN)}
 source: scholarpedia
-A recurrent neural network (RNN) is a special network in which neurons send feedback signals to each other. %We have to distinguish between artificial neural networks (aRNN) and biological recurrent neural networks (bRNN) that are responsible for most of the brains dynamics. 
-The key feature is that the weight matrix for each layer $l$ in the network contains input weights from \emph{all} other neurons in the network and not just the neurons from the previous layer. 
+A recurrent neural network (RNN) is a neural network in with feedback connections, enabling signals to be fed back from a layer $l$ in the network to a previous layer. %The key feature is that the weight matrix for each layer $l$ in the network contains input weights from \emph{all} other neurons in the network and not just the neurons from the previous layer. 
 
 \subsubsection*{Simple Recurrent Networks}
-These links enable signals to be fed back from a layer to a previous layer. The most simple form of an aRNN consists of an input, an output and one hidden layer. 
+The simplest form of an RNN consists of an input, an output and one hidden layer as depicted in fig.[]. 
 
 \includegraphics[width=.7\textwidth]{./img/simple_rnn.png}
+[source: wikipedia]
 
-\subsubsection*{General description of a discrete time aRNN}
-graph with $K$ input units $\vec{u}$, $N$ internal network units $\vec{x}$ and $L$ output units $\vec{y}$. Activation (per layer) vectors at point n in time are denoted by $\vec{u}(n) = (u_1(n),...,u_n(n))$, $\vec{x}(n) = (x_1(n),...,x_n(n))$, $\vec{y}(n) = (y_1(n),...,y_n(n))$. Edges between the units in these sets are represented by weights $\omega_{ij}\neq0$ which are gathered in adjacency matrices. There are four types of matrices:\par
+\subsubsection*{General description of a discrete time RNN}
+A discrete time RNN is a graph with $K$ input units $\vec{u}$, $N$ internal network units $\vec{x}$ and $L$ output units $\vec{y}$. The activation (per layer) vectors at point n in time are denoted by $\vec{u}(n) = (u_1(n),...,u_n(n))$, $\vec{x}(n) = (x_1(n),...,x_n(n))$, $\vec{y}(n) = (y_1(n),...,y_n(n))$. Edges between the units in these sets are represented by weights $\omega_{ij}\neq0$ which are gathered in adjacency matrices. There are four types of matrices:\par
 \begin{itemize}
 	\item $\vec{W}^{in}_{N\times K}$ contains inputs weigths for an internal unit in each row respectively 
 	\item $\vec{W}_{N\times N}$ contains the internal weights. This matrix is usually sparse with densities $5\%-20\%$
@@ -78,35 +78,54 @@ graph with $K$ input units $\vec{u}$, $N$ internal network units $\vec{x}$ and $
 	\item $\vec{W}^{back}_{N\times L}$ contain weights for the edges that project back from the output units to the $N$ internal units
 \end{itemize}
 
-In a \emph{fully recurrent network} every unit receives input from all other units neurons and therefore input units can have direct impact on output units and output units can further be interconnected.\par
+In a \emph{fully recurrent network} every unit receives input from all other units neurons and therefore input units can have direct impact on output units. Output units can further be interconnected.\par
 
 \paragraph{Evaluation}
+The calculation of the new state of the internal neurons in time-step $n+1$ is called evalution. 
 \[
 \vec{x}(n+1)=\vec{f}(\vec{W}^{in}\vec{u}(n+1)+\vec{W}\vec{x}(n)+\vec{W}^{back}\vec{y}(n))
 \]
 where $f=(f_1,...,f_N)$
 \paragraph{Exploitation}
+The output activations are then computed from the internal state of the network in the exploitation step.
 \[
 \vec{y}(n+1)=f^{out}(\vec{W}^{out}(\vec{u}(n+1),\vec{x}(n+1),\vec{y}(n)))
 \]
-where $f^{out}=(f^{out}_1,...,f^{out}_L)$
+where $f^{out}=(f^{out}_1,...,f^{out}_L)$ are the output activation functions and the matrix of output weights is multiplied by the concatenation of input, internal and previous output activation vectors.\par
 
-A \emph{Hopfield network} is an RNN all connections of which are symmetric and which requires stationary inputs. 
+%A \emph{Hopfield network} is an RNN all connections of which are symmetric and which requires stationary inputs. 
+RNNs can in theory approximate any dynamical system with chosen precision, however training them is very difficult in practice. 
 
-\subsection*{Echo State Networks (ESN)}
-Echo State Networks are a type of Recurrent Neural Network (RNN) applicable to many domains because unlike other RNNs they are easy to train. 
-For our task we need a discrete time neural network which is incidentally also the constraint in which Echo State Networks are defined.
-They have sparsely connected \emph{random} hidden layer consisting of the internal units with the effect that the weights of the output neurons are the only part of the network that can change and be trained. This property allows for the rest of the network to be topologically unrestricted.
-They are good at reproducing time series. (wikipedia)
+\subsection*{Echo State Networks}
+Echo State Networks (ESN) are a type of discrete time RNNs for which training is straightforward with linear regression methods.  The temporal inputs to the network are transformed to a high-dimensional \emph{echo state}, described by the neurons of a sparsely connected \emph{random} hidden layer which is also called a reservoir. The output weights are the only weights in the network that can change and are trained in a way to match the desired output. ESNs and the related liquid state machines (LSMs) form the field of \emph{reservoir computing}.
 
-\subsubsection*{Echo States}
+\subsubsection{Echo State Property}
+The intuitive meaning of the \emph{echo state property} (ESP) is that the internal state is \textbf{uniquely} determined by the history of the input signal and the teacher forced output, given that the network has been running long enough. Teacher forcing essentially means that the output $\vec{y}(n-1)$ is forced to be equal to the next time series value $\vec{u}(n)$ and thus to the next input.
+\begin{frm-def}
+For every left infinite sequence $(\vec{u}(n),\vec{y}(n-1)),n=\dots,-2,-1,0$ and all state sequences $\vec{x}(n),\vec{x'}(n)$ which are generated according to
+\begin{align*}	
+	\vec{x}(n+1)=\vec{f}(\vec{W}^{in}\vec{u}(n+1)+\vec{W}\vec{x}(n)+\vec{W}^{back}\vec{y}(n))\\
+	\vec{x'}(n+1)=\vec{f}(\vec{W}^{in}\vec{u}(n+1)+\vec{W}\vec{x'}(n)+\vec{W}^{back}\vec{y}(n))
+\end{align*}
+it holds true that $\vec{x}(n)=\vec{x'}(n)$ for all $n \leq 0$.
+\end{frm-def}
+The echo state propery is ensured through the matrix of internal weights $W$
 
-\paragraph{Echo State Property} Intuition: "If the network has been running long enough, its internal state is uniquely determined by the history of the input signal the teacher forced output."\par
+\begin{frm-thm}
+Define $\sigma_{max}$ as largest singular value of $\vec{W}$, $\lambda_{max}$ as largest absolute eigenvalue of $\vec{W}$.
+\begin{enumerate}
+\item If $\sigma_{max} < 1$ then the ESP holds for the network
+\item If $\|\lambda_{max}\| > 1$ then the network has no echo states for any input/output interval which contains the zero input/output tuple (0,0)
+\end{enumerate}
+\end{frm-thm}
 
-
-\subsubsection*{Training ESN}
+\subsubsection*{Training the ESN}
 "The state of the ESN is therefore a function of the finite history of the inputs presented to the network. Now, in order to predict the output from the states of the oscillators the only thing that has to be learned is how to couple the outputs to the oscillators, i.e. the hidden to output connections:"
 http://stackoverflow.com/questions/21940860/echo-state-network-learning-mackey-glass-function-but-how
+
+Hyperparameters: dimensionality of W, spectral radius $\alpha$
+\paragraph*{Teacher forcing}
+
 \paragraph*{Ridge Regression}
 
 \paragraph*{Initial state determination}

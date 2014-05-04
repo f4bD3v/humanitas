@@ -41,7 +41,7 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
 
 * Twitter analysis
     - Clustering of Tweets
-        [Anton, Fabian] 
+        [Anton, Fabian, Gabriel] 
 
 * Data processing
     * All data sources must be tabular, csv with the columns discussed on

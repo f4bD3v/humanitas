@@ -5,11 +5,15 @@ from df_build_func import *
 usage = '''
     This script read India daily and/or weekly csv files into Pandas dataframes, df_full and/or df_ts
 
-    output:
-        india_df_full_weekly.pickle    india_df_full_daily.pickle
-        india_df_ts_weekly.pickle      india_df_ts_daily.pickle
-        india_full_weekly.csv          india_full_daily.csv
-        india_timeseries_weekly.csv    india_timeseries_daily.csv
+    sample output files (with na_cutoff_rate == 0.4):
+        india_original_weekly_0.4.csv
+        india_timeseries_weekly_0.4.csv
+
+        india_original_wholesale_daily_0.4.csv
+        india_timeseries_wholesale_daily_0.4.csv
+
+        india_original_retail_daily_0.4.csv
+        india_timeseries_retail_daily_0.4.csv
 
     description:
         df      : an aggregate dataframe containing all csv data
@@ -18,16 +22,15 @@ usage = '''
                   prices of tuple (state, city, product, subproduct)
 
     general options:
-        run_retail_weekly         : True then convert india weekly into df_full and/or df_ts
-        run_wholesale_daily          : True then convert india daily into df_full and/or df_ts
-        run_saving         : True then output all df_full and df_ts to pickles and csv's
+        run_retail_weekly  : True then convert india weekly into df_full and/or df_ts
+        run_wholesale_daily: True then convert india wholesale daily into df_full and/or df_ts
+        run_retail_daily   : True then convert india retail daily into df_full and/or df_ts
+        saving_csv         : True then output all df_full and df_ts to csv's
+        saving_pickle      : True then output all df_full and df_ts to pickles
         using_df_full      : True then compute df_full
         using_df_ts        : True then compute df_ts
         daily_product_lst  : A list of products for importing daily dataset
-        filter_lst         : A list of products for pre-filtering on dataframes.
-                             Empty list means no pre-filtering. Once we decide
-                             which products to use, we set filter_lst = daily_product_lst,
-                             to avoid creating very large df_full and df_ts
+        filter_lst         : Useless now. Can be ignored.
         with_interpolation : True then do linear interpolation on processed series
         na_cutoff_rate     : filter out those series with more NaN than this rate
 
@@ -56,13 +59,13 @@ na_cutoff_rate = 0.4
 fp_csv_weekly = os.getcwd()+'/../../data/india/csv_weekly/rpms.dacnet.nic.in/all_commodities_weekly_india_'
 fp_csv_daily = os.getcwd()+'/../../data/india/csv_daily/agmarknet.nic.in/daily/india_daily_'
 fp_csv_daily_retail = os.getcwd()+'/../../data/india/csv_daily/fcainfoweb.nic.in/india_daily_fcainfo_retail_2009-2014.csv'
-fp_state = os.getcwd()+'/../../data/india/csv_daily/agmarknet.nic.in/regions.csv'
+fp_state = os.getcwd()+'/../../data/india/csv_daily/regions.csv'
 
-pk_out1_template = 'india_df_full.pickle'   ## => "india_df_full_daily.pickle"
-pk_out2_template = 'india_df_ts.pickle'     ## => "india_df_ts_daily.pickle"
+pk_out1_template = 'india_df_full.pickle'   ## => "india_df_full_daily_0,4.pickle"
+pk_out2_template = 'india_df_ts.pickle'     ## => "india_df_ts_daily_0.4.pickle"
 
-csv_out1_template = 'india_original.csv'        ## => "india_full_daily.csv"
-csv_out2_template = 'india_timeseries.csv'  ## => "india_timeseries_daily.csv"
+csv_out1_template = 'india_original.csv'        ## => "india_full_daily_0.4.csv"
+csv_out2_template = 'india_timeseries.csv'  ## => "india_timeseries_daily_0.4.csv"
 
 date_freq_weekly = 'W-FRI'
 date_freq_daily = 'D'
@@ -80,10 +83,10 @@ if __name__ == '__main__':
             mid = '_retail_weekly'
             if with_interpolation:
                 mid = mid + '_interpolated'
-            csv_out1_weekly = csv_out1_template.split('.')[0] + mid + '.' + csv_out1_template.split('.')[1]
-            csv_out2_weekly = csv_out2_template.split('.')[0] + mid + '.' + csv_out2_template.split('.')[1]
-            pk_out1_weekly = pk_out1_template.split('.')[0] + mid + '.' + pk_out1_template.split('.')[1]
-            pk_out2_weekly = pk_out2_template.split('.')[0] + mid + '.' + pk_out2_template.split('.')[1]
+            csv_out1_weekly = csv_out1_template.split('.')[0] + mid + '_'+str(na_cutoff_rate)+'.' + csv_out1_template.split('.')[1]
+            csv_out2_weekly = csv_out2_template.split('.')[0] + mid + '_'+str(na_cutoff_rate)+'.' + csv_out2_template.split('.')[1]
+            pk_out1_weekly = pk_out1_template.split('.')[0] + mid + '_'+str(na_cutoff_rate)+'.' + pk_out1_template.split('.')[1]
+            pk_out2_weekly = pk_out2_template.split('.')[0] + mid + '_'+str(na_cutoff_rate)+'.' + pk_out2_template.split('.')[1]
 
             [fp_csv, date_freq, csv_out1, csv_out2, pk_out1, pk_out2] = \
             [fp_csv_weekly, date_freq_weekly, csv_out1_weekly, csv_out2_weekly, pk_out1_weekly, pk_out2_weekly]
@@ -95,10 +98,10 @@ if __name__ == '__main__':
             mid = '_wholesale_daily'
             if with_interpolation:
                 mid = mid + '_interpolated'
-            csv_out1_daily = csv_out1_template.split('.')[0] + mid + '.' + csv_out1_template.split('.')[1]
-            csv_out2_daily = csv_out2_template.split('.')[0] + mid + '.' + csv_out2_template.split('.')[1]
-            pk_out1_daily = pk_out1_template.split('.')[0] + mid + '.' + pk_out1_template.split('.')[1]
-            pk_out2_daily = pk_out2_template.split('.')[0] + mid + '.' + pk_out2_template.split('.')[1]
+            csv_out1_daily = csv_out1_template.split('.')[0] + mid + '_'+str(na_cutoff_rate)+'.' + csv_out1_template.split('.')[1]
+            csv_out2_daily = csv_out2_template.split('.')[0] + mid + '_'+str(na_cutoff_rate)+'.' + csv_out2_template.split('.')[1]
+            pk_out1_daily = pk_out1_template.split('.')[0] + mid + '_'+str(na_cutoff_rate)+'.' + pk_out1_template.split('.')[1]
+            pk_out2_daily = pk_out2_template.split('.')[0] + mid + '_'+str(na_cutoff_rate)+'.' + pk_out2_template.split('.')[1]
 
             [fp_csv, date_freq, csv_out1, csv_out2, pk_out1, pk_out2] = \
             [fp_csv_daily, date_freq_daily, csv_out1_daily, csv_out2_daily, pk_out1_daily, pk_out2_daily]
@@ -109,10 +112,10 @@ if __name__ == '__main__':
             mid = '_retail_daily'
             if with_interpolation:
                 mid = mid + '_interpolated'
-            csv_out1_daily = csv_out1_template.split('.')[0] + mid + '.' + csv_out1_template.split('.')[1]
-            csv_out2_daily = csv_out2_template.split('.')[0] + mid + '.' + csv_out2_template.split('.')[1]
-            pk_out1_daily = pk_out1_template.split('.')[0] + mid + '.' + pk_out1_template.split('.')[1]
-            pk_out2_daily = pk_out2_template.split('.')[0] + mid + '.' + pk_out2_template.split('.')[1]
+            csv_out1_daily = csv_out1_template.split('.')[0] + mid + '_'+str(na_cutoff_rate)+'.' + csv_out1_template.split('.')[1]
+            csv_out2_daily = csv_out2_template.split('.')[0] + mid + '_'+str(na_cutoff_rate)+'.' + csv_out2_template.split('.')[1]
+            pk_out1_daily = pk_out1_template.split('.')[0] + mid + '_'+str(na_cutoff_rate)+'.' + pk_out1_template.split('.')[1]
+            pk_out2_daily = pk_out2_template.split('.')[0] + mid + '_'+str(na_cutoff_rate)+'.' + pk_out2_template.split('.')[1]
 
             [fp_csv, date_freq, csv_out1, csv_out2, pk_out1, pk_out2] = \
             [fp_csv_daily_retail, date_freq_daily, csv_out1_daily, csv_out2_daily, pk_out1_daily, pk_out2_daily]
