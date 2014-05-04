@@ -20,7 +20,8 @@ from enchant.checker import SpellChecker
 from nltk.stem.lancaster import LancasterStemmer 
 from nltk.metrics.distance import edit_distance
 
-
+sys.path.append('keywords')
+import predictors
 predictors_dict = predictors.predictors_dict
 
 SPELLCHECKER_ENABLED = False
@@ -155,7 +156,6 @@ class TweetProcessor(threading.Thread):
         sleep(WAIT)
 
     def load_tweets(self, picklef):
-        print os.getcwd()
         f = ''
         try:
             f = open(picklef, 'rb')
@@ -200,7 +200,7 @@ class TweetProcessor(threading.Thread):
                         
 		return to_db 
 
-`   def extract_features(t, tokens):
+    def extract_features(t, tokens):
         category_count = {}
 
         prev_neg = False
@@ -212,7 +212,7 @@ class TweetProcessor(threading.Thread):
             if cat[1] is not None:
                 if prev_neg:
                     keys = category_count[cat[0]].keys()
-                    for key in keys 
+                    for key in keys:
                         if cat[1] is not key:
                             print key
                             cat_n = str(cat[0])+'_'+str(cat[1])

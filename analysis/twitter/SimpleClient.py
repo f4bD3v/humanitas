@@ -34,8 +34,8 @@ def extract_features(t, col_str, val_str):
 
 def load_location_dict(fname):
     #path = os.path.split(os.getcwd())[0]
-    path = os.getcwd()
-    fname = path+"/cassandra_db/"+str(fname)
+    #path = os.getcwd()
+    #fname = path+"/cassandra_db/"+str(fname)
     print fname
     with open(fname, 'r') as ifile:
         reader = csv.reader(ifile)
