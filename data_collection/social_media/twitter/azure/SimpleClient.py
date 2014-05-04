@@ -8,6 +8,7 @@ import json
 import io
 import sys
 import csv
+import os
 from datetime import date, datetime
 
 log = logging.getLogger()
@@ -19,7 +20,7 @@ def extract_features(t, col_str, val_str):
     tweet_text_tokens = tweet_text_clean.split()
     category_count = {}
 
-    for (token in tweet_text_tokens):
+    for token in tweet_text_tokens:
         cat = getCategory(token)
         if cat != "":
             if cat in category_count:
@@ -27,19 +28,23 @@ def extract_features(t, col_str, val_str):
             else:
                 category_count[cat] = 0
 
-    for (cat, count in category_count.iteritems()):
+    for cat, count in category_count.iteritems():
            col_str.append(cat)
            val_str.append(count)
 
 def load_location_dict(fname):
-    with open(fname, mode='r') as ifile:
+    #path = os.path.split(os.getcwd())[0]
+    path = os.getcwd()
+    fname = path+"/cassandra_db/"+str(fname)
+    print fname
+    with open(fname, 'r') as ifile:
         reader = csv.reader(ifile)
+        print reader
         next(reader, None) #ignore header
         return {rows[0].lower():rows[1].lower() for rows in reader}
 
 def extract_location(loc, locs):
-    loc_tokens = ' '.join(loc.lower() for e in string if e.isalnum())
-      .strip().split()
+    loc_tokens = ' '.join(loc.lower() for e in string if e.isalnum()).strip().split()
 
     for token in loc_tokens:
         if token.lower() in locs:
@@ -94,7 +99,7 @@ class SimpleClient:
        city = ""
        region = ""
 
-       for (col, val, shouldPrep) in self.tweet_cols:
+       for col, val, shouldPrep in self.tweet_cols:
            if has(t,val):
                col_str.append(col)
                if(shouldPrep):
@@ -250,4 +255,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()o
+    main()
