@@ -19,60 +19,11 @@ import os
 import random
 from time import sleep
 
-from enchant.checker import SpellChecker
-
-# Install nltk: 'sudo pip install -U pyyaml nltk'
-from nltk.stem.lancaster import LancasterStemmer 
-from nltk.metrics.distance import edit_distance
-
 sys.path.append('keywords')
-
 from food_categories import getFoodWordList, get_food_words, getFoodCatList
-
-import predictors
-predictors_dict = predictors.predictors_dict
-
-SPELLCHECKER_ENABLED = True
-
-negative_forms = set(['not', 'no', 'non', 'nothing',
-                  "don't", "dont", "doesn't", "doesnt",     # Present
-                  "aren't", "arent", "a'int", "aint",
-                  "isn't", "isnt",
-                  "didn't", "didnt", "haven't", "havent",   # Past
-                  "hasn't", "hasnt", "hadn't", "hadnt",
-                  "weren't", "werent", "wasn't", "wasnt",
-                  "wouldn't", "wouldnt",
-                  "won't", "wont", "shan't", "shant",       # Future
-                 ])
-
-c_stems = {}
-compl_pred_cats = {}
-st = LancasterStemmer()
-categories = []
 
 WAIT = 30000 # somewhat more than 8 min
 BATCH_SIZE = 500
-
-def init_reverse_index():
-    categories.extend(getFoodCatList())
-    for dict_name in predictors_dict:
-        category_dict = predictors_dict[dict_name]
-        cats = category_dict.keys()
-        for catkey in cats:
-            for catval in cats:
-                if catkey is not catval:
-                    compl_pred_cats[catkey]=catval
-        for cname in category_dict:
-            categories.append(str(dict_name)+'_'+str(cname))
-            word_list = category_dict[cname]
-            for word in word_list:
-                stem = st.stem(word)
-                c_stems[stem] = (dict_name, cname)
-
-    # Add negative forms
-    for word in negative_forms:
-        c_stems[word] = ('negation', None)
-
 
 """
 def init_stem_sets():
@@ -88,16 +39,6 @@ def init_stem_sets():
                 stem_set.add(st.stem(word))
             c_stems[dict_name][cname] = stem_set
 """
-
-def lookup_stem_sets(w):
-    w = st.stem(w)
-    for dict_name in c_stems:
-        category_dict = c_stems[dict_name]
-        for cname in category_dict:
-            stem_set = category_dict[cname]
-            if w in stem_set:
-                return (dict_name, cname)
-    return None
 
 class ProcessManager(threading.Thread):
     def __init__(self):
@@ -266,18 +207,18 @@ class TweetProcessor(threading.Thread):
 
         prev_neg = False
         for token in tokens:
-            cat = c_stem[st.stem(token)]
-            #cat = get_category.get_category(token)
-            cat_n = str(cat[0])+'_'+str(cat[1])
+            stem = get_category.lookup_stem_sets(token)
+            if stem is None:
+                raise Exception('stem not defined for '+token)
+
+            cat = get_category.get_category(stem)
+            cat_n = '_'.join([for c in cat])
             if cat[0] is 'negation':
                 prev_neg = True
             if cat[1] is not None:
                 if prev_neg:
-                    keys = category_count[cat[0]].keys()
-                    for key in keys:
-                        if cat[1] is not key:
-                            print key
-                            cat_n = str(cat[0])+'_'+str(key)
+                    compl_cat = compl_pred_cats[cat[1]]
+                    cat_n = '_'.join([cat[0],compl])
                 if cat_n in category_count:
                     category_count[cat_n] += 1
                 else:
@@ -323,10 +264,11 @@ class TweetProcessor(threading.Thread):
 def main(args):
 
     tmp_dir = args[0]
-    init_reverse_index()
-    print c_stems
-    print compl_pred_cats
-    print categories
+    get_category.init_reverse_index()
+    get_category.categories.extend(getFoodCatList())
+    print get_category.c_stems
+    print get_category.compl_pred_cats
+    print get_category.categories
 
     log = logging.getLogger()
     log.setLevel('INFO')

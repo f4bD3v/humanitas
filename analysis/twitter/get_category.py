@@ -33,13 +33,21 @@ negative_forms = ['not', 'no', 'non', 'nothing',
 
 # Reverse index, for ex {'decline' : ('predict', 'dec')}
 c_stems = {}
+compl_pred_cats = {}
 st = LancasterStemmer()
+categories = []
 
 # 1. Build reverse index for existing categories
 def init_reverse_index():
     for dict_name in predictors_dict:
         category_dict = predictors_dict[dict_name]
+        cats = category_dict.keys()
+        for catkey in cats:
+            for catval in cats:
+                if catkey is not catval:
+                    compl_pred_cats[catkey]=catval
         for cname in category_dict:
+            categories.append(str(dict_name)+'_'+str(cname))
             word_list = category_dict[cname]
             for word in word_list:
                 stem = st.stem(word)
@@ -57,8 +65,6 @@ def lookup_stem_sets(w):
 
 # 2. Get a category for a given word
 def get_category(w):
-    # Check if negation
-    if w in negative_forms: return ('negation', None)
     # Lookup in stem sets
     category_tuple = lookup_stem_sets(w)
     if category_tuple:
