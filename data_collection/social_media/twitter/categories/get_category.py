@@ -3,8 +3,6 @@
 import sys
 import os
 import random
-import enchant
-from enchant.checker import SpellChecker
 
 # Install nltk: 'sudo pip install -U pyyaml nltk'
 from nltk.stem.lancaster import LancasterStemmer 
@@ -22,7 +20,7 @@ predictors_dict = predictors.predictors_dict
 
 SPELLCHECKER_ENABLED = False
 
-negative_forms = set(['not', 'no', 'non', 'nothing',
+negative_forms = ['not', 'no', 'non', 'nothing',
                   "don't", "dont", "doesn't", "doesnt",     # Present
                   "aren't", "arent", "a'int", "aint",
                   "isn't", "isnt",
@@ -31,32 +29,31 @@ negative_forms = set(['not', 'no', 'non', 'nothing',
                   "weren't", "werent", "wasn't", "wasnt",
                   "wouldn't", "wouldnt",
                   "won't", "wont", "shan't", "shant",       # Future
-                 ])
+                 ]
 
+# Reverse index, for ex {'decline' : ('predict', 'dec')}
 c_stems = {}
 st = LancasterStemmer()
 
-# 1. Build set for existing categories
-def init_stem_sets():
+# 1. Build reverse index for existing categories
+def init_reverse_index():
     for dict_name in predictors_dict:
         category_dict = predictors_dict[dict_name]
-        c_stems[dict_name] = {}
         for cname in category_dict:
             word_list = category_dict[cname]
-            stem_set = set()
             for word in word_list:
-                stem_set.add(st.stem(word))
-            c_stems[dict_name][cname] = stem_set
+                stem = st.stem(word)
+                c_stems[stem] = (dict_name, cname)
+    # Add negative forms
+    for word in negative_forms:
+        c_stems[word] = ('negation', None)
 
 def lookup_stem_sets(w):
-    w = st.stem(w)
-    for dict_name in c_stems:
-        category_dict = c_stems[dict_name]
-        for cname in category_dict:
-            stem_set = category_dict[cname]
-            if w in stem_set:
-                return (dict_name, cname)
-    return None
+    stem = st.stem(w)
+    if stem in c_stems:
+        return c_stems[stem]
+    else:
+        return None
 
 # 2. Get a category for a given word
 def get_category(w):
@@ -64,7 +61,8 @@ def get_category(w):
     if w in negative_forms: return ('negation', None)
     # Lookup in stem sets
     category_tuple = lookup_stem_sets(w)
-    if category_tuple: return category_tuple
+    if category_tuple:
+        return category_tuple
 
     if SPELLCHECKER_ENABLED:
         # Probably a typo, try suggestion from dictionary
@@ -76,9 +74,6 @@ def get_category(w):
     return None
 
 ## SPELLCHECKING ##
-
-spellcheck_dict = enchant.PyPWL()
-chkr = SpellChecker("en_US") 
 
 def flatten(l):
     return reduce(lambda x, y: x+y, l)
@@ -105,10 +100,16 @@ def spellcheck(w):
         return None
     return suggestion
 
+if SPELLCHECKER_ENABLED:
+    import enchant
+    from enchant.checker import SpellChecker
+    spellcheck_dict = enchant.PyPWL()
+    chkr = SpellChecker("en_US") 
+    load_dict()
+
 ## MAIN ##
 
-init_stem_sets()
-load_dict()
+init_reverse_index()
 
 print get_category('increases')
 
