@@ -51,7 +51,7 @@ def load_location_dict(fname):
         return {rows[0].lower():rows[1].lower() for rows in reader}
 
 def extract_location(loc, locs):
-    loc_tokens = re.sub('[^a-zA-Z0-9]', ' ', str(x)).strip().split()
+    loc_tokens = re.sub('[^a-zA-Z0-9-]', ' ', str(loc)).strip().split()
 
     for token in loc_tokens:
         if token.lower() in locs:
