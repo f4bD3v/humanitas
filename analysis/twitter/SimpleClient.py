@@ -125,7 +125,7 @@ class SimpleClient:
        if has(t,'user'):
            if has(t['user'], 'id'):
                col_str.append('user_id')
-               val_str.append(prep(t['user']['id']))
+               val_str.append(prep(str(t['user']['id'])))
            if has(t['user'],'location'):
                city = extract_location(t['user']['location'], self.cities)
                if city != "":
