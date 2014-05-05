@@ -15,6 +15,7 @@ import sys
 import csv
 import os
 from datetime import date, datetime
+import threading
 
 log = logging.getLogger()
 log.setLevel('INFO')
@@ -90,15 +91,21 @@ class SimpleClient:
     regions = set(city_region_dict.values())
     cities = city_region_dict.keys()
 
+    def __init__(self):
+        self.createInsLock = threading.RLock()
+        self.sendBatchLock= threading.RLock()
+
     #takes as input a list of insert statements and sends them as a batch
     #very fast, but batch construction and sending should be best done in a
     #seperate thread for max. performance
     def send_batch(self, inserts):
-	self.session.execute("BEGIN BATCH\n" + "\n".join(inserts) + "\nAPPLY BATCH;")
+        log.info("invoking batch execution insert")
+        self.session.execute("BEGIN BATCH\n" + "\n".join(inserts) + "\nAPPLY BATCH;")
         log.info("batch of tweets loaded into db")
 
     #returns a string representing an insert for a tweet
     def create_insert(self, t, cat_counts=None):
+       log.info("creating insert")
        col_str = []
        val_str = []
        city = ""
@@ -182,19 +189,19 @@ class SimpleClient:
         self.session.execute("""
             CREATE TABLE tweets (
 	        id bigint,
-                time timestamp,
+            time timestamp,
 	        user_id text,
 	        region text,
 	        city text,
-                content text,
-                lat float,
-                long float,
-                place text,
+            content text,
+            lat float,
+            long float,
+            place text,
    	        rt_count int,
-                fav_count int,
-                lang text,\n""" +
-                ',\n'.join(map((lambda coln: coln + " int"), categories))
-                + """PRIMARY KEY (id, time));
+            fav_count int,
+            lang text,\n""" +
+            ',\n'.join(map((lambda coln: str(coln) + " int"), categories))
+            + """PRIMARY KEY (id, time));
         """)
         log.info("Schema created.")
 

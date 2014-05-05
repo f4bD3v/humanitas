@@ -6,6 +6,9 @@
 #import SimpleClient
 from SimpleClient import *
 
+import socket
+import logging
+
 import pickle
 import glob
 import sys
@@ -39,7 +42,7 @@ negative_forms = set(['not', 'no', 'non', 'nothing',
 
 c_stems = {}
 st = LancasterStemmer()
-
+categories = []
 
 WAIT = 30000 # somewhat more than 8 min
 BATCH_SIZE = 500
@@ -49,6 +52,7 @@ def init_stem_sets():
         category_dict = predictors_dict[dict_name]
         c_stems[dict_name] = {}
         for cname in category_dict:
+            categories.append(str(dict_name)+'_'+str(cname))
             word_list = category_dict[cname]
             stem_set = set()
             for word in word_list:
@@ -72,7 +76,8 @@ class ProcessManager(threading.Thread):
         self.threads = []
         self.sleep_seq_count = 0
         self.sleep_last_rnd = False
-        self.funcAccLock = threading.RLock()
+        self.funcAccLock = threading.Lock()
+        self.pickleAccLock = threading.Lock()
         self.picklefs_proc = self.read_picklefs_proc()	
         self.picklefs_selected = []
         
@@ -87,9 +92,11 @@ class ProcessManager(threading.Thread):
         self.picklefs_proc.append(picklef)
 
     def select_picklef(self):
+        if not self.picklefs_to_proc:
+            raise Exception('picklefs_to_proc is empty')
         picklef = random.choice(self.picklefs_to_proc)
         if picklef not in self.picklefs_selected:
-            return
+            return picklef
         else:
             self.select_picklef()
 
@@ -98,21 +105,26 @@ class ProcessManager(threading.Thread):
 
     def run(self):
         picklefs = glob.glob('*.pickle')
+        self.pickleAccLock.acquire()
         self.picklefs_to_proc = list(set(picklefs)-set(self.picklefs_proc))
         print 'First three pickle files still to process by PM ',self.picklefs_to_proc[0:3]
         print len(self.picklefs_to_proc), ' remaining'
+        self.pickleAccLock.release()
         for t in self.threads:
             t.start()
             print 'Tweet processor thread '+str(t)+' started'
 
         while True:
-            picklefs = glob.glob('.pickle')
-            self.picklefs_to_proc = (set(picklefs)-set(self.picklefs_proc))
+            picklefs = glob.glob('*.pickle')
+            self.pickleAccLock.acquire()
+            self.picklefs_to_proc = list(set(picklefs)-set(self.picklefs_proc))
+            to_proc_len = len(self.picklefs_to_proc)
+            self.pickleAccLock.release()
             if self.sleep_seq_count == 4:
                 write_picklefs_proc()
                 raise SystemExit("Tweetprocessor has been sleeping for about 35 minutes.\n Check progress of tweet downloader! Exiting..") 
 
-            if len(self.picklefs_to_proc):
+            if not to_proc_len:
                 self.sleep_seq_count += 1
                 self.sleep_last_rnd = True
                 for t in self.threads:
@@ -159,7 +171,7 @@ class TweetProcessor(threading.Thread):
         self.sleep_seq_count = 0
         self.food_words = []
 
-    def force_sleep(self):
+    def force_sleep(self, WAIT):
         sleep(WAIT)
 
     def load_tweets(self, picklef):
@@ -176,9 +188,13 @@ class TweetProcessor(threading.Thread):
 
         for t in self.filter_tweets(tweet_set):
             cat_count = self.extract_features(t, tokens) 
+            self.client.createInsLock.acquire()
             inserts += self.client.create_insert(t, cat_count)
+            self.client.createInsLock.release()
             if len(inserts) >= BATCH_SIZE:
+                self.client.sendBatchLock.acquire()
                 self.client.send_batch(inserts)
+                self.client.sendBatchLock.release()
                 inserts = []
 			#db.send_tweet(t)		
 
@@ -235,10 +251,11 @@ class TweetProcessor(threading.Thread):
             except AttributeError:
                 print('error')
             """
-            self.proc_manager.funcAccLock.acquire()
+
+            self.proc_manager.pickleAccLock.acquire()
             picklef = self.proc_manager.select_picklef()
-            self.proc_manager.funcAccLock.release()
-            if not picklefs_to_proc:
+            self.proc_manager.pickleAccLock.release()
+            if not picklef:
                 continue
             print self, ' chosen ', picklef
             #for picklef in self.picklefs_to_proc:
@@ -251,34 +268,36 @@ class TweetProcessor(threading.Thread):
             self.proc_manager.append_picklefs_proc(picklef)
             self.proc_manager.funcAccLock.release()
 
-def main():
+def main(args):
 
+    tmp_dir = args[0]
     init_stem_sets()
+    print categories
 
+    log = logging.getLogger()
+    log.setLevel('INFO')
+    logging.basicConfig(filename='tweet_proc.log',level=logging.DEBUG)
+
+    node = socket.gethostbyname(socket.gethostname())
     sc = SimpleClient()
+    sc.connect([node])
+       
+    if len(args) > 1 and args[1]=="True":
+         sc.extended_schema(categories)
+
     thread = ProcessManager() 
-    thread.set_dir(sys.argv[1])
+    thread.set_dir(tmp_dir)
     thread.start()
 
     threads = []
 
-    thread1 = TweetProcessor(thread)
-    threads.append(thread1)
-
-    thread2 = TweetProcessor(thread)
-    threads.append(thread2)
-
-    thread3 = TweetProcessor(thread)
-    threads.append(thread3)
-
-    for t in threads:
-        sc = SimpleClient()
-        node = "127.0.0.1"
-        sc.connect([node])
-        t.set_client(sc)
-
+    for i in range(5):
+        proc_thread = TweetProcessor(thread)
+        proc_thread.set_client(sc)
+        threads.append(proc_thread)
 
 if __name__ == "__main__":
-	if len(sys.argv) < 2:
-		print('usage: %s tweet_tmp_dir', sys.argv[0])
-	main()
+    if len(sys.argv) < 2:
+        print('usage: %s tweet_tmp_dir [create_extended_schema: True]', sys.argv[0])
+    else:
+        main(sys.argv[1:])
