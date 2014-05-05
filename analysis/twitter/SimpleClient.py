@@ -51,7 +51,7 @@ def load_location_dict(fname):
         return {rows[0].lower():rows[1].lower() for rows in reader}
 
 def extract_location(loc, locs):
-    loc_tokens = re.sub('[^a-zA-Z0-9]', ' ', str(x)).strip().split()
+    loc_tokens = re.sub('[^a-zA-Z0-9-]', ' ', loc.encode("ascii","ignore")).strip().split()
 
     for token in loc_tokens:
         if token.lower() in locs:
@@ -61,7 +61,7 @@ def extract_location(loc, locs):
 #prepares 'text' values for the db
 def prep(x):
     #return "'" + x + "'"
-    return "'" + re.sub('[^a-zA-Z0-9]', ' ', str(x)) + "'"
+    return "'" + re.sub('[^a-zA-Z0-9]', ' ', x.encode("ascii","ignore")) + "'"
     #return "'" + x.encode("ascii","ignore").replace("'", "") + "'"
 
 #tweet contains field with content
