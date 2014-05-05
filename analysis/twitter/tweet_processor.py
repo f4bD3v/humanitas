@@ -224,6 +224,8 @@ class TweetProcessor(threading.Thread):
                 if(self.contains_words(self.food_words, tweet_text_tokens)):
                     if("user" in tweet and tweet['user'] is not None):
                         yield tweet
+                    else:
+                        print("Tweet not added: " + tweet)
 
     def extract_features(t, tokens):
         category_count = {}
