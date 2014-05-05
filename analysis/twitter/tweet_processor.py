@@ -288,7 +288,7 @@ def main(args):
 
     threads = []
 
-    for i in range(4):
+    for i in range(3):
         proc_thread = TweetProcessor(thread)
         proc_thread.set_client(sc)
         threads.append(proc_thread)
