@@ -60,7 +60,7 @@ def extract_location(loc, locs):
 #prepares 'text' values for the db
 def prep(x):
     #return "'" + x + "'"
-    return "'" + ''.join(e for e in string if e.isalnum()) + "'"
+    return "'" + ''.join([e for e in x if e.isalnum()]) + "'"
     #return "'" + x.encode("ascii","ignore").replace("'", "") + "'"
 
 #tweet contains field with content
