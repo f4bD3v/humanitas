@@ -16,6 +16,7 @@ import csv
 import os
 from datetime import date, datetime
 import threading
+import re
 
 log = logging.getLogger()
 log.setLevel('INFO')
@@ -60,7 +61,8 @@ def extract_location(loc, locs):
 #prepares 'text' values for the db
 def prep(x):
     #return "'" + x + "'"
-    return "'" + ''.join(e for e in string if e.isalnum()) + "'"
+    return "'" + re.sub('[^a-zA-Z0-9]', ' ', str(x)) + "'"
+    #return "'" + ''.join(e for e in string if e.isalnum()) + "'"
     #return "'" + x.encode("ascii","ignore").replace("'", "") + "'"
 
 #tweet contains field with content
