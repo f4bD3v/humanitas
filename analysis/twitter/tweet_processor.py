@@ -52,6 +52,21 @@ categories = []
 WAIT = 30000 # somewhat more than 8 min
 BATCH_SIZE = 500
 
+def init_reverse_index():
+    categories.extend(getFoodCatList())
+    for dict_name in predictors_dict:
+        category_dict = predictors_dict[dict_name]
+        for cname in category_dict:
+            categories.append(str(dict_name)+'_'+str(cname))
+            word_list = category_dict[cname]
+            for word in word_list:
+                stem = st.stem(word)
+                c_stems[stem] = (dict_name, cname)
+    # Add negative forms
+    for word in negative_forms:
+        c_stems[word] = ('negation', None)
+
+"""
 def init_stem_sets():
     categories.extend(getFoodCatList())
     for dict_name in predictors_dict:
@@ -64,6 +79,7 @@ def init_stem_sets():
             for word in word_list:
                 stem_set.add(st.stem(word))
             c_stems[dict_name][cname] = stem_set
+"""
 
 def lookup_stem_sets(w):
     w = st.stem(w)
@@ -298,7 +314,7 @@ class TweetProcessor(threading.Thread):
 def main(args):
 
     tmp_dir = args[0]
-    get_category.init_reverse_index()
+    init_reverse_index()
     print categories
 
     log = logging.getLogger()
