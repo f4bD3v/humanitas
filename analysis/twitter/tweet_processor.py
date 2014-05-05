@@ -158,10 +158,8 @@ class TweetProcessor(threading.Thread):
         # filter by keywords, remove retweets, keep filtered out data (how?)
         inserts = []
 
-        filtered_tweets = self.filter_tweets(tweet_set)
-
         i = 0
-        for t in filtered_tweets:
+        for t in self.filter_tweets(tweet_set):
             cat_count = self.extract_features(t, tokens) 
             self.client.createInsLock.acquire()
             inserts += self.client.create_insert(t, cat_count)
