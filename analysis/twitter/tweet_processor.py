@@ -284,7 +284,8 @@ def main(args):
     sc.use_keyspace('tweet_collector')
        
     if len(args) > 1 and args[1]=="True":
-         sc.extended_schema(categories)
+        sc.drop_schema()
+        sc.extended_schema(categories)
 
     thread = ProcessManager() 
     thread.set_dir(tmp_dir)
