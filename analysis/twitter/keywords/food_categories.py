@@ -1,7 +1,7 @@
 def get_food_words():
     food_words = {}
     food_words['rice'] = list(['rice'])
-    food_words['wheat'] = list(['wheat', 'bread', 'flour'])
+    food_words['wheat'] = list(['wheat', 'bread', 'flour', 'atta'])
     food_words['coriander'] = list(['coriander'])
     food_words['potato'] = list(['potato'])
     food_words['onion'] = list(['onion'])
@@ -18,10 +18,17 @@ def get_food_words():
     food_words['general'] = list(['breakfast', 'lunch', 'dinner', 'meal', 'food', 'eat'])
     return food_words
 
+def getFoodWordList():
+    l = get_food_words().values()
+    return [item for sublist in l for item in sublist]
+
+def getFoodCatList():
+    return get_food_words().keys()
+
 def print_foods():
     foods = get_food_words()
-    for food in foods:
-        print foods[food]
+    for food in foods.keys():
+        print(foods[food])
 
 
 

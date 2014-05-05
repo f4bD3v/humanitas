@@ -8,7 +8,8 @@ from df_build_func import get_all_dates
 
 na_cutoff_rate = 0.4
 #csv_df_full = os.getcwd()+'/../../data/india/csv_preprocessed/wholesale_daily/india_original_wholesale_daily.csv'
-csv_df_full = os.getcwd() + '/../preproc/india_original_wholesale_daily_'+str(na_cutoff_rate)+'.csv'
+#csv_df_full = os.getcwd() + '/../preproc/india_original_wholesale_daily_'+str(na_cutoff_rate)+'.csv'
+csv_df_full = os.getcwd() + '/../preproc/india_original_retail_daily_'+str(na_cutoff_rate)+'.csv'
 
 def subsample(df, begin_date):
     df['date'] = pd.to_datetime(df['date'])

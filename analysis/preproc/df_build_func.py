@@ -10,19 +10,21 @@ import collections
 import matplotlib.pyplot as plt
 
 usage = '''
-        get_raw_weekly   : read india weekly csv into one big dataframe, df_raw
-        get_raw_daily    : read india daily csv into one big dataframe, df_raw
-        isDaily          : True if the path is a daily one
-        get_state        : read regions.csv into dataframe, df_reg
-        get_data         : join df_raw and df_reg on 'city' into df, format 'date'
-                           column into Pandas datetime format, and sort df by dates
-        get_all_dates    : get all dates from the dataframe using pd.date_range
-        mod_header       : replace 'index' by 'date'
-        examine_fullness : examine if df_full has all dates for all label.
-        replace_nan_with : helper
-        get_piece        : unused function. patch df with missing dates manually
-        get_full_data    : given df, return df_full or df_ts by option. The com-
-                           putation of both is done all at once, thus no overhead.
+        get_raw_weekly           : read india weekly csv into one big dataframe, df_raw
+        get_raw_daily            : read india wholesale daily csv into one big dataframe, df_raw
+        get_raw_daily_retail     : read india retail daily csv into one big dataframe, df_raw
+        get_state                : read regions.csv into dataframe, df_reg
+        get_data                 : join df_raw and df_reg on 'city' into df, format 'date'
+                                   column into Pandas datetime format, and sort df by dates
+        get_all_dates            : get all dates from the dataframe using pd.date_range
+        mod_header               : replace 'index' by 'date'
+        examine_fullness         : examine if df_full has all dates for all labels and if it is properly interpolated.
+        examine_df_ts_fullness   : examine if df_ts has all dates for all labels and if it is properly interpolated.
+        replace_nan_with         : helper
+        get_piece                : unused function. patch df with missing dates manually
+        get_full_data            : given df, return df_full or df_ts by option. The com-
+                                   putation of both is done all at once, thus no overhead.
+        extract_duplicates       : return duplicated parts and dates of a data frame
 '''
 
 
@@ -172,6 +174,21 @@ def get_full_data(df, all_dates, \
         # # print len(all_dates), len(group['date']), len(missing_dates)
         # # break
         # missing_piece = get_piece(missing_dates, group.iloc[0,])
+
+        #wrong data
+        if (state, city, product, subproduct, freq) == \
+            ('West Bengal', 'Kolkata', 'Urad Dal', 'None','day'):
+            print (state, city, product, subproduct, freq)
+            print group[group['date'] == pd.to_datetime('2011-02-03')]
+            group[group['date'] == pd.to_datetime('2011-02-03')] = np.nan
+
+        if (state, city, product, subproduct, freq) == \
+            ('Rajasthan', 'Jaipur', 'Salt Pack (Iodised)', 'None', 'day'):
+            print (state, city, product, subproduct, freq)
+            print group[group['date'] == pd.to_datetime('2010-05-05')]
+            group[group['date'] == pd.to_datetime('2010-05-05')] = np.nan
+            group[group['date'] == pd.to_datetime('2010-05-06')] = np.nan
+            group[group['date'] == pd.to_datetime('2010-05-07')] = np.nan
 
         #common part
 

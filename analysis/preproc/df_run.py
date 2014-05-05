@@ -5,7 +5,7 @@ from df_build_func import *
 usage = '''
     This script read India daily and/or weekly csv files into Pandas dataframes, df_full and/or df_ts
 
-    sample output files:
+    sample output files (with na_cutoff_rate == 0.4):
         india_original_weekly_0.4.csv
         india_timeseries_weekly_0.4.csv
 
@@ -22,16 +22,15 @@ usage = '''
                   prices of tuple (state, city, product, subproduct)
 
     general options:
-        run_retail_weekly         : True then convert india weekly into df_full and/or df_ts
-        run_wholesale_daily          : True then convert india daily into df_full and/or df_ts
-        run_saving         : True then output all df_full and df_ts to pickles and csv's
+        run_retail_weekly  : True then convert india weekly into df_full and/or df_ts
+        run_wholesale_daily: True then convert india wholesale daily into df_full and/or df_ts
+        run_retail_daily   : True then convert india retail daily into df_full and/or df_ts
+        saving_csv         : True then output all df_full and df_ts to csv's
+        saving_pickle      : True then output all df_full and df_ts to pickles
         using_df_full      : True then compute df_full
         using_df_ts        : True then compute df_ts
         daily_product_lst  : A list of products for importing daily dataset
-        filter_lst         : A list of products for pre-filtering on dataframes.
-                             Empty list means no pre-filtering. Once we decide
-                             which products to use, we set filter_lst = daily_product_lst,
-                             to avoid creating very large df_full and df_ts of weekly dataset
+        filter_lst         : Useless now. Can be ignored.
         with_interpolation : True then do linear interpolation on processed series
         na_cutoff_rate     : filter out those series with more NaN than this rate
 
@@ -40,8 +39,8 @@ usage = '''
 ##============options================
 
 run_retail_weekly = False
-run_wholesale_daily = True
-run_retail_daily = False
+run_wholesale_daily = False
+run_retail_daily = True
 saving_csv = True
 saving_pickle = False
 
@@ -53,7 +52,7 @@ filter_lst = []
 
 with_interpolation = False
 
-na_cutoff_rate = 0.3
+na_cutoff_rate = 0.4
 
 ##====================================
 
@@ -62,11 +61,11 @@ fp_csv_daily = os.getcwd()+'/../../data/india/csv_daily/agmarknet.nic.in/daily/i
 fp_csv_daily_retail = os.getcwd()+'/../../data/india/csv_daily/fcainfoweb.nic.in/india_daily_fcainfo_retail_2009-2014.csv'
 fp_state = os.getcwd()+'/../../data/india/csv_daily/regions.csv'
 
-pk_out1_template = 'india_df_full.pickle'   ## => "india_df_full_daily.pickle"
-pk_out2_template = 'india_df_ts.pickle'     ## => "india_df_ts_daily.pickle"
+pk_out1_template = 'india_df_full.pickle'   ## => "india_df_full_daily_0,4.pickle"
+pk_out2_template = 'india_df_ts.pickle'     ## => "india_df_ts_daily_0.4.pickle"
 
-csv_out1_template = 'india_original.csv'        ## => "india_full_daily.csv"
-csv_out2_template = 'india_timeseries.csv'  ## => "india_timeseries_daily.csv"
+csv_out1_template = 'india_original.csv'        ## => "india_full_daily_0.4.csv"
+csv_out2_template = 'india_timeseries.csv'  ## => "india_timeseries_daily_0.4.csv"
 
 date_freq_weekly = 'W-FRI'
 date_freq_daily = 'D'

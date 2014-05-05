@@ -1,6 +1,6 @@
 city,state
-Madagadipet,Pondicherry
-Thattanchavady,Pondicherry
+Madagadipet,Puducherry
+Thattanchavady,Puducherry
 Uchana,Haryana
 Fatehabad,Haryana
 Kaithal,Haryana
@@ -98,7 +98,6 @@ Naneola,Haryana
 Raipur Rai,Haryana
 Pipli,Haryana
 Farukh Nagar,Haryana
-Siwan,Haryana
 Nissing,Haryana
 Nuh,Haryana
 Bapauli,Haryana
@@ -624,8 +623,8 @@ Vaduvur,Tamil Nadu
 Konganapuram (Agri. Coop. Marketing Society),Tamil Nadu
 Kianthukadavu,Tamil Nadu
 Kulasekaram,Tamil Nadu
-Chandigarh(Grain/Fruit),Chandigarh
-Chandigarh (F&V;),Chandigarh
+Chandigarh(Grain/Fruit),Punjab
+Chandigarh (F&V;),Punjab
 Jammu (Grain Mandi),Jammu and Kashmir
 Kathua,Jammu and Kashmir
 Narwal Jammu (F&V;),Jammu and Kashmir
@@ -892,7 +891,6 @@ Burhanpur(F&V;),Madhya Pradesh
 Chaurai,Madhya Pradesh
 Chhindwara,Madhya Pradesh
 Dindori,Madhya Pradesh
-Gorakhpur,Madhya Pradesh
 Gotegaon,Madhya Pradesh
 Jabalpur,Madhya Pradesh
 Kareli,Madhya Pradesh
@@ -1021,12 +1019,10 @@ Tarana,Madhya Pradesh
 Unhel,Madhya Pradesh
 Bhander,Madhya Pradesh
 Lakhnadon(F&V;),Madhya Pradesh
-Alampur,Madhya Pradesh
 Lakhnadon,Madhya Pradesh
 Ajaygarh,Madhya Pradesh
 Badamalhera,Madhya Pradesh
 Bamora,Madhya Pradesh
-Banda,Madhya Pradesh
 Bina,Madhya Pradesh
 Chhatarpur,Madhya Pradesh
 Devandranagar,Madhya Pradesh
@@ -2779,15 +2775,15 @@ Chandigarh,Punjab
 Jodhpur,Rajasthan
 Jammu,Jammu and Kashmir
 Varanasi,Uttar Pradesh
-Bhubaneshwar,Odisha
+Bhubaneshwar,Orissa
 Port blair,Andaman and Nicobar Islands
 Hisar,Haryana
 Vijaywada,Andhra Pradesh
 Srinagar,Jammu and Kashmir
-Rourkela,Odisha
+Rourkela,Orissa
 Dharwad,Karnataka
 Gwalior,Madhya Pradesh
-Cuttack,Odisha
+Cuttack,Orissa
 Aizwal,Mizoram
 Hyderabad,Andhra Pradesh
 Puducherry,Puducherry
@@ -2795,4 +2791,47 @@ Kanpur,Uttar Pradesh
 Agartala,Tripura
 Kozhikode,Kerala
 Guwahati,Assam
+
+Bhatinda,Punjab
+Khozhikode,Kerala
+Trivandrum,Kerala
+Siwan,Bihar
+Bhubneshwar,Orissa
+Dispur,Assam
+Guwahati,Assam
+Bhillai,Madhya Pradesh
+Swaimadhopur,Rajasthan
+Gorakhpur,Uttar Pradesh
+Banda,Uttar Pradesh
+Alampur,Andhra Pradesh
+Vishakapatnam,Andhra Pradesh
+Gandhi Nagar,Gujarat
+Ahmedapur,West Bengal
+Balichak,West Bengal
+Bankura,West Bengal
+Basiwrhat,West Bengal
+Belda,West Bengal
+Bhawani,Rajasthan
+Contai,West Bengal
+Hubli,Karnataka
+Krishnagar,West Bengal
+Mainpuiri,Uttar Pradesh
+Malda,West Bengal
+Melaghat,Maharashtra
+Mogra,West Bengal
+Muzaffarnagar,Uttar Pradesh
+Nedumangad,Kerala
+Palghat,Kerala
+Philibhit,Uttar Pradesh
+Chandigarh,Punjab
+Pondicherry,Puducherry
+Portblair,Andaman
+Sonipet,Haryana
+Suri,West Bengal
+Tambram,Tamil Nadu
+Tiruchirapalli,Tamil Nadu
+Tirunelveli,Tamil Nadu
+Vadodra,Gujarat
+Vishakhapatnam,Andhra Pradesh
+Shrinagar,Jammu and Kashmir
 
