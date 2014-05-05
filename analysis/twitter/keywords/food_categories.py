@@ -22,6 +22,9 @@ def getFoodWordList():
     l = get_food_words().values()
     return [item for sublist in l for item in sublist]
 
+def getFoodCatList():
+    return get_food_words().keys()
+
 def print_foods():
     foods = get_food_words()
     for food in foods.keys():

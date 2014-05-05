@@ -9,7 +9,7 @@ from SimpleClient import *
 import socket
 import logging
 
-import pickle
+import cPickle as pickle
 import glob
 import sys
 import threading
@@ -23,13 +23,14 @@ from enchant.checker import SpellChecker
 from nltk.stem.lancaster import LancasterStemmer 
 from nltk.metrics.distance import edit_distance
 
-from food_categories import getFoodWordList, get_food_words
-
 sys.path.append('keywords')
+
+from food_categories import getFoodWordList, get_food_words, getFoodCatList
+
 import predictors
 predictors_dict = predictors.predictors_dict
 
-SPELLCHECKER_ENABLED = False
+SPELLCHECKER_ENABLED = True
 
 negative_forms = set(['not', 'no', 'non', 'nothing',
                   "don't", "dont", "doesn't", "doesnt",     # Present
@@ -50,6 +51,7 @@ WAIT = 30000 # somewhat more than 8 min
 BATCH_SIZE = 500
 
 def init_stem_sets():
+    categories.extend(getFoodCatList())
     for dict_name in predictors_dict:
         category_dict = predictors_dict[dict_name]
         c_stems[dict_name] = {}
@@ -172,6 +174,7 @@ class TweetProcessor(threading.Thread):
         self.proc_manager.append_thread(self)
         self.sleep_seq_count = 0
         self.food_words = getFoodWordList()
+        print self.food_words
 
     def force_sleep(self, WAIT):
         sleep(WAIT)
@@ -203,14 +206,19 @@ class TweetProcessor(threading.Thread):
                 inserts = []
             i += 1
 
+        if inserts:
+            self.client.sendBatchLock.acquire()
+            self.client.send_batch(inserts)
+            self.client.sendBatchLock.release()
+
         if i > 0:
-            print self, 'tweets filtered'
+            print self, 'tweets filtered and analyzed'
         #else:
         #print self, 'no tweets matching criteria found'
 
     def contains_words(self, to_check, tweet):
         for word in tweet:
-            if (word in to_check):
+            if word in to_check:
                 return True
         return False
 
@@ -223,6 +231,7 @@ class TweetProcessor(threading.Thread):
 
                 if(self.contains_words(self.food_words, tweet_text_tokens)):
                     if("user" in tweet and tweet['user'] is not None):
+                        print 'tweet passed filter'
                         yield tweet
 
     def extract_features(t, tokens):
