@@ -1,3 +1,4 @@
+#!/usr/bin/env python2
 """
     Authors: Fabian Brix, Gabriel Grill, Anton Ovchinnikov
 """
@@ -5,6 +6,7 @@
 #import tweet_db_handler 
 #import SimpleClient
 from SimpleClient import *
+import get_category
 
 import socket
 import logging
@@ -17,60 +19,12 @@ import os
 import random
 from time import sleep
 
-from enchant.checker import SpellChecker
-
-# Install nltk: 'sudo pip install -U pyyaml nltk'
-from nltk.stem.lancaster import LancasterStemmer 
-from nltk.metrics.distance import edit_distance
-
 from food_categories import getFoodWordList, get_food_words
 
 sys.path.append('keywords')
-import predictors
-predictors_dict = predictors.predictors_dict
-
-SPELLCHECKER_ENABLED = False
-
-negative_forms = set(['not', 'no', 'non', 'nothing',
-                  "don't", "dont", "doesn't", "doesnt",     # Present
-                  "aren't", "arent", "a'int", "aint",
-                  "isn't", "isnt",
-                  "didn't", "didnt", "haven't", "havent",   # Past
-                  "hasn't", "hasnt", "hadn't", "hadnt",
-                  "weren't", "werent", "wasn't", "wasnt",
-                  "wouldn't", "wouldnt",
-                  "won't", "wont", "shan't", "shant",       # Future
-                 ])
-
-c_stems = {}
-st = LancasterStemmer()
-categories = []
 
 WAIT = 30000 # somewhat more than 8 min
 BATCH_SIZE = 500
-
-def init_stem_sets():
-    for dict_name in predictors_dict:
-        category_dict = predictors_dict[dict_name]
-        c_stems[dict_name] = {}
-        for cname in category_dict:
-            categories.append(str(dict_name)+'_'+str(cname))
-            word_list = category_dict[cname]
-            stem_set = set()
-            for word in word_list:
-                stem_set.add(st.stem(word))
-            c_stems[dict_name][cname] = stem_set
-
-def lookup_stem_sets(w):
-    w = st.stem(w)
-    for dict_name in c_stems:
-        category_dict = c_stems[dict_name]
-        for cname in category_dict:
-            stem_set = category_dict[cname]
-            if w in stem_set:
-                return (dict_name, cname)
-    return None
-
 
 class ProcessManager(threading.Thread):
     def __init__(self):
@@ -288,7 +242,7 @@ class TweetProcessor(threading.Thread):
 def main(args):
 
     tmp_dir = args[0]
-    init_stem_sets()
+    get_category.init_reverse_index()
     print categories
 
     log = logging.getLogger()
