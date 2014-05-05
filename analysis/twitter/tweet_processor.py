@@ -186,7 +186,10 @@ class TweetProcessor(threading.Thread):
         # filter by keywords, remove retweets, keep filtered out data (how?)
         inserts = []
 
-        for t in self.filter_tweets(tweet_set):
+        filtered_tweets = self.filter_tweets(tweet_set)
+
+        i = 0
+        for t in filtered_tweets:
             cat_count = self.extract_features(t, tokens) 
             self.client.createInsLock.acquire()
             inserts += self.client.create_insert(t, cat_count)
@@ -196,7 +199,12 @@ class TweetProcessor(threading.Thread):
                 self.client.send_batch(inserts)
                 self.client.sendBatchLock.release()
                 inserts = []
-			#db.send_tweet(t)		
+            i += 1
+
+        if i > 0:
+            print self, 'tweets filtered'
+        else:
+            print self, 'no tweets matching criteria found'
 
     def contains_words(self, to_check, tweet):
         for word in tweet:
@@ -256,13 +264,18 @@ class TweetProcessor(threading.Thread):
             picklef = self.proc_manager.select_picklef()
             self.proc_manager.pickleAccLock.release()
             if not picklef:
+                print 'picklef empty'
                 continue
-            print self, ' chosen ', picklef
+            #print self, ' chosen ', picklef
             #for picklef in self.picklefs_to_proc:
             print 'loading tweets from ', picklef
             tweet_set = self.load_tweets(picklef)
             print 'processing loaded tweets; see sample ->', tweet_set[0]['text']
-            self.process_tweets(tweet_set)
+            try:
+                self.process_tweets(tweet_set)
+            except Error:
+                print 'something went wrong during processing'
+                
 
             self.proc_manager.funcAccLock.acquire()
             self.proc_manager.append_picklefs_proc(picklef)
@@ -281,6 +294,7 @@ def main(args):
     node = socket.gethostbyname(socket.gethostname())
     sc = SimpleClient()
     sc.connect([node])
+    sc.use_keyspace('tweet_collector')
        
     if len(args) > 1 and args[1]=="True":
          sc.extended_schema(categories)
@@ -291,7 +305,7 @@ def main(args):
 
     threads = []
 
-    for i in range(5):
+    for i in range(2):
         proc_thread = TweetProcessor(thread)
         proc_thread.set_client(sc)
         threads.append(proc_thread)

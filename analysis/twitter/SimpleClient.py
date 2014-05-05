@@ -179,6 +179,10 @@ class SimpleClient:
         self.session.shutdown()
         log.info("Connection closed.")
 
+    def use_keyspace(self, keyspace):
+        self.session.execute("use "+str(keyspace)+";")
+        log.info("Using keyspace "+str(keyspace))
+
     def extended_schema(self, categories):
         self.session.execute("""
             CREATE KEYSPACE tweet_collector WITH replication =
