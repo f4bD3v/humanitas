@@ -63,7 +63,7 @@ def lookup_stem_sets(w):
     else:
         return None
 
-# 2. Get a category for a given word
+# 2. Get a category (a tuple) for a given word
 def get_category(w):
     # Lookup in stem sets
     category_tuple = lookup_stem_sets(w)

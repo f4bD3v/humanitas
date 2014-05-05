@@ -212,13 +212,7 @@ class TweetProcessor(threading.Thread):
 
         prev_neg = False
         for token in tokens:
-            stem = get_category.lookup_stem_sets(token)
-            if stem is None:
-                return
-                #stem = token
-                #raise Exception('stem not defined for '+token)
-
-            cat = get_category.get_category(stem)
+            cat = get_category.get_category(token)
             cat_n = '_'.join(c for c in cat)
             if cat[0] is 'negation':
                 prev_neg = True
