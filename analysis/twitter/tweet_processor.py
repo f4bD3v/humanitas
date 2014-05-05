@@ -213,13 +213,17 @@ class TweetProcessor(threading.Thread):
         prev_neg = False
         for token in tokens:
             cat = get_category.get_category(token)
-            cat_n = '_'.join(c for c in cat)
+            if not cat: continue
             if cat[0] is 'negation':
+                # Negation
                 prev_neg = True
-            if cat[1] is not None:
+            elif cat[1] is not None:
+                # Ordinary word
+                cat_n = '_'.join(c for c in cat)
                 if prev_neg:
                     compl_cat = compl_pred_cats[cat[1]]
-                    cat_n = '_'.join([cat[0],compl])
+                    cat_n = '_'.join([cat[0],compl_cat])
+                    prev_neg = False
                 if cat_n in category_count:
                     category_count[cat_n] += 1
                 else:
