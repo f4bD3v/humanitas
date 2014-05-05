@@ -212,7 +212,7 @@ class TweetProcessor(threading.Thread):
                 raise Exception('stem not defined for '+token)
 
             cat = get_category.get_category(stem)
-            cat_n = '_'.join([for c in cat])
+            cat_n = '_'.join(c for c in cat)
             if cat[0] is 'negation':
                 prev_neg = True
             if cat[1] is not None:
