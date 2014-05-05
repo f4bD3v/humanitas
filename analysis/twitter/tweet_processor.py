@@ -107,7 +107,7 @@ class ProcessManager(threading.Thread):
         picklefs = glob.glob('*.pickle')
         self.pickleAccLock.acquire()
         self.picklefs_to_proc = list(set(picklefs)-set(self.picklefs_proc))
-        print 'First three pickle files still to process by PM ',self.picklefs_to_proc[0:3]
+        #print 'First three pickle files still to process by PM ',self.picklefs_to_proc[0:3]
         print len(self.picklefs_to_proc), ' remaining'
         self.pickleAccLock.release()
         for t in self.threads:
@@ -203,8 +203,8 @@ class TweetProcessor(threading.Thread):
 
         if i > 0:
             print self, 'tweets filtered'
-        else:
-            print self, 'no tweets matching criteria found'
+        #else:
+        #print self, 'no tweets matching criteria found'
 
     def contains_words(self, to_check, tweet):
         for word in tweet:
@@ -270,7 +270,7 @@ class TweetProcessor(threading.Thread):
             #for picklef in self.picklefs_to_proc:
             print 'loading tweets from ', picklef
             tweet_set = self.load_tweets(picklef)
-            print 'processing loaded tweets; see sample ->', tweet_set[0]['text']
+            #print 'processing loaded tweets; see sample ->', tweet_set[0]['text']
             try:
                 self.process_tweets(tweet_set)
             except Error:
@@ -305,7 +305,7 @@ def main(args):
 
     threads = []
 
-    for i in range(2):
+    for i in range(4):
         proc_thread = TweetProcessor(thread)
         proc_thread.set_client(sc)
         threads.append(proc_thread)
