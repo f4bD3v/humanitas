@@ -18,10 +18,14 @@ def get_food_words():
     food_words['general'] = list(['breakfast', 'lunch', 'dinner', 'meal', 'food', 'eat'])
     return food_words
 
+def getFoodWordList():
+    l = get_food_words().values()
+    return [item for sublist in l for item in sublist]
+
 def print_foods():
     foods = get_food_words()
-    for food in foods:
-        print foods[food]
+    for food in foods.keys():
+        print(foods[food])
 
 
 

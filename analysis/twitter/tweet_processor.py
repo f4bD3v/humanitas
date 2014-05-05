@@ -23,6 +23,8 @@ from enchant.checker import SpellChecker
 from nltk.stem.lancaster import LancasterStemmer 
 from nltk.metrics.distance import edit_distance
 
+from food_categories import getFoodWordList, get_food_words
+
 sys.path.append('keywords')
 import predictors
 predictors_dict = predictors.predictors_dict
@@ -169,7 +171,7 @@ class TweetProcessor(threading.Thread):
         self.proc_manager = proc_manager
         self.proc_manager.append_thread(self)
         self.sleep_seq_count = 0
-        self.food_words = []
+        self.food_words = getFoodWordList()
 
     def force_sleep(self, WAIT):
         sleep(WAIT)
