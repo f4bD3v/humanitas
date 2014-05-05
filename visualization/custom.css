@@ -1,0 +1,162 @@
+#map {
+	position:absolute; 
+	top:0; bottom:0; 
+	width: 100%;
+	/*border: 1px solid #ccc;*/
+}
+
+#toggle_credits.btn:hover, #toggle_credits.btn:focus {
+    color: orange;
+    text-decoration: none;
+}
+
+#toggle_dashboard.btn:hover, #toggle_dashboard.btn:focus {
+    color: orange;
+    text-decoration: none;
+}
+
+/* Copied verbatim from ... */
+
+#credits_box, #dashboard_box {
+    display: none;
+    background-color:rgba(44,44,44,0.9);
+}
+
+#credits, #dashboard {
+    z-index: 8;
+    position: absolute;
+    bottom: 0px;
+    right: auto;
+    color: #fff;
+    font-size: 12px;
+}
+
+#credits {
+    left: 0px;
+    width: 200px;
+}
+
+#dashboard {
+    left: 250px;
+    width: auto;
+    min-width: 200px;
+}
+
+#credits p {
+    line-height: 15px;
+}
+
+#credits span.help-block {
+    color: whitesmoke;
+}
+
+#credits a {
+    color: #0088CC;
+}
+
+#credits img {
+    padding-top: 7.5px;    
+    padding-left: 10px;
+}
+
+#credits_content, #dashboard_content {
+    padding: 10px;
+}
+
+#toggle_credits, #toggle_dashboard {
+    margin: 0px;
+    padding: 0px;
+    cursor: pointer;
+    line-height: 30px;
+    width: 100%;
+    background-color:rgba(44,44,44,0.9);
+    border-radius: 0;
+}
+
+#toggle_dashboard {
+    max-width: 200px;
+}
+
+/* Copied verbatim from http://bl.ocks.org/ismyrnow/6123517 */
+
+.leaflet-control-layers-group-name {
+    font-weight: bold;
+    margin-bottom: .2em;
+    display: block;
+}
+
+.leaflet-control-layers-group {
+    margin-bottom: .5em;
+}
+
+.leaflet-control-layers-group label {
+    padding-left: .5em;
+}
+
+
+/* Copied verbatim from http://fluv.io */
+
+/* Overriding leaflet defaults */
+.leaflet-control-layers {
+    margin-right: 20px;
+}
+
+.leaflet-control-layers a.leaflet-control-layers-toggle {
+    background-image: url('../images/static/layers.png');
+    height: 50px;
+    width: 50px;
+}
+
+.leaflet-control-zoom a {
+    height: 36px;
+    width: 36px;
+    line-height: 36px;
+}
+
+.leaflet-container .leaflet-control-zoom {
+    margin-left: 10px;
+}
+
+.leaflet-top {
+    z-index: 1001;
+}
+
+/*of my own*/
+body {
+    margin: 0;
+}
+
+.slider_zone {
+    margin: 0 20px;
+}
+
+#slider {
+    width: 300px;
+}
+
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+
+.legend {
+    text-align: left;
+    line-height: 18px;
+    color: #555;
+}
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}

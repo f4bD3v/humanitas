@@ -17,6 +17,7 @@ import sys
 import threading
 import os
 import random
+import re
 from time import sleep
 
 sys.path.append('keywords')
@@ -192,7 +193,7 @@ class TweetProcessor(threading.Thread):
         for tweet in tweet_set:
             if('text' in tweet and 'retweeted_status' not in tweet):
                 tweet_text_lower = tweet['text'].lower()
-                tweet_text_clean = ' '.join(e for e in tweet_text_lower if e.isalnum())
+                tweet_text_clean = re.sub('[^a-zA-Z0-9-]', ' ', tweet_text_lower)
                 tweet_text_tokens = tweet_text_clean.split()
 
                 if(self.contains_words(self.food_words, tweet_text_tokens)):
