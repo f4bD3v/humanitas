@@ -16,6 +16,7 @@ import csv
 import os
 from datetime import date, datetime
 import threading
+import re
 
 log = logging.getLogger()
 log.setLevel('INFO')
@@ -60,7 +61,7 @@ def extract_location(loc, locs):
 #prepares 'text' values for the db
 def prep(x):
     #return "'" + x + "'"
-    return "'" + ''.join([e for e in x if e.isalnum()]) + "'"
+    return "'" + re.sub('[^a-zA-Z0-9]', ' ', str(x)) + "'"
     #return "'" + x.encode("ascii","ignore").replace("'", "") + "'"
 
 #tweet contains field with content
@@ -124,11 +125,11 @@ class SimpleClient:
                col_str.append('user_id')
                val_str.append(prep(t['user']['id']))
            if has(t['user'],'location'):
-               city = extract_location(tweet['user']['location'], self.cities)
+               city = extract_location(t['user']['location'], self.cities)
                if city != "":
                   region = self.city_region_dict[city]
                else:
-                  region = extract_location(tweet['user']['location'], self.regions)
+                  region = extract_location(t['user']['location'], self.regions)
 
        if has(t,'place') and has(t['place'],'name'):
            col_str.append("place")

@@ -158,7 +158,6 @@ class TweetProcessor(threading.Thread):
     def process_tweets(self, tweet_set):
         # filter by keywords, remove retweets, keep filtered out data (how?)
         inserts = []
-
         filtered_tweets = self.filter_tweets(tweet_set)
 
         i = 0
