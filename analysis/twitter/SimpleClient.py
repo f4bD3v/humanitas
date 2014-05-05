@@ -155,7 +155,7 @@ class SimpleClient:
 
        #extract_features(t, col_str, val_str)
        if cat_counts is not None:
-        for cat, count in category_count.iteritems():
+        for cat, count in cat_counts.iteritems():
             col_str.append(cat)
             val_str.append(count)
 
