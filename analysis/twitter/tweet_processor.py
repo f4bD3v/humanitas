@@ -213,6 +213,8 @@ class TweetProcessor(threading.Thread):
         prev_neg = False
         for token in tokens:
             cat = get_category.get_category(token)
+            if cat is None:
+                return
             cat_n = '_'.join(c for c in cat)
             if cat[0] is 'negation':
                 prev_neg = True
