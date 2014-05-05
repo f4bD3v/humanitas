@@ -17,12 +17,13 @@ FOLLOWER_RATE_LIMIT = 30
 FOLLOWER_BATCH_SIZE = 200
 MIN_TWEETS = 50
 MAX_TWEETS = 3200
-MAX_FOLLOWERS = 10000000
+MAX_FOLLOWERS = 2000000
 MAX_TWEETS_PER_FILE = 15000
-MAX_USERS_PER_FILE = 50000
+MAX_USERS_PER_FILE = 10000
 
 input_folder = "tweet_inputs/"
 output_folder = "tweet_tmp_store/"
+users_folder = "users/"
 
 def get_all_locations_in_india():
     yield 'india'
@@ -124,20 +125,20 @@ def get_followers(root, APP_KEY, APP_SECRET):
     good_followers = []
 
     while users_downloaded < num_followers:
-        write_log('Downloading followers page %d for %s' % (page_number, root))
+        write_log('Downloading followers page %d for %s\n' % (page_number, root))
         try:
             response = twitter.get_followers_list(screen_name=root, count=FOLLOWER_BATCH_SIZE, cursor=next_cursor)            
             followers = response['users']
         except TwythonRateLimitError:
-            write_log('Sleeping...')
+            write_log('Sleeping...\n')
             sleep(RATE_LIMIT_WINDOW)
             continue
         except TwythonError:
             continue
         except KeyError:
-            data_dump(good_followers, 'emergency_backup.pickle')
-            write_log('Sleeping...')
-            sleep(RATE_LIMIT_WINDOW)
+##            data_dump(good_followers, users_folder + 'emergency_backup.pickle')
+##            write_log('Sleeping...\n')
+##            sleep(RATE_LIMIT_WINDOW)
             continue
         
         good_followers.extend((list(get_good_followers(followers, locations, MIN_TWEETS))))
@@ -152,17 +153,17 @@ def get_followers(root, APP_KEY, APP_SECRET):
         page_number += 1
         users_downloaded += FOLLOWER_BATCH_SIZE
 
-        if users_downloaded % MAX_USERS_PER_FILE == 0:
+        if len(good_followers) >= MAX_USERS_PER_FILE == 0:
             file_count += 1
-            data_dump(good_followers, '%s_good_followers_of_%s.pickle'%(root, file_count))
+            data_dump(good_followers, users_folder + '%s_good_followers_of_%s.pickle'%(root, file_count))
             good_followers = []
         
         write_log(('%.02f%%\n')%(100.0 * users_downloaded / num_followers))
 
     file_count += 1
-    data_dump(good_followers, '%s_%s.pickle'%(root, file_count))
+    data_dump(good_followers, users_folder + '%s_%s.pickle'%(root, file_count))
     duration = (datetime.now() - time_start).seconds
-    write_log('Number of good followers listed %s in %s seconds' % (len(good_followers), duration))
+    write_log('Number of good followers listed %s in %s seconds\n' % (len(good_followers), duration))
 
 def get_twitter_data(root, APP_KEY, APP_SECRET):
     twitter = authenticate(APP_KEY, APP_SECRET)
