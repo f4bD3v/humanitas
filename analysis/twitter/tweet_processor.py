@@ -19,6 +19,7 @@ import os
 import random
 import re
 from time import sleep
+import traceback
 
 sys.path.append('keywords')
 from food_categories import getFoodWordList, get_food_words, getFoodCatList
@@ -157,10 +158,11 @@ class TweetProcessor(threading.Thread):
     def process_tweets(self, tweet_set):
         # filter by keywords, remove retweets, keep filtered out data (how?)
         inserts = []
+        filtered_tweets = self.filter_tweets(tweet_set)
 
         i = 0
-        for t in self.filter_tweets(tweet_set):
-            cat_count = self.extract_features(t, tokens) 
+        for t in filtered_tweets:
+            cat_count = self.extract_features(t, self.get_tokens(t)) 
             self.client.createInsLock.acquire()
             inserts += self.client.create_insert(t, cat_count)
             self.client.createInsLock.release()
@@ -187,12 +189,16 @@ class TweetProcessor(threading.Thread):
                 return True
         return False
 
+    def get_tokens(self, tweet):
+        tweet_text_lower = tweet['text'].lower()
+        tweet_text_clean = re.sub('[^a-zA-Z0-9-]', ' ', tweet_text_lower)
+        tweet_text_tokens = tweet_text_clean.split()
+        return tweet_text_tokens
+
     def filter_tweets(self, tweet_set):
         for tweet in tweet_set:
             if('text' in tweet and 'retweeted_status' not in tweet):
-                tweet_text_lower = tweet['text'].lower()
-                tweet_text_clean = re.sub('[^a-zA-Z0-9-]', ' ', tweet_text_lower)
-                tweet_text_tokens = tweet_text_clean.split()
+                tweet_text_tokens = self.get_tokens(tweet)
 
                 if(self.contains_words(self.food_words, tweet_text_tokens)):
                     if("user" in tweet and tweet['user'] is not None):
@@ -201,14 +207,16 @@ class TweetProcessor(threading.Thread):
                     else:
                         print("Tweet not added: " + tweet)
 
-    def extract_features(t, tokens):
+    def extract_features(self, t, tokens):
         category_count = {}
 
         prev_neg = False
         for token in tokens:
             stem = get_category.lookup_stem_sets(token)
             if stem is None:
-                raise Exception('stem not defined for '+token)
+                return
+                #stem = token
+                #raise Exception('stem not defined for '+token)
 
             cat = get_category.get_category(stem)
             cat_n = '_'.join(c for c in cat)
@@ -252,9 +260,8 @@ class TweetProcessor(threading.Thread):
             #print 'processing loaded tweets; see sample ->', tweet_set[0]['text']
             try:
                 self.process_tweets(tweet_set)
-            except Error:
-                print 'something went wrong during processing'
-                
+            except Exception:
+                traceback.print_exc()
 
             self.proc_manager.funcAccLock.acquire()
             self.proc_manager.append_picklefs_proc(picklef)
@@ -287,7 +294,7 @@ def main(args):
 
     threads = []
 
-    for i in range(4):
+    for i in range(3):
         proc_thread = TweetProcessor(thread)
         proc_thread.set_client(sc)
         threads.append(proc_thread)
