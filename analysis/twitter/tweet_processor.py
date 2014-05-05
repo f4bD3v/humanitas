@@ -46,6 +46,7 @@ negative_forms = set(['not', 'no', 'non', 'nothing',
                  ])
 
 c_stems = {}
+compl_pred_cats = {}
 st = LancasterStemmer()
 categories = []
 
@@ -56,15 +57,22 @@ def init_reverse_index():
     categories.extend(getFoodCatList())
     for dict_name in predictors_dict:
         category_dict = predictors_dict[dict_name]
+        cats = category_dict.keys()
+        for catkey in cats:
+            for catval in cats:
+                if catkey is not catval:
+                    compl_pred_cats[catkey]=catval
         for cname in category_dict:
             categories.append(str(dict_name)+'_'+str(cname))
             word_list = category_dict[cname]
             for word in word_list:
                 stem = st.stem(word)
                 c_stems[stem] = (dict_name, cname)
+
     # Add negative forms
     for word in negative_forms:
         c_stems[word] = ('negation', None)
+
 
 """
 def init_stem_sets():
@@ -258,7 +266,8 @@ class TweetProcessor(threading.Thread):
 
         prev_neg = False
         for token in tokens:
-            cat = get_category.get_category(token)
+            cat = c_stem[st.stem(token)]
+            #cat = get_category.get_category(token)
             cat_n = str(cat[0])+'_'+str(cat[1])
             if cat[0] is 'negation':
                 prev_neg = True
@@ -268,7 +277,7 @@ class TweetProcessor(threading.Thread):
                     for key in keys:
                         if cat[1] is not key:
                             print key
-                            cat_n = str(cat[0])+'_'+str(cat[1])
+                            cat_n = str(cat[0])+'_'+str(key)
                 if cat_n in category_count:
                     category_count[cat_n] += 1
                 else:
@@ -315,6 +324,8 @@ def main(args):
 
     tmp_dir = args[0]
     init_reverse_index()
+    print c_stems
+    print compl_pred_cats
     print categories
 
     log = logging.getLogger()
