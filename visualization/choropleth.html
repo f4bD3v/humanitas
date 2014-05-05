@@ -1,72 +1,55 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<!-- <link rel="stylesheet" href="demo.css"> -->
-<link rel="stylesheet" href="leaflet.css">
-<link rel="stylesheet" href="jquery.ui.labeledslider.css">
-<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-<style>
-
-#map {
-	width: 680px;
-	height: 600px;
-}
-
-.slider_zone {
-	margin-left: 20px;
-}
-
-#slider {
-	width: 600px;
-}
-
-.info {
-	padding: 6px 8px;
-	font: 14px/16px Arial, Helvetica, sans-serif;
-	background: white;
-	background: rgba(255,255,255,0.8);
-	box-shadow: 0 0 15px rgba(0,0,0,0.2);
-	border-radius: 5px;
-}
-.info h4 {
-	margin: 0 0 5px;
-	color: #777;
-}
-
-.legend {
-	text-align: left;
-	line-height: 18px;
-	color: #555;
-}
-.legend i {
-	width: 18px;
-	height: 18px;
-	float: left;
-	margin-right: 8px;
-	opacity: 0.7;
-}
-	
-</style>
+<head>
+	<title>Visualization of price prediction for India rice market</title>
+	<!-- <link rel="stylesheet" href="leaflet.css"> -->
+	<link rel="stylesheet" href="custom.css">
+	<link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css' rel='stylesheet' />
+	<link rel="stylesheet" href="jquery.ui.labeledslider.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
 <body>
-<h2>Choose year to show map:</h2>
-<div class="slider_zone">
-	<div id="slider"></div>
-</div>
 <div id="map"></div>
-<script src="leaflet.js"></script>
+<div id="credits">
+    <div id="credits_box">
+        <div id="credits_content">
+          <span class="help-block">
+			A MIRROR Twitter by <a href="#">Humanitas Team</a> at DATA and <a href="http://data.epfl.ch">DATA Lab</a> at EPFL<br/><br/>Team members: Alex, Anton, Ching-Chia, Duy, Fabian, Gabriel, Joseph and Stefan <br/> <br/> Data source: 120M geo-localized tweets obtained via Twitter public API over xy days, starting 9 April 2014 <br/>
+			<img src="images/epfl_med.png" alt="EPFL"width="150" height="70">
+			</span>
+		</div>
+	</div>
+	<div id="toggle_credits" class="btn btn-inverse" type="button">Project Information</div>
+</div>
+
+<div id="dashboard">
+	<div id="dashboard_box" class="control">
+		<div id="dashboard_content">       
+			<h5>Please choose an option</h5><br><div class="slider_zone"><div id="slider"></div></div>
+		</div>
+	</div>
+	<div id="toggle_dashboard" class="btn btn-inverse" type="button">Dashboard</div>
+</div>
+<!-- <script src="leaflet.js"></script> -->
+<script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js'></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script src="jquery.ui.labeledslider.js"></script>
 <script type="text/javascript" src="ind-states.js"></script>
 <script>
 var colorScale = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
 var densityScale = [10, 20, 50, 100, 200, 500, 1000];
-var map, geojson, info, highlighted, year = 1980;
-map = L.map('map').setView([22, 83], 4.7);
-var cloudmade = L.tileLayer('http://{s}.tiles.mapbox.com/v3/examples.map-vyofok3q/{z}/{x}/{y}.png', {
-	attribution: 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
-	key: 'BC9A493B41014CAABB98F0471D759707',
-	styleId: 22677
-}).addTo(map);
+var map, geojson, info, options, highlighted, year = 1980;
+// map = L.map('map').setView([22, 83], 4.7);
+map = L.mapbox.map('map', 'examples.map-9ijuk24y').setView([22, 83], 4);
+// var cloudmade = L.tileLayer('http://{s}.tiles.mapbox.com/v3/duynguyen-epfl.4ppn9udi/{z}/{x}/{y}.png', {
+// 	attribution: 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
+// 	// key: 'BC9A493B41014CAABB98F0471D759707',
+// 	styleId: 22677
+// }).addTo(map);
 
 // control that shows state info on hover
 info = L.control();
@@ -84,9 +67,38 @@ info.update = function (feature) {
 };
 
 info.addTo(map);
-map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
+
+// add legend and initiate map
 addLegend(map);
 redrawMap();
+
+// toggle of credits
+var isCreditsVisible = true;
+$('#toggle_credits').click(function(){
+	$('#credits_box').slideToggle('fast');
+	if(isCreditsVisible){
+		$('#toggle_credits').html("Hide Information");
+			isCreditsVisible = false;
+		} else {
+			$('#toggle_credits').html("Project Information");
+			isCreditsVisible = true;
+		}
+});
+
+// toggle of dashboard
+var isDashboardVisible = true;
+$('#toggle_dashboard').click(function(){
+	$('#dashboard_box').slideToggle('fast');
+	if(isDashboardVisible){
+		$('#toggle_dashboard').html("Hide Dashboard");
+			isDashboardVisible = false;
+		} else {
+			$('#toggle_dashboard').html("Dashboard");
+			isDashboardVisible = true;
+		}
+});
+
+// slider controller
 
 $( "#slider" ).labeledslider({
 	value: year,
@@ -178,7 +190,7 @@ function zoomToFeature(e) {
 		// 	fillOpacity: .4
 		// });
 	} else {
-		map.setView([22, 83], 4.7);
+		map.setView([22, 83], 4);
 		highlighted = null;
 		// e.target.setStyle({
 		// 	fillOpacity: 0.7
