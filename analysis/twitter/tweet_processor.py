@@ -1,3 +1,4 @@
+#!/usr/bin/env python2
 """
     Authors: Fabian Brix, Gabriel Grill, Anton Ovchinnikov
 """
@@ -5,6 +6,7 @@
 #import tweet_db_handler 
 #import SimpleClient
 from SimpleClient import *
+import get_category
 
 import socket
 import logging
@@ -72,7 +74,6 @@ def lookup_stem_sets(w):
             if w in stem_set:
                 return (dict_name, cname)
     return None
-
 
 class ProcessManager(threading.Thread):
     def __init__(self):
@@ -233,6 +234,8 @@ class TweetProcessor(threading.Thread):
                     if("user" in tweet and tweet['user'] is not None):
                         print 'tweet passed filter'
                         yield tweet
+                    else:
+                        print("Tweet not added: " + tweet)
 
     def extract_features(t, tokens):
         category_count = {}
@@ -295,7 +298,7 @@ class TweetProcessor(threading.Thread):
 def main(args):
 
     tmp_dir = args[0]
-    init_stem_sets()
+    get_category.init_reverse_index()
     print categories
 
     log = logging.getLogger()
