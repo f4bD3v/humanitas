@@ -118,6 +118,7 @@ Define $\sigma_{max}$ as largest singular value of $\vec{W}$, $\lambda_{max}$ as
 \item If $\|\lambda_{max}\| > 1$ then the network has no echo states for any input/output interval which contains the zero input/output tuple (0,0)
 \end{enumerate}
 \end{frm-thm}
+In practice is suffices to make sure the negation of the second point holds. 
 
 \subsubsection*{Training the ESN}
 "The state of the ESN is therefore a function of the finite history of the inputs presented to the network. Now, in order to predict the output from the states of the oscillators the only thing that has to be learned is how to couple the outputs to the oscillators, i.e. the hidden to output connections:"
