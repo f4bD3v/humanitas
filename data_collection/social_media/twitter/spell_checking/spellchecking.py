@@ -1,14 +1,14 @@
 #!/usr/bin/env python2
 
-# Basic test for using 'enchant' spellchecking library
-
 import os
 import random
 import enchant
 import sys
+import re
 import Levenshtein as L
 import heapq
 from enchant.checker import SpellChecker as EnchantSpCheck
+import aspell
 
 sys.path.append('../../../../analysis/twitter/keywords/')
 from predictors import predictors_dict as predictors_dict
@@ -61,6 +61,35 @@ class NaiveSpellChecker(SpChecker):
         dist, suggestion = heapq.heappop(h)
         return suggestion
 
+class AspellChecker(SpChecker):
+
+    def compile_dict(self, wordlist):
+        infile = 'pr.dict.in'
+        outfile = 'predictors.aspell.dict'
+        
+        with open(infile, 'wb') as f:
+            for w in wordlist:
+                # Aspell doesn't accept non-alpha characters like '-'
+                w = re.sub('[^a-zA-Z]', '', w)
+                f.write(w + "\n")
+        
+        # Compile dict
+        cmd = 'aspell --lang=en create master ./%s < %s' % (outfile, infile)
+        os.system(cmd)
+        # Remove temp file
+        os.remove(infile)
+        self.dictfile = outfile
+
+    def __init__(self, wordlist):
+        SpChecker.__init__(self, wordlist)
+        self.compile_dict(wordlist)
+        sp = aspell.Speller()
+
+        for x in sp.ConfigKeys(): print x
+
+    def suggest(self, w):
+        return
+
 def flat(d, out=[]):
     for val in d.values():
         if isinstance(val, dict):
@@ -74,7 +103,9 @@ if __name__ == "__main__":
 
     enchant_sc = EnchantSpellChecker(wordlist)
     naive_sc = NaiveSpellChecker(wordlist)
+    aspell_sc = AspellChecker(wordlist)
     for x in xrange(10000):
         res = naive_sc.suggest('incrase')
         #res = enchant_sc.suggest('incrase')
     print "# Output:\n", res
+
