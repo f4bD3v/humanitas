@@ -283,7 +283,7 @@ def main(args):
     sc.connect([node])
        
     if len(args) > 1 and args[1]=="True":
-        sc.drop_schema('tweet_collector')
+        #sc.drop_schema('tweet_collector')
         # drop_col_fam..
         sc.extended_schema(get_category.categories)
 
