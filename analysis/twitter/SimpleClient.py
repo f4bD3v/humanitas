@@ -17,6 +17,7 @@ import os
 from datetime import date, datetime
 import threading
 import re
+from time import sleep
 
 log = logging.getLogger()
 log.setLevel('INFO')
@@ -52,7 +53,7 @@ def load_location_dict(fname):
 
 def extract_location(loc, locs):
     text = re.sub('[^a-zA-Z0-9-]', ' ', loc.encode("ascii","ignore")).lower()
-    loc_tokens = text.strip().split().remove('')
+    loc_tokens = filter(lambda a: a != '', text.strip().split())
 
     if loc_tokens is not None:
         for token in locs:
@@ -63,7 +64,7 @@ def extract_location(loc, locs):
 #prepares 'text' values for the db
 def prep(x):
     #return "'" + x + "'"
-    text = re.sub('[^a-zA-Z0-9]', ' ', x.encode("ascii","ignore"))
+    text = re.sub('[^a-zA-Z0-9:-]', ' ', re.sub("-+", "-", x.encode("ascii","ignore")))
     return "'" + text + "'"
     #return "'" + x.encode("ascii","ignore").replace("'", "") + "'"
 
@@ -193,9 +194,10 @@ class SimpleClient:
             {'class':'SimpleStrategy', 'replication_factor':1};""")
         log.info('Created keyspace tweet_collector')
 
+        sleep(3)
         self.session.execute("use tweet_collector;")
 
-        self.session.execute("""
+        te = ("""
             CREATE TABLE tweets (
 	        id bigint,
             time timestamp,
@@ -209,10 +211,11 @@ class SimpleClient:
    	        rt_count int,
             fav_count int,
             lang text,\n""" +
-            ',\n'.join(map((lambda coln: str(coln) + " int"), categories)) + '\n'
-            + "PRIMARY KEY (id, time));""")      
+            ',\n'.join(map((lambda coln: str(coln) + " int"), categories)) + ',\n'
+            + "PRIMARY KEY (id, time));""")
+        print("Map: " + te)
+        self.session.execute(te)
         log.info("Schema created.")
-
 
     def drop_schema(self, keyspace):
         self.session.execute("DROP KEYSPACE tweet_collector;")

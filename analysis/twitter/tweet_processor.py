@@ -164,7 +164,6 @@ class TweetProcessor(threading.Thread):
             self.client.createInsLock.acquire()
             inserts.append(self.client.create_insert(t, cat_count))
             self.client.createInsLock.release()
-            print(inserts)
             if len(inserts) >= BATCH_SIZE:
                 self.client.sendBatchLock.acquire()
                 self.client.send_batch(inserts)
@@ -189,7 +188,7 @@ class TweetProcessor(threading.Thread):
         return False
 
     def get_tokens(self, tweet):
-        tweet_text_lower = tweet['text'].lower().encode("ascii","ignore"))
+        tweet_text_lower = tweet['text'].lower().encode("ascii","ignore")
         tweet_text_clean = re.sub('[^a-zA-Z0-9-]', ' ', tweet_text_lower)
         tweet_text_tokens = tweet_text_clean.split()
         return tweet_text_tokens
@@ -201,7 +200,6 @@ class TweetProcessor(threading.Thread):
 
                 if(self.contains_words(self.food_words, tweet_text_tokens)):
                     if("user" in tweet and tweet['user'] is not None):
-                        print 'tweet passed filter'
                         yield tweet
 
     def extract_features(self, t, tokens):
@@ -267,6 +265,7 @@ def main(args):
     tmp_dir = args[0]
     get_category.init_reverse_index()
     get_category.categories.extend(getFoodCatList())
+    get_category.categories.append('cnts')
     print get_category.c_stems
     print get_category.compl_pred_cats
     print get_category.categories
@@ -280,7 +279,8 @@ def main(args):
     sc.connect([node])
        
     if len(args) > 1 and args[1]=="True":
-        #sc.drop_schema('tweet_collector')
+        if(args[2]=="True"):
+            sc.drop_schema('tweet_collector')
         # drop_col_fam..
         sc.extended_schema(get_category.categories)
 
@@ -292,7 +292,7 @@ def main(args):
 
     threads = []
 
-    for i in range(3):
+    for i in range(1):
         proc_thread = TweetProcessor(thread)
         proc_thread.set_client(sc)
         threads.append(proc_thread)
