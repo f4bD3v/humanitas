@@ -3,6 +3,7 @@
 import os
 import random
 import enchant
+import time
 import sys
 import re
 import Levenshtein as L
@@ -70,7 +71,7 @@ class AspellChecker(SpChecker):
         with open(infile, 'wb') as f:
             for w in wordlist:
                 # Aspell doesn't accept non-alpha characters like '-'
-                w = re.sub('[^a-zA-Z]', '', w)
+                w = re.sub(r'[^a-zA-Z]', '', w)
                 f.write(w + "\n")
         
         # Compile dict
@@ -83,12 +84,24 @@ class AspellChecker(SpChecker):
     def __init__(self, wordlist):
         SpChecker.__init__(self, wordlist)
         self.compile_dict(wordlist)
-        sp = aspell.Speller()
+                
+        params = [ ('master', './' + self.dictfile), 
+                   ('master-path', './' + self.dictfile),]
+        self.sp = aspell.Speller(*params)
 
-        for x in sp.ConfigKeys(): print x
+        #config_keys = self.sp.ConfigKeys()
 
     def suggest(self, w):
-        return
+        max_distance = 3
+        w = re.sub(r'[^a-zA-Z]', '', w)
+        suggestions = self.sp.suggest(w)
+        if not suggestions:
+            return None
+        suggestion = suggestions[0]
+        if L.distance(suggestion, w) > max_distance:
+            return None
+        else:
+            return suggestion
 
 def flat(d, out=[]):
     for val in d.values():
@@ -98,14 +111,35 @@ def flat(d, out=[]):
             out += val
     return out
 
+def benchmark(checker):
+    size = 10000
+    total_time = 0.0
+    print "### Measuring performance for ", checker
+    for i in xrange(size):
+        t1 = time.time()
+        suggestion = checker.suggest('incrase')
+        t2 = time.time()
+        elapsed = t2 - t1
+        total_time += elapsed
+        if suggestion != 'increase':
+            sys.exit('Bullshit!')
+    avg_per_word = total_time / size
+    print "Elapsed time:", total_time
+    print "Average time per word:", avg_per_word
+    print "Average speed:", 60 / avg_per_word, "(words/min)", \
+                            3600 / avg_per_word, "(words/hour)"
+
 if __name__ == "__main__":
     wordlist = flat(predictors_dict)
 
+    # Very slow...
     enchant_sc = EnchantSpellChecker(wordlist)
+
     naive_sc = NaiveSpellChecker(wordlist)
+    benchmark(naive_sc)
+
+    print '= ' * 40
+
     aspell_sc = AspellChecker(wordlist)
-    for x in xrange(10000):
-        res = naive_sc.suggest('incrase')
-        #res = enchant_sc.suggest('incrase')
-    print "# Output:\n", res
+    benchmark(aspell_sc)
 
