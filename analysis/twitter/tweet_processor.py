@@ -189,7 +189,7 @@ class TweetProcessor(threading.Thread):
         return False
 
     def get_tokens(self, tweet):
-        tweet_text_lower = tweet['text'].lower()
+        tweet_text_lower = tweet['text'].lower().encode("ascii","ignore"))
         tweet_text_clean = re.sub('[^a-zA-Z0-9-]', ' ', tweet_text_lower)
         tweet_text_tokens = tweet_text_clean.split()
         return tweet_text_tokens
