@@ -51,13 +51,14 @@ def load_location_dict(fname):
         return {rows[0].lower():rows[1].lower() for rows in reader}
 
 def extract_location(loc, locs):
-    text = re.sub('[^a-zA-Z0-9-]', ' ', loc.encode("ascii","ignore"))
-    loc_tokens = text.strip().split()
+    text = re.sub('[^a-zA-Z0-9-]', ' ', loc.encode("ascii","ignore")).lower()
+    loc_tokens = text.strip().split().remove('')
 
-    for token in loc_tokens:
-        if token.lower() in locs:
-            return token
-    return ""
+    if loc_tokens is not None:
+        for token in locs:
+            if token in loc_tokens:
+                return token
+        return ""
 
 #prepares 'text' values for the db
 def prep(x):

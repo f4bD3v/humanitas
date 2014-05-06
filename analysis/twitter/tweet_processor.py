@@ -156,16 +156,15 @@ class TweetProcessor(threading.Thread):
         return pickle.load(f)
 
     def process_tweets(self, tweet_set):
-        # filter by keywords, remove retweets, keep filtered out data (how?)
         inserts = []
-        filtered_tweets = self.filter_tweets(tweet_set)
 
         i = 0
-        for t in filtered_tweets:
+        for t in self.filter_tweets(tweet_set):
             cat_count = self.extract_features(t, self.get_tokens(t)) 
             self.client.createInsLock.acquire()
             inserts.append(self.client.create_insert(t, cat_count))
             self.client.createInsLock.release()
+            print(inserts)
             if len(inserts) >= BATCH_SIZE:
                 self.client.sendBatchLock.acquire()
                 self.client.send_batch(inserts)
@@ -204,8 +203,6 @@ class TweetProcessor(threading.Thread):
                     if("user" in tweet and tweet['user'] is not None):
                         print 'tweet passed filter'
                         yield tweet
-                    else:
-                        print("Tweet not added: " + tweet)
 
     def extract_features(self, t, tokens):
         category_count = {}
