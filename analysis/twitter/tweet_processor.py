@@ -164,7 +164,7 @@ class TweetProcessor(threading.Thread):
         for t in filtered_tweets:
             cat_count = self.extract_features(t, self.get_tokens(t)) 
             self.client.createInsLock.acquire()
-            inserts += self.client.create_insert(t, cat_count)
+            inserts.append(self.client.create_insert(t, cat_count))
             self.client.createInsLock.release()
             if len(inserts) >= BATCH_SIZE:
                 self.client.sendBatchLock.acquire()
@@ -229,7 +229,7 @@ class TweetProcessor(threading.Thread):
                 else:
                     category_count[cat_n] = 1
 
-        counts = sum(category_count)
+        counts = sum(category_count.values())
         category_count['cnts'] = counts
         return category_count
 
@@ -281,11 +281,13 @@ def main(args):
     node = socket.gethostbyname(socket.gethostname())
     sc = SimpleClient()
     sc.connect([node])
-    sc.use_keyspace('tweet_collector')
        
     if len(args) > 1 and args[1]=="True":
-        sc.drop_schema()
-        sc.extended_schema(categories)
+        sc.drop_schema('tweet_collector')
+        # drop_col_fam..
+        sc.extended_schema(get_category.categories)
+
+    sc.use_keyspace('tweet_collector')
 
     thread = ProcessManager() 
     thread.set_dir(tmp_dir)

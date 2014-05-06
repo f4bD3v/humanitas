@@ -129,7 +129,7 @@ class SimpleClient:
            if has(t['user'],'location'):
                city = extract_location(t['user']['location'], self.cities)
                if city != "":
-                  region = self.city_region_dict[city]
+                  region = self.city_region_dict[city.lower()]
                else:
                   region = extract_location(t['user']['location'], self.regions)
 
@@ -157,7 +157,7 @@ class SimpleClient:
        if cat_counts is not None:
         for cat, count in cat_counts.iteritems():
             col_str.append(cat)
-            val_str.append(count)
+            val_str.append(str(count))
 
        return "INSERT INTO tweets (" + ",".join(col_str) + ") VALUES (" + ",".join(val_str) + ");"
 
@@ -190,6 +190,7 @@ class SimpleClient:
         self.session.execute("""
             CREATE KEYSPACE tweet_collector WITH replication =
             {'class':'SimpleStrategy', 'replication_factor':1};""")
+        log.info('Created keyspace tweet_collector')
 
         self.session.execute("use tweet_collector;")
 
@@ -207,14 +208,16 @@ class SimpleClient:
    	        rt_count int,
             fav_count int,
             lang text,\n""" +
-            ',\n'.join(map((lambda coln: str(coln) + " int"), categories))
-            + """PRIMARY KEY (id, time));
-        """)
+            ',\n'.join(map((lambda coln: str(coln) + " int"), categories)) + '\n'
+            + "PRIMARY KEY (id, time));""")      
         log.info("Schema created.")
 
-    def drop_schema(self):
-        self.session.execute("DROP TABLE tweet_collector.tweets;")
+
+    def drop_schema(self, keyspace):
         self.session.execute("DROP KEYSPACE tweet_collector;")
+
+    def drop_col_fam(self, keyspace, col_fam):
+        self.session.execute("DROP TABLE "+str(keyspace)+"."+str(col_fam)+";")
 
     def create_index(self):
         self.session.execute("""
