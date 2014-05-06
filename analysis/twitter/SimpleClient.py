@@ -51,13 +51,14 @@ def load_location_dict(fname):
         return {rows[0].lower():rows[1].lower() for rows in reader}
 
 def extract_location(loc, locs):
-    text = re.sub('[^a-zA-Z0-9-]', ' ', loc.encode("ascii","ignore"))
-    loc_tokens = text.strip().split()
+    text = re.sub('[^a-zA-Z0-9-]', ' ', loc.encode("ascii","ignore")).lower()
+    loc_tokens = text.strip().split().remove('')
 
-    for token in loc_tokens:
-        if token.lower() in locs:
-            return token
-    return ""
+    if loc_tokens is not None:
+        for token in locs:
+            if token in loc_tokens:
+                return token
+        return ""
 
 #prepares 'text' values for the db
 def prep(x):
@@ -129,7 +130,7 @@ class SimpleClient:
            if has(t['user'],'location'):
                city = extract_location(t['user']['location'], self.cities)
                if city != "":
-                  region = self.city_region_dict[city]
+                  region = self.city_region_dict[city.lower()]
                else:
                   region = extract_location(t['user']['location'], self.regions)
 
@@ -155,9 +156,9 @@ class SimpleClient:
 
        #extract_features(t, col_str, val_str)
        if cat_counts is not None:
-        for cat, count in category_count.iteritems():
+        for cat, count in cat_counts.iteritems():
             col_str.append(cat)
-            val_str.append(count)
+            val_str.append(str(count))
 
        return "INSERT INTO tweets (" + ",".join(col_str) + ") VALUES (" + ",".join(val_str) + ");"
 
@@ -190,6 +191,7 @@ class SimpleClient:
         self.session.execute("""
             CREATE KEYSPACE tweet_collector WITH replication =
             {'class':'SimpleStrategy', 'replication_factor':1};""")
+        log.info('Created keyspace tweet_collector')
 
         self.session.execute("use tweet_collector;")
 
@@ -207,14 +209,16 @@ class SimpleClient:
    	        rt_count int,
             fav_count int,
             lang text,\n""" +
-            ',\n'.join(map((lambda coln: str(coln) + " int"), categories))
-            + """PRIMARY KEY (id, time));
-        """)
+            ',\n'.join(map((lambda coln: str(coln) + " int"), categories)) + '\n'
+            + "PRIMARY KEY (id, time));""")      
         log.info("Schema created.")
 
-    def drop_schema(self):
-        self.session.execute("DROP TABLE tweet_collector.tweets;")
+
+    def drop_schema(self, keyspace):
         self.session.execute("DROP KEYSPACE tweet_collector;")
+
+    def drop_col_fam(self, keyspace, col_fam):
+        self.session.execute("DROP TABLE "+str(keyspace)+"."+str(col_fam)+";")
 
     def create_index(self):
         self.session.execute("""

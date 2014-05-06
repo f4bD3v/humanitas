@@ -1,14 +1,15 @@
 #!/usr/bin/env python2
 
-# Basic test for using 'enchant' spellchecking library
-
 import os
 import random
 import enchant
+import time
 import sys
+import re
 import Levenshtein as L
 import heapq
 from enchant.checker import SpellChecker as EnchantSpCheck
+import aspell
 
 sys.path.append('../../../../analysis/twitter/keywords/')
 from predictors import predictors_dict as predictors_dict
@@ -61,6 +62,47 @@ class NaiveSpellChecker(SpChecker):
         dist, suggestion = heapq.heappop(h)
         return suggestion
 
+class AspellChecker(SpChecker):
+
+    def compile_dict(self, wordlist):
+        infile = 'pr.dict.in'
+        outfile = 'predictors.aspell.dict'
+        
+        with open(infile, 'wb') as f:
+            for w in wordlist:
+                # Aspell doesn't accept non-alpha characters like '-'
+                w = re.sub(r'[^a-zA-Z]', '', w)
+                f.write(w + "\n")
+        
+        # Compile dict
+        cmd = 'aspell --lang=en create master ./%s < %s' % (outfile, infile)
+        os.system(cmd)
+        # Remove temp file
+        os.remove(infile)
+        self.dictfile = outfile
+
+    def __init__(self, wordlist):
+        SpChecker.__init__(self, wordlist)
+        self.compile_dict(wordlist)
+                
+        params = [ ('master', './' + self.dictfile), 
+                   ('master-path', './' + self.dictfile),]
+        self.sp = aspell.Speller(*params)
+
+        #config_keys = self.sp.ConfigKeys()
+
+    def suggest(self, w):
+        max_distance = 3
+        w = re.sub(r'[^a-zA-Z]', '', w)
+        suggestions = self.sp.suggest(w)
+        if not suggestions:
+            return None
+        suggestion = suggestions[0]
+        if L.distance(suggestion, w) > max_distance:
+            return None
+        else:
+            return suggestion
+
 def flat(d, out=[]):
     for val in d.values():
         if isinstance(val, dict):
@@ -69,12 +111,35 @@ def flat(d, out=[]):
             out += val
     return out
 
+def benchmark(checker):
+    size = 10000
+    total_time = 0.0
+    print "### Measuring performance for ", checker
+    for i in xrange(size):
+        t1 = time.time()
+        suggestion = checker.suggest('incrase')
+        t2 = time.time()
+        elapsed = t2 - t1
+        total_time += elapsed
+        if suggestion != 'increase':
+            sys.exit('Bullshit!')
+    avg_per_word = total_time / size
+    print "Elapsed time:", total_time
+    print "Average time per word:", avg_per_word
+    print "Average speed:", 60 / avg_per_word, "(words/min)", \
+                            3600 / avg_per_word, "(words/hour)"
+
 if __name__ == "__main__":
     wordlist = flat(predictors_dict)
 
+    # Very slow...
     enchant_sc = EnchantSpellChecker(wordlist)
+
     naive_sc = NaiveSpellChecker(wordlist)
-    for x in xrange(10000):
-        res = naive_sc.suggest('incrase')
-        #res = enchant_sc.suggest('incrase')
-    print "# Output:\n", res
+    benchmark(naive_sc)
+
+    print '= ' * 40
+
+    aspell_sc = AspellChecker(wordlist)
+    benchmark(aspell_sc)
+

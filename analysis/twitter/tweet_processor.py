@@ -156,16 +156,15 @@ class TweetProcessor(threading.Thread):
         return pickle.load(f)
 
     def process_tweets(self, tweet_set):
-        # filter by keywords, remove retweets, keep filtered out data (how?)
         inserts = []
-        filtered_tweets = self.filter_tweets(tweet_set)
 
         i = 0
-        for t in filtered_tweets:
+        for t in self.filter_tweets(tweet_set):
             cat_count = self.extract_features(t, self.get_tokens(t)) 
             self.client.createInsLock.acquire()
-            inserts += self.client.create_insert(t, cat_count)
+            inserts.append(self.client.create_insert(t, cat_count))
             self.client.createInsLock.release()
+            print(inserts)
             if len(inserts) >= BATCH_SIZE:
                 self.client.sendBatchLock.acquire()
                 self.client.send_batch(inserts)
@@ -190,7 +189,7 @@ class TweetProcessor(threading.Thread):
         return False
 
     def get_tokens(self, tweet):
-        tweet_text_lower = tweet['text'].lower()
+        tweet_text_lower = tweet['text'].lower().encode("ascii","ignore"))
         tweet_text_clean = re.sub('[^a-zA-Z0-9-]', ' ', tweet_text_lower)
         tweet_text_tokens = tweet_text_clean.split()
         return tweet_text_tokens
@@ -204,8 +203,6 @@ class TweetProcessor(threading.Thread):
                     if("user" in tweet and tweet['user'] is not None):
                         print 'tweet passed filter'
                         yield tweet
-                    else:
-                        print("Tweet not added: " + tweet)
 
     def extract_features(self, t, tokens):
         category_count = {}
@@ -229,7 +226,7 @@ class TweetProcessor(threading.Thread):
                 else:
                     category_count[cat_n] = 1
 
-        counts = sum(category_count)
+        counts = sum(category_count.values())
         category_count['cnts'] = counts
         return category_count
 
@@ -281,10 +278,13 @@ def main(args):
     node = socket.gethostbyname(socket.gethostname())
     sc = SimpleClient()
     sc.connect([node])
-    sc.use_keyspace('tweet_collector')
        
     if len(args) > 1 and args[1]=="True":
-         sc.extended_schema(categories)
+        #sc.drop_schema('tweet_collector')
+        # drop_col_fam..
+        sc.extended_schema(get_category.categories)
+
+    sc.use_keyspace('tweet_collector')
 
     thread = ProcessManager() 
     thread.set_dir(tmp_dir)
