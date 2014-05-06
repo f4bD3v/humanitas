@@ -67,7 +67,7 @@ class ESN:
 # "fixed fanout number regardless of network size"
 # uniform distribution of non-zero elements
         #self._W = np.random.rand(self._Nx,self._Nx)-0.5 
-        self._W = sp.rand(self._Nx, self._Nx, 0.1)-.5
+        self._W = np.random.rand(self._Nx, self._Nx)-.5
 
         """
             Spectral radius
@@ -160,12 +160,19 @@ class ESN:
         #loc = mdates.WeekdayLocator(byweekday=mdates.Monday)
 
         months = self._dates
-        orig = self._data
-        pred = np.zeros(len(orig))
+
+        orig = np.zeros(len(self._data))
+        orig[0:self._N] = self._train
+        orig[self._N:] = np.nan
+        target = np.zeros(len(self._data))
+        target[0:self._N] = np.nan
+        target[self._N:] = self._test
+        pred = np.zeros(len(self._data))
         pred[0:self._N] = np.nan
         pred[self._N:] = Y
 
         plt.plot_date(x=months, y=orig, fmt="r-", color='blue')
+        plt.plot_date(x=months, y=target, fmt="r-", color='black')
         plt.plot_date(x=months, y=pred, fmt="r-", color='red')
         plt.title(title)
         plt.ylabel(ylabel)
