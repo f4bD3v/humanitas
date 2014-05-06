@@ -27,21 +27,6 @@ from food_categories import getFoodWordList, get_food_words, getFoodCatList
 WAIT = 30000 # somewhat more than 8 min
 BATCH_SIZE = 500
 
-"""
-def init_stem_sets():
-    categories.extend(getFoodCatList())
-    for dict_name in predictors_dict:
-        category_dict = predictors_dict[dict_name]
-        c_stems[dict_name] = {}
-        for cname in category_dict:
-            categories.append(str(dict_name)+'_'+str(cname))
-            word_list = category_dict[cname]
-            stem_set = set()
-            for word in word_list:
-                stem_set.add(st.stem(word))
-            c_stems[dict_name][cname] = stem_set
-"""
-
 class ProcessManager(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
@@ -80,7 +65,6 @@ class ProcessManager(threading.Thread):
         self.pickleAccLock.acquire()
         self.picklefs_to_proc = list(set(picklefs)-set(self.picklefs_proc))
         #print 'First three pickle files still to process by PM ',self.picklefs_to_proc[0:3]
-        print len(self.picklefs_to_proc), ' remaining'
         self.pickleAccLock.release()
         for t in self.threads:
             t.start()
@@ -91,7 +75,14 @@ class ProcessManager(threading.Thread):
             self.pickleAccLock.acquire()
             self.picklefs_to_proc = list(set(picklefs)-set(self.picklefs_proc))
             to_proc_len = len(self.picklefs_to_proc)
+            print len(self.picklefs_to_proc), ' remaining'
             self.pickleAccLock.release()
+
+            if to_proc_len == 0:
+                write_picklefs_proc()
+                raise SystemExit("No more files to process")
+
+            """
             if self.sleep_seq_count == 4:
                 write_picklefs_proc()
                 raise SystemExit("Tweetprocessor has been sleeping for about 35 minutes.\n Check progress of tweet downloader! Exiting..") 
@@ -110,6 +101,7 @@ class ProcessManager(threading.Thread):
             if self.sleep_last_rnd:
                 self.sleep_last_rnd = False
                 self.sleep_seq_count = 0 
+            """
 
     def read_picklefs_proc(self):
         fn = 'processed_picklefs.txt'
@@ -140,9 +132,7 @@ class TweetProcessor(threading.Thread):
         threading.Thread.__init__(self)
         self.proc_manager = proc_manager
         self.proc_manager.append_thread(self)
-        self.sleep_seq_count = 0
         self.food_words = getFoodWordList()
-        print self.food_words
 
     def force_sleep(self, WAIT):
         sleep(WAIT)
@@ -169,17 +159,11 @@ class TweetProcessor(threading.Thread):
                 self.client.send_batch(inserts)
                 self.client.sendBatchLock.release()
                 inserts = []
-            i += 1
 
         if inserts:
             self.client.sendBatchLock.acquire()
             self.client.send_batch(inserts)
             self.client.sendBatchLock.release()
-
-        if i > 0:
-            print self, 'tweets filtered and analyzed'
-        #else:
-        #print self, 'no tweets matching criteria found'
 
     def contains_words(self, to_check, tweet):
         for word in tweet:
@@ -197,7 +181,6 @@ class TweetProcessor(threading.Thread):
         for tweet in tweet_set:
             if('text' in tweet and 'retweeted_status' not in tweet):
                 tweet_text_tokens = self.get_tokens(tweet)
-
                 if(self.contains_words(self.food_words, tweet_text_tokens)):
                     if("user" in tweet and tweet['user'] is not None):
                         yield tweet
@@ -233,13 +216,6 @@ class TweetProcessor(threading.Thread):
 
     def run(self):
         while True:
-            """
-            try:
-                picklefs_to_proc = object.__getattribute__(self.base, self.picklefs_to_proc)
-            except AttributeError:
-                print('error')
-            """
-
             self.proc_manager.pickleAccLock.acquire()
             picklef = self.proc_manager.select_picklef()
             self.proc_manager.pickleAccLock.release()
@@ -247,10 +223,8 @@ class TweetProcessor(threading.Thread):
                 print 'picklef empty'
                 continue
             #print self, ' chosen ', picklef
-            #for picklef in self.picklefs_to_proc:
-            print 'loading tweets from ', picklef
+            print self,': loading tweets from ', picklef
             tweet_set = self.load_tweets(picklef)
-            #print 'processing loaded tweets; see sample ->', tweet_set[0]['text']
             try:
                 self.process_tweets(tweet_set)
             except Exception:
