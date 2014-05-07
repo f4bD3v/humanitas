@@ -7,6 +7,7 @@
 import numpy as np
 
 def get_trm_mean(s_sorted):
+    # TODO: trim series by a certain percentage before computing the 'trimmed mean'
     m_trm = np.sum(s_sorted[1:]-s_sorted[:-1])/(1.0*(len(s_sorted)-1))
     return m_trm
 
@@ -19,18 +20,28 @@ def get_intermed_pts(s_sorted):
     return z 
 
 def get_intervals(z):
-    intervals = np.vstack((z[:-1], z[1:])).T
-    return intervals
+    return np.vstack((z[:-1], z[1:])).T
 
 def get_me_density(intervals):
-    me_dens = 1.0/(intervals[:,1]-intervals[:,0])
-    return udense
+    return 1.0/(intervals[:,1]-intervals[:,0])
 
 def sort(series):
-    return s_sorted = np.sort(series)
+    ind_sorted = np.argsort(series)
+    s_sorted = series[ind_sorted]
+    return s_sorted, ind_sorted 
 
 def meboot(series, replicates):
     # ASC by default
+    s_sorted, ind_sorted = sort(series)
 
+    z = get_intermed_pts(s_sorted)
+
+    intervals = get_intervals(z)
+
+    me_density = get_me_density(intervals)
+
+    # TODO: Generate random numbers from the [0,1] uniform interval, compute sample quantiles of the ME density at those points and sort them.
+
+    # TODO: Undertand and add repeat mechanism
     
     
