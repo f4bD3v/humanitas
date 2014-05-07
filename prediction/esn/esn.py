@@ -11,6 +11,8 @@ import matplotlib.dates as mdates
 import scipy.linalg as lg 
 import scipy.sparse as sp
 
+import pickle
+
 class ESN:
     """
         definitions:
@@ -22,7 +24,7 @@ class ESN:
         training tips:
         -keep reservoir size small for selection of hyperparams
     """	
-    def __init__(self, data, split_ind, R, P, Nx, initN):
+    def __init__(self, data, split_ind, Nx, Ny, initN):
         self._dates = data[0]
         data = data[1]
         self._data = data
@@ -30,82 +32,147 @@ class ESN:
         self._train = data[0:split_ind]
         self._test = data[split_ind:]
 
-        self._Nu = R*P
+        self._Nu = self._data.shape[1]
+        self._Ny = 1
 
         self._initN = initN
         # one element of prediction granularity less than actually available data
         #self._N = 1825 # 5 years worth of daily data?
         #self._initN = 365 # 1 year worth of initialization
-        self._Ny = 1
 
-        """
-            Reservoir size
-        """
-# "the bigger the size of the space of reservoir signals x(n), the easier it is to find a linear combination of the signals to approximate y_target(n)"
-# N > 1+Nu+Nx should hold true
-        self._Nx = Nx #1000 
+        # select v for concrete reservoir using validation, just rerun Y=W_out.bUX for different v
+        self._nu = 0.005
 
+    def init_Reservoir(Nu, Nx):
+        # "the bigger the size of the space of reservoir signals x(n), the easier it is to find a linear combination of the signals to approximate y_target(n)"
+        # N > 1+Nu+Nx should hold true
+        self._Nx = Nx
+        self.init_W()
 
-        """
-            ###
-            RANDOM GENERATION 
-            ###
-        """
+    def init_Weights()
         np.random.seed(42)
 
-        """tan
-            +Input weight scaling
-        """
         self._Win = (np.random.rand(self._Nx,1+self._Nu)-0.5) * 1
 
-
-        """
-            Sparsity of the reservoir
-        """
-# recurrent connection matrix
-# speedup computation by making the reservoir matrix sparse - few connections between neurons in reservoir
-# "fixed fanout number regardless of network size"
-# uniform distribution of non-zero elements
-        #self._W = np.random.rand(self._Nx,self._Nx)-0.5 
+        # Internal connection - to speed up computation make matrix sparse (set random entries to zero)
         self._W = np.random.rand(self._Nx, self._Nx)-.5
 
-        """
-            Spectral radius
-        """
+        # Compute W's eigenvalues
         eigValuesVectors = lg.eig(self._W)
         eigValues = eigValuesVectors[0]
 
-# spectral radius - max abs eigenvalue
+        # Compute spectral radius = max abs eigenvalue
+        # the spectral radius determines how fast the influence of an input dies out in a reservoir with time and how stable reservoir activations are
+        # => the spectral radius should be greater in tasks requiring longer memory of the input
         rhoW = np.max(np.abs(eigValues))
 
-# normalize random weight matrix with spectral radius
+        # Normalize random weight matrix by spectral radius
         self._W/=rhoW
+
+        # Rescale matrix - Parameter to be TUNED
         rescale = 1.05
         self._W*=rescale
 
-# for nonzero inputs u(n) rhoW < 1 is not a necessary condition for the echo state property 
-# the spectral radius determines how fast the influence of an input dies out in a reservoir with time
-# and how stable reservoir activations are
-# => the spectral radius should be greater in tasks requiring longer memory of the input
+    def online_update(self):
+        self._Cinv = self._lambda*self._Cinv-(1.0/self._lambda)*np.dot(np.outer(self._k,self._x),self._Cinv)
+        # !!! numerical problems for x(n)-->0 and lambda<1 !!!
+        # alleviate loss of symmetry in P(n): [P(n) + P.T(n)] /2
+        self._Cinv = (self._Cinv+self._Cinv.T)/2.0
 
+        # k(n) is representation of x(n) on the column space of C - always vector
+        self._k = np.dot(self._Cinv, self._x)
+
+        # Wout can either be a matrix or a vector
+        err = self._y - np.dot(self._x, self._Wout)
+
+        # RLS weight update
+        self._Wout = self._Wout + np.dot(k,err)
+        
+    def run_training(self, mode, teacher_forcing, feedback, xTransOrder = False, leaky = False):
+        params = func_code.co_varnames[:func.func_code.co_argcount]
+        x_feedback = 0
+
+        for t in range(self._N):
+            # data contains a set of timeseries making u a vector
+            u = self._data[t]
+            xlast = self._x
+            if isinstance(xTransOrder, int) and xTransOrder > 1:
+                uext = np.power(u, xTransOrder)
+                xext = np.power(xlast, xTransOrder)
+                xlast = np.vstack((uext,xect))
+            xOut = np.vstack((1,u,xlast))
+            # check this function again
+            if feedback:
+                # put equation here Wback x y
+                x_feedback = np.dot(self._Wb, self._y)
+            xnext = np.tanh(np.dot(self._Win, np.vstack((1,u))+np.dot(self._W,xlast))+x_feedback)
+            self._x = xnext
+            if leaky:
+                self._x = (1-self._alpha)*xlast+self._alpha*xnext
+            if t >= self._initN:
+                # TODO: find out WHY slicing at the end
+                self._bUX[:,t-self._initN] = xOut[:,0]
+                if mode == 'o':
+                    self.online_update()
+
+        if mode == 'b':
+            self.batch_update()
+
+        if isinstance(runs, int) and runs > 1:
+            # Depending on online or batch collect bUX or 
+            self.init_W()
+            self._runcnt += 1
+            if mode == 'o':
+                self.runs = np.vstack((self.runs, self._y))
+            elif mode == 'b':
+                # TODO: check this - how to store runs
+                self.runs = np.vstack((self.runs, self._bUX))
+            self.run_training(*params) 
+
+    def init_training(self):
         """
             Design matrix [1,U,X]
             keep N-initN time-steps in the design matrix, discard the initial initN steps
         """
         self._bUX = np.zeros((1+self._Nu+self._Nx,self._N-self._initN))
-
         """
             Target matrix 
-            same as input sequence, only shifted by 1 timestep 
+            same as input sequence in teacher forcing, only shifted by 1 timestep 
         """
         self._Yt = data[self._initN+1:self._N+1] 
 
-# leaking rate - selected as free parameter
-        self._alpha = 0.3
+    def predef_training(self, pref_fn):
+        # Load params into list from file
+        self.train_run(*params)
+        return self.train_err()
 
-# select v for concrete reservoir using validation, just rerun Y=W_out.bUX for different v
-        self._nu = 0.005
+    def custom_training(self, mode, teacher_forcing, feedback, xTransOrder = False, leaky = False, runs = False):
+        params = func_code.co_varnames[:func.func_code.co_argcount]
+        self.init_training()
+        print params
 
+        self._x = np.zeros((self._Nx,self._Nu))
+
+        if feedback:
+            self._Wb = (np.random.rand(outputDim, self._Nx)-.5) * 1
+        if not leaky:
+            self._alpha = 0.3
+            # TODO: code command line prompt for alpha param
+            raise Exception('I require a leak parameter')
+
+        self._Wout = np.zeros(self._Nx+self._inputDim*2, self._outputDim)
+
+        if mode == 'o':
+            self._p = 0
+            delta = (1-self._lambda)*variance(x)
+            self._Cinv = delta*np.indentity(self._Nx+self._inputDim*2)
+
+        self.train_run(*params)
+        # TODO print error, prompt save params? use pickle for dumping
+        return self.train_err() 
+
+"""
+        # directly check dimensionality of data vector?
     def teacher_forced_run(self):		
         # initial run vs. training
         """
@@ -117,18 +184,13 @@ class ESN:
             u = self._data[t]
             xlast = self._x
             xnext = np.tanh(np.dot(self._Win, np.vstack((1,u)))+np.dot(self._W,xlast))
-            self._x = (1-self._alpha)*xlast+self._alpha*xnext
-            if t >= self._initN:
-               self._bUX[:,t-self._initN] = np.vstack((1,u,self._x))[:,0]
+            self._x = (1-self._alpha)*xlast+self._alpha*xnex
+"""
 
-    def ridge_regression(self):
-        """
-            Run regulized regression once after training (BATCH)
-        """
+    def batch_update(self):
+        # Run regulized regression once in BATCH mode after training
         bUXT = self._bUX.T
-        print bUXT
         self._Wout = np.dot(np.dot(self._Yt,bUXT), lg.inv(np.dot(self._bUX,bUXT)+self._nu*np.eye(1+self._Nu+self._Nx)) )
-        print self._Wout
 
     # specify prediction horizon when calling function
     def generative_run(self, horizon, pred_test = False):
@@ -205,6 +267,15 @@ def main():
     Y = esn.generative_run(36, pred_test = False)
     print Y
     esn.plot_pred(Y, 'Oil price prediction example', 'Oil price')
+
+    """
+    TODO: 
+    * be able to switch from applying an additional nonlinear function to output
+        => Wout: dim(order*N+2) CHECK
+    * include possibility to save parameters after training
+    * be able to switch between batch and online algorithm
+        implement online RLS algorithm
+    * implement time series crossvalidation
 
 
 if __name__ == "__main__":

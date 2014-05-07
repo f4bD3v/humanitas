@@ -125,9 +125,6 @@ In practice is suffices to make sure the negation of the second point holds.
 http://stackoverflow.com/questions/21940860/echo-state-network-learning-mackey-glass-function-but-how
 
 Hyperparameters: dimensionality of W, spectral radius $\alpha$
-\paragraph*{Teacher forcing}
-
-\paragraph*{Ridge Regression}
 
 \paragraph*{Initial state determination}
 The network is run for a first set of inputs and the results are then discarded. If the spectral radius is close to unity, implying slow forgetting of the starting state, the initial set has to be a substantial part of the training dataset.
@@ -136,6 +133,30 @@ The network is run for a first set of inputs and the results are then discarded.
 
 "By contrast, a recurrent neural network such as our echo state network, but also such as the networks used in [5] need long initial runs to “tune in” to the to-be-predicted sequence. [5] tackle this problem by training a second, auxiliary “initiator” network."
 EchoStatesTechRep.pdf, p.32
+
+\paragraph*{Teacher forcing}
+
+\paragraph*{Feedback}
+
+\paragraph*{Batch learning}
+
+\paragraph*{Ridge Regression}
+
+\paragraph*{Leaky integrator neurons}
+\emph{Taken from Echo State Tech Rep. page 26/27}\\
+% exploitation: \vec{f}(\vec{W}^{in}\vec{u}(n+1)+\vec{W}\vec{x}(n)+\vec{W}^{back}\vec{y}(n))
+In order for the Echo State Network to be able to learn slowly and continuously changing dynamics and thereby to capture longterm phenoma in the price sequences we feed in, we need a way to introduce continuous dynamics. This is done via approximation of the differential equation of a continuous-time leaky integrator network
+\begin{equation}
+    \frac{d\vec{x}}{d\vec{t}} = C (-\alpha\vec{x} + \vec{f}(\vec{W}^{in}\vec{u}(n+1)+\vec{W}\vec{x}(n)+\vec{W}^{back}\vec{y}(n)))
+\end{equation}
+where C is a time constant and $\alpha$ the leaking decay rate. For the approximation we introduce a stepsize $\delta$:
+\[
+    \vec{x}(n+1)=(1-\delta C \alpha) + \delta C (\vec{f}(\vec{W}^{in}\vec{u}(n+1)+\vec{W}\vec{x}(n)+\vec{W}^{back}\vec{y}(n)))
+\]
+
+\begin{frm-thm}
+Let a network be updated according to
+\end{frm-thm}
 
 \begin{comment}
 \subsubsection*{Finding the right topology for the specific prediction problem}
