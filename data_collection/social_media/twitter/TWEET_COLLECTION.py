@@ -19,7 +19,7 @@ MIN_TWEETS = 50
 MAX_TWEETS = 3200
 MAX_FOLLOWERS = 2000000
 MAX_TWEETS_PER_FILE = 15000
-MAX_USERS_PER_FILE = 10000
+MAX_USERS_PER_FILE = 5000
 
 input_folder = "tweet_inputs/"
 output_folder = "tweet_tmp_store/"
@@ -117,7 +117,7 @@ def get_followers(root, APP_KEY, APP_SECRET):
 
     locations = set(get_all_locations_in_india())
     num_followers = min(MAX_FOLLOWERS, twitter.show_user(screen_name=root)['followers_count'])
-    next_cursor = -1; num_requests = 0; users_downloaded = 0; page_number = 1; file_count = 0
+    next_cursor = -1; num_requests = 0; users_downloaded = 0; num_good_followers = 0; page_number = 1; file_count = 0
 
     last_time = datetime.now()
     time_start = datetime.now()
@@ -136,12 +136,11 @@ def get_followers(root, APP_KEY, APP_SECRET):
         except TwythonError:
             continue
         except KeyError:
-##            data_dump(good_followers, users_folder + 'emergency_backup.pickle')
-##            write_log('Sleeping...\n')
-##            sleep(RATE_LIMIT_WINDOW)
             continue
-        
+
+        size_good_followers = len(good_followers)
         good_followers.extend((list(get_good_followers(followers, locations, MIN_TWEETS))))
+        num_good_followers += len(good_followers) - size_good_followers
         
         num_requests += 1
         if num_requests == FOLLOWER_RATE_LIMIT:
@@ -153,12 +152,13 @@ def get_followers(root, APP_KEY, APP_SECRET):
         page_number += 1
         users_downloaded += FOLLOWER_BATCH_SIZE
 
-        if len(good_followers) >= MAX_USERS_PER_FILE == 0:
+        if len(good_followers) >= MAX_USERS_PER_FILE:
             file_count += 1
             data_dump(good_followers, users_folder + '%s_good_followers_of_%s.pickle'%(root, file_count))
             good_followers = []
         
         write_log(('%.02f%%\n')%(100.0 * users_downloaded / num_followers))
+        write_log('%s good followers collected\n'%(num_good_followers))
 
     file_count += 1
     data_dump(good_followers, users_folder + '%s_%s.pickle'%(root, file_count))
