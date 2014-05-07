@@ -27,14 +27,14 @@ s[7]='hoKbTI7uNfMOYaCFQBE4xKhGhVTI2DwnTsuReOgTVE4PefFccq'
 
 r[0]='sonamakapoor'
 r[1]='narendramodi'
-r[2]='SrBachchan'
-r[3]='priyankachopra'
-r[4]='arrahman'
-r[5]='thevijaymallya'
-r[6]=''
-r[7]=''
+r[2]='RanaDaggubati'
+r[3]='atulkasbekar'
+r[4]='taran_adarsh'
+r[5]='dhanushkraja'
+r[6]='AnupamPkher'
+r[7]='geneliad'
 
-for (( i=0; i<=5; i++ ))
+for (( i=2; i<=5; i++ ))
 do
     python="python TWEET_COLLECTION.py ${k[i]} ${s[i]} ${r[i]} users"
     "ssh" ${m[i]} "nohup" $python "&> errorlog.txt &"
