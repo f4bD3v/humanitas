@@ -9,7 +9,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import scipy.linalg as lg 
-import scipy.sparse as sp
 
 import pickle
 
