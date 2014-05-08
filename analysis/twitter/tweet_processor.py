@@ -189,19 +189,27 @@ class TweetProcessor(threading.Thread):
         category_count = {}
 
         prev_neg = False
+        # Position in tweet
+        pos = -1
+        last_negation_pos = -1
+        max_neg_distance = 2
         for token in tokens:
+            pos += 1
             cat = get_category.get_category(token)
             if not cat: continue
             if cat[0] is 'negation':
                 # Negation
                 prev_neg = True
+                last_negation_pos = pos
             elif cat[1] is not None:
                 # Ordinary word
                 cat_n = '_'.join(c for c in cat)
                 if prev_neg:
-                    compl_cat = compl_pred_cats[cat[1]]
-                    cat_n = '_'.join([cat[0],compl_cat])
                     prev_neg = False
+                    if pos - last_negation_pos <= max_neg_distance:
+                        # Check the distance
+                        compl_cat = compl_pred_cats[cat[1]]
+                        cat_n = '_'.join([cat[0],compl_cat])
                 if cat_n in category_count:
                     category_count[cat_n] += 1
                 else:
