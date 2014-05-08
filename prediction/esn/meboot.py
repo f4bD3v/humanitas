@@ -3,20 +3,32 @@
     Author: Fabian Brix
     Method by H.D. Vinod, Fordham University - 
 """
-
+import sys
 import numpy as np
+import matplotlib.pyplot as plt
 
-def get_trm_mean(s_sorted):
+def sort(series):
+    ind_sorted = np.argsort(series)
+    s_sorted = series[ind_sorted]
+    return s_sorted, ind_sorted 
+
+def get_trm_mean(s_sorted, percent):
     # TODO: trim series by a certain percentage before computing the 'trimmed mean'
-    m_trm = np.sum(s_sorted[1:]-s_sorted[:-1])/(1.0*(len(s_sorted)-1))
-    return m_trm
+    dev = s_sorted[1:]-s_sorted[:-1]
+    n = len(dev)
+    k = n*(percent/100.0)/2.0
+    k = round(k, 0)
+    print 'k ', k
+    return np.sum(dev[k+1:n-k])/(1.0*len(dev)-1)
+    #return np.mean(dev[k+1:n-k])
 
-def get_intermed_pts(s_sorted):
+def get_intermed_pts(s_sorted, percent):
     zt = (s_sorted[:-1]+s_sorted[1:])/2.0
-    m_trm = get_trm_mean(s_sorted)
+    m_trm = get_trm_mean(s_sorted, percent)
+    print m_trm
     z0 = s_sorted[0]-m_trm
-    zT = s_sorted[-1]-m_term
-    z = np.vstack((z0,zt,zT))
+    zT = s_sorted[-1]+m_trm
+    z = np.hstack((z0,zt,zT))
     return z 
 
 def get_intervals(z):
@@ -25,23 +37,59 @@ def get_intervals(z):
 def get_me_density(intervals):
     return 1.0/(intervals[:,1]-intervals[:,0])
 
-def sort(series):
-    ind_sorted = np.argsort(series)
-    s_sorted = series[ind_sorted]
-    return s_sorted, ind_sorted 
+def get_cpf(me_density, intervals):
+    cpf = np.array([sum(me_density[:i+1]) for i in xrange(me_density.shape[0]-1)])
+    return cpf/np.max(cpf)
+
+def get_quantiles(cpf, intervals, series):
+    quantiles = []
+    for d in xrange(series.shape[0]):
+        u = np.random.uniform(0,1)
+        for i in xrange(cpf.shape[0]):
+            cp = cpf[i]
+            if u <= cp:
+                cpm = cpf[i-1]
+                if i == 0: 
+                    cpm = 0
+                m = (cp-cpm)/1.0*(intervals[i,1]-intervals[i,0])
+                xp = (u - cpm)*1.0/m+intervals[i,0]
+                print xp
+                quantiles.append(xp)
+                break
+    return np.array(quantiles)
 
 def meboot(series, replicates):
     # ASC by default
     s_sorted, ind_sorted = sort(series)
 
-    z = get_intermed_pts(s_sorted)
-
+    z = get_intermed_pts(s_sorted, 10)
+    print 'z ', z 
     intervals = get_intervals(z)
-
+    print 'intervals ', intervals
     me_density = get_me_density(intervals)
-
-    # TODO: Generate random numbers from the [0,1] uniform interval, compute sample quantiles of the ME density at those points and sort them.
+    print 'uni dens ', me_density
+    cpf = get_cpf(me_density, intervals)
+    print 'cpf ', cpf
+    quantiles = get_quantiles(cpf, intervals, series)
+    print 'quantiles ', quantiles
+    
+    replicate = quantiles[ind_sorted]
+    print 'replicate ', replicate
+    print len(series)
+    print len(replicate)
 
     # TODO: Undertand and add repeat mechanism
-    
-    
+#    plt.plot(series, color='r')
+#    plt.plot(replicate, color='b')
+#    plt.show()
+
+def main(args):
+    series = np.array([4,12,36,20,8])
+    meboot(series, 1)
+
+if __name__ == "__main__":
+    if sys.argv < 2:
+        print 'hello'
+    else: 
+        main(*sys.argv)
+
