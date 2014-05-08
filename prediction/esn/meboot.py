@@ -12,19 +12,17 @@ def sort(series):
     s_sorted = series[ind_sorted]
     return s_sorted, ind_sorted 
 
-def get_trm_mean(s_sorted, percent):
-    # TODO: trim series by a certain percentage before computing the 'trimmed mean'
-    dev = s_sorted[1:]-s_sorted[:-1]
+def get_trm_mean(series, percent):
+    # FIXED
+    dev = np.abs(series[1:]-series[:-1])
     n = len(dev)
     k = n*(percent/100.0)/2.0
-    k = round(k, 0)
-    print 'k ', k
-    return np.sum(dev[k+1:n-k])/(1.0*len(dev)-1)
-    #return np.mean(dev[k+1:n-k])
+    k = round(k,0)
+    return np.mean(dev[k:n-k])
 
-def get_intermed_pts(s_sorted, percent):
+def get_intermed_pts(series, s_sorted, percent):
     zt = (s_sorted[:-1]+s_sorted[1:])/2.0
-    m_trm = get_trm_mean(s_sorted, percent)
+    m_trm = get_trm_mean(series, percent)
     print m_trm
     z0 = s_sorted[0]-m_trm
     zT = s_sorted[-1]+m_trm
@@ -53,35 +51,37 @@ def get_quantiles(cpf, intervals, series):
                     cpm = 0
                 m = (cp-cpm)/1.0*(intervals[i,1]-intervals[i,0])
                 xp = (u - cpm)*1.0/m+intervals[i,0]
-                print xp
                 quantiles.append(xp)
                 break
     return np.array(quantiles)
 
 def meboot(series, replicates):
     # ASC by default
+    print series
+    np.random.seed(0)
+
     s_sorted, ind_sorted = sort(series)
 
-    z = get_intermed_pts(s_sorted, 10)
-    print 'z ', z 
+    z = get_intermed_pts(series, s_sorted, 10)
+    #print 'z ', z 
     intervals = get_intervals(z)
-    print 'intervals ', intervals
+    #print 'intervals ', intervals
     me_density = get_me_density(intervals)
-    print 'uni dens ', me_density
+    #print 'uni dens ', me_density
     cpf = get_cpf(me_density, intervals)
-    print 'cpf ', cpf
+    #print 'cpf ', cpf
     quantiles = get_quantiles(cpf, intervals, series)
-    print 'quantiles ', quantiles
+    #print 'quantiles ', quantiles
+    quantiles = np.sort(quantiles)
     
     replicate = quantiles[ind_sorted]
     print 'replicate ', replicate
-    print len(series)
-    print len(replicate)
 
     # TODO: Undertand and add repeat mechanism
-#    plt.plot(series, color='r')
-#    plt.plot(replicate, color='b')
-#    plt.show()
+    plt.plot(series, color='r')
+    plt.plot(replicate, color='b')
+    plt.ylim(0,30)
+    plt.show()
 
 def main(args):
     series = np.array([4,12,36,20,8])

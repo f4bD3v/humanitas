@@ -163,6 +163,9 @@ update weights in each iteration
 ...
 
 \paragraph*{Parameter selection with Maximum Entropy Bootstrap (Meboot)}
+In order to find the best parameters for generalization during training of the neural network models with we create replicate time series of a selected price sequence dataset. The method we employ to this end is called 'Maximum Entropy Bootstrap' (meboot) and was introduced by H.D. Vinod in 2006. [reference]. The reason for the use of this specific method is that, due to temporal dependence, time series cannot simply be randomly sampled into a new dataset. The meboot algorithm allows for construction of random replicates of the given time series showing the same statistical properties.
+
+\subsection*{RNN with backpropagation decorrelation algorithm}
 
 \begin{comment}
 \subsubsection*{Finding the right topology for the specific prediction problem}
