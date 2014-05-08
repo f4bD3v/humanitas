@@ -44,16 +44,16 @@ class dataFrame:
 		#print value; 	
 	
 		width = (aRange[-1] + 1) - aRange[0] + 1
-		slot = width/3
+		slot = width/2
 		
 		slot1 = aRange[0]+slot
 		slot2 = aRange[0] + 2* slot
 
 		small = (aRange[0], slot1-1);
 		
-		medium = (slot1 , slot2- 1);
+		#medium = (slot1 , slot2- 1);
 		
-		big = (slot2 , max(aRange)+ 1);
+		big = (slot1 , max(aRange)+ 1);
 		
 		tag = "UD"
 		
@@ -61,18 +61,18 @@ class dataFrame:
 		if value >= min(small) and value <= max(small): 
 			tag = "small";
 			
-		if value >= min(medium) and value <= max(medium): 
-			tag = "medium";
+		#if value >= min(medium) and value <= max(medium): 
+			#tag = "medium";
 		
 		if value >= min(big) and value <= max(big): 
 			tag = "big";
 				
 		if sign == "pos":
-			tag = tag + " increase";
-			#tag = "increase" 
+			#tag = tag + " increase";
+			tag = "increase" 
 		else: 
-			tag = tag + " decrease"
-			#tag = "decrease"
+			#tag = tag + " decrease"
+			tag = "decrease"
 
 
 		return tag
