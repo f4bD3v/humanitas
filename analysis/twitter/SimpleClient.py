@@ -225,28 +225,17 @@ class SimpleClient:
     def drop_col_fam(self, keyspace, col_fam):
         self.session.execute("DROP TABLE "+str(keyspace)+"."+str(col_fam)+";")
 
-    def create_index(self):
-        self.session.execute("""
-            CREATE INDEX tweets_region
-            ON tweets (region);
-        """)
-        self.session.execute("""
-            CREATE INDEX tweets_city
-            ON tweets (city);
-        """)
-        self.session.execute("""
-            CREATE INDEX tweets_time
-            ON tweets (time);
-        """)
-        self.session.execute("""
-            CREATE INDEX tweets_long
-            ON tweets (long);
-        """)
-        self.session.execute("""
-            CREATE INDEX tweets_lat
-            ON tweets (lat);
-        """)
-        log.info("Index created.")
+    def create_index(self, categories):
+        for category in categories:
+            table_name = 'tweets_' + category
+            for column in ['region', 'city', 'time', 'long', 'lat']:
+                index_name = table_name + '_' + column
+                self.session.execute("""
+                    CREATE INDEX %s
+                    ON %s (%s);""" % (index_name, table_name, column) )
+                log.info("> Index %s on table %s created." % (index_name, table_name) )
+
+        log.info(">>> Index created.")
 
     def drop_index(self):
         self.session.execute("use tweet_collector;")
