@@ -1,3 +1,5 @@
+#!/usr/bin/env python2
+
 """
     Authors: Gabriel Grill
 """
@@ -188,7 +190,7 @@ class SimpleClient:
         self.session.execute("use "+str(keyspace)+";")
         log.info("Using keyspace "+str(keyspace))
 
-    def extended_schema(self, categories):
+    def extended_schema(self, food_categories, pred_categories):
         self.session.execute("""
             CREATE KEYSPACE tweet_collector WITH replication =
             {'class':'SimpleStrategy', 'replication_factor':1};""")
@@ -197,8 +199,8 @@ class SimpleClient:
         sleep(3)
         self.session.execute("use tweet_collector;")
 
-        for category in categories:
-            table_name = 'tweets_' + category
+        for f_category in food_categories:
+            table_name = 'tweets_' + f_category
             te = """
                  CREATE TABLE %s (
     	         id bigint,
@@ -212,8 +214,9 @@ class SimpleClient:
                  place text,
        	         rt_count int,
                  fav_count int,
-                 lang text,
-                 PRIMARY KEY (id, time) );""" % (table_name)
+                 lang text,\n""" + \
+                 ',\n'.join(map((lambda coln: str(coln) + " int"), pred_categories)) + ',\n' + \
+                 "PRIMARY KEY (id, time) );""" % (table_name)
             print("Map: " + te)
             self.session.execute(te)
             log.info("> Table " + table_name + " created.")
@@ -225,8 +228,8 @@ class SimpleClient:
     def drop_col_fam(self, keyspace, col_fam):
         self.session.execute("DROP TABLE "+str(keyspace)+"."+str(col_fam)+";")
 
-    def create_index(self, categories):
-        for category in categories:
+    def create_index(self, food_categories):
+        for category in food_categories:
             table_name = 'tweets_' + category
             for column in ['region', 'city', 'time', 'long', 'lat']:
                 index_name = table_name + '_' + column
@@ -236,11 +239,6 @@ class SimpleClient:
                 log.info("> Index %s on table %s created." % (index_name, table_name) )
 
         log.info(">>> Index created.")
-
-    def drop_index(self):
-        self.session.execute("use tweet_collector;")
-        self.session.execute("DROP INDEX tweets_city;")
-        self.session.execute("DROP INDEX tweets_region;")
 
     #prints all saved tweets
     def print_rows(self):
@@ -273,12 +271,11 @@ def main():
     client.connect([node])
 
     if sys.argv[1] == "-d":
-        client.drop_index()
         client.drop_schema()
         exit(0)
 
-    client.create_schema([])
-    client.create_index()
+    #client.create_schema([])
+    #client.create_index()
 
     for t in open_tweets(sys.argv[1]):
         client.send_tweet(t)

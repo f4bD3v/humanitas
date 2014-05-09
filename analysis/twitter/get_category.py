@@ -34,8 +34,17 @@ negative_forms = ['not', 'no', 'non', 'nothing',
 c_stems = {}
 compl_pred_cats = {}
 st = LancasterStemmer()
-categories = []
 cache = pylru.lrucache(10000)
+
+# Predictor categories
+pred_categories = []
+
+# Additional categories
+additional_categories = []
+
+
+def extend_categories(l):
+    additional_categories.extend(l) 
 
 # 1. Build reverse index for existing categories
 def init_reverse_index():
@@ -47,7 +56,7 @@ def init_reverse_index():
                 if catkey is not catval:
                     compl_pred_cats[catkey]=catval
         for cname in category_dict:
-            categories.append(str(dict_name)+'_'+str(cname))
+            pred_categories.append(str(dict_name)+'_'+str(cname))
             word_list = category_dict[cname]
             for word in word_list:
                 stem = st.stem(word)
