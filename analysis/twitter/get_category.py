@@ -83,9 +83,9 @@ def get_category(w):
 
     if SPELLCHECKER_ENABLED:
         # Probably a typo, try suggestion from dictionary
-        suggestion = naive_checker.suggest(w)
-        if suggestion:
-            return lookup_stem_sets(suggestion)
+        suggestion_stem = naive_checker.suggest(w)
+        if suggestion_stem and suggestion_stem in c_stems:
+            return c_stems[suggestion_stem]
 
     # Non-relevant word
     return None
@@ -103,12 +103,15 @@ def flat(d, out=[]):
 class NaiveSpellChecker:
 
     def __init__(self, wordlist):
-        self.wordlist = wordlist
+        self.wordlist = []
+        for w in wordlist:
+            self.wordlist.append(st.stem(w))
+        print self.wordlist
 
         ### Build max distance vector
         # Words with length 4 < x <= 6 are only allowed to have one 'error', 
         # words with length 6 < x <= 8 -- no more than two 'errors', etc.
-        input_v = [(4,0), (6,1), (8,2), (10, 3)]
+        input_v = [(5,0), (8,1), (10, 2)]
         self.max_dist_v = []
         prev = 0
         for t in input_v:
@@ -127,12 +130,14 @@ class NaiveSpellChecker:
         return self.max_dist_v[l-1]
 
     def suggest(self, w):                  
+        """Suggest a STEM"""
         if len(w) <= 2: return None
         # Use heap to store suggestions
         h = []
         max_distance = self.get_max_distance(w)
+        w_stem = st.stem(w)
         for word in self.wordlist:
-            dist = L.distance(word, w)
+            dist = L.distance(word, w_stem)
             if dist > max_distance:
                 continue
             el = (dist, word)
@@ -151,9 +156,7 @@ if SPELLCHECKER_ENABLED:
 
 if __name__ == '__main__':
     init_reverse_index()
-    #for x in xrange(10000):
-    #    get_category('incrases')
-    #    get_category('increses')
-    print get_category('rice')
-    print get_category('decreses')
+    for x in xrange(10000):
+        get_category('incrases')
+        get_category('increses')
 
