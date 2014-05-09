@@ -1,6 +1,7 @@
 #!/usr/bin/env python2
 
 import sys
+import pylru
 
 # Install nltk: 'sudo pip install -U pyyaml nltk'
 from nltk.stem.lancaster import LancasterStemmer 
@@ -16,6 +17,7 @@ import predictors
 predictors_dict = predictors.predictors_dict
 
 SPELLCHECKER_ENABLED = True
+STEMMING_CACHING = True
 
 negative_forms = ['not', 'no', 'non', 'nothing',
                   "don't", "dont", "doesn't", "doesnt",     # Present
@@ -33,6 +35,7 @@ c_stems = {}
 compl_pred_cats = {}
 st = LancasterStemmer()
 categories = []
+cache = pylru.lrucache(10000)
 
 # 1. Build reverse index for existing categories
 def init_reverse_index():
@@ -53,12 +56,23 @@ def init_reverse_index():
     for word in negative_forms:
         c_stems[word] = ('negation', None)
 
-def lookup_stem_sets(w):
-    stem = st.stem(w)
-    if stem in c_stems:
-        return c_stems[stem]
-    else:
-        return None
+if STEMMING_CACHING:
+    def lookup_stem_sets(w):
+        if w in cache:
+            return cache[w]
+        stem = st.stem(w)
+        cache[w] = stem
+        if stem in c_stems:
+            return c_stems[stem]
+        else:
+            return None
+else:
+    def lookup_stem_sets(w):
+        stem = st.stem(w)
+        if stem in c_stems:
+            return c_stems[stem]
+        else:
+            return None
 
 # 2. Get a category (a tuple) for a given word
 def get_category(w):
@@ -91,9 +105,32 @@ class NaiveSpellChecker:
     def __init__(self, wordlist):
         self.wordlist = wordlist
 
+        ### Build max distance vector
+        # Words with length 4 < x <= 6 are only allowed to have one 'error', 
+        # words with length 6 < x <= 8 -- no more than two 'errors', etc.
+        input_v = [(4,0), (6,1), (8,2), (10, 3)]
+        self.max_dist_v = []
+        prev = 0
+        for t in input_v:
+            max_len, max_dist = t
+            self.max_dist_v += [max_dist] * (max_len - prev)
+            prev = max_len
+        # Expected output: [0, 0, 0, 0, 1, 1, 2, 2, 3, 3] 
+        print self.max_dist_v
+
+
+    def get_max_distance(self, w):
+        l = len(w)
+        max_dist_v_len = len(self.max_dist_v) 
+        if l > max_dist_v_len:
+            l = max_dist_v_len
+        return self.max_dist_v[l-1]
+
     def suggest(self, w):                  
+        if len(w) <= 2: return None
+        # Use heap to store suggestions
         h = []
-        max_distance = 3
+        max_distance = self.get_max_distance(w)
         for word in self.wordlist:
             dist = L.distance(word, w)
             if dist > max_distance:
@@ -114,6 +151,9 @@ if SPELLCHECKER_ENABLED:
 
 if __name__ == '__main__':
     init_reverse_index()
-    for x in xrange(10000):
-        get_category('incrases')
+    #for x in xrange(10000):
+    #    get_category('incrases')
+    #    get_category('increses')
+    print get_category('rice')
+    print get_category('decreses')
 
