@@ -199,18 +199,18 @@ class SimpleClient:
 
         te = ("""
             CREATE TABLE tweets (
-	        id bigint,
-            time timestamp,
-	        user_id text,
-	        region text,
-	        city text,
-            content text,
-            lat float,
-            long float,
-            place text,
-   	        rt_count int,
-            fav_count int,
-            lang text,\n""" +
+	      id bigint,
+              time timestamp,
+	      user_id text,
+	      region text,
+	      city text,
+              content text,
+              lat float,
+              long float,
+              place text,
+   	      rt_count int,
+              fav_count int,
+              lang text,\n""" +
             ',\n'.join(map((lambda coln: str(coln) + " int"), categories)) + ',\n'
             + "PRIMARY KEY (id, time));""")
         print("Map: " + te)
@@ -231,6 +231,18 @@ class SimpleClient:
         self.session.execute("""
             CREATE INDEX tweets_city
             ON tweets (city);
+        """)
+        self.session.execute("""
+            CREATE INDEX tweets_time
+            ON tweets (time);
+        """)
+        self.session.execute("""
+            CREATE INDEX tweets_long
+            ON tweets (long);
+        """)
+        self.session.execute("""
+            CREATE INDEX tweets_lat
+            ON tweets (lat);
         """)
         log.info("Index created.")
 
