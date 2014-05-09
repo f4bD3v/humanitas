@@ -197,25 +197,27 @@ class SimpleClient:
         sleep(3)
         self.session.execute("use tweet_collector;")
 
-        te = ("""
-            CREATE TABLE tweets (
-	        id bigint,
-            time timestamp,
-	        user_id text,
-	        region text,
-	        city text,
-            content text,
-            lat float,
-            long float,
-            place text,
-   	        rt_count int,
-            fav_count int,
-            lang text,\n""" +
-            ',\n'.join(map((lambda coln: str(coln) + " int"), categories)) + ',\n'
-            + "PRIMARY KEY (id, time));""")
-        print("Map: " + te)
-        self.session.execute(te)
-        log.info("Schema created.")
+        for category in categories:
+            table_name = 'tweets_' + category
+            te = """
+                 CREATE TABLE %s (
+    	         id bigint,
+                 time timestamp,
+    	         user_id text,
+    	         region text,
+    	         city text,
+                 content text,
+                 lat float,
+                 long float,
+                 place text,
+       	         rt_count int,
+                 fav_count int,
+                 lang text,
+                 PRIMARY KEY (id, time) );""" % (table_name)
+            print("Map: " + te)
+            self.session.execute(te)
+            log.info("> Table " + table_name + " created.")
+        log.info(">>> Schema created.")
 
     def drop_schema(self, keyspace):
         self.session.execute("DROP KEYSPACE tweet_collector;")
