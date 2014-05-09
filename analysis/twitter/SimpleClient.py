@@ -234,6 +234,18 @@ class SimpleClient:
             CREATE INDEX tweets_city
             ON tweets (city);
         """)
+        self.session.execute("""
+            CREATE INDEX tweets_time
+            ON tweets (time);
+        """)
+        self.session.execute("""
+            CREATE INDEX tweets_long
+            ON tweets (long);
+        """)
+        self.session.execute("""
+            CREATE INDEX tweets_lat
+            ON tweets (lat);
+        """)
         log.info("Index created.")
 
     def drop_index(self):
