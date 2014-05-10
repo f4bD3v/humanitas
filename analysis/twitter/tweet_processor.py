@@ -149,10 +149,12 @@ class TweetProcessor(threading.Thread):
         inserts = []
 
         i = 0
+        food_word_dict = get_food_words()
         for t in self.filter_tweets(tweet_set):
             cat_count = self.extract_features(t, self.get_tokens(t)) 
             self.client.createInsLock.acquire()
-            inserts.extend(self.client.create_insert(t, cat_count))
+            insert_strings = self.client.create_insert(t, food_word_dict, cat_count)
+            inserts.extend(insert_strings)
             self.client.createInsLock.release()
             if len(inserts) >= BATCH_SIZE:
                 self.client.sendBatchLock.acquire()

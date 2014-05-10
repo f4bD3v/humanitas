@@ -110,8 +110,7 @@ class SimpleClient:
         self.session.execute("BEGIN BATCH\n" + "\n".join(inserts) + "\nAPPLY BATCH;")
         log.info("batch of tweets loaded into db")
 
-    def create_insert(self, t, cat_counts=None):
-        food_word_dict = get_food_words()
+    def create_insert(self, t, food_word_dict, cat_counts=None):
         insert_strs = []
         for food_category in food_word_dict:
             category_words = food_word_dict[food_category]
