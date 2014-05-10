@@ -9,7 +9,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import scipy.linalg as lg 
-
+import inspect
+import time
 import pickle
 
 class ESN:
@@ -23,7 +24,7 @@ class ESN:
         training tips:
         -keep reservoir size small for selection of hyperparams
     """	
-    def __init__(self, data, split_ind, Nx, Ny, initN):
+    def __init__(self, data, split_ind, initN):
         self._dates = data[0]
         data = data[1]
         self._data = data
@@ -31,27 +32,34 @@ class ESN:
         self._train = data[0:split_ind]
         self._test = data[split_ind:]
 
-        self._Nu = self._data.shape[1]
-        self._Ny = 1
+        try:
+            self._Nu = self._data.shape[1]
+        except IndexError:
+            self._Nu = 1
 
         self._initN = initN
         # one element of prediction granularity less than actually available data
         #self._N = 1825 # 5 years worth of daily data?
         #self._initN = 365 # 1 year worth of initialization
-
+        self._x = np.zeros(self._Nu)
+        self._y = 0
         # select v for concrete reservoir using validation, just rerun Y=W_out.bUX for different v
         self._nu = 0.005
 
-    def init_Reservoir(Nu, Nx):
+    def init_reservoir(self, Nx):
         # "the bigger the size of the space of reservoir signals x(n), the easier it is to find a linear combination of the signals to approximate y_target(n)"
         # N > 1+Nu+Nx should hold true
         self._Nx = Nx
-        self.init_W()
+        self._Ny = 1
+        self.init_Weights()
 
-    def init_Weights()
+    def init_Weights(self):
         np.random.seed(42)
 
         self._Win = (np.random.rand(self._Nx,1+self._Nu)-0.5) * 1
+
+        self._Wb = np.zeros((self._Ny, self._Nx))
+        print self._Wb
 
         # Internal connection - to speed up computation make matrix sparse (set random entries to zero)
         self._W = np.random.rand(self._Nx, self._Nx)-.5
@@ -86,15 +94,18 @@ class ESN:
 
         # RLS weight update
         self._Wout = self._Wout + np.dot(k,err)
+
         
     def run_training(self, mode, teacher_forcing, feedback, xTransOrder = False, leaky = False):
-        params = func_code.co_varnames[:func.func_code.co_argcount]
+        params = self.run_training.func_code.co_varnames[:self.run_training.func_code.co_argcount]
         x_feedback = 0
 
         for t in range(self._N):
             # data contains a set of timeseries making u a vector
             u = self._data[t]
+            uext = np.zeros(u.shape)
             xlast = self._x
+            xect = np.zeros(xlast.shape)
             if isinstance(xTransOrder, int) and xTransOrder > 1:
                 uext = np.power(u, xTransOrder)
                 xext = np.power(xlast, xTransOrder)
@@ -153,13 +164,13 @@ class ESN:
         self._x = np.zeros((self._Nx,self._Nu))
 
         if feedback:
-            self._Wb = (np.random.rand(outputDim, self._Nx)-.5) * 1
+            self._Wb = (np.random.rand(self._Ny, self._Nx)-.5) * 1
         if not leaky:
             self._alpha = 0.3
             # TODO: code command line prompt for alpha param
             raise Exception('I require a leak parameter')
 
-        self._Wout = np.zeros(self._Nx+self._inputDim*2, self._outputDim)
+        self._Wout = np.zeros(self._Nx+self._inputDim*2, self._Ny)
 
         if mode == 'o':
             self._p = 0
@@ -169,22 +180,6 @@ class ESN:
         self.train_run(*params)
         # TODO print error, prompt save params? use pickle for dumping
         return self.train_err() 
-
-"""
-        # directly check dimensionality of data vector?
-    def teacher_forced_run(self):		
-        # initial run vs. training
-        """
-            Teacher forcing - use Y_target as input
-        """
-        self._x = np.zeros((self._Nx,1))
-        for t in range(self._N):
-            # data contains a set of timeseries making u a vector
-            u = self._data[t]
-            xlast = self._x
-            xnext = np.tanh(np.dot(self._Win, np.vstack((1,u)))+np.dot(self._W,xlast))
-            self._x = (1-self._alpha)*xlast+self._alpha*xnex
-"""
 
     def batch_update(self):
         # Run regulized regression once in BATCH mode after training
@@ -219,7 +214,6 @@ class ESN:
     def plot_pred(self, Y, title, ylabel):
         fmt = mdates.DateFormatter('%d-%m-%Y')
         #loc = mdates.WeekdayLocator(byweekday=mdates.Monday)
-
         months = self._dates
 
         orig = np.zeros(len(self._data))
@@ -256,16 +250,15 @@ def main():
     Nx = 500
     initN = 24  # 24 months initialization
 
-    P = 1
-    R = 1
+    Ny = 1
     # Num. Regions and Products : R,P
-    esn = ESN(data, split_ind, R, P, Nx, initN)
-
-    esn.teacher_forced_run()
-    esn.ridge_regression()
-    Y = esn.generative_run(36, pred_test = False)
-    print Y
-    esn.plot_pred(Y, 'Oil price prediction example', 'Oil price')
+    esn = ESN(data, split_ind, initN)
+    esn.init_reservoir(Nx) 
+    esn.run_training(mode = 'o', teacher_forcing = True, feedback = True, xTransOrder = 2, leaky = True)
+    
+    #Y = esn.generative_run(36, pred_test = False)
+    #print Y
+    #esn.plot_pred(Y, 'Oil price prediction example', 'Oil price')
 
     """
     TODO: 
@@ -274,7 +267,8 @@ def main():
     * include possibility to save parameters after training
     * be able to switch between batch and online algorithm
         implement online RLS algorithm
-    * implement time series crossvalidation
+    * integrate me bootstrap
+    """
 
 
 if __name__ == "__main__":
