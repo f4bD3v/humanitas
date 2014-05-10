@@ -65,12 +65,14 @@ def init_reverse_index():
     for word in negative_forms:
         c_stems[word] = ('negation', None)
 
+# cache: word -> stem
 if STEMMING_CACHING:
     def lookup_stem_sets(w):
         if w in cache:
-            return cache[w]
-        stem = st.stem(w)
-        cache[w] = stem
+            stem = cache[w]
+        else:
+            stem = st.stem(w)
+            cache[w] = stem
         if stem in c_stems:
             return c_stems[stem]
         else:
@@ -168,4 +170,6 @@ if __name__ == '__main__':
     for x in xrange(10000):
         get_category('incrases')
         get_category('increses')
+    print get_category('increses')
+    print get_category('increase')
 
