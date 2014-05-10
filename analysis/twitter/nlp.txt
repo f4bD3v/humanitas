@@ -1,0 +1,6 @@
+FictitiousTweets,PoStags
+"food prices increased yesterday",Noun-Verb-Adverb
+"the price of rice IS GOING UP way too fast",
+"the low demand is decreasing the prices for rice in this region",
+"I love rice, but these price increases don't allow me to enjoy it"
+"the price of rice is NOT decreasing ENOUGH"

@@ -1,6 +1,8 @@
 import csv, math, subprocess
 from itertools import izip_longest
 
+
+
 """Project: Humanitas
    Developer: Alexander Bueser 
    Summary:	This class generates the necessary data frame for the association algorithm.
@@ -12,7 +14,9 @@ class dataFrame:
 
 	def __init__(self):
 
-		self.test  = [[] for i in range(49)]
+		
+
+		
 		
 		self.minArray=[]
 		for i in range(99):
@@ -24,26 +28,52 @@ class dataFrame:
 
 		self.rangeArray=[]
 		for i in range(100):
-			self.rangeArray.append(range(0,0))
+			self.rangeArray.append(range(0,0));
 
-	def classifier(self,value, aRange):
+		self.negativeRange=[]
+		for i in range(100):
+			self.negativeRange.append(range(0,0));
 
-		width = aRange[-1] - aRange[0]
+		self.test  = [[] for i in range(49)]
+		self.mintest  = [[] for i in range(49)]
+
+		
+
+	def classifier(self,value, aRange, sign):
+		
+		#print value; 	
+	
+		width = (aRange[-1] + 1) - aRange[0] + 1
 		slot = width/3
+		
 		slot1 = aRange[0]+slot
 		slot2 = aRange[0] + 2* slot
 
-		small = (aRange[0], slot1-1)
-		medium = (slot1, slot2- 1)
-		big = (slot2, aRange[-1])
+		small = (aRange[0], slot1-1);
+		
+		medium = (slot1 , slot2- 1);
+		
+		big = (slot2 , max(aRange)+ 1);
+		
 		tag = "UD"
+		
+	
+		if value >= min(small) and value <= max(small): 
+			tag = "small";
+			
+		if value >= min(medium) and value <= max(medium): 
+			tag = "medium";
+		
+		if value >= min(big) and value <= max(big): 
+			tag = "big";
+				
+		if sign == "pos":
+			tag = tag + " increase";
+			#tag = "increase" 
+		else: 
+			tag = tag + " decrease"
+			#tag = "decrease"
 
-		if value in small: 
-			tag = "small"
-		if value in medium: 
-			tag = "medium"
-		if value in big: 
-			tag = "big"
 
 		return tag
 
@@ -51,7 +81,7 @@ class dataFrame:
 	def organize(self, city): 	
 		"""Big Data Set is filter by City""" 
 		isPop = False
-		with open('data/outputSorted.csv', 'rU') as csvFile:
+		with open('data/OutputSorted.csv', 'rU') as csvFile:
 
 			spamreader = list(csv.reader(csvFile, delimiter = ','))
 			spamreaderIterator = list(spamreader)
@@ -80,6 +110,7 @@ class dataFrame:
 		perform a sort on specific keys of the string. Sort is performed on date"""
 
 		subprocess.call(['./sortDate.sh'])
+	  
 
 
 		with open('data/temp.csv', 'rU') as csvFile:
@@ -92,9 +123,14 @@ class dataFrame:
 			for i in range(2,len(reference)):
 				for j in range(1, len(reference[i])):
 					if reference[i][j] != "NA" and reference[i-1][j] != "NA":
-						diff = abs(float(reference[i][j]) - float(reference[i-1][j]))
+
+						diff = (float(reference[i][j]) - float(reference[i-1][j]))
 						#print "{} and {}".format(spamreader[i][j], spamreader[i-1][j])
-						self.test[j].append(diff) 
+						#print diff
+						if diff >= 0:
+							self.test[j].append(diff); 
+						else: 
+							self.mintest[j].append(abs(diff));  
 			
 
 			for i in range(0,len(self.test)):
@@ -102,12 +138,27 @@ class dataFrame:
 					self.rangeArray[i+1] = range(int(min(self.test[i])), int(max(self.test[i])) )
 					#print "{} and {}".format(min(self.test[i]), max(self.test[i]))
 
+			for i in range(0,len(self.mintest)):
+				if self.mintest[i]:
+					self.negativeRange[i+1] = range(int(min(self.mintest[i])), int(max(self.mintest[i])) )
+					#print "{} and {}".format(min(self.test[i]), max(self.test[i]))
+
 
 			for i in range(2,len(reference)):
 				for j in range(1, len(reference[i])):
-					if reference[i][j] != "NA" and reference[i-1][j] != "NA":
-						diff = abs(float(reference[i][j]) - float(reference[i-1][j]))
-						finalData[i][j] = self.classifier(diff, self.rangeArray[j+1])
+					if reference[i][j] != "NA" and reference[i-1][j] != "NA" :
+						#print "{}{}".format(reference[i][j], reference[i-1][j])
+						diff = (float(reference[i][j]) - float(reference[i-1][j]))
+						
+
+						if diff >= 0:
+							if self.rangeArray[j+1] != []:
+								finalData[i][j] = self.classifier(int(diff), self.rangeArray[j+1], "pos")
+						else:
+							if self.negativeRange[j+1] != []:
+								finalData[i][j] = self.classifier(abs(int(diff)), self.negativeRange[j+1], "min")
+						
+						
 			
 
 			"""Base case initialised to medium"""			

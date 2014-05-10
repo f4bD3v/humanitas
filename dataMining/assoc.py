@@ -12,15 +12,15 @@ class assoc:
 		
 	def startMining(self):
 		data = orange.ExampleTable("data/final.csv") 
+		#was47
 		data = data.select(range(47))
 
-		minSupport = 0.75
+		minSupport = 0.7	
 
 
-		rules = orange.AssociationRulesInducer(data, support = minSupport) 
+		rules = orange.AssociationRulesInducer(data, support = minSupport, max_item_sets = 30000) 
 		print "%i rules with support higher than or equal to %5.3f found." % (len(rules), minSupport) 
-		print orngAssoc.sort(rules, ["support", "confidence"])
-
-		print orngAssoc.printRules(rules[:], ["support", "confidence"]) 
-
+	
+		orngAssoc.printRules(rules[:10], ["support", "confidence"]) 
+		
 

@@ -1,0 +1,11 @@
+day + amount tweets by region
+day + sum (value) relevant tweets by food word + category + normalize
+regions
+userranking
+
+I ... increase
+D ... decrease
+
+I(t, R, P) - D(t,R,P)
+/
+I(t,R) + D(t,R)
