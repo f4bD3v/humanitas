@@ -149,10 +149,12 @@ class TweetProcessor(threading.Thread):
         inserts = []
 
         i = 0
+        food_word_dict = get_food_words()
         for t in self.filter_tweets(tweet_set):
             cat_count = self.extract_features(t, self.get_tokens(t)) 
             self.client.createInsLock.acquire()
-            inserts.append(self.client.create_insert(t, cat_count))
+            insert_strings = self.client.create_insert(t, food_word_dict, cat_count)
+            inserts.extend(insert_strings)
             self.client.createInsLock.release()
             if len(inserts) >= BATCH_SIZE:
                 self.client.sendBatchLock.acquire()
@@ -246,11 +248,14 @@ def main(args):
 
     tmp_dir = args[0]
     get_category.init_reverse_index()
-    get_category.categories.extend(getFoodCatList())
-    get_category.categories.append('cnts')
+    food_categories = getFoodCatList()
+    pred_categories = get_category.pred_categories
+    get_category.add_categories(food_categories)
+    get_category.add_categories(['cnts'])
     print get_category.c_stems
     print get_category.compl_pred_cats
     print get_category.categories
+    print get_category.additional_categories
 
     log = logging.getLogger()
     log.setLevel('INFO')
@@ -264,7 +269,8 @@ def main(args):
         if(args[2]=="True"):
             sc.drop_schema('tweet_collector')
         # drop_col_fam..
-        sc.extended_schema(get_category.categories)
+        sc.extended_schema(food_categories, pred_categories)
+        sc.create_index(food_categories)
 
     sc.use_keyspace('tweet_collector')
 

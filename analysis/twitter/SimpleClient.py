@@ -1,5 +1,7 @@
+#!/usr/bin/env python2
+
 """
-    Authors: Gabriel Grill
+    Authors: Gabriel Grill, Anton Ovchinnikov
 """
 
 
@@ -108,8 +110,18 @@ class SimpleClient:
         self.session.execute("BEGIN BATCH\n" + "\n".join(inserts) + "\nAPPLY BATCH;")
         log.info("batch of tweets loaded into db")
 
+    def create_insert(self, t, food_word_dict, cat_counts=None):
+        insert_strs = []
+        for food_category in food_word_dict:
+            category_words = food_word_dict[food_category]
+            for product in category_words:
+                if has(t, product):
+                    insert_string = self.create_insert_for_category(t, food_category, cat_counts)
+                    insert_strs.append(insert_string)
+        return insert_strs 
+
     #returns a string representing an insert for a tweet
-    def create_insert(self, t, cat_counts=None):
+    def create_insert_for_category(self, t, food_category, cat_counts=None):
        log.info("creating insert")
        col_str = []
        val_str = []
@@ -161,7 +173,8 @@ class SimpleClient:
             col_str.append(cat)
             val_str.append(str(count))
 
-       return "INSERT INTO tweets (" + ",".join(col_str) + ") VALUES (" + ",".join(val_str) + ");"
+       table_name = 'tweets_' + food_category
+       return "INSERT INTO " + table_name + "(" + ",".join(col_str) + ") VALUES (" + ",".join(val_str) + ");"
 
     #inserts a tweet into the db
     def send_tweet(self, t):
@@ -188,7 +201,7 @@ class SimpleClient:
         self.session.execute("use "+str(keyspace)+";")
         log.info("Using keyspace "+str(keyspace))
 
-    def extended_schema(self, categories):
+    def extended_schema(self, food_categories, pred_categories):
         self.session.execute("""
             CREATE KEYSPACE tweet_collector WITH replication =
             {'class':'SimpleStrategy', 'replication_factor':1};""")
@@ -197,47 +210,53 @@ class SimpleClient:
         sleep(3)
         self.session.execute("use tweet_collector;")
 
-        te = ("""
-            CREATE TABLE tweets (
-	        id bigint,
-            time timestamp,
-	        user_id text,
-	        region text,
-	        city text,
-            content text,
-            lat float,
-            long float,
-            place text,
-   	        rt_count int,
-            fav_count int,
-            lang text,\n""" +
-            ',\n'.join(map((lambda coln: str(coln) + " int"), categories)) + ',\n'
-            + "PRIMARY KEY (id, time));""")
-        print("Map: " + te)
-        self.session.execute(te)
-        log.info("Schema created.")
+        create_table_strs = []
+        for f_category in food_categories:
+            table_name = 'tweets_' + f_category
+            te = """
+                 CREATE TABLE %s (
+    	         id bigint,
+                 time timestamp,
+    	         user_id text,
+    	         region text,
+    	         city text,
+                 content text,
+                 lat float,
+                 long float,
+                 place text,
+       	         rt_count int,
+                 fav_count int,
+                 lang text,\n""" + \
+                 ',\n'.join(map((lambda coln: str(coln) + " int"), pred_categories)) + ',\n' + \
+                 "PRIMARY KEY (id, time) );""" % (table_name)
+            print("Map: " + te)
+            self.session.execute(te)
+            create_table_strs.append(te)
+            log.info("> Table " + table_name + " created.")
+        log.info(">>> Schema created.")
+
+        # Save 'create table' queries
+        with open('shark_create_table.sql', 'wb') as f:
+            for s in create_table_strs:
+                s = re.sub(r'\btext\b', 'string', s)
+                s = re.sub(r'CREATE TABLE', 'CREATE EXTERNAL TABLE', s)
+                s = re.sub(r',\nPRIMARY KEY.*$', ');', s)
+                f.write(s + "\n")
 
     def drop_schema(self, keyspace):
         self.session.execute("DROP KEYSPACE tweet_collector;")
 
-    def drop_col_fam(self, keyspace, col_fam):
-        self.session.execute("DROP TABLE "+str(keyspace)+"."+str(col_fam)+";")
+    def create_index(self, food_categories):
+        for category in food_categories:
+            table_name = 'tweets_' + category
+            for column in ['region', 'city', 'time', 'long', 'lat']:
+                index_name = table_name + '_' + column
+                self.session.execute("""
+                    CREATE INDEX %s
+                    ON %s (%s);""" % (index_name, table_name, column) )
+                log.info("> Index %s on table %s created." % (index_name, table_name) )
 
-    def create_index(self):
-        self.session.execute("""
-            CREATE INDEX tweets_region
-            ON tweets (region);
-        """)
-        self.session.execute("""
-            CREATE INDEX tweets_city
-            ON tweets (city);
-        """)
-        log.info("Index created.")
-
-    def drop_index(self):
-        self.session.execute("use tweet_collector;")
-        self.session.execute("DROP INDEX tweets_city;")
-        self.session.execute("DROP INDEX tweets_region;")
+        log.info(">>> Index created.")
 
     #prints all saved tweets
     def print_rows(self):
@@ -270,12 +289,11 @@ def main():
     client.connect([node])
 
     if sys.argv[1] == "-d":
-        client.drop_index()
         client.drop_schema()
         exit(0)
 
-    client.create_schema([])
-    client.create_index()
+    #client.create_schema([])
+    #client.create_index()
 
     for t in open_tweets(sys.argv[1]):
         client.send_tweet(t)

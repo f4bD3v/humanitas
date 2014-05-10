@@ -154,7 +154,7 @@ def get_followers(root, APP_KEY, APP_SECRET):
 
         if len(good_followers) >= MAX_USERS_PER_FILE:
             file_count += 1
-            data_dump(good_followers, users_folder + '%s_good_followers_of_%s.pickle'%(root, file_count))
+            data_dump(good_followers, users_folder + '%s_%s.pickle'%(root, file_count))
             good_followers = []
         
         write_log(('%.02f%%\n')%(100.0 * users_downloaded / num_followers))
@@ -163,7 +163,7 @@ def get_followers(root, APP_KEY, APP_SECRET):
     file_count += 1
     data_dump(good_followers, users_folder + '%s_%s.pickle'%(root, file_count))
     duration = (datetime.now() - time_start).seconds
-    write_log('Number of good followers listed %s in %s seconds\n' % (len(good_followers), duration))
+    write_log('Number of good followers listed %s in %s seconds\n' % (num_good_followers, duration))
 
 def get_twitter_data(root, APP_KEY, APP_SECRET):
     twitter = authenticate(APP_KEY, APP_SECRET)
@@ -211,16 +211,16 @@ def get_twitter_data(root, APP_KEY, APP_SECRET):
             tweets.extend(new_tweets)
             
         if total_tweets >= file_count * MAX_TWEETS_PER_FILE:
-            data_dump(tweets, output_folder + '%s_tweets_%s.pickle'%(root, file_count))
+            data_dump(tweets, output_folder + '%s_tweets_%s.pickle'%(root, file_count + 1000))
             file_count += 1
             tweets = []
 
         follower_number += 1
-            
+        
         write_log(('%s tweets collected\n')%(total_tweets))
         write_log(('%.02f%%\n')%(100.0 * follower_number / len(followers)))
         
-    data_dump(tweets, output_folder + '%s_tweets_%s.pickle'%(root, file_count))
+    data_dump(tweets, output_folder + '%s_tweets_%s.pickle'%(root, file_count + 1000))
     duration = (datetime.now() - time_start).seconds
     write_log('Number of tweets collected %s in %s seconds\n' % (total_tweets, duration))
     
