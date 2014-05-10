@@ -214,7 +214,7 @@ class SimpleClient:
         for f_category in food_categories:
             table_name = 'tweets_' + f_category
             te = """
-                 CREATE EXTERNAL TABLE %s (
+                 CREATE TABLE %s (
     	         id bigint,
                  time timestamp,
     	         user_id text,
@@ -233,12 +233,15 @@ class SimpleClient:
             self.session.execute(te)
             create_table_strs.append(te)
             log.info("> Table " + table_name + " created.")
+        log.info(">>> Schema created.")
 
         # Save 'create table' queries
         with open('shark_create_table.sql', 'wb') as f:
             for s in create_table_strs:
+                s = re.sub(r'\btext\b', 'string', s)
+                s = re.sub(r'CREATE TABLE', 'CREATE EXTERNAL TABLE', s)
+                s = re.sub(r',\nPRIMARY KEY.*$', ');', s)
                 f.write(s + "\n")
-        log.info(">>> Schema created.")
 
     def drop_schema(self, keyspace):
         self.session.execute("DROP KEYSPACE tweet_collector;")
