@@ -41,7 +41,6 @@ class ESN:
         # one element of prediction granularity less than actually available data
         #self._N = 1825 # 5 years worth of daily data?
         #self._initN = 365 # 1 year worth of initialization
-        self._x = np.zeros(self._Nu)
         self._y = 0
         # select v for concrete reservoir using validation, just rerun Y=W_out.bUX for different v
         self._nu = 0.005
@@ -59,7 +58,6 @@ class ESN:
         self._Win = (np.random.rand(self._Nx,1+self._Nu)-0.5) * 1
 
         self._Wb = np.zeros((self._Ny, self._Nx))
-        print self._Wb
 
         # Internal connection - to speed up computation make matrix sparse (set random entries to zero)
         self._W = np.random.rand(self._Nx, self._Nx)-.5
@@ -80,7 +78,24 @@ class ESN:
         rescale = 1.05
         self._W*=rescale
 
+    def init_training(self):
+        self._x = np.zeros((self._Nx,1))
+        self._alpha = 0
+        self._lambda = 0
+        self._Cinv = 0
+        """
+            Design matrix [1,U,X]
+            keep N-initN time-steps in the design matrix, discard the initial initN steps
+        """
+        self._bUX = np.zeros((1+self._Nu+self._Nx,self._N-self._initN))
+        """
+            Target matrix 
+            same as input sequence in teacher forcing, only shifted by 1 timestep 
+        """
+        self._Yt = self._data[self._initN+1:self._N+1] 
+
     def online_update(self):
+        print self._lambda
         self._Cinv = self._lambda*self._Cinv-(1.0/self._lambda)*np.dot(np.outer(self._k,self._x),self._Cinv)
         # !!! numerical problems for x(n)-->0 and lambda<1 !!!
         # alleviate loss of symmetry in P(n): [P(n) + P.T(n)] /2
@@ -97,7 +112,8 @@ class ESN:
 
         
     def run_training(self, mode, teacher_forcing, feedback, xTransOrder = False, leaky = False):
-        params = self.run_training.func_code.co_varnames[:self.run_training.func_code.co_argcount]
+        params = self.run_training.func_code.co_varnames[1:self.run_training.func_code.co_argcount]
+        self._runs = 0
         x_feedback = 0
 
         for t in range(self._N):
@@ -110,76 +126,71 @@ class ESN:
                 uext = np.power(u, xTransOrder)
                 xext = np.power(xlast, xTransOrder)
                 xlast = np.vstack((uext,xect))
-            xOut = np.vstack((1,u,xlast))
             # check this function again
             if feedback:
                 # put equation here Wback x y
-                x_feedback = np.dot(self._Wb, self._y)
-            xnext = np.tanh(np.dot(self._Win, np.vstack((1,u))+np.dot(self._W,xlast))+x_feedback)
+                x_feedback = np.dot(self._Wb, self._y).T
+                print x_feedback.shape
+            print np.vstack((1,u)).shape
+            xnext = np.tanh(np.dot(self._Win, np.vstack((1,u)))+np.dot(self._W,xlast)+x_feedback)
+            print xnext.shape
+            out = np.vstack((1,u,xnext))
             self._x = xnext
             if leaky:
                 self._x = (1-self._alpha)*xlast+self._alpha*xnext
             if t >= self._initN:
                 # TODO: find out WHY slicing at the end
-                self._bUX[:,t-self._initN] = xOut[:,0]
-                if mode == 'o':
+                self._bUX[:,t-self._initN] = out[:,0]
+                if mode is 'o':
                     self.online_update()
+                    # self._Wout -
 
-        if mode == 'b':
+        if mode is 'b':
             self.batch_update()
 
-        if isinstance(runs, int) and runs > 1:
+        if isinstance(self._runs, int) and self._runs > 1:
             # Depending on online or batch collect bUX or 
             self.init_W()
             self._runcnt += 1
-            if mode == 'o':
-                self.runs = np.vstack((self.runs, self._y))
-            elif mode == 'b':
+            if mode is 'o':
+                self._runs = np.vstack((self._runs, self._y))
+            elif mode is 'b':
                 # TODO: check this - how to store runs
-                self.runs = np.vstack((self.runs, self._bUX))
+                self._runs = np.vstack((self._runs, self._bUX))
             self.run_training(*params) 
 
-    def init_training(self):
-        """
-            Design matrix [1,U,X]
-            keep N-initN time-steps in the design matrix, discard the initial initN steps
-        """
-        self._bUX = np.zeros((1+self._Nu+self._Nx,self._N-self._initN))
-        """
-            Target matrix 
-            same as input sequence in teacher forcing, only shifted by 1 timestep 
-        """
-        self._Yt = data[self._initN+1:self._N+1] 
-
     def predef_training(self, pref_fn):
+        params = self.run_training.func_code.co_varnames[1:self.run_training.func_code.co_argcount]
         # Load params into list from file
-        self.train_run(*params)
-        return self.train_err()
+        self.run_training(*params)
+        return# self.train_err()
 
     def custom_training(self, mode, teacher_forcing, feedback, xTransOrder = False, leaky = False, runs = False):
-        params = func_code.co_varnames[:func.func_code.co_argcount]
+        params = self.run_training.func_code.co_varnames[1:self.run_training.func_code.co_argcount]
         self.init_training()
         print params
 
-        self._x = np.zeros((self._Nx,self._Nu))
-
         if feedback:
             self._Wb = (np.random.rand(self._Ny, self._Nx)-.5) * 1
+            print self._Wb
         if not leaky:
             self._alpha = 0.3
             # TODO: code command line prompt for alpha param
             raise Exception('I require a leak parameter')
 
-        self._Wout = np.zeros(self._Nx+self._inputDim*2, self._Ny)
+        self._Wout = np.zeros((self._Nx+self._Nu*2, self._Ny))
 
-        if mode == 'o':
+        if mode is 'o':
+            print 'never happens'
             self._p = 0
-            delta = (1-self._lambda)*variance(x)
-            self._Cinv = delta*np.indentity(self._Nx+self._inputDim*2)
+            self._lambda = 0.9
+            std = np.std(self._data)
+            delta = (1-self._lambda)*std*std
+            self._Cinv = delta*np.identity(self._Nx+self._Nu*2)
 
-        self.train_run(*params)
+        self.run_training(*params)
         # TODO print error, prompt save params? use pickle for dumping
-        return self.train_err() 
+        return #self.train_err() 
 
     def batch_update(self):
         # Run regulized regression once in BATCH mode after training
@@ -196,7 +207,6 @@ class ESN:
             xnext = np.tanh(np.dot( self._Win, np.vstack((1,u)))+np.dot(self._W,xlast))
             self._x = (1-self._alpha)*xlast + self._alpha*xnext
             y = np.dot(self._Wout, np.vstack((1,u,self._x)) )
-            print y
             Y[:,t] = y
 
             # use prediction as input to the network
@@ -241,8 +251,6 @@ def main():
     # convert date to floats
     data = np.loadtxt('oilprices.txt', delimiter=',', skiprows=1, unpack=True, converters={0 :mdates.strpdate2num('%Y-%m-%d')})
 
-    print data
-
     # Split dataset into training and testset
     split_ind = len(data[0])-36
 
@@ -254,7 +262,8 @@ def main():
     # Num. Regions and Products : R,P
     esn = ESN(data, split_ind, initN)
     esn.init_reservoir(Nx) 
-    esn.run_training(mode = 'o', teacher_forcing = True, feedback = True, xTransOrder = 2, leaky = True)
+    esn.init_training()
+    esn.custom_training(mode = 'o', teacher_forcing = True, feedback = True, xTransOrder = False, leaky = True)
     
     #Y = esn.generative_run(36, pred_test = False)
     #print Y
