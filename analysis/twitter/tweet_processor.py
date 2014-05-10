@@ -152,7 +152,7 @@ class TweetProcessor(threading.Thread):
         for t in self.filter_tweets(tweet_set):
             cat_count = self.extract_features(t, self.get_tokens(t)) 
             self.client.createInsLock.acquire()
-            inserts.append(self.client.create_insert(t, cat_count))
+            inserts.extend(self.client.create_insert(t, cat_count))
             self.client.createInsLock.release()
             if len(inserts) >= BATCH_SIZE:
                 self.client.sendBatchLock.acquire()

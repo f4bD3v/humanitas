@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 
 """
-    Authors: Gabriel Grill
+    Authors: Gabriel Grill, Anton Ovchinnikov
 """
 
 
@@ -110,8 +110,19 @@ class SimpleClient:
         self.session.execute("BEGIN BATCH\n" + "\n".join(inserts) + "\nAPPLY BATCH;")
         log.info("batch of tweets loaded into db")
 
-    #returns a string representing an insert for a tweet
     def create_insert(self, t, cat_counts=None):
+        food_word_dict = get_food_words()
+        insert_strs = []
+        for food_category in food_word_dict:
+            category_words = food_word_dict[food_category]
+            for product in category_words:
+                if has(t, product):
+                    insert_string = self.create_insert_for_category(t, food_category, cat_counts)
+                    insert_strs.append(insert_string)
+        return insert_strs 
+
+    #returns a string representing an insert for a tweet
+    def create_insert_for_category(self, t, food_category, cat_counts=None):
        log.info("creating insert")
        col_str = []
        val_str = []
@@ -163,7 +174,8 @@ class SimpleClient:
             col_str.append(cat)
             val_str.append(str(count))
 
-       return "INSERT INTO tweets (" + ",".join(col_str) + ") VALUES (" + ",".join(val_str) + ");"
+       table_name = 'tweets_' + food_category
+       return "INSERT INTO " + table_name + "(" + ",".join(col_str) + ") VALUES (" + ",".join(val_str) + ");"
 
     #inserts a tweet into the db
     def send_tweet(self, t):
@@ -224,9 +236,6 @@ class SimpleClient:
 
     def drop_schema(self, keyspace):
         self.session.execute("DROP KEYSPACE tweet_collector;")
-
-    def drop_col_fam(self, keyspace, col_fam):
-        self.session.execute("DROP TABLE "+str(keyspace)+"."+str(col_fam)+";")
 
     def create_index(self, food_categories):
         for category in food_categories:
