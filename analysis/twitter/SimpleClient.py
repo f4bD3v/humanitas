@@ -210,10 +210,11 @@ class SimpleClient:
         sleep(3)
         self.session.execute("use tweet_collector;")
 
+        create_table_strs = []
         for f_category in food_categories:
             table_name = 'tweets_' + f_category
             te = """
-                 CREATE TABLE %s (
+                 CREATE EXTERNAL TABLE %s (
     	         id bigint,
                  time timestamp,
     	         user_id text,
@@ -230,7 +231,13 @@ class SimpleClient:
                  "PRIMARY KEY (id, time) );""" % (table_name)
             print("Map: " + te)
             self.session.execute(te)
+            create_table_strs.append(te)
             log.info("> Table " + table_name + " created.")
+
+        # Save 'create table' queries
+        with open('shark_create_table.sql', 'wb') as f:
+            for s in create_table_strs:
+                f.write(s + "\n")
         log.info(">>> Schema created.")
 
     def drop_schema(self, keyspace):
