@@ -37,7 +37,7 @@
 }
 
 #dashboard {
-    left: 250px;
+    left: 210px;
     width: auto;
     min-width: 200px;
 }
@@ -130,8 +130,8 @@ body {
     margin: 0 20px;
 }
 
-#slider {
-    width: 300px;
+.myslider {
+    width: 300px !important;
 }
 
 .info {

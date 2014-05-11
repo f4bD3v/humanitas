@@ -61,7 +61,7 @@ def extract_location(loc, locs):
         for token in locs:
             if token in loc_tokens:
                 return token
-        return ""
+    return ""
 
 #prepares 'text' values for the db
 def prep(x):

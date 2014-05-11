@@ -61,7 +61,7 @@ var statesData = {
 
 ]
 };
-var density = [{"year":1980,
+var density = [{"year": 1980, "month": 2,
 "values":[
   {
     "id":"Andhra Pradesh",
@@ -180,7 +180,7 @@ var density = [{"year":1980,
     "strength":250
   }
 ]},
-{"year":1990,
+{"year":1990, "month": 5,
 "values":[
   {
     "id":"Andhra Pradesh",
