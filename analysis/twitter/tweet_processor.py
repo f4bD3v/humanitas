@@ -72,18 +72,23 @@ class ProcessManager(threading.Thread):
             t.start()
             print 'Tweet processor thread '+str(t)+' started'
 
+        i = 0
         while True:
             picklefs = glob.glob('*.pickle')
             self.pickleAccLock.acquire()
             self.picklefs_to_proc = list(set(picklefs)-set(self.picklefs_proc))
             to_proc_len = len(self.picklefs_to_proc)
-            print len(self.picklefs_to_proc), ' remaining'
             self.pickleAccLock.release()
 
             if to_proc_len == 0:
                 self.write_picklefs_proc()
                 self.save_locations_pickle()
                 raise SystemExit("No more files to process")
+
+            i += 1
+            if i == 10000:
+                print len(self.picklefs_to_proc), ' remaining'
+                i = 0
 
             """
             if self.sleep_seq_count == 4:
@@ -129,7 +134,7 @@ class ProcessManager(threading.Thread):
 		f.close()
 
     def save_locations_pickle(self):
-        with open('tweets_cnt_regions_cities.pickle', 'wb') as f:
+        with open('tweets_cnt_regions_cities.pick', 'wb') as f:
             pickle.dump(location_dict, f)
 
 class TweetProcessor(threading.Thread):
@@ -201,7 +206,7 @@ class TweetProcessor(threading.Thread):
                     location_dict['cities'][city] = 1
                 region = self.client.city_region_dict[city.lower()]
             else:
-                region = extract_location(t['user']['location'], self.client.regions)
+                region = extract_location(tweet['user']['location'], self.client.regions)
             if region != "":
                 if region in location_dict['regions']:
                     location_dict['regions'][region] += 1

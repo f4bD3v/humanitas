@@ -226,9 +226,9 @@ class SimpleClient:
                  place text,
        	         rt_count int,
                  fav_count int,
-                 lang text,\n""" + \
+                 lang text,\n""" %(table_name) + \
                  ',\n'.join(map((lambda coln: str(coln) + " int"), pred_categories)) + ',\n' + \
-                 "PRIMARY KEY (id, time) );""" % (table_name)
+                 "PRIMARY KEY (id, time) );"
             print("Map: " + te)
             self.session.execute(te)
             create_table_strs.append(te)
@@ -244,16 +244,19 @@ class SimpleClient:
                 f.write(s + "\n")
 
     def drop_schema(self, keyspace):
-        self.session.execute("DROP KEYSPACE tweet_collector;")
+        self.session.execute("DROP KEYSPACE IF EXISTS tweet_collector;")
 
     def create_index(self, food_categories):
         for category in food_categories:
             table_name = 'tweets_' + category
             for column in ['region', 'city', 'time', 'long', 'lat']:
                 index_name = table_name + '_' + column
-                self.session.execute("""
+                create_str = """ 
                     CREATE INDEX %s
-                    ON %s (%s);""" % (index_name, table_name, column) )
+                    ON %s (%s);""" % (index_name, table_name, column)
+                print create_str
+                self.session.execute(create_str)
+                sleep(3)
                 log.info("> Index %s on table %s created." % (index_name, table_name) )
 
         log.info(">>> Index created.")
