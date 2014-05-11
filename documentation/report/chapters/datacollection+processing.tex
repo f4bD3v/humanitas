@@ -1,4 +1,5 @@
 \section*{Time Series data}
+
 Different sources
 Price categories: Retail prices, wholesale prices
 
@@ -8,6 +9,29 @@ Price categories: Retail prices, wholesale prices
 (taken from investopedia.com)\\
 An index that measures and tracks the changes in price of goods in the stages before the retail level. Wholesale price indexes (WPIs) report monthly to show the average price changes of goods sold in bulk, and they are a group of the indicators that follow growth in the economy.\par
 Although some countries still use the WPIs as a measure of inflation, many countries, including the United States, use the producer price index (PPI) instead.\par
+
+\subsubsection*{Data sources}
+Website of Ministry of Agriculture of India (http://agmarknet.nic.in/) was used for our purposes, which allows querying daily range of wholesale prices and stock arrival dating back to 2005 at market places throughout India.
+
+Due to large amount of data available, as well as time and resources needed to pull it, several major products (Onion, Rice, Wheat, Apple, Banana, Coriander, Potato, Paddy(Dhan), Tomato) were chosen, whereat the Python script was used to download all available data for the selected products directly from the website, using simple HTTP GET requests. Raw HTML data was then converted to CSV format with predefined structure and saved for later processing.
+
+\subsection*{Retail prices}
+\subsubsection*{Data sources}
+
+\begin{itemize}
+
+\item[1.] Daily retail prices
+
+Daily retail prices were found at the website, created by Department of Consumer Affairs of India (http://fcainfoweb.nic.in/). One can choose the type of report (price report, variation report, average/month end report) and the desired date, and then receive the requested data in HTML format. This website was used to query price reports from 2009 to 2014, for 59 cities and 22 products. Similar to the wholesale daily prices, raw HTML data was converted to CSV files in normalized format, which was intended to facilitate further processing.
+
+\item[2.] Weekly retail prices
+
+Retail Price Information System (http://rpms.dacnet.nic.in/) from Indian Ministry of Agriculture was queried to obtain weekly retail prices. 
+
+Unlike daily prices, the only available data format that was capable of being parsed, was Microsoft Excel .xls format. So all the required .xls files were downloaded using a Python script, and then 'xls2csv' was used to convert .xls documents to CSV data format. For some reason, the majority of product name were missing in downloaded .xls files, so the basic heuristic, which involved the order of product names, was used to reconstruct the data.
+The data obtained described information about prices for a large number of markets, around 60 products and hundreds of subproducts, dating back from 2005, but, unfortunately, the data was far from complete, especially for 2005-2007 time frame.
+
+\end{itemize}
 
 \subsection*{Price sequences}
 
