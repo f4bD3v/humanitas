@@ -34,7 +34,7 @@ def trimmed_mean(d, cutoff=.9):
 def main():
     data = get_climate_data()
     print data.head()
-    cols = ['TM', 'Tm', 'SLP', 'H', 'PP', 'VV', 'V', 'VM']
+    cols = ['T', 'TM', 'Tm', 'SLP', 'H', 'PP', 'VV', 'V', 'VM']
     out = pd.DataFrame(columns=['state', 'date'] + cols)
 
     months = ['January', 'February', 'March', 'April', 'May', 'June',
@@ -59,7 +59,7 @@ def main():
         prevrow = row
         out.loc[len(out)] = row
 
-    out.sort(['state', 'date']).reset_index().drop('index',1).to_csv('csv/climate.csv')
+    out.sort(['state', 'date']).reset_index().drop('index',1).to_csv('../../data/india/climate/climate_processed.csv')
 
 if __name__ == '__main__':
     main()
