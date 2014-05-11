@@ -162,27 +162,24 @@ class TweetProcessor(threading.Thread):
         i = 0
         food_word_dict = get_food_words()
         for t in self.filter_tweets(tweet_set):
-            cat_count = self.extract_features(t, self.get_tokens(t)) 
+            tweet_tokens = self.get_tokens(t)
+            cat_count = self.extract_features(t, tweet_tokens) 
             self.client.createInsLock.acquire()
-            insert_strings = self.client.create_insert(t, food_word_dict, cat_count)
+            insert_strings = self.client.create_insert(t, tweet_tokens, food_word_dict, cat_count)
             inserts.extend(insert_strings)
             self.client.createInsLock.release()
             if len(inserts) >= BATCH_SIZE:
                 self.client.sendBatchLock.acquire()
                 self.client.send_batch(inserts)
                 self.client.sendBatchLock.release()
+                print "Map: ", inserts
                 inserts = []
 
         if inserts:
+            print "Map: ", inserts
             self.client.sendBatchLock.acquire()
             self.client.send_batch(inserts)
             self.client.sendBatchLock.release()
-
-    def contains_words(self, to_check, tweet):
-        for word in tweet:
-            if word in to_check:
-                return True
-        return False
 
     def get_tokens(self, tweet):
         tweet_text_lower = tweet['text'].lower().encode("ascii","ignore")
@@ -192,10 +189,11 @@ class TweetProcessor(threading.Thread):
 
     def filter_tweets(self, tweet_set):
         for tweet in tweet_set:
-            if 'text' not in tweet or 'retweeted_status' in tweet:
+            if ('text' not in tweet) or ('retweeted_status' in tweet):
                 continue
-            if 'user' not in tweet or not tweet['user']:
+            if ('user' not in tweet) or (not tweet['user']):
                 continue
+            #print tweet
 
             # Extract city/region
             city = extract_location(tweet['user']['location'], self.client.cities)
@@ -215,7 +213,7 @@ class TweetProcessor(threading.Thread):
 
             # Process tweet
             tweet_text_tokens = self.get_tokens(tweet)
-            if(self.contains_words(self.food_words, tweet_text_tokens)):
+            if (contains_words(self.food_words, tweet_text_tokens)):
                 yield tweet
 
     def extract_features(self, t, tokens):
