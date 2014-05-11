@@ -178,10 +178,28 @@ function drawMap() {
 	if(geojson) {
 		map.removeLayer(geojson);
 	}
+	citiesDataMod = citiesData
+	citiesDataMod.features = citiesDataMod.features.slice(0, 20);
+	citiesGeojson = L.geoJson(citiesDataMod, {
+		// style: stateStyle,
+		onEachFeature: onEachPoint,
+	}).addTo(map);
 	geojson = L.geoJson(statesData, {
 		style: stateStyle,
 		onEachFeature: onEachFeature
 	}).addTo(map);
+
+	// $.each(citiesData, function(i, city) {
+ //    	geojson.addData(city);
+ //    	if(i > 30) {
+ //    		return false;
+ //    	}
+ //  	});
+	// geojson.addData({
+ //        type: 'Point',
+ //        id: "New Delhi",
+ //        coordinates: [Math.random() * 360 - 180, Math.random() * 160 - 80],
+ //    });
 }
 
 // get color depending on population density value
@@ -227,12 +245,10 @@ function highlightFeature(e) {
 			dashArray: '',
 			fillOpacity: 0.6
 		});
-
-		// if (!L.Browser.ie && !L.Browser.opera) {
-		// 	layer.bringToFront();
-		// }
-
 	}
+	// if (!L.Browser.ie && !L.Browser.opera) {
+	// 	layer.bringToFront();
+	// }
 	info.update(layer.feature);
 }
 
@@ -287,6 +303,26 @@ function onEachFeature(feature, layer) {
 		mouseout: resetHighlight,
 		click: zoomToFeature,
 	});
+}
+
+function onEachPoint(feature, layer) {
+	layer.on({
+		mouseover: highlightPoint,
+		mouseout: resetPoint,
+		click: zoomToPoint,
+	});
+}
+
+function highlightPoint(e) {
+	info.update(e.target.feature);
+}
+
+function resetPoint(e) {
+	info.update();
+}
+
+function zoomToPoint(e) {
+
 }
 
 function addLegend(map) {
