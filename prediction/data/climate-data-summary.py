@@ -59,7 +59,7 @@ def main():
         prevrow = row
         out.loc[len(out)] = row
 
-    out.sort(['state', 'date']).to_csv('climate.csv')
+    out.sort(['state', 'date']).reset_index().drop('index',1).to_csv('csv/climate.csv')
 
 if __name__ == '__main__':
     main()

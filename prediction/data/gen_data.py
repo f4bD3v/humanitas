@@ -4,32 +4,7 @@ import os
 import glob
 import sys
 import copy
-
-retail_daily_fn = '../../data/india/csv_preprocessed/preproc_retail_daily/india_timeseries_retail_daily_interpolated_0.4.csv'
-
-wholesale_daily_fn = '../../data/india/csv_preprocessed/preproc_wholesale_daily/india_timeseries_wholesale_daily_interpolated_0.4.csv'
-
-climate_fn = 'climate.csv'
-
-oilprices_fn = '../../data/oil/international_oilprices.csv'
-
-retail_good_series = [
-    ('Andhra Pradesh', 'Rice'),
-]
-
-wholesale_good_series = [
-]
-
-retail = pd.read_csv(retail_daily_fn, parse_dates=['date'])
-wholesale = pd.read_csv(retail_daily_fn, parse_dates=['date'])
-climate = pd.read_csv(climate_fn, parse_dates=['date'])
-oil = pd.read_csv(oilprices_fn, parse_dates=['date'], index_col=False)
-
-retail_range = pd.date_range(retail['date'].min(),
-                             retail['date'].max())
-wholesale_range = pd.date_range(wholesale['date'].min(),
-                                wholesale['date'].max())
-
+from gen_data_config import *
 
 class DataSource(object):
     data = None
@@ -62,14 +37,22 @@ def to_percentage_change(d):
         ret.append( d[i]*1. / d[i-1] - 1.)
     return ret
 
+def normalize(d):
+    return (d - d.min()) * 1. / (d.max() - d.min())
+
 def dataframes_concat(l):
+    # remove None ones
+    l = filter(lambda x:x is not None, l)
+    # column bind them
     data = np.hstack(map(pd.DataFrame.as_matrix, l))
+    # compute column names
     cols = reduce(lambda x,v:x+list(v.columns), l, [])
     return pd.DataFrame(data, columns=cols)
 
 def expand_data_source(dates, ds):
     if not len(ds.data):
-        raise Exception('no data in the source')
+        #raise Exception('no data in the source')
+        return None
     # current index in the ds
     j = 0
     # current sliding window
@@ -128,28 +111,21 @@ def get_series(d, *params):
     return ret
 
 
-climate_ds = DataSource()
-climate_ds.window_size = 9 # 9 months
-climate_ds.series_columns = ['TM', 'Tm']
-climate_ds.renamed_series_columns = climate_ds.series_columns
+def main():
+    for series_type, good_series_names, series_range, series_data in \
+            (('retail', retail_good_series, retail_range, retail), 
+             ('wholesale', wholesale_good_series, wholesale_range, wholesale)):
+        for s in good_series_names:
+            climate_ds.data = climate[climate['state'] == s[0]].reset_index()
+            climate_columns = expand_data_source(series_range, climate_ds)
 
-oil_ds = DataSource()
-oil_ds.window_size = 9
-oil_ds.data = oil
-oil_ds.series_columns = ['value']
-oil_ds.renamed_series_columns = ['oil']
-oil_ds.window_transformation_procedure = to_percentage_change
+            series = pd.DataFrame(get_series(retail, *s), columns=['price'])
+            price_ds.data = series
+            series = expand_data_source(series_range, price_ds)
 
-retail_oil_columns = expand_data_source(retail_range, oil_ds)
-wholesale_oil_columns = expand_data_source(wholesale_range, oil_ds)
-
-for s in retail_good_series:
-    climate_ds.data = climate[climate['state'] == s[0]].reset_index()
-    climate_columns = expand_data_source(retail_range, climate_ds)
-    series = pd.DataFrame(get_series(retail, *s))
-    data = dataframes_concat([series, climate_columns, retail_oil_columns])
-    data.to_csv( 'retail-'+('-'.join(s))+'.csv' )
+            data = dataframes_concat([series, climate_columns, 
+                retail_oil_columns])
+            data.to_csv( 'csv/'+series_type+'-'+('-'.join(s))+'.csv' )
 
 if __name__ == '__main__':
-    #main()
-    pass
+    main()
