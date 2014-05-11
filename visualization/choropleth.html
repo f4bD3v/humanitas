@@ -31,6 +31,7 @@
 			<div class="slider_zone">
 				<div id="slider_year" class="myslider"></div>
 				<div id="slider_month" class="myslider"></div>
+				<button id="test_btn">Display charts</button>
 			</div>
 			<!-- <select id="month">
 				<option value="1">January</option>
@@ -51,11 +52,12 @@
 	</div>
 	<div id="toggle_dashboard" class="btn btn-inverse" type="button">Dashboard</div>
 </div>
+<div id="chart_dialog"></div>
 <!-- <script src="leaflet.js"></script> -->
-<script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js'></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js'></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script src="jquery.ui.labeledslider.js"></script>
 <script type="text/javascript" src="ind-states.js"></script>
 <script>
@@ -153,7 +155,18 @@ $( "#slider_month" ).labeledslider({
 		month = ui.value;
 		drawMap();
 	}
-}); 
+});
+
+$("#test_btn").on("click", function() {
+	$("#chart_dialog").html('');
+	$("#chart_dialog").append($("<iframe id='chart_iframe' />").attr("src", "timeseries.html"));
+	$("#chart_dialog").dialog({
+		width: $(window).width(),
+		height: $(window).height(),
+		title: "Time Series Chart",
+		modal: true,
+    });
+});
 
 function drawMap() {
 	highlighted = null;
