@@ -27,6 +27,8 @@ from food_categories import getFoodWordList, get_food_words, getFoodCatList
 WAIT = 30000 # somewhat more than 8 min
 BATCH_SIZE = 500
 
+location_dict = {'cities': {}, 'regions': {}}
+
 class ProcessManager(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
@@ -70,17 +72,23 @@ class ProcessManager(threading.Thread):
             t.start()
             print 'Tweet processor thread '+str(t)+' started'
 
+        i = 0
         while True:
             picklefs = glob.glob('*.pickle')
             self.pickleAccLock.acquire()
             self.picklefs_to_proc = list(set(picklefs)-set(self.picklefs_proc))
             to_proc_len = len(self.picklefs_to_proc)
-            print len(self.picklefs_to_proc), ' remaining'
             self.pickleAccLock.release()
 
             if to_proc_len == 0:
-                write_picklefs_proc()
+                self.write_picklefs_proc()
+                self.save_locations_pickle()
                 raise SystemExit("No more files to process")
+
+            i += 1
+            if i == 10000:
+                print len(self.picklefs_to_proc), ' remaining'
+                i = 0
 
             """
             if self.sleep_seq_count == 4:
@@ -125,6 +133,9 @@ class ProcessManager(threading.Thread):
 
 		f.close()
 
+    def save_locations_pickle(self):
+        with open('tweets_cnt_regions_cities.pick', 'wb') as f:
+            pickle.dump(location_dict, f)
 
 class TweetProcessor(threading.Thread):
 
@@ -181,11 +192,31 @@ class TweetProcessor(threading.Thread):
 
     def filter_tweets(self, tweet_set):
         for tweet in tweet_set:
-            if('text' in tweet and 'retweeted_status' not in tweet):
-                tweet_text_tokens = self.get_tokens(tweet)
-                if(self.contains_words(self.food_words, tweet_text_tokens)):
-                    if("user" in tweet and tweet['user'] is not None):
-                        yield tweet
+            if 'text' not in tweet or 'retweeted_status' in tweet:
+                continue
+            if 'user' not in tweet or not tweet['user']:
+                continue
+
+            # Extract city/region
+            city = extract_location(tweet['user']['location'], self.client.cities)
+            if city != "":
+                if city in location_dict['cities']:
+                    location_dict['cities'][city] += 1
+                else:
+                    location_dict['cities'][city] = 1
+                region = self.client.city_region_dict[city.lower()]
+            else:
+                region = extract_location(tweet['user']['location'], self.client.regions)
+            if region != "":
+                if region in location_dict['regions']:
+                    location_dict['regions'][region] += 1
+                else:
+                    location_dict['regions'][region] = 1
+
+            # Process tweet
+            tweet_text_tokens = self.get_tokens(tweet)
+            if(self.contains_words(self.food_words, tweet_text_tokens)):
+                yield tweet
 
     def extract_features(self, t, tokens):
         category_count = {}
@@ -250,11 +281,10 @@ def main(args):
     get_category.init_reverse_index()
     food_categories = getFoodCatList()
     pred_categories = get_category.pred_categories
-    get_category.add_categories(food_categories)
-    get_category.add_categories(['cnts'])
+    get_category.extend_categories(food_categories)
+    get_category.extend_categories(['cnts'])
     print get_category.c_stems
     print get_category.compl_pred_cats
-    print get_category.categories
     print get_category.additional_categories
 
     log = logging.getLogger()
