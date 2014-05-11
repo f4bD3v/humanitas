@@ -7,7 +7,7 @@
 
 predict = {}
 predict['inc'] = ['increase', 'inflate', 'rise', 'raise', 'augment', 'multiply']
-predict['dec'] = ['decline', 'lessen', 'diminish', 'decrease', 'mitigate', 'reduce', 'curb']
+predict['dec'] = ['tumble', 'decline', 'lessen', 'diminish', 'decrease', 'mitigate', 'reduce', 'curb']
 
 price = {}
 price['low'] = ['low', 'low-cost', 'cheap', 'low-budget', 'dirt-cheap', 'bargain', 'cut-price', 'cut-rate', 'afford', 'affordable']

@@ -145,8 +145,8 @@ class NaiveSpellChecker:
         if len(w) <= 2: return None
         # Use heap to store suggestions
         h = []
-        max_distance = self.get_max_distance(w)
         w_stem = get_stem(w)
+        max_distance = self.get_max_distance(w_stem)
         for word in self.wordlist:
             dist = L.distance(word, w_stem)
             if dist > max_distance:
