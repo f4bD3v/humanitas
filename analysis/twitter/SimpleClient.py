@@ -24,6 +24,8 @@ from time import sleep
 log = logging.getLogger()
 log.setLevel('INFO')
 
+execute_timeout = 60.0
+
 def extract_features(t, col_str, val_str):
     tweet_text_lower = tweet['text'].lower()
     tweet_text_clean = ' '.join(tweet_text_lower for e in string if e.isalnum())
@@ -113,7 +115,7 @@ class SimpleClient:
     #seperate thread for max. performance
     def send_batch(self, inserts):
         log.info("invoking batch execution insert")
-        self.session.execute("BEGIN BATCH\n" + "\n".join(inserts) + "\nAPPLY BATCH;")
+        self.session.execute("BEGIN BATCH\n" + "\n".join(inserts) + "\nAPPLY BATCH;", timeout=execute_timeout)
         log.info("batch of tweets loaded into db")
 
     def create_insert(self, t, t_tokens, food_word_dict, cat_counts=None):
@@ -194,7 +196,7 @@ class SimpleClient:
     #inserts a tweet into the db
     def send_tweet(self, t):
         s = self.create_insert(t)
-        self.session.execute(s)
+        self.session.execute(s, timeout=execute_timeout)
         log.info("tweet loaded into db")
 
     #connect to cluster
@@ -213,17 +215,17 @@ class SimpleClient:
         log.info("Connection closed.")
 
     def use_keyspace(self, keyspace):
-        self.session.execute("use "+str(keyspace)+";")
+        self.session.execute("use "+str(keyspace)+";", timeout=execute_timeout)
         log.info("Using keyspace "+str(keyspace))
 
     def extended_schema(self, food_categories, pred_categories):
         self.session.execute("""
             CREATE KEYSPACE tweet_collector WITH replication =
-            {'class':'SimpleStrategy', 'replication_factor':1};""")
+            {'class':'SimpleStrategy', 'replication_factor':1};""", timeout=execute_timeout)
         log.info('Created keyspace tweet_collector')
 
         sleep(3)
-        self.session.execute("use tweet_collector;")
+        self.session.execute("use tweet_collector;", timeout=execute_timeout)
 
         create_table_strs = []
         for f_category in food_categories:
@@ -249,7 +251,7 @@ class SimpleClient:
                  ',\n'.join(map((lambda coln: str(coln) + " int"), pred_categories)) + ',\n' + \
                  "PRIMARY KEY (id) );"
             print("Map: " + te)
-            self.session.execute(te)
+            self.session.execute(te, timeout=execute_timeout)
             create_table_strs.append(te)
             log.info("> Table " + table_name + " created.")
             sleep(1)
@@ -264,7 +266,7 @@ class SimpleClient:
                 f.write(s + "\n")
 
     def drop_schema(self, keyspace):
-        self.session.execute("DROP KEYSPACE IF EXISTS tweet_collector;")
+        self.session.execute("DROP KEYSPACE IF EXISTS tweet_collector;", timeout=execute_timeout)
         print "Schema (keyspace) dropped."
 
     def create_index(self, food_categories):
@@ -276,7 +278,7 @@ class SimpleClient:
                     CREATE INDEX %s
                     ON %s (%s);""" % (index_name, table_name, column)
                 print create_str
-                self.session.execute(create_str)
+                self.session.execute(create_str, timeout=execute_timeout)
                 sleep(3)
                 log.info("> Index %s on table %s created." % (index_name, table_name) )
 
@@ -284,7 +286,7 @@ class SimpleClient:
 
     #prints all saved tweets
     def print_rows(self):
-        results = self.session.execute("SELECT * FROM tweets;")
+        results = self.session.execute("SELECT * FROM tweets;", timeout=execute_timeout)
         print("Tweet table:")
         print("---------------------------------------------------------------")
         for row in results:

@@ -172,11 +172,9 @@ class TweetProcessor(threading.Thread):
                 self.client.sendBatchLock.acquire()
                 self.client.send_batch(inserts)
                 self.client.sendBatchLock.release()
-                print "Map: ", inserts
                 inserts = []
 
         if inserts:
-            print "Map: ", inserts
             self.client.sendBatchLock.acquire()
             self.client.send_batch(inserts)
             self.client.sendBatchLock.release()
