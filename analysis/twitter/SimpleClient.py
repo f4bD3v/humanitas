@@ -61,7 +61,7 @@ def extract_location(loc, locs):
         for token in locs:
             if token in loc_tokens:
                 return token
-        return ""
+    return ""
 
 #prepares 'text' values for the db
 def prep(x):
@@ -82,6 +82,12 @@ def open_tweets(fname):
                 yield json.loads(line.decode('utf8'))
         except Exception as e:
             print("Failed on {0}: {1}".format(fname, e))
+
+def contains_words(to_check, tweet_tokens):
+    for word in tweet_tokens:
+        if word in to_check:
+            return True
+    return False
 
 class SimpleClient:
     #the CQL standard can be found here: https://github.com/pcmanus/cassandra/blob/3779/doc/cql3/CQL.textile
@@ -110,12 +116,12 @@ class SimpleClient:
         self.session.execute("BEGIN BATCH\n" + "\n".join(inserts) + "\nAPPLY BATCH;")
         log.info("batch of tweets loaded into db")
 
-    def create_insert(self, t, food_word_dict, cat_counts=None):
+    def create_insert(self, t, t_tokens, food_word_dict, cat_counts=None):
         insert_strs = []
         for food_category in food_word_dict:
             category_words = food_word_dict[food_category]
             for product in category_words:
-                if has(t, product):
+                if contains_words([product], t_tokens):
                     insert_string = self.create_insert_for_category(t, food_category, cat_counts)
                     insert_strs.append(insert_string)
         return insert_strs 
@@ -132,10 +138,12 @@ class SimpleClient:
            if has(t,val):
                col_str.append(col)
                if(shouldPrep):
-                   val_str.append(prep(t[val]))
+                   val = prep(t[val])
                else:
-                   val_str.append(str(t[val]))
+                   val = str(t[val])
+               val_str.append(val.strip())
 
+           
        if has(t,'user'):
            if has(t['user'], 'id'):
                col_str.append('user_id')
@@ -159,13 +167,20 @@ class SimpleClient:
            val_str.append(prep(city))
 
        if has(t,'coordinates') and has(t['coordinates'],'coordinates'):
-           col_str.append("long")
-           val_str.append(str(t['coordinates']['coordinates'][0]))
-           col_str.append("lat")
-           val_str.append(str(t['coordinates']['coordinates'][1]))
+            col_str.append("long")
+            val_str.append(str(t['coordinates']['coordinates'][0]))
+            col_str.append("lat")
+            val_str.append(str(t['coordinates']['coordinates'][1]))
        if has(t,"created_at"):
             col_str.append("time")
-            val_str.append(prep(time.strftime('%Y-%m-%d %H:%M:%S', time.strptime(t['created_at'],'%a %b %d %H:%M:%S +0000 %Y'))))
+            time_obj = datetime.strptime(t['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
+            val_str.append(prep(time_obj.strftime('%Y-%m-%d %H:%M:%S')))
+            col_str.append('day')
+            val_str.append(str(time_obj.day))
+            col_str.append('month')
+            val_str.append(str(time_obj.month))
+            col_str.append('year')
+            val_str.append(str(time_obj.year))
 
        #extract_features(t, col_str, val_str)
        if cat_counts is not None:
@@ -217,6 +232,9 @@ class SimpleClient:
                  CREATE TABLE %s (
     	         id bigint,
                  time timestamp,
+                 day int,
+                 month int,
+                 year int,
     	         user_id text,
     	         region text,
     	         city text,
@@ -226,13 +244,15 @@ class SimpleClient:
                  place text,
        	         rt_count int,
                  fav_count int,
-                 lang text,\n""" + \
+                 cnts int,
+                 lang text,\n""" %(table_name) + \
                  ',\n'.join(map((lambda coln: str(coln) + " int"), pred_categories)) + ',\n' + \
-                 "PRIMARY KEY (id, time) );""" % (table_name)
+                 "PRIMARY KEY (id) );"
             print("Map: " + te)
             self.session.execute(te)
             create_table_strs.append(te)
             log.info("> Table " + table_name + " created.")
+            sleep(1)
         log.info(">>> Schema created.")
 
         # Save 'create table' queries
@@ -244,16 +264,20 @@ class SimpleClient:
                 f.write(s + "\n")
 
     def drop_schema(self, keyspace):
-        self.session.execute("DROP KEYSPACE tweet_collector;")
+        self.session.execute("DROP KEYSPACE IF EXISTS tweet_collector;")
+        print "Schema (keyspace) dropped."
 
     def create_index(self, food_categories):
         for category in food_categories:
             table_name = 'tweets_' + category
             for column in ['region', 'city', 'time', 'long', 'lat']:
                 index_name = table_name + '_' + column
-                self.session.execute("""
+                create_str = """
                     CREATE INDEX %s
-                    ON %s (%s);""" % (index_name, table_name, column) )
+                    ON %s (%s);""" % (index_name, table_name, column)
+                print create_str
+                self.session.execute(create_str)
+                sleep(3)
                 log.info("> Index %s on table %s created." % (index_name, table_name) )
 
         log.info(">>> Index created.")

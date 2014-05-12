@@ -27,6 +27,8 @@ from food_categories import getFoodWordList, get_food_words, getFoodCatList
 WAIT = 30000 # somewhat more than 8 min
 BATCH_SIZE = 500
 
+location_dict = {'cities': {}, 'regions': {}}
+
 class ProcessManager(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
@@ -70,17 +72,23 @@ class ProcessManager(threading.Thread):
             t.start()
             print 'Tweet processor thread '+str(t)+' started'
 
+        i = 0
         while True:
             picklefs = glob.glob('*.pickle')
             self.pickleAccLock.acquire()
             self.picklefs_to_proc = list(set(picklefs)-set(self.picklefs_proc))
             to_proc_len = len(self.picklefs_to_proc)
-            print len(self.picklefs_to_proc), ' remaining'
             self.pickleAccLock.release()
 
             if to_proc_len == 0:
-                write_picklefs_proc()
+                self.write_picklefs_proc()
+                self.save_locations_pickle()
                 raise SystemExit("No more files to process")
+
+            i += 1
+            if i == 10000:
+                print len(self.picklefs_to_proc), ' remaining'
+                i = 0
 
             """
             if self.sleep_seq_count == 4:
@@ -125,6 +133,9 @@ class ProcessManager(threading.Thread):
 
 		f.close()
 
+    def save_locations_pickle(self):
+        with open('tweets_cnt_regions_cities.pick', 'wb') as f:
+            pickle.dump(location_dict, f)
 
 class TweetProcessor(threading.Thread):
 
@@ -151,27 +162,24 @@ class TweetProcessor(threading.Thread):
         i = 0
         food_word_dict = get_food_words()
         for t in self.filter_tweets(tweet_set):
-            cat_count = self.extract_features(t, self.get_tokens(t)) 
+            tweet_tokens = self.get_tokens(t)
+            cat_count = self.extract_features(t, tweet_tokens) 
             self.client.createInsLock.acquire()
-            insert_strings = self.client.create_insert(t, food_word_dict, cat_count)
+            insert_strings = self.client.create_insert(t, tweet_tokens, food_word_dict, cat_count)
             inserts.extend(insert_strings)
             self.client.createInsLock.release()
             if len(inserts) >= BATCH_SIZE:
                 self.client.sendBatchLock.acquire()
                 self.client.send_batch(inserts)
                 self.client.sendBatchLock.release()
+                print "Map: ", inserts
                 inserts = []
 
         if inserts:
+            print "Map: ", inserts
             self.client.sendBatchLock.acquire()
             self.client.send_batch(inserts)
             self.client.sendBatchLock.release()
-
-    def contains_words(self, to_check, tweet):
-        for word in tweet:
-            if word in to_check:
-                return True
-        return False
 
     def get_tokens(self, tweet):
         tweet_text_lower = tweet['text'].lower().encode("ascii","ignore")
@@ -181,11 +189,42 @@ class TweetProcessor(threading.Thread):
 
     def filter_tweets(self, tweet_set):
         for tweet in tweet_set:
-            if('text' in tweet and 'retweeted_status' not in tweet):
-                tweet_text_tokens = self.get_tokens(tweet)
-                if(self.contains_words(self.food_words, tweet_text_tokens)):
-                    if("user" in tweet and tweet['user'] is not None):
-                        yield tweet
+            if ('text' not in tweet) or ('retweeted_status' in tweet):
+                continue
+            if ('user' not in tweet) or (not tweet['user']):
+                continue
+
+            # Extract week info
+            if 'created_at' in tweet:
+                time_obj = datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
+                week_str = time_obj.strftime('%U-%Y')
+            else:
+                week_str = 'NR'
+
+            # Extract city/region
+            city = extract_location(tweet['user']['location'], self.client.cities)
+            if city != "":
+                if city not in location_dict['cities']:
+                    location_dict['cities'][city] = {}
+                city_dict = location_dict['cities'][city]
+                if week_str not in city_dict:
+                    city_dict[week_str] = 0
+                city_dict[week_str] += 1
+                region = self.client.city_region_dict[city.lower()]
+            else:
+                region = extract_location(tweet['user']['location'], self.client.regions)
+            if region != "":
+                if region not in location_dict['regions']:
+                    location_dict['regions'][region] = {}
+                region_dict = location_dict['regions'][region]
+                if week_str not in region_dict:
+                    region_dict[week_str] = 0
+                region_dict[week_str] += 1
+
+            # Process tweet
+            tweet_text_tokens = self.get_tokens(tweet)
+            if (contains_words(self.food_words, tweet_text_tokens)):
+                yield tweet
 
     def extract_features(self, t, tokens):
         category_count = {}
@@ -250,11 +289,10 @@ def main(args):
     get_category.init_reverse_index()
     food_categories = getFoodCatList()
     pred_categories = get_category.pred_categories
-    get_category.add_categories(food_categories)
-    get_category.add_categories(['cnts'])
+    get_category.extend_categories(food_categories)
+    get_category.extend_categories(['cnts'])
     print get_category.c_stems
     print get_category.compl_pred_cats
-    print get_category.categories
     print get_category.additional_categories
 
     log = logging.getLogger()

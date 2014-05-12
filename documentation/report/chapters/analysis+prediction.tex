@@ -167,6 +167,50 @@ In order to find the best parameters for generalization during training of the n
 
 \subsection*{RNN with backpropagation decorrelation algorithm}
 
+\subsection*{Data Mining}
+
+In this section we give a brief introduction to association rule mining and detail the implementation and evaluation of the system. In order to run the code you will need to install the libraries Scipy and Orange 
+
+\subsubsection{A brief introduction to Association rule mining}
+
+The objective of association  mining is the elicitation of useful rules from which new knowledge can be derived. Association mining applications have been applied to many different domains including market basket analysis, risk analysis in commercial environments, clinical medicine and crime prevention. They are all areas in which the relationship between objects can provide useful knowledge. 
+
+Itemsets are identified by the use of two metrics support and confidence. 
+
+Support is a measure of the statistical significance of the rule. Rules with a very low support are more likely to occur by chance. With respect to the market basket analysis items that are seldom bought together by customers are not profitable to promote together. For this reason support is often used as a filter to eliminate uninteresting rules. 
+
+Confidence on the other hand is is a measure on how reliable the inference made by a rule is. For a given rule $A \implies B$, the higher the confidence, the more likely it is for the item set B to be present in the transactions that contain A. IN a sense confidence provides an estimate of the conditional probability for B given A. 
+
+It is worth noting that the inference made by an association rule does not necessarily imply causality. Instead the implication indicates a strong concurrence relationship between items in the antecedent and consequent of the rule. 
+
+So how do we go about implementing this in an algorithm? A rather naive approach would be to check if each itemsset satisfies minimum support. However this is rather inefficient and unnecessary. We can make use of of the observation that every subset of a frequent item set also has to be a frequent item set. This works the otherway as well. If a set is not frequent then its superset can not be frequent either. This observation allows us to prevent unnecessary computation. The Apriori Algorithm uses this downward closure to identify frequent item sets. Candidates that do not satisfy minimal support are pruned, which automatically reduces the algorithm's search space. Once frequent item sets have been generated the algorithm enters the second face, namely generating derivations for which the metric minimal confidence is used. 
+
+\subsubsection{Implementation}
+
+The implementation is guided through three stage namely data crunching, classification and  mining where the later is a straight forward implementation of the mining library orange. \\
+
+
+
+In order to run the Apriori Algorithm we needed to do some preprocessing since the data available was in a uncompatible format. The data readily available to us was in the form 
+of Date Country City Category Commodity 1, Date Country City Category Commodity 2. In the statistics community this kind of format is referred to as the "long format". In order to run Apriori we need to convert the table to a "wide format" meaning that all commodities need to be related to one index. You can imagine a matrix where the y axis is described by city + date and the x axis is labeled with all the available commodities. To do the conversion we used Stata, a statistical software which is mostly used in the field of social science. Before reading the data into state we filtered the document for special characters ("", /) and replaced all unavailable price informations with "NA". For this purpose we used the filter.py script. Once we read in the data into state we removed duplicates and started the conversion. To reproduce the correct table format you fan follow our implementation in the stata script.  The data is now in the correct table format what remains to be done is slicing the table according to a city and sorting the data in order of decreasing time stamps. These steps are performed in the dataFrame.py. We now continue to process the files by classifying continues variables into categories. We therefor filtered the maximum and minimum increase/decrease in price to establish a range of values. Depending on whether a price increase fall into the first, second or third third of the price range we classified it as small, medium or big increase/decrease respectively. The categorial data can now be processed by the assoc.py file. The library orange provides an implementation of the a priori gen algorithm. We simply set the min support value and write the 10 rules with the highest support count to a file. 
+
+\subsubsection{Results}
+
+What we were hoping to find were seasonal related price changes such as those we experience when shopping for fruits and vengtables at our local grocery stores. Rules such as $Tomatoes = big increase \implies potatoes = small decrease$ could serve 
+
+
+Our initial granularity was set to weekly data. From our meta analysis we observed that prices quite frequently stay unchanged over the period of several weeks. This resulted in an overwhelming amount of rules in the form of commodity $A = unchanged \implies B= unchanged$. This made it really hard to filter the set for insightful rules. We therefor decided to compare price changes over the period of 12 weeks. Although the majority of the rules still remained in the above form we managed to extract some relations related to price changes. 
+
+We conclude that the strongest correlations exist between commodities with unchanged prices. This observation underlines the nature of food commodities. Agricultural commodities are known to be less volatile then for example energy commodities. We further noticed that depending on the region we would have a totally different rule count. Capital cities tend to have a bigger rule base meaning that there exist a higher correlation between products. Two extreme example are Dassau, which resulted in no patterns at all and Shillong which produced over 260000 rules. In addition our experiments showed the finer the granularity of the data the higher the support and correlation between products. This is only natural given that prices can stay stable over the period of weeks or even months. 
+
+\subsubsection{Trading advice }
+
+As concluded above our algorithm found many associations between products. In order to interpret most of the results specialized domain knowledge in trading with commodities is  necessary. Some more obvious rules we managed to interpret were the following:
+
+$BreadLocal=big increase MilkCowBuffalo=unchanged increase \implies MaidaNA=unchanged increase$. If prices of bread inflate it is save to trade Maida, as its price will most certainly stay stable. $BiscuitGlucose=unchanged increase \implies BesanNA=small increase$, similarly means that stable pries in biscuits will imply a small increase in Besan. 
+
+
+
 \begin{comment}
 \subsubsection*{Finding the right topology for the specific prediction problem}
 

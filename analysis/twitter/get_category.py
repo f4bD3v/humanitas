@@ -65,23 +65,27 @@ def init_reverse_index():
     for word in negative_forms:
         c_stems[word] = ('negation', None)
 
+# cache: word -> stem
+
+
+def lookup_stem_sets(w):
+    stem = get_stem(w)
+    if stem in c_stems:
+        return c_stems[stem]
+    else:
+        return None
+
 if STEMMING_CACHING:
-    def lookup_stem_sets(w):
+    def get_stem(w):
         if w in cache:
-            return cache[w]
-        stem = st.stem(w)
-        cache[w] = stem
-        if stem in c_stems:
-            return c_stems[stem]
+            stem = cache[w]
         else:
-            return None
+            stem = st.stem(w)
+            cache[w] = stem
+        return stem
 else:
-    def lookup_stem_sets(w):
-        stem = st.stem(w)
-        if stem in c_stems:
-            return c_stems[stem]
-        else:
-            return None
+    def get_stem(w):
+        return st.stem(w)
 
 # 2. Get a category (a tuple) for a given word
 def get_category(w):
@@ -114,8 +118,7 @@ class NaiveSpellChecker:
     def __init__(self, wordlist):
         self.wordlist = []
         for w in wordlist:
-            self.wordlist.append(st.stem(w))
-        print self.wordlist
+            self.wordlist.append(get_stem(w))
 
         ### Build max distance vector
         # Words with length 4 < x <= 6 are only allowed to have one 'error', 
@@ -128,7 +131,6 @@ class NaiveSpellChecker:
             self.max_dist_v += [max_dist] * (max_len - prev)
             prev = max_len
         # Expected output: [0, 0, 0, 0, 1, 1, 2, 2, 3, 3] 
-        print self.max_dist_v
 
 
     def get_max_distance(self, w):
@@ -143,8 +145,8 @@ class NaiveSpellChecker:
         if len(w) <= 2: return None
         # Use heap to store suggestions
         h = []
-        max_distance = self.get_max_distance(w)
-        w_stem = st.stem(w)
+        w_stem = get_stem(w)
+        max_distance = self.get_max_distance(w_stem)
         for word in self.wordlist:
             dist = L.distance(word, w_stem)
             if dist > max_distance:
@@ -168,4 +170,6 @@ if __name__ == '__main__':
     for x in xrange(10000):
         get_category('incrases')
         get_category('increses')
+    print get_category('increses')
+    print get_category('increase')
 

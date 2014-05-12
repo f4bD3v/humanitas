@@ -12,7 +12,7 @@
 </head>
 <body>
 <div id="map"></div>
-<div id="credits">
+<div id="credits" class="bottom_boxes">
     <div id="credits_box">
         <div id="credits_content">
           <span class="help-block">
@@ -24,7 +24,7 @@
 	<div id="toggle_credits" class="btn btn-inverse" type="button">Project Information</div>
 </div>
 
-<div id="dashboard">
+<div id="dashboard" class="bottom_boxes">
 	<div id="dashboard_box" class="control">
 		<div id="dashboard_content">       
 			<h5>Please choose an option</h5><br>
@@ -51,17 +51,19 @@
 	</div>
 	<div id="toggle_dashboard" class="btn btn-inverse" type="button">Dashboard</div>
 </div>
+<div id="state_info" class="bottom_boxes"><span id="state_name">Uttar</span> <button id="state_info_btn" data-state="Gujarat">Display charts</button></div>
+<div id="chart_dialog"></div>
 <!-- <script src="leaflet.js"></script> -->
-<script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js'></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js'></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script src="jquery.ui.labeledslider.js"></script>
 <script type="text/javascript" src="ind-states.js"></script>
 <script>
 var colorScale = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
 var densityScale = [10, 20, 50, 100, 200, 500, 1000];
-var map, geojson, info, options, highlighted, year = 1980, month = 1;
+var map, geojson, info, options, highlighted, statenameVisible = false, year = 1980, month = 1;
 // map = L.map('map').setView([22, 83], 4.7);
 map = L.mapbox.map('map', 'examples.map-9ijuk24y').setView([22, 83], 5);
 // var cloudmade = L.tileLayer('http://{s}.tiles.mapbox.com/v3/duynguyen-epfl.4ppn9udi/{z}/{x}/{y}.png', {
@@ -69,6 +71,11 @@ map = L.mapbox.map('map', 'examples.map-9ijuk24y').setView([22, 83], 5);
 // 	// key: 'BC9A493B41014CAABB98F0471D759707',
 // 	styleId: 22677
 // }).addTo(map);
+
+// control zoom levels
+map.on({
+	zoomend: resetSelectedState,
+});
 
 // control that shows state info on hover
 info = L.control();
@@ -153,17 +160,46 @@ $( "#slider_month" ).labeledslider({
 		month = ui.value;
 		drawMap();
 	}
-}); 
+});
+
+$("#state_info_btn").on("click", function() {
+	$("#chart_dialog").html('');
+	$("#chart_dialog").append($("<iframe id='chart_iframe' />").attr("src", "timeseries.html"));
+	$("#chart_dialog").dialog({
+		width: $(window).width(),
+		height: $(window).height(),
+		title: "Time Series Chart",
+		modal: true,
+    });
+});
 
 function drawMap() {
 	highlighted = null;
 	if(geojson) {
 		map.removeLayer(geojson);
 	}
+	citiesDataMod = citiesData
+	citiesDataMod.features = citiesDataMod.features.slice(0, 20);
+	citiesGeojson = L.geoJson(citiesDataMod, {
+		// style: stateStyle,
+		onEachFeature: onEachPoint,
+	}).addTo(map);
 	geojson = L.geoJson(statesData, {
 		style: stateStyle,
 		onEachFeature: onEachFeature
 	}).addTo(map);
+
+	// $.each(citiesData, function(i, city) {
+ //    	geojson.addData(city);
+ //    	if(i > 30) {
+ //    		return false;
+ //    	}
+ //  	});
+	// geojson.addData({
+ //        type: 'Point',
+ //        id: "New Delhi",
+ //        coordinates: [Math.random() * 360 - 180, Math.random() * 160 - 80],
+ //    });
 }
 
 // get color depending on population density value
@@ -209,12 +245,10 @@ function highlightFeature(e) {
 			dashArray: '',
 			fillOpacity: 0.6
 		});
-
-		// if (!L.Browser.ie && !L.Browser.opera) {
-		// 	layer.bringToFront();
-		// }
-
 	}
+	// if (!L.Browser.ie && !L.Browser.opera) {
+	// 	layer.bringToFront();
+	// }
 	info.update(layer.feature);
 }
 
@@ -227,7 +261,14 @@ function zoomToFeature(e) {
 	var layer = e.target;
 	if (layer && highlighted !== layer) {
 		map.fitBounds(e.target.getBounds());
+		if(!statenameVisible) {
+			$("#state_info").slideToggle('fast');
+			statenameVisible = true;
+		}
 		highlighted = layer;
+		$("#state_name").html(layer.feature.id);
+		$("#state_info_btn").attr('data-state', layer.feature.id);
+		// $("#state_info").removeClass("hidden");
 		// prev = highlighted;
 		// resetHighlight(prev._container);
 		// layer.setStyle({
@@ -239,9 +280,20 @@ function zoomToFeature(e) {
 	} else {
 		map.setView([22, 83], 5);
 		highlighted = null;
+		$("#state_info").slideToggle('fast');
+		statenameVisible = false;
+		// $("#state_info").addClass("hidden");
 		// e.target.setStyle({
 		// 	fillOpacity: 0.7
 		// });
+	}
+}
+
+function resetSelectedState(e) {
+	if(map.getZoom() < 6 && highlighted && statenameVisible) {
+		$("#state_info").slideToggle('fast');
+		highlighted = null;
+		statenameVisible = false;
 	}
 }
 
@@ -249,8 +301,28 @@ function onEachFeature(feature, layer) {
 	layer.on({
 		mouseover: highlightFeature,
 		mouseout: resetHighlight,
-		click: zoomToFeature
+		click: zoomToFeature,
 	});
+}
+
+function onEachPoint(feature, layer) {
+	layer.on({
+		mouseover: highlightPoint,
+		mouseout: resetPoint,
+		click: zoomToPoint,
+	});
+}
+
+function highlightPoint(e) {
+	info.update(e.target.feature);
+}
+
+function resetPoint(e) {
+	info.update();
+}
+
+function zoomToPoint(e) {
+
 }
 
 function addLegend(map) {
