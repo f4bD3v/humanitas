@@ -26,11 +26,13 @@ class ESN:
     """	
     def __init__(self, data, split_ind, initN):
         self._dates = data[0]
+        self._traindates =  self._dates[initN+1:split_ind+1]
         data = data[1]
         self._data = data
         self._N = split_ind
-        self._train = data[0:split_ind]
+        self._train = data[initN:split_ind+1]
         self._test = data[split_ind:]
+        self._Ytrain = np.zeros(len(self._traindates))
 
         try:
             self._Nu = self._data.shape[1]
@@ -43,7 +45,7 @@ class ESN:
         #self._initN = 365 # 1 year worth of initialization
         self._y = 0
         # select v for concrete reservoir using validation, just rerun Y=W_out.bUX for different v
-        self._nu = 0.3 
+        self._nu = 1E-8
 
     def init_reservoir(self, Nx):
         # "the bigger the size of the space of reservoir signals x(n), the easier it is to find a linear combination of the signals to approximate y_target(n)"
@@ -55,8 +57,6 @@ class ESN:
         np.random.seed(42)
 
         self._Win = (np.random.rand(self._Nx,1+self._Nu*xTransOrder)-0.5) * 1
-
-        self._Wb = np.zeros((self._Ny, self._Nx))
 
         # Internal connection - to speed up computation make matrix sparse (set random entries to zero)
         self._W = np.random.rand(self._Nx*xTransOrder, self._Nx*xTransOrder)-.5
@@ -74,13 +74,10 @@ class ESN:
         self._W/=rhoW
 
         # Rescale matrix - Parameter to be TUNED
-        rescale = 1.05
+        rescale = 1.25
         self._W*=rescale
 
-        #if self._Ny == 1:
-        #self._Wout = np.zeros((self._Nx+self._Nu*xTransOrder+1))
-        #else:
-        self._Wout = np.zeros((self._Nx+self._Nu*xTransOrder+1, self._Ny))
+        self._Wout = np.zeros((self._Nx+self._Nu*xTransOrder+1,1))
 
     def init_training(self):
         self._x = np.zeros((self._Nx,1))
@@ -96,30 +93,28 @@ class ESN:
         self._Yt = self._data[self._initN+1:self._N+1] 
 
     def online_update(self, t, out):
-        self._k = np.dot(self._Cinv, out)
-        print 'k ', self._k
+        pi = np.dot(out.T,self._P)
 
-        # k(n) is representation of x(n) on the column space of C - always vector
+        gamma = self._lambda + np.dot(pi,out)
 
-        # Wout can either be a matrix or a vector
-        err = self._data[t+1] - self._y
-        print 'error', err
+        self._k = pi.T / gamma
 
-        # RLS weight update
-        self._Wout = self._Wout + np.dot(self._k,err)
+        err = self._data[t+1] - np.dot(self._Wout.T, out)
 
-        lambdainv = 1.0/self._lambda
-        self._Cinv = lambdainv*self._Cinv-lambdainv*np.dot(np.outer(self._k, out),self._Cinv)
-        # !!! numerical problems for x(n)-->0 and lambda<1 !!!
-        # alleviate loss of symmetry in P(n): [P(n) + P.T(n)] /2
-        self._Cinv = (self._Cinv+self._Cinv.T)/2.0
+        nWout = self._Wout + np.dot(self._k,err)
+        self._Wout = nWout
 
-    def run_training(self, mode, teacher_forcing, feedback, xTransOrder = False, leaky = False, runs = False):
+        nP = (1.0/self._lambda)*(self._P-np.dot(self._k, pi))
+        self._P = (nP+nP)/2.0
+
+    def run_training(self, teacher_force = False, xTransOrder = False, leaky = False, runs = False):
         #params = self.run_training.func_code.co_varnames[1:self.run_training.func_code.co_argcount]
         self._runs = 0
         x_feedback = 0
 
-        for t in range(self._N):
+        niter = 0
+        # t < self._N
+        for t in xrange(self._N):
             # data contains a set of timeseries making u a vector
             u = self._data[t]
             uext = np.zeros(u.shape)
@@ -129,26 +124,28 @@ class ESN:
                 uext = np.power(u, xTransOrder)
                 xext = np.power(xlast, xTransOrder)
                 xlast = np.vstack((uext,xect))
-            # check this function again
-            if feedback:
-                # put equation here Wback x y
+            if not teacher_force:
                 x_feedback = np.dot(self._Wb, self._y)
 
             xnext = np.tanh(np.dot(self._Win, np.vstack((1,u)))+np.dot(self._W,xlast)+x_feedback)
             out = np.vstack((1,u,xnext))
             self._x = xnext
+
             if leaky:
                 self._x = (1-self._alpha)*xlast+self._alpha*xnext
             if t >= self._initN:
-                # TODO: find out WHY slicing at the end
                 self._bUX[:,t-self._initN] = out[:,0]
-                if "o" is mode:
+                if not teacher_force:
                     # both of shape (500,1), transpose one
                     self._y = np.dot(out.T, self._Wout)
-                    print 'y ', self._y
+                    self._Ytrain[t-self._initN] = self._y
+                    if niter % 100 == 0:
+                        print 'iteration: ', niter
+                        print self._y
                     self.online_update(t, out)
+                    niter += 1
 
-        if "b" is mode:
+        if teacher_force:
             print 'one time batch update'
             self.batch_update()
 
@@ -156,9 +153,9 @@ class ESN:
             # Depending on online or batch collect bUX or 
             #self.init_W()
             self._runcnt += 1
-            if mode is 'o':
+            if teacher_force: 
                 self._runs = np.vstack((self._runcnt, self._y))
-            elif mode is 'b':
+            else:
                 # TODO: check this - how to store runs
                 self._runs = np.vstack((self._runcnt, self._bUX))
             self.run_training(*params) 
@@ -170,39 +167,37 @@ class ESN:
         return# self.train_err()
     """
 
-    def custom_training(self, mode, teacher_forcing, feedback, xTransOrder = False, leaky = False, runs = False):
+    def custom_training(self, teacher_force, xTransOrder = False, leaky = False, runs = False):
     #   params = self.run_training.func_code.co_varnames[1:self.run_training.func_code.co_argcount]
         self.init_training()
+        self._leaky = leaky
 
         if isinstance(xTransOrder, int) and xTransOrder > 1:
             self.init_Weights(xTransOrder)
         else:
             self.init_Weights(1)
 
-        if feedback:
-            self._Wb = (np.random.rand(self._Nx, self._Ny)-.5) * 1
         if leaky:
             self._alpha = 0.3
-            # TODO: code command line prompt for alpha param
-            #raise Exception('I require a leak parameter')
 
-        if mode is 'o':
-            self._p = 0
-            self._lambda = 0.9
+        if not teacher_force:
+            print 'adapting Wout online'
+            self._lambda = .99 
+            print 'feedback'
+            self._Wb = (np.random.rand(self._Nx, self._Ny)-.5) * 5
             """
             if isinstance(xTransOrder, int) and xTransOrder > 1:
                 self._k = np.zeros((self._Nx+self._Nu*xTransOrder+1,1)) 
             else:
                 self._k = np.zeros((self._Nx+self._Nu+1,1)) 
             """
-            std = np.std(self._data)
-            delta = (1-self._lambda)*std*std
-            self._Cinv = delta*np.identity(self._Nx+self._Nu*2)
-            print 'init Cinv ', self._Cinv
+            std = np.std(self._train)
+            delta = 500 * std * std
+            self._P = delta*np.identity(self._Nx+self._Nu+1)
+            print 'init Cinv ', self._P
 
-        self.run_training(mode, teacher_forcing, feedback, xTransOrder, leaky, runs)
+        self.run_training(teacher_force, xTransOrder, leaky, runs)
         # TODO print error, prompt save params? use pickle for dumping
-        return #self.train_err() 
 
     def batch_update(self):
         # Run regulized regression once in BATCH mode after training
@@ -212,28 +207,47 @@ class ESN:
     # specify prediction horizon when calling function
     def generative_run(self, horizon, pred_test = False):
         Y = np.zeros((self._Ny,horizon))
-# use last training points as input to make first prediction
+        # use last training points as input to make first prediction
         u = self._data[self._N]
         for t in range(horizon):
             xlast = self._x
             xnext = np.tanh(np.dot(self._Win, np.vstack((1,u)))+np.dot(self._W,xlast))
-            self._x = (1-self._alpha)*xlast + self._alpha*xnext
+            if self._leaky:
+                self._x = (1-self._alpha)*xlast + self._alpha*xnext
+            else: 
+                self._x = xnext
             y = np.dot(self._Wout, np.vstack((1,u,self._x)) )
             Y[:,t] = y
 
             # use prediction as input to the network
             u = y 
 
-        if pred_test: 
-            return self.calc_pred_err(Y, horizon)
-        else:
-            return Y
+        mse = self.calc_test_err(Y, horizon)
+        print 'test mse ', mse
 
-    def calc_pred_err(self, Y, horizon):
+    def calc_test_err(self, Y, horizon):
 		mse = np.sum( np.square( self._data[self._N:self._N+horizon+1] - Y[0,0:horizon] ) ) / horizon 
 		return mse
 
-    def plot_pred(self, Y, title, ylabel):
+    def plot_training(self, title, ylabel):
+        print 'plotting training'
+        fmt = mdates.DateFormatter('%d-%m-%Y')
+        #loc = mdates.WeekdayLocator(byweekday=mdates.Monday)
+        months = self._traindates
+
+        train = self._data[self._initN+1:self._N+1] 
+        print train.shape
+        print self._Ytrain.shape
+        print self._traindates.shape
+        plt.figure(10).clear()
+        plt.plot_date(x=months, y=train, fmt="-", color='green')
+        plt.plot_date(x=months, y=self._Ytrain, fmt="-", color='blue')
+        plt.title(title)
+        plt.ylabel(ylabel)
+        plt.grid(True)
+        plt.show()
+
+    def plot_test(self, Y, title, ylabel):
         fmt = mdates.DateFormatter('%d-%m-%Y')
         #loc = mdates.WeekdayLocator(byweekday=mdates.Monday)
         months = self._dates
@@ -248,9 +262,10 @@ class ESN:
         pred[0:self._N] = np.nan
         pred[self._N:] = Y
 
-        plt.plot_date(x=months, y=orig, fmt="r-", color='blue')
-        plt.plot_date(x=months, y=target, fmt="r-", color='green')
-        plt.plot_date(x=months, y=pred, fmt="o-", color='red')
+        plt.figure(2).clear()
+        plt.plot_date(x=months, y=orig, fmt="-", color='blue')
+        plt.plot_date(x=months, y=target, fmt="-", color='green')
+        plt.plot_date(x=months, y=pred, fmt="-", color='red')
         plt.title(title)
         plt.ylabel(ylabel)
         plt.grid(True)
@@ -261,27 +276,30 @@ def main():
     # load data and stuff	
     # two-dimensional array?; date, price for a region and commodity
     # convert date to floats
-    data = np.loadtxt('oilprices.txt', delimiter=',', skiprows=1, unpack=True, converters={0 :mdates.strpdate2num('%Y-%m-%d')})
+    #data = np.loadtxt('oilprices.txt', delimiter=',', skiprows=1, unpack=True, converters={0 :mdates.strpdate2num('%Y-%m-%d')})
+
+    data = np.genfromtxt('good_series_wholesale_daily.txt', usecols = (0, 1), delimiter=',', skiprows=1, unpack=True, converters={0:mdates.strpdate2num('%Y-%m-%d')})
 
     # Split dataset into training and testset
-    split_ind = len(data[0])-36
+    print len(data[0])
+    split_ind = len(data[0])-50
 
     # Reservoir size
-    Nx = 500
-    initN = 24  # 24 months initialization
+    Nx = 2000
+    initN = 740# 24 months initialization
 
     Ny = 1
     # Num. Regions and Products : R,P
     esn = ESN(data, split_ind, initN)
     esn.init_reservoir(Nx) 
     esn.init_training()
-    esn.custom_training("b", teacher_forcing = True, feedback = True, xTransOrder = False, leaky = True)
-    Y = esn.generative_run(36, False)
+    esn.custom_training(teacher_force = False, xTransOrder = False, leaky = True)
+    esn.plot_training('Training outputs', 'Y')
+
+    #Y = esn.generative_run(50, False)
     #esn.custom_training("o", teacher_forcing = True, feedback = True, xTransOrder = False, leaky = True)
     
-    #Y = esn.generative_run(36, pred_test = False)
-    #print Y
-    esn.plot_pred(Y, 'Oil price prediction example', 'Oil price')
+    #esn.plot_test(Y, 'Oil price prediction example', 'Oil price')
 
     """
     TODO: 
