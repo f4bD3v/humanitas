@@ -24,8 +24,15 @@ import traceback
 sys.path.append('keywords')
 from food_categories import getFoodWordList, get_food_words, getFoodCatList
 
+# Redirect STDERR to STDOUT
+sys.stderr = sys.stdout
+
 WAIT = 30000 # somewhat more than 8 min
 BATCH_SIZE = 500
+TOTAL_THREADS = 1
+OUTPUT_SLEEP = 5
+
+script_directory = os.path.dirname(os.path.realpath(__file__))
 
 location_dict = {'cities': {}, 'regions': {}}
 
@@ -86,9 +93,22 @@ class ProcessManager(threading.Thread):
                 raise SystemExit("No more files to process")
 
             i += 1
-            if i == 10000:
-                print len(self.picklefs_to_proc), ' remaining'
+            if i == OUTPUT_SLEEP:
+                print len(self.picklefs_to_proc), ' remaining, threads:', self.threads
                 i = 0
+            # Check threads
+            new_threads = []
+            for t in self.threads:
+                if t.isAlive():
+                    new_threads.append(t)
+                else:
+                    proc_thread = TweetProcessor(self)
+                    proc_thread.set_client(t.get_client())
+                    new_threads.append(proc_thread)
+                    proc_thread.start()
+                    print "Started new thread", proc_thread, "instead of terminated", t
+            self.threads = new_threads
+            sleep(1)
 
             """
             if self.sleep_seq_count == 4:
@@ -134,7 +154,7 @@ class ProcessManager(threading.Thread):
 		f.close()
 
     def save_locations_pickle(self):
-        with open('tweets_cnt_regions_cities.pick', 'wb') as f:
+        with open(script_directory + '/tweets_cnt_regions_cities.pick', 'wb') as f:
             pickle.dump(location_dict, f)
 
 class TweetProcessor(threading.Thread):
@@ -261,6 +281,9 @@ class TweetProcessor(threading.Thread):
     def set_client(self, client):
         self.client = client
 
+    def get_client(self):
+        return self.client
+
     def run(self):
         while True:
             self.proc_manager.pickleAccLock.acquire()
@@ -279,6 +302,7 @@ class TweetProcessor(threading.Thread):
 
             self.proc_manager.funcAccLock.acquire()
             self.proc_manager.append_picklefs_proc(picklef)
+            self.proc_manager.save_locations_pickle()
             self.proc_manager.funcAccLock.release()
 
 def main(args):
@@ -316,7 +340,7 @@ def main(args):
 
     threads = []
 
-    for i in range(1):
+    for i in range(TOTAL_THREADS):
         proc_thread = TweetProcessor(thread)
         proc_thread.set_client(sc)
         threads.append(proc_thread)
