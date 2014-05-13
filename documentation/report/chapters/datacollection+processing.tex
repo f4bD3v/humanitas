@@ -119,3 +119,68 @@ Filtering the available archives of tweets taken from the API yielded near to no
 \subsection*{Merging Series}
 
 \subsection*{Crafting indicators from tweets}
+
+\subsubsection*{Sentiment analysis}
+
+Sentiment analysis, or opinion mining, is the concept of using different computer science techniques (mainly machine learning and natural language processing) in order to extract sentiment information and subjective opinions from the data. In our context this may help us to find out how circumstances in relation to commodity prices affect the overall mood in the population. 
+
+From the start we decided that we did not want to build our own sentiment analysis system since the proper implementation, testing and evaluation would require a considerable effort compared with the total project workload. Instead, we are planning to use some of already developed solutions and tune them to our needs. 
+
+Several sentiment analysis frameworks were tested, including:
+
+\begin{itemize}
+\item SentiStrength \par (http://sentistrength.wlv.ac.uk/)
+
+\item Stanford CoreNLP \par (http://nlp.stanford.edu/sentiment/code.html) 
+
+\item 'Pattern' library from the University of Antwerp \par (http://www.clips.ua.ac.be/pages/pattern-en)
+\end{itemize}
+
+All of these software packages produced reasonable results on some short and simple sentences, but sentiment grades looked almost random on a set of real collected tweets. Most likely, factors such as misspelled words, acronyms, usage of slang and irony contributed to the overall ambiguity of sentiment grades assignment.
+
+Therefore, we decided to build and use our own simple system, which incorporated basic opinion mining, but was mainly focused on extracting relevant keywords, which could help to estimate tweets from the specific point of view. This approach, which also takes into account issues originating from word misspelling, is described in next two paragraphs.
+
+\subsubsection*{Extracting predictor categories}
+
+First, several "predictor categories" were selected. These categories represent different aspects of price variation, and each category include several sets of words of different polarities. For example, the category "price" has two polarities: "high" and "low". The following word list belongs to "high" polarity: 'high', 'expensive', 'costly', 'pricey', 'overpriced', and these are words from "low" list: 'low', 'low-cost', 'cheap', 'low-budget', 'dirt-cheap', 'bargain'. Likewise, a category "supply" has "high" polarity (with words 'available', 'full', 'enough', 'sustain', 'access', 'convenient') and "low" ('run-out', 'empty', 'depleted', 'rotting'). The dictionary with total of 6 categories (each having at least two polarity word lists) was built ("predict", "price", "sentiment", "poverty", "needs", "supply"), let's call it $D$.
+
+Then, for each tweet a feature vector is built, representing the amount of words from each category and polarity. Several cases have to be taken into account. First of all, a word may be not in its base form ("price" -> "prices", "increase" -> "increasing"), which will prevent an incoming word from matching one from $D$. Therefore, we use stemming technique to reduce each word to its stem (or root) form. Another problem is misspelled words ("increase" -> "incrase", "incraese"), and for tweets it happens more than usual due to widespread use of mobile devices with tiny keyboards. Our solution to this problem is covered in the next section.
+
+Here is the overview of predictor category extraction algorithms we implemented:\\
+
+\textbf{Preprocessing}: For each relevant word in $D$ a stem is computed using the Lancaster stemming method, and the stem is added to reverse index $RI$, which maps a stem to a tuple: (category, polarity). \\
+
+\textbf{function get\_category(w):} 
+
+\indent
+\begin{algorithm}[H]
+Compute a stem $s$ from $w$ \par
+Check if $s$ is present in $RI$. 
+
+  \eIf{yes}{
+	\textbf{return} the corresponding tuple.
+   }{
+		ask spell checker for a suggestion \par
+		is suggestion stem returned? \par
+		\eIf{yes}{
+			\textbf{return} the corresponding tuple from $RI$		
+		}{
+			\textbf{return} None;
+		}
+  	}
+% \caption{Algo}
+\end{algorithm}
+\noindent
+
+
+\subsubsection*{Tweets spell checking}
+
+People often do not pay much attention about the proper word spelling while communicating over the Internet and using social networks, but misspelled words may introduce mistakes in processing pipeline and significantly reduce the amount of filtered tweets, since the relevant, but incorrectly written word might not be recognized by the algorithm.
+
+Several spell checking libraries were checked (Aspell and Enchant to name a few), but their 'suggest' method lacked both performance (several seconds to generate a suggestion for thousands words, which is very slow) and flexibility (it's not possible to specify the number of generated suggestions, as well as a threshold, such as maximal edit distance between words). Therefore, we decided to use simple approach which involved computing edit distances between a given word and words from predictor categories dictionary ($D$).
+
+For each given word $w$ we compute its stem $s$ and then edit distance (also known as Levenshtein distance) to each word (stem) from $D$. It can be done really fast thanks to C extensions of \textit{python-levenshtein} module.
+
+After that, we choose the stem with minimal edit distance (using heap to store the correspondence between distances and words and to speed up selection of the minimal one), and check if the resulting number of "errors" (which is equal to distance) is excusable for the length of word $w$. For example, we don't allow errors for words of length 5 or less, only one error is allowed for lengths from 6 to 8, etc. If everything is alright, then the suggestion is returned, otherwise the word is discarded.
+ 
+The approach proved to be fast and tweakable, and was successfully used for tweets processing.

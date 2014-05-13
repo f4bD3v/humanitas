@@ -130,7 +130,7 @@ class NaiveSpellChecker:
             max_len, max_dist = t
             self.max_dist_v += [max_dist] * (max_len - prev)
             prev = max_len
-        # Expected output: [0, 0, 0, 0, 1, 1, 2, 2, 3, 3] 
+        # Expected output: [0, 0, 0, 0, 0, 1, 1, 1, 2, 2]
 
 
     def get_max_distance(self, w):
