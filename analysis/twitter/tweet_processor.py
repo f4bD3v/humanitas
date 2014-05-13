@@ -172,11 +172,9 @@ class TweetProcessor(threading.Thread):
                 self.client.sendBatchLock.acquire()
                 self.client.send_batch(inserts)
                 self.client.sendBatchLock.release()
-                print "Map: ", inserts
                 inserts = []
 
         if inserts:
-            print "Map: ", inserts
             self.client.sendBatchLock.acquire()
             self.client.send_batch(inserts)
             self.client.sendBatchLock.release()
@@ -193,23 +191,33 @@ class TweetProcessor(threading.Thread):
                 continue
             if ('user' not in tweet) or (not tweet['user']):
                 continue
-            #print tweet
+
+            # Extract week info
+            if 'created_at' in tweet:
+                time_obj = datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
+                week_str = time_obj.strftime('%U-%Y')
+            else:
+                week_str = 'NR'
 
             # Extract city/region
             city = extract_location(tweet['user']['location'], self.client.cities)
             if city != "":
-                if city in location_dict['cities']:
-                    location_dict['cities'][city] += 1
-                else:
-                    location_dict['cities'][city] = 1
+                if city not in location_dict['cities']:
+                    location_dict['cities'][city] = {}
+                city_dict = location_dict['cities'][city]
+                if week_str not in city_dict:
+                    city_dict[week_str] = 0
+                city_dict[week_str] += 1
                 region = self.client.city_region_dict[city.lower()]
             else:
                 region = extract_location(tweet['user']['location'], self.client.regions)
             if region != "":
-                if region in location_dict['regions']:
-                    location_dict['regions'][region] += 1
-                else:
-                    location_dict['regions'][region] = 1
+                if region not in location_dict['regions']:
+                    location_dict['regions'][region] = {}
+                region_dict = location_dict['regions'][region]
+                if week_str not in region_dict:
+                    region_dict[week_str] = 0
+                region_dict[week_str] += 1
 
             # Process tweet
             tweet_text_tokens = self.get_tokens(tweet)
