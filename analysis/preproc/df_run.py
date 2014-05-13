@@ -39,20 +39,20 @@ usage = '''
 ##============options================
 
 run_retail_weekly = False
-run_wholesale_daily = False
+run_wholesale_daily = True
 run_retail_daily = True
 saving_csv = True
 saving_pickle = False
 
 using_df_full = True
-using_df_ts = True
+using_df_ts = False
 
 daily_product_lst = ['Rice','Wheat','Banana', 'Apple','Coriander','Potato', 'Onion']#['Rice','Banana','Wheat', 'Apple','Coriander','Potato']
 filter_lst = []
 
 with_interpolation = False
 
-na_cutoff_rate = 0.4
+na_cutoff_rate = 0.5
 
 ##====================================
 
@@ -128,6 +128,10 @@ if __name__ == '__main__':
         df_full, df_ts, dup_records = get_full_data(df, all_dates, \
                 using_df_full, using_df_ts, na_cutoff_rate, with_interpolation,\
                 filter_lst)
+
+
+        #remove spikes, which are suspiciously incorrect data points from sources
+        df_full = remove_spikes(df_full, df_ts, threshold = 100) 
 
         #print dup_records
         examine_fullness(df_full, len(all_dates), with_interpolation)

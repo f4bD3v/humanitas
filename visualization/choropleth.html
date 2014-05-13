@@ -77,6 +77,16 @@ map.on({
 	zoomend: resetSelectedState,
 });
 
+// cities markers
+citiesDataMod = citiesData
+citiesDataMod.features = citiesDataMod.features.slice(0, 20);
+citiesGeojson = L.geoJson(citiesDataMod, {
+	// style: stateStyle,
+	onEachFeature: onEachPoint,
+}).addTo(map);
+$(".leaflet-marker-pane").addClass("hidden");
+$(".leaflet-shadow-pane").addClass("hidden");
+
 // control that shows state info on hover
 info = L.control();
 
@@ -164,11 +174,11 @@ $( "#slider_month" ).labeledslider({
 
 $("#state_info_btn").on("click", function() {
 	$("#chart_dialog").html('');
-	$("#chart_dialog").append($("<iframe id='chart_iframe' />").attr("src", "timeseries.html"));
+	$("#chart_dialog").append($("<iframe id='chart_iframe' />").attr("src", "stackedchart.html"));
 	$("#chart_dialog").dialog({
 		width: $(window).width(),
 		height: $(window).height(),
-		title: "Time Series Chart",
+		title: "Stacked Chart",
 		modal: true,
     });
 });
@@ -178,12 +188,6 @@ function drawMap() {
 	if(geojson) {
 		map.removeLayer(geojson);
 	}
-	citiesDataMod = citiesData
-	citiesDataMod.features = citiesDataMod.features.slice(0, 20);
-	citiesGeojson = L.geoJson(citiesDataMod, {
-		// style: stateStyle,
-		onEachFeature: onEachPoint,
-	}).addTo(map);
 	geojson = L.geoJson(statesData, {
 		style: stateStyle,
 		onEachFeature: onEachFeature
@@ -295,6 +299,13 @@ function resetSelectedState(e) {
 		highlighted = null;
 		statenameVisible = false;
 	}
+	if(map.getZoom() < 7) {
+		$(".leaflet-marker-pane").addClass("hidden");
+		$(".leaflet-shadow-pane").addClass("hidden");
+	} else {
+		$(".leaflet-marker-pane").removeClass("hidden");
+		$(".leaflet-shadow-pane").removeClass("hidden");
+	}
 }
 
 function onEachFeature(feature, layer) {
@@ -309,7 +320,7 @@ function onEachPoint(feature, layer) {
 	layer.on({
 		mouseover: highlightPoint,
 		mouseout: resetPoint,
-		click: zoomToPoint,
+		click: detailToPoint,
 	});
 }
 
@@ -321,8 +332,15 @@ function resetPoint(e) {
 	info.update();
 }
 
-function zoomToPoint(e) {
-
+function detailToPoint(e) {
+	$("#chart_dialog").html('');
+	$("#chart_dialog").append($("<iframe id='chart_iframe' />").attr("src", "timeseries.html"));
+	$("#chart_dialog").dialog({
+		width: $(window).width(),
+		height: $(window).height(),
+		title: "Time Series Chart",
+		modal: true,
+    });
 }
 
 function addLegend(map) {
