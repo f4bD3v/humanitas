@@ -24,23 +24,20 @@ import traceback
 sys.path.append('keywords')
 from food_categories import getFoodWordList, get_food_words, getFoodCatList
 
+# Autoflush output
+sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)
+
+# Redirect STDERR to STDOUT
+sys.stderr = sys.stdout
+
 WAIT = 30000 # somewhat more than 8 min
 BATCH_SIZE = 500
+TOTAL_THREADS = 1
+OUTPUT_SLEEP = 5
 
-"""
-def init_stem_sets():
-    categories.extend(getFoodCatList())
-    for dict_name in predictors_dict:
-        category_dict = predictors_dict[dict_name]
-        c_stems[dict_name] = {}
-        for cname in category_dict:
-            categories.append(str(dict_name)+'_'+str(cname))
-            word_list = category_dict[cname]
-            stem_set = set()
-            for word in word_list:
-                stem_set.add(st.stem(word))
-            c_stems[dict_name][cname] = stem_set
-"""
+script_directory = os.path.dirname(os.path.realpath(__file__))
+
+location_dict = {'cities': {}, 'regions': {}}
 
 class ProcessManager(threading.Thread):
     def __init__(self):
@@ -80,18 +77,42 @@ class ProcessManager(threading.Thread):
         self.pickleAccLock.acquire()
         self.picklefs_to_proc = list(set(picklefs)-set(self.picklefs_proc))
         #print 'First three pickle files still to process by PM ',self.picklefs_to_proc[0:3]
-        print len(self.picklefs_to_proc), ' remaining'
         self.pickleAccLock.release()
         for t in self.threads:
             t.start()
             print 'Tweet processor thread '+str(t)+' started'
 
+        i = 0
         while True:
             picklefs = glob.glob('*.pickle')
             self.pickleAccLock.acquire()
             self.picklefs_to_proc = list(set(picklefs)-set(self.picklefs_proc))
             to_proc_len = len(self.picklefs_to_proc)
             self.pickleAccLock.release()
+
+            if to_proc_len == 0:
+                self.write_picklefs_proc()
+                self.save_locations_pickle()
+                raise SystemExit("No more files to process")
+
+            i += 1
+            if i == OUTPUT_SLEEP:
+                print len(self.picklefs_to_proc), ' remaining, threads:', self.threads
+                i = 0
+            # Check threads
+            new_threads = []
+            for t in self.threads:
+                if t.isAlive():
+                    new_threads.append(t)
+                else:
+                    proc_thread = TweetProcessor(self)
+                    proc_thread.set_client(t.get_client())
+                    proc_thread.start()
+                    print "Started new thread", proc_thread, "instead of terminated", t
+            self.threads = new_threads
+            sleep(1)
+
+            """
             if self.sleep_seq_count == 4:
                 write_picklefs_proc()
                 raise SystemExit("Tweetprocessor has been sleeping for about 35 minutes.\n Check progress of tweet downloader! Exiting..") 
@@ -110,6 +131,7 @@ class ProcessManager(threading.Thread):
             if self.sleep_last_rnd:
                 self.sleep_last_rnd = False
                 self.sleep_seq_count = 0 
+            """
 
     def read_picklefs_proc(self):
         fn = 'processed_picklefs.txt'
@@ -127,12 +149,13 @@ class ProcessManager(threading.Thread):
         return picklefs
 
     def write_picklefs_proc(self):
-		f = open('processed_picklefs.txt', 'w')
-		for fn in self.picklefs_proc:
-			f.write(str(fn)+'\n')
+        with open(script_directory + '/processed_picklefs.txt', 'wb') as f:
+            for fn in self.picklefs_proc:
+                f.write(str(fn)+'\n')
 
-		f.close()
-
+    def save_locations_pickle(self):
+        with open(script_directory + '/tweets_cnt_regions_cities.pick', 'wb') as f:
+            pickle.dump(location_dict, f)
 
 class TweetProcessor(threading.Thread):
 
@@ -140,9 +163,7 @@ class TweetProcessor(threading.Thread):
         threading.Thread.__init__(self)
         self.proc_manager = proc_manager
         self.proc_manager.append_thread(self)
-        self.sleep_seq_count = 0
         self.food_words = getFoodWordList()
-        print self.food_words
 
     def force_sleep(self, WAIT):
         sleep(WAIT)
@@ -156,95 +177,115 @@ class TweetProcessor(threading.Thread):
         return pickle.load(f)
 
     def process_tweets(self, tweet_set):
-        # filter by keywords, remove retweets, keep filtered out data (how?)
         inserts = []
-        filtered_tweets = self.filter_tweets(tweet_set)
 
         i = 0
-        for t in filtered_tweets:
-            cat_count = self.extract_features(t, self.get_tokens(t)) 
+        food_word_dict = get_food_words()
+        for t in self.filter_tweets(tweet_set):
+            tweet_tokens = self.get_tokens(t)
+            cat_count = self.extract_features(t, tweet_tokens) 
             self.client.createInsLock.acquire()
-            inserts += self.client.create_insert(t, cat_count)
+            insert_strings = self.client.create_insert(t, tweet_tokens, food_word_dict, cat_count)
+            inserts.extend(insert_strings)
             self.client.createInsLock.release()
             if len(inserts) >= BATCH_SIZE:
                 self.client.sendBatchLock.acquire()
                 self.client.send_batch(inserts)
                 self.client.sendBatchLock.release()
                 inserts = []
-            i += 1
 
         if inserts:
             self.client.sendBatchLock.acquire()
             self.client.send_batch(inserts)
             self.client.sendBatchLock.release()
 
-        if i > 0:
-            print self, 'tweets filtered and analyzed'
-        #else:
-        #print self, 'no tweets matching criteria found'
-
-    def contains_words(self, to_check, tweet):
-        for word in tweet:
-            if word in to_check:
-                return True
-        return False
-
     def get_tokens(self, tweet):
-        tweet_text_lower = tweet['text'].lower()
+        tweet_text_lower = tweet['text'].lower().encode("ascii","ignore")
         tweet_text_clean = re.sub('[^a-zA-Z0-9-]', ' ', tweet_text_lower)
         tweet_text_tokens = tweet_text_clean.split()
         return tweet_text_tokens
 
     def filter_tweets(self, tweet_set):
         for tweet in tweet_set:
-            if('text' in tweet and 'retweeted_status' not in tweet):
-                tweet_text_tokens = self.get_tokens(tweet)
+            if ('text' not in tweet) or ('retweeted_status' in tweet):
+                continue
+            if ('user' not in tweet) or (not tweet['user']):
+                continue
 
-                if(self.contains_words(self.food_words, tweet_text_tokens)):
-                    if("user" in tweet and tweet['user'] is not None):
-                        print 'tweet passed filter'
-                        yield tweet
-                    else:
-                        print("Tweet not added: " + tweet)
+            # Extract week info
+            if 'created_at' in tweet:
+                time_obj = datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
+                week_str = time_obj.strftime('%U-%Y')
+            else:
+                week_str = 'NR'
+
+            # Extract city/region
+            city = extract_location(tweet['user']['location'], self.client.cities)
+            if city != "":
+                if city not in location_dict['cities']:
+                    location_dict['cities'][city] = {}
+                city_dict = location_dict['cities'][city]
+                if week_str not in city_dict:
+                    city_dict[week_str] = 0
+                city_dict[week_str] += 1
+                region = self.client.city_region_dict[city.lower()]
+            else:
+                region = extract_location(tweet['user']['location'], self.client.regions)
+            if region != "":
+                if region not in location_dict['regions']:
+                    location_dict['regions'][region] = {}
+                region_dict = location_dict['regions'][region]
+                if week_str not in region_dict:
+                    region_dict[week_str] = 0
+                region_dict[week_str] += 1
+
+            # Process tweet
+            tweet_text_tokens = self.get_tokens(tweet)
+            if (contains_words(self.food_words, tweet_text_tokens)):
+                yield tweet
 
     def extract_features(self, t, tokens):
         category_count = {}
 
         prev_neg = False
+        # Position in tweet
+        pos = -1
+        last_negation_pos = -1
+        max_neg_distance = 2
         for token in tokens:
+            pos += 1
             cat = get_category.get_category(token)
             if not cat: continue
             if cat[0] is 'negation':
                 # Negation
                 prev_neg = True
+                last_negation_pos = pos
             elif cat[1] is not None:
                 # Ordinary word
                 cat_n = '_'.join(c for c in cat)
                 if prev_neg:
-                    compl_cat = compl_pred_cats[cat[1]]
-                    cat_n = '_'.join([cat[0],compl_cat])
                     prev_neg = False
+                    if pos - last_negation_pos <= max_neg_distance:
+                        # Check the distance
+                        compl_cat = compl_pred_cats[cat[1]]
+                        cat_n = '_'.join([cat[0],compl_cat])
                 if cat_n in category_count:
                     category_count[cat_n] += 1
                 else:
                     category_count[cat_n] = 1
 
-        counts = sum(category_count)
+        counts = sum(category_count.values())
         category_count['cnts'] = counts
         return category_count
 
     def set_client(self, client):
         self.client = client
 
+    def get_client(self):
+        return self.client
+
     def run(self):
         while True:
-            """
-            try:
-                picklefs_to_proc = object.__getattribute__(self.base, self.picklefs_to_proc)
-            except AttributeError:
-                print('error')
-            """
-
             self.proc_manager.pickleAccLock.acquire()
             picklef = self.proc_manager.select_picklef()
             self.proc_manager.pickleAccLock.release()
@@ -252,27 +293,29 @@ class TweetProcessor(threading.Thread):
                 print 'picklef empty'
                 continue
             #print self, ' chosen ', picklef
-            #for picklef in self.picklefs_to_proc:
-            print 'loading tweets from ', picklef
-            tweet_set = self.load_tweets(picklef)
-            #print 'processing loaded tweets; see sample ->', tweet_set[0]['text']
+            print self,': loading tweets from ', picklef
             try:
+                tweet_set = self.load_tweets(picklef)
                 self.process_tweets(tweet_set)
             except Exception:
                 traceback.print_exc()
 
             self.proc_manager.funcAccLock.acquire()
             self.proc_manager.append_picklefs_proc(picklef)
+            self.proc_manager.save_locations_pickle()
             self.proc_manager.funcAccLock.release()
 
 def main(args):
 
     tmp_dir = args[0]
     get_category.init_reverse_index()
-    get_category.categories.extend(getFoodCatList())
+    food_categories = getFoodCatList()
+    pred_categories = get_category.pred_categories
+    get_category.extend_categories(food_categories)
+    get_category.extend_categories(['cnts'])
     print get_category.c_stems
     print get_category.compl_pred_cats
-    print get_category.categories
+    print get_category.additional_categories
 
     log = logging.getLogger()
     log.setLevel('INFO')
@@ -281,21 +324,24 @@ def main(args):
     node = socket.gethostbyname(socket.gethostname())
     sc = SimpleClient()
     sc.connect([node])
-    sc.use_keyspace('tweet_collector')
        
     if len(args) > 1 and args[1]=="True":
-         sc.extended_schema(categories)
+        if(args[2]=="True"):
+            sc.drop_schema('tweet_collector')
+        # drop_col_fam..
+        sc.extended_schema(food_categories, pred_categories)
+        sc.create_index(food_categories)
 
-    thread = ProcessManager() 
-    thread.set_dir(tmp_dir)
-    thread.start()
+    sc.use_keyspace('tweet_collector')
 
-    threads = []
+    proc_mon = ProcessManager()
+    proc_mon.set_dir(tmp_dir)
 
-    for i in range(3):
-        proc_thread = TweetProcessor(thread)
+    for i in range(TOTAL_THREADS):
+        proc_thread = TweetProcessor(proc_mon)
         proc_thread.set_client(sc)
-        threads.append(proc_thread)
+
+    proc_mon.start()
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

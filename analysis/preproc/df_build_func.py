@@ -25,6 +25,7 @@ usage = '''
         get_full_data            : given df, return df_full or df_ts by option. The com-
                                    putation of both is done all at once, thus no overhead.
         extract_duplicates       : return duplicated parts and dates of a data frame
+        remove_spikes            : remove suspicious spikes in df_full
 '''
 
 
@@ -291,3 +292,14 @@ def extract_duplicates(group):
     for d in dup_dates:
         df_ret = df_ret.append(group[group['date']==d])
     return df_ret, dup_dates
+
+
+def remove_spikes(df_full, df_ts, threshold):
+
+
+    ddf = ddf[ddf_ret<threshold]
+    ddf_ret = ddf_ret[ddf_ret<threshold]
+    ddf = ddf[ddf_ret > -threshold]
+    ddf_ret = ddf_ret[ddf_ret > -threshold]
+
+    return ddf, ddf_ret

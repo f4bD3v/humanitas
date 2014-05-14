@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1399223742 "humanitas_report.tex" "humanitas_report.pdf" "humanitas_report" 1399223743
+["pdflatex"] 1399941157 "humanitas_report.tex" "humanitas_report.pdf" "humanitas_report" 1399941159
   "/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii" 1337017135 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/ifxetex/ifxetex.sty" 1284331290 1458 43ab4710dc82f3edeabecd0d099626b2 ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/atbegshi.sty" 1335995445 24460 92f559a71aac869021852c227c704b38 ""
@@ -12,6 +12,7 @@
   "/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty" 1335995445 14040 8de9f47fabc4ca3bd69b6d795e32751c ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/ltxcmds.sty" 1335995445 18425 775b341047ce304520cc7c11ca41392e ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty" 1335995445 19987 01cb2f3c1d21e5f05711b7fd50b17f2a ""
+  "/usr/local/texlive/2013/texmf-dist/tex/latex/algorithm2e/algorithm2e.sty" 1357515851 138649 9b25c6203fed00aa0591833fc72e9128 ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/amsmath/amsbsy.sty" 1362954379 2412 2d98314dc5be38f455f8890deeb2d091 ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/amsmath/amsgen.sty" 1362954379 4357 ad30ad08920902fc9b38caf35a3b0496 ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/amsmath/amsmath.sty" 1362954379 79178 b2e326c351e876df0e5e23df2e02441b ""
@@ -69,14 +70,16 @@
   "/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/zref-abspage.sty" 1335995445 2153 4758fe045340c06cad94a5fd209845cb ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/zref-base.sty" 1335995445 20510 d34f2ff6da5204141c620ec21d6b3170 ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/pdftex-def/pdftex.def" 1306616590 55368 3c8a0d99822330f2dfabc0dfb09ce897 ""
+  "/usr/local/texlive/2013/texmf-dist/tex/latex/relsize/relsize.sty" 1369619135 15542 c4cc3164fe24f2f2fbb06eb71b1da4c4 ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/titlesec/titlesec.sty" 1324083561 37083 54a2e11f0f208916a9976d9e4837d144 ""
+  "/usr/local/texlive/2013/texmf-dist/tex/latex/tools/xspace.sty" 1312409015 4405 b7f0681f78908bf1aa3cd73228e9fd38 ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/xcolor/xcolor.sty" 1169481954 55224 a43bab84e0ac5e6efcaf9a98bde73a94 ""
   "/usr/local/texlive/2013/texmf-dist/tex/plain/ifetex/ifetex.tex" 1320621834 1166 4b66ad073c6073cb1bde651c18b7dbb2 ""
   "abstract.tex" 1395842160 0 d41d8cd98f00b204e9800998ecf8427e ""
-  "chapters/analysis+prediction.tex" 1399223739 10498 40bb1e951e3bf4c065e4aef8a6cbdfb6 ""
-  "chapters/datacollection+processing.tex" 1398418087 5945 683bf22ecba0a9585c0e4dc9aaeda5f1 ""
-  "humanitas_report.aux" 1399223743 457 4072bb2841ec93ec0d5402f685d4aded ""
-  "humanitas_report.tex" 1399222917 2037 ccb76beb061d26421d88b3d50c8e32dc ""
+  "chapters/analysis+prediction.tex" 1399886520 19479 0f8532d06ee130e3f66fb9227774cd22 ""
+  "chapters/datacollection+processing.tex" 1399941061 15479 e2bac873777f02a7f87d3b867304230d ""
+  "humanitas_report.aux" 1399941158 1254 aaae6603c3b267958b7fb10fb0d77555 ""
+  "humanitas_report.tex" 1399941061 2062 b54e3900dec8fcb6f508a39f27f3ee5b ""
   "img/CollectionProcess.pdf" 1397832622 9029 727163cbea9cea179bc9d087d158b918 ""
   "img/simple_rnn.png" 1397333248 39387 69143c74d880a641d8052ae4402d48d2 ""
   (generated)

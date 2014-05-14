@@ -1,0 +1,15 @@
+What to put in Map:
+
+* Tweets/per inhabitant per region
+	write a multithreaded script that loads tweets and counts locations
+	ONLY a heuristic
+
+* Count by category per regions - simple Shark query
+
+* Prediction:
+	Overlay, make regions and major cities clickable (major city in the weekly dataset)
+	Weekly -
+	Plot wholesale vs retail
+
+	No online-learning
+
