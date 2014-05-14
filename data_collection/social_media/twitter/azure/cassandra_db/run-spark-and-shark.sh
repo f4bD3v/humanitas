@@ -4,6 +4,14 @@ spark-0.9.1/sbin/start-master.sh
 spark-0.9.1/sbin/start-slaves.sh
 #start shark
 shark-0.9.1-bin-hadoop1/bin/shark
+
+#start worker on node 1
+/home/humaniac/spark-0.9.1/bin/spark-class org.apache.spark.deploy.worker.Worker spark://100.88.224.12:7077 -p 7078 -i 100.88.224.12
+
+#start worker on node 2
+/home/humaniac/spark-0.9.1/bin/spark-class org.apache.spark.deploy.worker.Worker spark://100.88.224.12:7077 -p 7078 -i 100.88.216.61
+
+
 #start worker and connect to master
 sh distribute.sh -e "nohup /home/humaniac/spark-0.9.1/bin/spark-class org.apache.spark.deploy.worker.Worker spark://100.88.224.12:7077 -p 7078 -i 100.88.216.61 &> spark.out" -f 1
 
