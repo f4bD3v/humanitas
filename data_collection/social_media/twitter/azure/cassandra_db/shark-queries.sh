@@ -6,7 +6,8 @@ round((x.needs_sum / x.tot_sum), 4),
 round((x.senti_sum / x.tot_sum), 4),
 round((x.suppl_sum / x.tot_sum), 4),
 round((x.price_sum / x.tot_sum), 4),
-round((x.pover_sum / x.tot_sum), 4)
+round((x.pover_sum / x.tot_sum), 4),
+x.tot_sum
 From (Select COALESCE(region,"india") As nregion, year(time) As nyear, month, day, Count(*) As tot_sum,
 (Sum(COALESCE(predict_inc,0)/(cnts+1)) - Sum(COALESCE(predict_dec,0)/(cnts+1))) As predi_sum,
 (Sum(COALESCE(needs_high,0)/(cnts+1)) - Sum(COALESCE(needs_low,0)/(cnts+1))) As needs_sum,
