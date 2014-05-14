@@ -1,7 +1,7 @@
 #start master
 spark-0.9.1/sbin/start-master.sh
-#start slaves --> configure slaves in: conf/slaves
-spark-0.9.1/sbin/start-slaves.sh
+#stop master
+spark-0.9.1/sbin/stop-master.sh
 #start shark
 shark-0.9.1-bin-hadoop1/bin/shark
 
