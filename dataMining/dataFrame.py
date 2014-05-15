@@ -7,17 +7,19 @@ from itertools import izip_longest
    Developer: Alexander Bueser 
    Summary:	This class generates the necessary data frame for the association algorithm.
    			Classification of continues variables and sorting are perforemd. Input needs
-   			to be in a specific form. See readme.txt form more details"""
+   			to be in a specific form. See readme.txt form more details
+
+   Granularity: Data is aggregated to 3 months = 12 weeks. Change self.granularity 
+   				if you want to have a finer granularity of the data. Min value 2 weeks, comparision
+   				between the one and the other"""
+
+
 
 
 class dataFrame: 
 
 	def __init__(self):
 
-		
-
-		
-		
 		self.minArray=[]
 		for i in range(99):
 			self.minArray.append(10000)
@@ -36,6 +38,8 @@ class dataFrame:
 
 		self.test  = [[] for i in range(49)]
 		self.mintest  = [[] for i in range(49)]
+
+		self.granularity = 12; 
 
 		
 
@@ -57,8 +61,10 @@ class dataFrame:
 		
 		tag = "UD"
 		
+		if value == 0:
+			tag = "unchanged";
 	
-		if value >= min(small) and value <= max(small): 
+		if value > min(small) and value <= max(small): 
 			tag = "small";
 			
 		if value >= min(medium) and value <= max(medium): 
@@ -78,10 +84,11 @@ class dataFrame:
 		return tag
 
 
-	def organize(self, city): 	
+	def organize(self, city, gran): 	
 		"""Big Data Set is filter by City""" 
 		isPop = False
-		with open('data/OutputSorted.csv', 'rU') as csvFile:
+		self.granularity = int(gran)
+		with open('data/initialData.csv', 'rU') as csvFile:
 
 			spamreader = list(csv.reader(csvFile, delimiter = ','))
 			spamreaderIterator = list(spamreader)
@@ -98,7 +105,7 @@ class dataFrame:
 				else: 
 					isPop = False
 
-		a = open('data/output1.csv', 'w')
+		a = open('data/tempData.csv', 'w')
 		b = csv.writer(a)
 		for row in spamreader: 
 			b.writerow(row)
@@ -113,24 +120,26 @@ class dataFrame:
 	  
 
 
-		with open('data/temp.csv', 'rU') as csvFile:
+		with open('data/sortedData.csv', 'rU') as csvFile:
 			reference = list(csv.reader(csvFile, delimiter = ','))
 
 		"""Constructs a price fluctuation range of each product. Needed for classification"""
+		""" Data is aggregated over the period of 3 months = 12 weeks"""
 
-		with open('data/temp.csv', 'rU') as csvFile:
+		with open('data/sortedData.csv', 'rU') as csvFile:
 			finalData = list(csv.reader(csvFile, delimiter = ','))
-			for i in range(2,len(reference)):
+			i = self.granularity 
+			while i < len(reference):
 				for j in range(1, len(reference[i])):
-					if reference[i][j] != "NA" and reference[i-1][j] != "NA":
+					
+					if reference[i][j] != "NA" and reference[i - (self.granularity -1)][j] != "NA":
 
-						diff = (float(reference[i][j]) - float(reference[i-1][j]))
-						#print "{} and {}".format(spamreader[i][j], spamreader[i-1][j])
-						#print diff
+						diff = (float(reference[i][j]) - float(reference[i - (self.granularity -1)][j]))
 						if diff >= 0:
 							self.test[j].append(diff); 
 						else: 
 							self.mintest[j].append(abs(diff));  
+				i = i+(self.granularity -1)
 			
 
 			for i in range(0,len(self.test)):
@@ -141,23 +150,24 @@ class dataFrame:
 			for i in range(0,len(self.mintest)):
 				if self.mintest[i]:
 					self.negativeRange[i+1] = range(int(min(self.mintest[i])), int(max(self.mintest[i])) )
-					#print "{} and {}".format(min(self.test[i]), max(self.test[i]))
+					#print "{} and {}".format(min(self.test[i]), max(self.test[i]))"""
 
-
-			for i in range(2,len(reference)):
+			i = self.granularity		
+			while i < len(reference):
 				for j in range(1, len(reference[i])):
-					if reference[i][j] != "NA" and reference[i-1][j] != "NA" :
+					if reference[i][j] != "NA" and reference[i - (self.granularity -1)][j] != "NA" :
 						#print "{}{}".format(reference[i][j], reference[i-1][j])
-						diff = (float(reference[i][j]) - float(reference[i-1][j]))
+						diff = (float(reference[i][j]) - float(reference[i - (self.granularity -1)][j]))
 						
-
 						if diff >= 0:
 							if self.rangeArray[j+1] != []:
 								finalData[i][j] = self.classifier(int(diff), self.rangeArray[j+1], "pos")
 						else:
 							if self.negativeRange[j+1] != []:
-								finalData[i][j] = self.classifier(abs(int(diff)), self.negativeRange[j+1], "min")
-						
+								finalData[i][j] = self.classifier(abs(int(diff)), self.negativeRange[j+1], "min")			
+
+				i = i + (self.granularity -1)
+
 						
 			
 
@@ -165,12 +175,16 @@ class dataFrame:
 			for i in range(1,len(reference[1])):
 				finalData[1][i] = "medium"
 
+
 			
-			a = open('data/final.csv', 'w')
+			a = open('data/finalData.csv', 'w')
 			b = csv.writer(a)
 
-			for rows in finalData: 
-				b.writerow(rows); 
+			b.writerow(finalData[0])
+			i = 1
+			while i < len(reference) - (self.granularity -1):
+				b.writerow(finalData[i]);
+				i+= (self.granularity -1)
 
 
 
