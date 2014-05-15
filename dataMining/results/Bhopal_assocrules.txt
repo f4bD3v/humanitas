@@ -1,0 +1,12 @@
+32 rules with support higher than or equal to 0.400 found.
+supp	conf	rule
+0.463	0.905	GramWhole=small increase -> BesanNA=small increase
+0.463	0.950	BesanNA=small increase -> GramWhole=small increase
+0.512	0.955	BreadLocal=unchanged increase -> BiscuitGlucose=unchanged increase
+0.512	0.808	BiscuitGlucose=unchanged increase -> BreadLocal=unchanged increase
+0.463	0.760	MilkCowBuffalo=unchanged increase -> BiscuitGlucose=unchanged increase
+0.463	0.731	BiscuitGlucose=unchanged increase -> MilkCowBuffalo=unchanged increase
+0.439	0.900	MilkDairy=unchanged increase -> BiscuitGlucose=unchanged increase
+0.439	0.692	BiscuitGlucose=unchanged increase -> MilkDairy=unchanged increase
+0.537	1.000	SaltLoosecommon=unchanged increase -> BiscuitGlucose=unchanged increase
+0.537	0.846	BiscuitGlucose=unchanged increase -> SaltLoosecommon=unchanged increase

@@ -1,0 +1,12 @@
+2944 rules with support higher than or equal to 0.400 found.
+supp	conf	rule
+0.410	0.667	BajraFAQ=unchanged increase -> ArharSplit=unchanged increase
+0.410	1.000	ArharSplit=unchanged increase -> BajraFAQ=unchanged increase
+0.487	0.731	ChickenPoultry=unchanged increase -> BajraFAQ=unchanged increase
+0.487	0.792	BajraFAQ=unchanged increase -> ChickenPoultry=unchanged increase
+0.538	0.840	CoconutNA=unchanged increase -> BajraFAQ=unchanged increase
+0.538	0.875	BajraFAQ=unchanged increase -> CoconutNA=unchanged increase
+0.410	0.696	EggsNA=unchanged increase -> BajraFAQ=unchanged increase
+0.410	0.667	BajraFAQ=unchanged increase -> EggsNA=unchanged increase
+0.487	0.704	GingellyNA=unchanged increase -> BajraFAQ=unchanged increase
+0.487	0.792	BajraFAQ=unchanged increase -> GingellyNA=unchanged increase

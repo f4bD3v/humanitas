@@ -1,0 +1,4 @@
+2 rules with support higher than or equal to 0.400 found.
+supp	conf	rule
+0.475	0.760	SaltPacketiodized=unchanged increase -> SaltLoosecommon=unchanged increase
+0.475	0.826	SaltLoosecommon=unchanged increase -> SaltPacketiodized=unchanged increase
