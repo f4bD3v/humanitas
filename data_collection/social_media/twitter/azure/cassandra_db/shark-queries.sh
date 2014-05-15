@@ -1,24 +1,24 @@
 #get all indicators for table tweets_rice
 shark-0.9.1-bin-hadoop1/bin/shark -e '
-Select x.nyear, x.month, x.day, x.nregion,
-round((x.predi_sum / x.tot_sum), 4),
-round((x.needs_sum / x.tot_sum), 4),
-round((x.senti_sum / x.tot_sum), 4),
-round((x.suppl_sum / x.tot_sum), 4),
-round((x.price_sum / x.tot_sum), 4),
-round((x.pover_sum / x.tot_sum), 4),
+SELECT x.nyear, x.month, x.day, x.nregion,
+ROUND((x.predi_sum / x.tot_sum), 4),
+ROUND((x.needs_sum / x.tot_sum), 4),
+ROUND((x.senti_sum / x.tot_sum), 4),
+ROUND((x.suppl_sum / x.tot_sum), 4),
+ROUND((x.price_sum / x.tot_sum), 4),
+ROUND((x.pover_sum / x.tot_sum), 4),
 x.tot_sum
-From (Select COALESCE(region,"india") As nregion, year(time) As nyear, month, day, Count(*) As tot_sum,
-(Sum(COALESCE(predict_inc,0)/(cnts+1)) - Sum(COALESCE(predict_dec,0)/(cnts+1))) As predi_sum,
-(Sum(COALESCE(needs_high,0)/(cnts+1)) - Sum(COALESCE(needs_low,0)/(cnts+1))) As needs_sum,
-(Sum(COALESCE(sentiment_positive,0)/(cnts+1)) - Sum(COALESCE(sentiment_negative,0)/(cnts+1))) As senti_sum,
-(Sum(COALESCE(supply_high,0)/(cnts+1)) - Sum(COALESCE(supply_low,0)/(cnts+1))) As suppl_sum,
-(Sum(COALESCE(price_high,0)/(cnts+1)) - Sum(COALESCE(price_low,0)/(cnts+1))) As price_sum,
-(Sum(COALESCE(poverty_high,0)/(cnts+1)) - Sum(COALESCE(poverty_low,0)/(cnts+1))) As pover_sum
-
-From tweet_collector.tweets_rice group by region, year(time), month, day) x
-Where (x.predi_sum > 0 or x.needs_sum > 0 or x.senti_sum > 0 or x.suppl_sum > 0 or x.price_sum > 0 or x.pover_sum > 0) and x.tot_sum > 0
-Order By x.nyear DESC, x.month DESC, x.day DESC, x.nregion DESC;
+FROM ( SELECT COALESCE(region,"india") AS nregion, year(time) AS nyear, month, day, COUNT(*) AS tot_sum,
+    (SUM(COALESCE(predict_inc,0)/(cnts+1))          - SUM(COALESCE(predict_dec,0)/(cnts+1)))        AS predi_sum,
+    (SUM(COALESCE(needs_high,0)/(cnts+1))           - SUM(COALESCE(needs_low,0)/(cnts+1)))          AS needs_sum,
+    (SUM(COALESCE(sentiment_positive,0)/(cnts+1))   - SUM(COALESCE(sentiment_negative,0)/(cnts+1))) AS senti_sum,
+    (SUM(COALESCE(supply_high,0)/(cnts+1))          - SUM(COALESCE(supply_low,0)/(cnts+1)))         AS suppl_sum,
+    (SUM(COALESCE(price_high,0)/(cnts+1))           - SUM(COALESCE(price_low,0)/(cnts+1)))          AS price_sum,
+    (SUM(COALESCE(poverty_high,0)/(cnts+1))         - SUM(COALESCE(poverty_low,0)/(cnts+1)))        AS pover_sum
+    FROM tweet_collector.tweets_rice GROUP BY region, year(time), month, day) x
+WHERE (x.predi_sum > 0 or x.needs_sum > 0 or x.senti_sum > 0 or x.suppl_sum > 0 or x.price_sum > 0 or x.pover_sum > 0) 
+       and (x.tot_sum > 0)
+ORDER BY x.nyear DESC, x.month DESC, x.day DESC, x.nregion DESC;
 '
 
 #calculate average increase and decrease tweets for rice
