@@ -61,6 +61,13 @@ class ESN:
 
         # Internal connection - to speed up computation make matrix sparse (set random entries to zero)
         self._W = np.random.rand(self._Nx, self._Nx)-.5
+        it = np.nditer(self._W, flags=['multi_index'])
+        while not it.finished:
+            if np.random.rand(1)[0] < 0.95:
+                self._W[it.multi_index] = 0
+            it.iternext()
+
+        print self._W
 
         # Compute W's eigenvalues
         eigValuesVectors = lg.eig(self._W)
@@ -75,8 +82,8 @@ class ESN:
         self._W/=rhoW
 
         # Rescale matrix - Parameter to be TUNED
-        #rescale = 1.25
-        #self._W*=rescale
+        rescale = .8
+        self._W*=rescale
 
         if squared:
             self._Wout = np.zeros((self._Nx*2+self._Nu*2+2,1))
@@ -102,7 +109,7 @@ class ESN:
         if self._mu >= stab:
             self._mu = stab/2.0
 
-        err = np.tanh(self._data[t+1]) - np.tanh(np.dot(self._Wout.T, out))
+        err = self._data[t+1] - np.dot(self._Wout.T, out)
 
         nWout = self._Wout + self._mu * np.dot(out,err)
         self._Wout = nWout
@@ -241,7 +248,7 @@ class ESN:
             if squared:
                     out_sq = np.power(out, 2)
                     out = np.vstack((out,out_sq))
-            y = np.dot(self._Wout.T, out)
+            y = np.dot(out.T, self._Wout)
             Y[:,t] = y
 
             # use prediction as input to the network
@@ -307,7 +314,7 @@ def main():
     split_ind = len(data[0])-50
 
     # Reservoir size
-    Nx = 1000
+    Nx = 500
     initN = 740# 24 months initialization
 
     Ny = 1
