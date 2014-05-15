@@ -138,9 +138,7 @@ EchoStatesTechRep.pdf, p.32
 
 \paragraph*{Feedback}
 
-\paragraph*{Batch learning}
-
-\paragraph*{Ridge Regression}
+\paragraph*{Batch learning with Ridge Regression}
 
 \paragraph*{Leaky integrator neurons}
 \emph{Taken from Echo State Tech Rep. page 26/27}\\
@@ -158,7 +156,8 @@ where C is a time constant and $\alpha$ the leaking decay rate. For the approxim
 Let a network be updated according to
 \end{frm-thm}
 
-\paragraph*{Online learning with Recursive Least Squares (RLS)}
+\paragraph*{Online learning}
+Very simple: Least Mean Squares, but bad performance
 update weights in each iteration
 ...
 \begin{frm-algo}
@@ -169,6 +168,10 @@ update weights in each iteration
 
 \end{enumerate}
 \end{frm-algo}
+
+Recursive Least Squares instable during training
+Therefore use (inverse) QR RLS, for motivation visit this link:
+http://zone.ni.com/reference/en-XX/help/372357A-01/lvaftconcepts/aft_rls_algorithms/
 
 \paragraph*{Parameter selection with Maximum Entropy Bootstrap (Meboot)}
 In order to find the best parameters for generalization during training of the neural network models with we create replicate time series of a selected price sequence dataset. The method we employ to this end is called 'Maximum Entropy Bootstrap' (meboot) and was introduced by H.D. Vinod in 2006. [reference]. The reason for the use of this specific method is that, due to temporal dependence, time series cannot simply be randomly sampled into a new dataset. The meboot algorithm allows for construction of random replicates of the given time series showing the same statistical properties.

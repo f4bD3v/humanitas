@@ -57,17 +57,17 @@ class ESN:
     def init_Weights(self, squared = False):
         np.random.seed(42)
 
-        self._Win = (np.random.rand(self._Nx,1+self._Nu)-0.5) * 1
+        self._Win = np.random.uniform(-1,1,size=(self._Nx,1+self._Nu+self._Ny)) * np.std(self._data)
 
         # Internal connection - to speed up computation make matrix sparse (set random entries to zero)
-        self._W = np.random.rand(self._Nx, self._Nx)-.5
+        self._W = np.random.uniform(-1,1,size=(self._Nx, self._Nx)) * np.std(self._data)
         it = np.nditer(self._W, flags=['multi_index'])
         while not it.finished:
             if np.random.rand(1)[0] < 0.95:
-                self._W[it.multi_index] = 0
+                self._W[it.multi_index] = 0.0
             it.iternext()
-
-        print self._W
+        print np.max(self._W)
+        print np.min(self._W)
 
         # Compute W's eigenvalues
         eigValuesVectors = lg.eig(self._W)
@@ -76,19 +76,21 @@ class ESN:
         # Compute spectral radius = max abs eigenvalue
         # the spectral radius determines how fast the influence of an input dies out in a reservoir with time and how stable reservoir activations are
         # => the spectral radius should be greater in tasks requiring longer memory of the input
-        rhoW = np.max(np.abs(eigValues))
+        
+        #rhoW = np.max(np.abs(eigValues))
+        rhoW = np.max(eigValues)
 
         # Normalize random weight matrix by spectral radius
         self._W/=rhoW
 
         # Rescale matrix - Parameter to be TUNED
-        rescale = .8
+        rescale = 0.8
         self._W*=rescale
 
         if squared:
-            self._Wout = np.zeros((self._Nx*2+self._Nu*2+2,1))
+            self._Wout = np.zeros((self._Ny+self._Nx*2+self._Nu*2+2,1))
         else:
-            self._Wout = np.zeros((self._Nx+self._Nu+1,1))
+            self._Wout = np.zeros((self._Ny+self._Nx+self._Nu+1,1))
 
 
     def init_training(self):
@@ -97,7 +99,7 @@ class ESN:
             Design matrix [1,U,X]
             keep N-initN time-steps in the design matrix, discard the initial initN steps
         """
-        self._bUX = np.zeros((1+self._Nu+self._Nx,self._N-self._initN))
+        self._bUX = np.zeros((1+self._Ny+self._Nu+self._Nx,self._N-self._initN))
         """
             Target matrix 
             same as input sequence in teacher forcing, only shifted by 1 timestep 
@@ -122,7 +124,7 @@ class ESN:
         self._k = pi.T / gamma
 
         #err = np.tanh(self._data[t+1]) - np.tanh(np.dot(self._Wout.T, out))
-        err = np.tanh(self._data[t+1]) - np.dot(self._Wout.T, out)
+        err = self._data[t+1] - np.dot(self._Wout.T, out)
 
         nWout = self._Wout + np.dot(self._k,err)
         self._Wout = nWout
@@ -130,16 +132,82 @@ class ESN:
         nP = (1.0/self._lambda)*(self._P-np.dot(self._k, pi))
         self._P = (nP+nP)/2.0
 
+    def QR_RLS_update(self, t, out):
+        '''
+        zlen = out.shape[0]
+
+        sql = np.sqrt(self._lambda)
+        sqP = sql*np.sqrt(self._P)
+        p_row = np.dot(out.T, sqP)
+
+        row_1 = np.hstack((np.ones((1,1)), p_row))
+        rest = np.hstack((np.zeros((zlen, 1)),sqP))
+        left_m = np.vstack((row_1, rest))
+        print left_m
+
+        upper = np.hstack((np.ones((1,1)), np.repeat(-np.sum(p_row), zlen)[np.newaxis,:]))
+        lower = np.hstack((np.zeros((zlen,1)),np.ones((zlen,zlen))))
+        rotate = np.vstack((upper, lower))
+        print 'rotate ', rotate
+
+        print np.dot(left_m[0,:],rotate[:,1])
+
+        right_m = np.dot(left_m, rotate)
+
+        #print right_m[0,1:zlen+1]
+        self._P = np.square(right_m[1:zlen+1,1:zlen+1])
+        self._k = (right_m[1:zlen+1,0]/right_m[0,0])[:,np.newaxis]
+        '''
+
+        N = out.shape[0]
+        akaux = np.zeros((N,1))
+        sq_ilambda = np.sqrt(self._lambda)
+
+        zaux = sq_ilambda*out
+        for n in xrange(N):
+            for m in xrange(N-n):
+                akaux[n] = akaux[n]+self._P[n,m]*zaux[m]
+
+        ak = akaux
+        igamma = 1.0
+        for n in xrange(N):
+            aux1 = np.sqrt(np.square(igamma)+np.square(ak[N-(n+1)]))
+            cosk = np.abs(igamma)/aux1
+            sink = (ak[N-(n+1)]*cosk)/igamma
+            igamma = aux1
+
+        gamma = 1.0 / igamma
+        print gamma
+        #uaux = np.zeros(out.shape)
+        uaux = out
+        nP = sq_ilambda*self._P
+
+        for n in xrange(N):
+            for m in xrange(n-1):   
+                aux2 = uaux[m]
+                uaux[m] = cosk*aux2-sink*nP[N-(n+1),m]
+                nP[N-(n+1),m] = sink*aux2 + cosk*nP[N-(n+1),m]
+
+        u = uaux
+        self._P = nP
+
+        self._k = gamma*u
+        err = self._data[t+1] - np.dot(self._Wout.T, out)
+        print err
+
+        self._Wout = self._Wout + np.dot(self._k,err)
+
     def run_training(self, teacher_force = False, squared = False, leaky = False, runs = False):
         #params = self.run_training.func_code.co_varnames[1:self.run_training.func_code.co_argcount]
         self._runs = 0
         x_feedback = 0.0
-
+        print self._x
+        b = 1
         niter = 0
         # t < self._N
         for t in xrange(self._N):
-            if t % 5 != 0:
-                continue
+            #if t % 5 != 0:
+            #    continue
             # data contains a set of timeseries making u a vector
             
             #if t >= self._initN:
@@ -147,14 +215,17 @@ class ESN:
             u = self._data[t]
             print 'u ', u
             # white noise on x
-            xlast = self._x + np.random.normal(0, 0.0001, self._x.shape[0])[:,np.newaxis]
-            if not teacher_force:
-                x_feedback = np.dot(self._Wb, self._y)
+            xlast = self._x
+            #if not teacher_force:
+            #    x_feedback = np.dot(self._Wb, self._y)
 
-            xnext = np.tanh(np.dot(self._Win, np.vstack((1,u)))+np.dot(self._W,xlast)+x_feedback)
+            un = np.vstack((u, 0))
+            print np.vstack((b, un)).shape
+            print self._Win.shape
+            xnext = np.tanh(np.dot(self._Win, np.vstack((b, un)))+np.dot(self._W,xlast)+np.random.normal(0, 0.0001))
             self._x = xnext
 
-            out = np.vstack((1,u,xnext))
+            out = np.vstack((b,un,xnext))
 
             if leaky:
                 self._x = (1-self._alpha)*xlast+self._alpha*xnext
@@ -167,11 +238,13 @@ class ESN:
                 if not teacher_force:
                     # both of shape (500,1), transpose one
                     self._y = np.dot(out.T, self._Wout)
+                    print 'y ', self._y
                     self._Ytrain[t-self._initN] = self._y
                     if niter % 100 == 0:
                         print 'iteration: ', niter
-                        print 'y' ,self._y
-                    self.LMS_update(t, out)
+                        print 'y', self._y
+
+                    self.RLS_update(t, out)
                     niter += 1
 
         if teacher_force:
@@ -206,18 +279,23 @@ class ESN:
         if leaky:
             self._alpha = 0.3
 
+        #self._Wb = (np.random.rand(self._Nx, self._Ny)-.5) * np.std(self._data)
+
         if not teacher_force:
             print 'adapting Wout online'
-            self._lambda = .995
+            self._lambda = .9999999
             print 'feedback'
-            self._Wb = (np.random.rand(self._Nx, self._Ny)-.5) * 5
 
             std = np.std(self._data[:self._initN])
-            delta = 100 * std * std
+            delta = 100 * (std * std)
             if squared:
-                self._P = delta*np.identity(self._Nx*2+self._Nu*2+2)
+                self._P = np.identity(self._Ny+self._Nx*2+self._Nu*2+2)
             else:
-                self._P = delta*np.identity(self._Nx+self._Nu+1)
+                self._P = np.identity(self._Ny+self._Nx+self._Nu+1)
+
+            #self._P = delta * np.fliplr(self._P)
+            self._P = delta * self._P
+
 
             print 'init Cinv ', self._P
 
@@ -232,27 +310,31 @@ class ESN:
         self._Wout = np.dot(np.dot(self._Yt,bUXT), lg.inv(np.dot(self._bUX,bUXT)+self._nu*np.eye(1+self._Nu+self._Nx)) )
 
     # specify prediction horizon when calling function
-    def generative_run(self, horizon, squared = False):
+    def generative_run(self, teacher_force, horizon, squared = False):
         Y = np.zeros((self._Ny,horizon))
+        x_feedback = 0.0
         # use last training points as input to make first prediction
         u = self._data[self._N]
-        y = self._y
+        self.y = u
         for t in range(horizon):
-            xlast = self._x
-            xnext = np.tanh(np.dot(self._Win, np.vstack((1,u)))+np.dot(self._W,xlast))
-            if self._leaky:
-                self._x = (1-self._alpha)*xlast + self._alpha*xnext
-            else: 
-                self._x = xnext
-            out = np.vstack((1,u,self._x))
+            print 't ', t
+            print 'u ', u
+
+            xlast = self._x# + np.random.normal(0, 0.0001, self._x.shape[0])[:,np.newaxis]
+            un = np.vstack((0, self._y))
+            xnext = np.tanh(np.dot(self._Win, np.vstack((1, un)))+np.dot(self._W, xlast))
+            self._x = (1-self._alpha)*xlast + self._alpha*xnext
+
+            out = np.vstack((1, un, self._x))
             if squared:
                     out_sq = np.power(out, 2)
                     out = np.vstack((out,out_sq))
-            y = np.dot(out.T, self._Wout)
-            Y[:,t] = y
+            self._y = np.dot(out.T, self._Wout)
+            print 'y ', self._y
+            u= 0
+            Y[:,t] = self._y
 
             # use prediction as input to the network
-            u = y 
 
         self.test_err(Y, horizon)
         return Y
@@ -262,7 +344,7 @@ class ESN:
         print 'training mse: ', mse
 
     def test_err(self, Y, horizon):
-		mse = np.sum( np.square( self._data[self._N:self._N+horizon+1] - Y[0,0:horizon] ) ) / horizon 
+		mse = np.sum( np.square( self._data[self._N:self._N+horizon] - Y[0,0:horizon] ) ) / horizon 
 		print 'test mse: ', mse
 
     def plot_training(self, title, ylabel):
@@ -284,12 +366,12 @@ class ESN:
         plt.grid(True)
         plt.show()
 
-    def plot_test(self, Y, title, ylabel):
+    def plot_test(self, Y, horizon, title, ylabel):
         fmt = mdates.DateFormatter('%d-%m-%Y')
         #loc = mdates.WeekdayLocator(byweekday=mdates.Monday)
-        months = self._dates[self._N:self._N+50]
+        months = self._dates[self._N:self._N+horizon]
 
-        target = self._data[self._N:self._N+50] 
+        target = self._data[self._N:self._N+horizon] 
         pred = Y.flatten()
 
         plt.figure(2).clear()
@@ -311,21 +393,20 @@ def main():
 
     # Split dataset into training and testset
     print len(data[0])
-    split_ind = len(data[0])-50
+    split_ind = len(data[0])-35
 
     # Reservoir size
-    Nx = 500
+    Nx = 1000
     initN = 740# 24 months initialization
 
     Ny = 1
     # Num. Regions and Products : R,P
     esn = ESN(data, split_ind, initN)
     esn.init_reservoir(Nx) 
-    esn.init_training()
-    esn.custom_training(teacher_force = False, squared = True, leaky = False)
+    esn.custom_training(teacher_force = False, squared = False, leaky = True)
     esn.plot_training('Training outputs', 'Y')
-    Y = esn.generative_run(50, squared = True)
-    esn.plot_test(Y, 'Test run', 'Price')
+    Y = esn.generative_run(False, 35, squared = False)
+    esn.plot_test(Y, 35, 'Test run', 'Price')
 
     #esn.custom_training("o", teacher_forcing = True, feedback = True, xTransOrder = False, leaky = True)
 
