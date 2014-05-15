@@ -1,0 +1,12 @@
+260882 rules with support higher than or equal to 0.400 found.
+supp	conf	rule
+0.429	0.643	BesanNA=unchanged increase -> ArharSplit=unchanged increase
+0.429	0.783	ArharSplit=unchanged increase -> BesanNA=unchanged increase
+0.429	0.692	BiscuitGlucose=unchanged increase -> ArharSplit=unchanged increase
+0.429	0.783	ArharSplit=unchanged increase -> BiscuitGlucose=unchanged increase
+0.452	0.760	ChickenPoultry=unchanged increase -> ArharSplit=unchanged increase
+0.452	0.826	ArharSplit=unchanged increase -> ChickenPoultry=unchanged increase
+0.429	0.783	CoconutFresh=unchanged increase -> ArharSplit=unchanged increase
+0.429	0.783	ArharSplit=unchanged increase -> CoconutFresh=unchanged increase
+0.405	0.739	CumminNA=unchanged increase -> ArharSplit=unchanged increase
+0.405	0.739	ArharSplit=unchanged increase -> CumminNA=unchanged increase

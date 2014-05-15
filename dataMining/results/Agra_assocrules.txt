@@ -1,0 +1,12 @@
+26 rules with support higher than or equal to 0.400 found.
+supp	conf	rule
+0.448	0.812	MeatMutton=unchanged increase -> BreadLocal=unchanged increase
+0.448	1.000	BreadLocal=unchanged increase -> MeatMutton=unchanged increase
+0.414	0.800	SaltPacketiodized=unchanged increase -> BreadLocal=unchanged increase
+0.414	0.923	BreadLocal=unchanged increase -> SaltPacketiodized=unchanged increase
+0.414	1.000	SujiNA=unchanged increase -> CoconutNA=unchanged increase
+0.414	0.857	CoconutNA=unchanged increase -> SujiNA=unchanged increase
+0.448	0.867	SaltLoosecommon=unchanged increase -> MeatMutton=unchanged increase
+0.448	0.812	MeatMutton=unchanged increase -> SaltLoosecommon=unchanged increase
+0.483	0.933	SaltPacketiodized=unchanged increase -> MeatMutton=unchanged increase
+0.483	0.875	MeatMutton=unchanged increase -> SaltPacketiodized=unchanged increase

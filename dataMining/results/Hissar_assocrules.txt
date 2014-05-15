@@ -1,0 +1,12 @@
+302 rules with support higher than or equal to 0.400 found.
+supp	conf	rule
+0.405	0.652	GingellyNA=unchanged increase -> AttaFAQ=unchanged increase
+0.405	0.789	AttaFAQ=unchanged increase -> GingellyNA=unchanged increase
+0.405	0.714	SaltPacketiodized=unchanged increase -> AttaFAQ=unchanged increase
+0.405	0.789	AttaFAQ=unchanged increase -> SaltPacketiodized=unchanged increase
+0.405	0.882	GramSplit=small increase -> BesanNA=small increase
+0.405	1.000	BesanNA=small increase -> GramSplit=small increase
+0.514	1.000	BreadLocal=unchanged increase -> BiscuitGlucose=unchanged increase
+0.514	0.864	BiscuitGlucose=unchanged increase -> BreadLocal=unchanged increase
+0.432	0.889	ChickenPoultry=unchanged increase -> BiscuitGlucose=unchanged increase
+0.432	0.727	BiscuitGlucose=unchanged increase -> ChickenPoultry=unchanged increase
