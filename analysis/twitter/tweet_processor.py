@@ -24,6 +24,9 @@ import traceback
 sys.path.append('keywords')
 from food_categories import getFoodWordList, get_food_words, getFoodCatList
 
+# Autoflush output
+sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)
+
 # Redirect STDERR to STDOUT
 sys.stderr = sys.stdout
 
@@ -104,7 +107,6 @@ class ProcessManager(threading.Thread):
                 else:
                     proc_thread = TweetProcessor(self)
                     proc_thread.set_client(t.get_client())
-                    new_threads.append(proc_thread)
                     proc_thread.start()
                     print "Started new thread", proc_thread, "instead of terminated", t
             self.threads = new_threads
@@ -147,11 +149,9 @@ class ProcessManager(threading.Thread):
         return picklefs
 
     def write_picklefs_proc(self):
-		f = open('processed_picklefs.txt', 'w')
-		for fn in self.picklefs_proc:
-			f.write(str(fn)+'\n')
-
-		f.close()
+        with open(script_directory + '/processed_picklefs.txt', 'wb') as f:
+            for fn in self.picklefs_proc:
+                f.write(str(fn)+'\n')
 
     def save_locations_pickle(self):
         with open(script_directory + '/tweets_cnt_regions_cities.pick', 'wb') as f:
@@ -294,8 +294,8 @@ class TweetProcessor(threading.Thread):
                 continue
             #print self, ' chosen ', picklef
             print self,': loading tweets from ', picklef
-            tweet_set = self.load_tweets(picklef)
             try:
+                tweet_set = self.load_tweets(picklef)
                 self.process_tweets(tweet_set)
             except Exception:
                 traceback.print_exc()
@@ -334,16 +334,14 @@ def main(args):
 
     sc.use_keyspace('tweet_collector')
 
-    thread = ProcessManager() 
-    thread.set_dir(tmp_dir)
-    thread.start()
-
-    threads = []
+    proc_mon = ProcessManager()
+    proc_mon.set_dir(tmp_dir)
 
     for i in range(TOTAL_THREADS):
-        proc_thread = TweetProcessor(thread)
+        proc_thread = TweetProcessor(proc_mon)
         proc_thread.set_client(sc)
-        threads.append(proc_thread)
+
+    proc_mon.start()
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
