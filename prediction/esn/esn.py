@@ -57,10 +57,10 @@ class ESN:
     def init_Weights(self, squared = False):
         np.random.seed(42)
 
-        self._Win = np.random.uniform(-1,1,size=(self._Nx,1+self._Nu+self._Ny)) * np.std(self._data)
+        self._Win = np.random.uniform(-1,1,size=(self._Nx,1+self._Nu+self._Ny))
 
         # Internal connection - to speed up computation make matrix sparse (set random entries to zero)
-        self._W = np.random.uniform(-1,1,size=(self._Nx, self._Nx)) * np.std(self._data)
+        self._W = np.random.uniform(-1,1,size=(self._Nx, self._Nx))
         it = np.nditer(self._W, flags=['multi_index'])
         while not it.finished:
             if np.random.rand(1)[0] < 0.95:
@@ -213,15 +213,13 @@ class ESN:
             #if t >= self._initN:
             #    break
             u = self._data[t]
-            print 'u ', u
             # white noise on x
             xlast = self._x
             #if not teacher_force:
             #    x_feedback = np.dot(self._Wb, self._y)
 
-            un = np.vstack((u, 0))
-            print np.vstack((b, un)).shape
-            print self._Win.shape
+            un = np.vstack((u, self._y))
+     
             xnext = np.tanh(np.dot(self._Win, np.vstack((b, un)))+np.dot(self._W,xlast)+np.random.normal(0, 0.0001))
             self._x = xnext
 
@@ -238,13 +236,13 @@ class ESN:
                 if not teacher_force:
                     # both of shape (500,1), transpose one
                     self._y = np.dot(out.T, self._Wout)
-                    print 'y ', self._y
                     self._Ytrain[t-self._initN] = self._y
                     if niter % 100 == 0:
                         print 'iteration: ', niter
+                        print 'u ', u
                         print 'y', self._y
 
-                    self.RLS_update(t, out)
+                    self.LMS_update(t, out)
                     niter += 1
 
         if teacher_force:
@@ -315,14 +313,13 @@ class ESN:
         x_feedback = 0.0
         # use last training points as input to make first prediction
         u = self._data[self._N]
-        self.y = u
         for t in range(horizon):
             print 't ', t
             print 'u ', u
 
             xlast = self._x# + np.random.normal(0, 0.0001, self._x.shape[0])[:,np.newaxis]
-            un = np.vstack((0, self._y))
-            xnext = np.tanh(np.dot(self._Win, np.vstack((1, un)))+np.dot(self._W, xlast))
+            un = np.vstack((self._y, self._y))
+            xnext = np.tanh(np.dot(self._Win, np.vstack((1, un)))+np.dot(self._W, xlast)+np.random.normal(0, 0.0001))
             self._x = (1-self._alpha)*xlast + self._alpha*xnext
 
             out = np.vstack((1, un, self._x))
@@ -331,7 +328,7 @@ class ESN:
                     out = np.vstack((out,out_sq))
             self._y = np.dot(out.T, self._Wout)
             print 'y ', self._y
-            u= 0
+            u=self._y
             Y[:,t] = self._y
 
             # use prediction as input to the network
@@ -354,9 +351,7 @@ class ESN:
         months = self._traindates
 
         train = self._data[self._initN+1:self._N+1] 
-        print train.shape
-        print self._Ytrain.shape
-        print self._traindates.shape
+
         plt.figure(10).clear()
         plt.plot_date(x=months, y=self._Ytrain, fmt="-", color='blue')
         plt.plot_date(x=months, y=train, fmt="-", color='green')
@@ -396,7 +391,7 @@ def main():
     split_ind = len(data[0])-35
 
     # Reservoir size
-    Nx = 1000
+    Nx = 3000
     initN = 740# 24 months initialization
 
     Ny = 1
