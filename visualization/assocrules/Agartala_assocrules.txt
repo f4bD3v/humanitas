@@ -1,0 +1,12 @@
+642 rules with support higher than or equal to 0.400 found.
+supp	conf	rule
+0.471	1.000	BreadLocal=unchanged increase -> BiscuitGlucose=unchanged increase
+0.471	0.727	BiscuitGlucose=unchanged increase -> BreadLocal=unchanged increase
+0.500	1.000	CoconutFresh=unchanged increase -> BiscuitGlucose=unchanged increase
+0.500	0.773	BiscuitGlucose=unchanged increase -> CoconutFresh=unchanged increase
+0.588	0.769	CoconutNA=unchanged increase -> BiscuitGlucose=unchanged increase
+0.588	0.909	BiscuitGlucose=unchanged increase -> CoconutNA=unchanged increase
+0.500	0.739	EggsNA=unchanged increase -> BiscuitGlucose=unchanged increase
+0.500	0.773	BiscuitGlucose=unchanged increase -> EggsNA=unchanged increase
+0.529	0.900	MilkCowBuffalo=unchanged increase -> BiscuitGlucose=unchanged increase
+0.529	0.818	BiscuitGlucose=unchanged increase -> MilkCowBuffalo=unchanged increase

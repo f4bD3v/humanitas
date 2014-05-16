@@ -1,0 +1,12 @@
+38 rules with support higher than or equal to 0.400 found.
+supp	conf	rule
+0.417	0.625	MeatMutton=unchanged increase -> AttaFAQ=unchanged increase
+0.417	0.833	AttaFAQ=unchanged increase -> MeatMutton=unchanged increase
+0.417	0.600	MilkCowBuffalo=unchanged increase -> AttaFAQ=unchanged increase
+0.417	0.833	AttaFAQ=unchanged increase -> MilkCowBuffalo=unchanged increase
+0.417	0.625	MeatMutton=unchanged increase -> BiscuitGlucose=unchanged increase
+0.417	0.882	BiscuitGlucose=unchanged increase -> MeatMutton=unchanged increase
+0.417	0.714	SaltLoosecommon=unchanged increase -> BreadLocal=unchanged increase
+0.417	0.882	BreadLocal=unchanged increase -> SaltLoosecommon=unchanged increase
+0.444	0.667	MeatMutton=unchanged increase -> ChickenPoultry=unchanged increase
+0.444	0.842	ChickenPoultry=unchanged increase -> MeatMutton=unchanged increase
