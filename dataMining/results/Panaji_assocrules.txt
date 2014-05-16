@@ -1,0 +1,12 @@
+1022 rules with support higher than or equal to 0.400 found.
+supp	conf	rule
+0.436	0.567	BajraFAQ=unchanged increase -> AttaFAQ=unchanged increase
+0.436	0.850	AttaFAQ=unchanged increase -> BajraFAQ=unchanged increase
+0.410	0.593	BiscuitGlucose=unchanged increase -> AttaFAQ=unchanged increase
+0.410	0.800	AttaFAQ=unchanged increase -> BiscuitGlucose=unchanged increase
+0.410	0.615	SaltLoosecommon=unchanged increase -> AttaFAQ=unchanged increase
+0.410	0.800	AttaFAQ=unchanged increase -> SaltLoosecommon=unchanged increase
+0.410	0.762	BesanNA=unchanged increase -> BajraFAQ=unchanged increase
+0.410	0.533	BajraFAQ=unchanged increase -> BesanNA=unchanged increase
+0.564	0.815	BiscuitGlucose=unchanged increase -> BajraFAQ=unchanged increase
+0.564	0.733	BajraFAQ=unchanged increase -> BiscuitGlucose=unchanged increase

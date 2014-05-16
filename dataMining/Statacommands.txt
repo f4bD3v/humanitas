@@ -1,0 +1,6 @@
+duplicates tag v1 v2 v3 v4 v4 v6,v7 gen(dup_id)gen dup = cond(_N==1,0,_n)
+if dup_id == 1 drop
+gen commodity = v5  + v6gen index = v1 + v2 + v3 + v4
+drop v1 v2 v3 v4 v5 v6reshape wide v7, i(index) j(commodity) string
+
+
