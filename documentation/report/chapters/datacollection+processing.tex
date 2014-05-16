@@ -138,7 +138,7 @@ Several sentiment analysis frameworks were tested, including:
 
 All of these software packages produced reasonable results on some short and simple sentences, but sentiment grades looked almost random on a set of real collected tweets. Most likely, factors such as misspelled words, acronyms, usage of slang and irony contributed to the overall ambiguity of sentiment grades assignment.
 
-Therefore, we decided to build and use our own simple system, which incorporated basic opinion mining, but was mainly focused on extracting relevant keywords, which could help to estimate tweets from the specific point of view. This approach, which also takes into account issues originating from word misspelling, is described in next two paragraphs.
+Therefore, we decided to build and use our own simple system, which incorporated basic natural language processing and opinion mining techniques, but was mainly focused on extracting relevant keywords, which could help to estimate tweets from the specific point of view. This approach, which also takes into account issues originating from word misspelling, is described in next two paragraphs.
 
 \subsubsection*{Extracting predictor categories}
 
@@ -170,7 +170,9 @@ Check if $s$ is present in $RI$.
   	}
 % \caption{Algo}
 \end{algorithm}
-\noindent
+\noindent \\
+
+On a high level, every tweet is split into words, and then each word (token) is passed through 'get\_category' function. But here's another problem we face using this approach: each relevant word we met may have a negation word (particle) before it, which subverts the meaning: "increases" -> "doesn't increase", "have food" -> "have no food", etc. To deal with this problem, we employed the following method: we added a special 'negation' category with a list of negation words ("not", "haven't", "won't", etc.), and if there is a word with "negative" category before some relative word (to be more precise, within some constant distance from it, say 2), then we change the polarity of relative word's category. For example, if a word is from category "poverty" and has "high" polarity (like "starving"), then negative category word right before it (such as "aren't") will turn the polarity to "low".
 
 
 \subsubsection*{Tweets spell checking}

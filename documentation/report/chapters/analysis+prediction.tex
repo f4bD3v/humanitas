@@ -53,11 +53,11 @@ We can also apply ARMA to the linear regression model. It is formulated as such:
 
 $Y = Beta*X + eps,   eps ~ ARMA(p,q)$
 
-Through OLS (Ordinary Leasat Square) or GLS (General Least Square) processes,
+Through OLS (Ordinary Least Squares) or GLS (General Least Squares) processes,
 we can obtain an optimal Beta.
 
 \subsection*{Multilayer Perceptrons}
-taken from M. Seegers course on Pattern Recognition and ML
+taken from M. Seeger's course on Pattern Recognition and ML
 
 \subsection*{Recurrent Neural Networks (RNN)}
 source: scholarpedia
@@ -72,7 +72,7 @@ The simplest form of an RNN consists of an input, an output and one hidden layer
 \subsubsection*{General description of a discrete time RNN}
 A discrete time RNN is a graph with $K$ input units $\vec{u}$, $N$ internal network units $\vec{x}$ and $L$ output units $\vec{y}$. The activation (per layer) vectors at point n in time are denoted by $\vec{u}(n) = (u_1(n),...,u_n(n))$, $\vec{x}(n) = (x_1(n),...,x_n(n))$, $\vec{y}(n) = (y_1(n),...,y_n(n))$. Edges between the units in these sets are represented by weights $\omega_{ij}\neq0$ which are gathered in adjacency matrices. There are four types of matrices:\par
 \begin{itemize}
-	\item $\vec{W}^{in}_{N\times K}$ contains inputs weigths for an internal unit in each row respectively 
+	\item $\vec{W}^{in}_{N\times K}$ contains inputs weights for an internal unit in each row respectively 
 	\item $\vec{W}_{N\times N}$ contains the internal weights. This matrix is usually sparse with densities $5\%-20\%$
 	\item $\vec{W}^{out}_{L\times (K+N+L)}$ contains the weights for edges, which can stem from the input, the internal units and the outputs themselves, leading to the output units.
 	\item $\vec{W}^{back}_{N\times L}$ contain weights for the edges that project back from the output units to the $N$ internal units
@@ -81,7 +81,7 @@ A discrete time RNN is a graph with $K$ input units $\vec{u}$, $N$ internal netw
 In a \emph{fully recurrent network} every unit receives input from all other units neurons and therefore input units can have direct impact on output units. Output units can further be interconnected.\par
 
 \paragraph{Evaluation}
-The calculation of the new state of the internal neurons in time-step $n+1$ is called evalution. 
+The calculation of the new state of the internal neurons in time-step $n+1$ is called evaluation. 
 \[
 \vec{x}(n+1)=\vec{f}(\vec{W}^{in}\vec{u}(n+1)+\vec{W}\vec{x}(n)+\vec{W}^{back}\vec{y}(n))
 \]
@@ -109,7 +109,7 @@ For every left infinite sequence $(\vec{u}(n),\vec{y}(n-1)),n=\dots,-2,-1,0$ and
 \end{align*}
 it holds true that $\vec{x}(n)=\vec{x'}(n)$ for all $n \leq 0$.
 \end{frm-def}
-The echo state propery is ensured through the matrix of internal weights $W$
+The echo state property is ensured through the matrix of internal weights $W$
 
 \begin{frm-thm}
 Define $\sigma_{max}$ as largest singular value of $\vec{W}$, $\lambda_{max}$ as largest absolute eigenvalue of $\vec{W}$.
@@ -129,7 +129,7 @@ Hyperparameters: dimensionality of W, spectral radius $\alpha$
 \paragraph*{Initial state determination}
 The network is run for a first set of inputs and the results are then discarded. If the spectral radius is close to unity, implying slow forgetting of the starting state, the initial set has to be a substantial part of the training dataset.
 
-"Likewise, when the trained network is used to predict a sequence, a long initial run of the sequence must be fed into the network before the actual prediction can start. This is a nuisance because such long initial transients are in principle unneccessary"
+"Likewise, when the trained network is used to predict a sequence, a long initial run of the sequence must be fed into the network before the actual prediction can start. This is a nuisance because such long initial transients are in principle unnecessary"
 
 "By contrast, a recurrent neural network such as our echo state network, but also such as the networks used in [5] need long initial runs to “tune in” to the to-be-predicted sequence. [5] tackle this problem by training a second, auxiliary “initiator” network."
 EchoStatesTechRep.pdf, p.32
@@ -143,7 +143,7 @@ EchoStatesTechRep.pdf, p.32
 \paragraph*{Leaky integrator neurons}
 \emph{Taken from Echo State Tech Rep. page 26/27}\\
 % exploitation: \vec{f}(\vec{W}^{in}\vec{u}(n+1)+\vec{W}\vec{x}(n)+\vec{W}^{back}\vec{y}(n))
-In order for the Echo State Network to be able to learn slowly and continuously changing dynamics and thereby to capture longterm phenoma in the price sequences we feed in, we need a way to introduce continuous dynamics. This is done via approximation of the differential equation of a continuous-time leaky integrator network
+In order for the Echo State Network to be able to learn slowly and continuously changing dynamics and thereby to capture long-term phenomena in the price sequences we feed in, we need a way to introduce continuous dynamics. This is done via approximation of the differential equation of a continuous-time leaky integrator network
 \begin{equation}
     \frac{d\vec{x}}{d\vec{t}} = C (-\alpha\vec{x} + \vec{f}(\vec{W}^{in}\vec{u}(n+1)+\vec{W}\vec{x}(n)+\vec{W}^{back}\vec{y}(n)))
 \end{equation}
@@ -169,9 +169,9 @@ update weights in each iteration
 \end{enumerate}
 \end{frm-algo}
 
-Recursive Least Squares instable during training
+Recursive Least Squares unstable during training
 Therefore use (inverse) QR RLS, for motivation visit this link:
-http://zone.ni.com/reference/en-XX/help/372357A-01/lvaftconcepts/aft_rls_algorithms/
+http://zone.ni.com/reference/en-XX/help/372357A-01/lvaftconcepts/aft\_rls\_algorithms/
 
 \paragraph*{Parameter selection with Maximum Entropy Bootstrap (Meboot)}
 In order to find the best parameters for generalization during training of the neural network models with we create replicate time series of a selected price sequence dataset. The method we employ to this end is called 'Maximum Entropy Bootstrap' (meboot) and was introduced by H.D. Vinod in 2006. [reference]. The reason for the use of this specific method is that, due to temporal dependence, time series cannot simply be randomly sampled into a new dataset. The meboot algorithm allows for construction of random replicates of the given time series showing the same statistical properties.
@@ -180,7 +180,7 @@ In order to find the best parameters for generalization during training of the n
 
 \subsection*{Data Mining}
 
-In this section we give a brief introduction to association rule mining and detail the implementation and evaluation of the system. In order to run the code you will need to install the libraries Scipy and Orange 
+In this section we give a brief introduction to association rule mining and detail the implementation and evaluation of the system. In order to run the code you will need to install the libraries Scipy and Orange.
 
 \subsubsection{A brief introduction to Association rule mining}
 
@@ -194,7 +194,7 @@ Confidence on the other hand is is a measure on how reliable the inference made 
 
 It is worth noting that the inference made by an association rule does not necessarily imply causality. Instead the implication indicates a strong concurrence relationship between items in the antecedent and consequent of the rule. 
 
-So how do we go about implementing this in an algorithm? A rather naive approach would be to check if each itemsset satisfies minimum support. However this is rather inefficient and unnecessary. We can make use of of the observation that every subset of a frequent item set also has to be a frequent item set. This works the otherway as well. If a set is not frequent then its superset can not be frequent either. This observation allows us to prevent unnecessary computation. The Apriori Algorithm uses this downward closure to identify frequent item sets. Candidates that do not satisfy minimal support are pruned, which automatically reduces the algorithm's search space. Once frequent item sets have been generated the algorithm enters the second face, namely generating derivations for which the metric minimal confidence is used. 
+So how do we go about implementing this in an algorithm? A rather naive approach would be to check if each itemset satisfies minimum support. However this is rather inefficient and unnecessary. We can make use of of the observation that every subset of a frequent item set also has to be a frequent item set. This works the other way as well. If a set is not frequent then its superset can not be frequent either. This observation allows us to prevent unnecessary computation. The Apriori Algorithm uses this downward closure to identify frequent item sets. Candidates that do not satisfy minimal support are pruned, which automatically reduces the algorithm's search space. Once frequent item sets have been generated the algorithm enters the second face, namely generating derivations for which the metric minimal confidence is used. 
 
 \subsubsection{Implementation}
 
@@ -202,12 +202,12 @@ The implementation is guided through three stage namely data crunching, classifi
 
 
 
-In order to run the Apriori Algorithm we needed to do some preprocessing since the data available was in a uncompatible format. The data readily available to us was in the form 
-of Date Country City Category Commodity 1, Date Country City Category Commodity 2. In the statistics community this kind of format is referred to as the "long format". In order to run Apriori we need to convert the table to a "wide format" meaning that all commodities need to be related to one index. You can imagine a matrix where the y axis is described by city + date and the x axis is labeled with all the available commodities. To do the conversion we used Stata, a statistical software which is mostly used in the field of social science. Before reading the data into state we filtered the document for special characters ("", /) and replaced all unavailable price informations with "NA". For this purpose we used the filter.py script. Once we read in the data into state we removed duplicates and started the conversion. To reproduce the correct table format you fan follow our implementation in the stata script.  The data is now in the correct table format what remains to be done is slicing the table according to a city and sorting the data in order of decreasing time stamps. These steps are performed in the dataFrame.py. We now continue to process the files by classifying continues variables into categories. We therefor filtered the maximum and minimum increase/decrease in price to establish a range of values. Depending on whether a price increase fall into the first, second or third third of the price range we classified it as small, medium or big increase/decrease respectively. The categorial data can now be processed by the assoc.py file. The library orange provides an implementation of the a priori gen algorithm. We simply set the min support value and write the 10 rules with the highest support count to a file. 
+In order to run the Apriori Algorithm we needed to do some preprocessing since the data available was in an incompatible format. The data readily available to us was in the form 
+of Date Country City Category Commodity 1, Date Country City Category Commodity 2. In the statistics community this kind of format is referred to as the "long format". In order to run Apriori we need to convert the table to a "wide format" meaning that all commodities need to be related to one index. You can imagine a matrix where the y axis is described by city + date and the x axis is labeled with all the available commodities. To do the conversion we used Stata, a statistical software which is mostly used in the field of social science. Before reading the data into state we filtered the document for special characters ("", /) and replaced all unavailable price informations with "NA". For this purpose we used the filter.py script. Once we read in the data into state we removed duplicates and started the conversion. To reproduce the correct table format you fan follow our implementation in the stata script.  The data is now in the correct table format what remains to be done is slicing the table according to a city and sorting the data in order of decreasing time stamps. These steps are performed in the dataFrame.py. We now continue to process the files by classifying continues variables into categories. We therefor filtered the maximum and minimum increase/decrease in price to establish a range of values. Depending on whether a price increase fall into the first, second or third of the price range we classified it as small, medium or big increase/decrease respectively. The categorial data can now be processed by the assoc.py file. The library orange provides an implementation of the a priori gen algorithm. We simply set the min support value and write the 10 rules with the highest support count to a file. 
 
 \subsubsection{Results}
 
-What we were hoping to find were seasonal related price changes such as those we experience when shopping for fruits and vengtables at our local grocery stores. Rules such as $Tomatoes = big increase \implies potatoes = small decrease$ could serve 
+What we were hoping to find were seasonal related price changes such as those we experience when shopping for fruits and vegetables at our local grocery stores. Rules such as $Tomatoes = big increase \implies potatoes = small decrease$ could serve 
 
 
 Our initial granularity was set to weekly data. From our meta analysis we observed that prices quite frequently stay unchanged over the period of several weeks. This resulted in an overwhelming amount of rules in the form of commodity $A = unchanged \implies B= unchanged$. This made it really hard to filter the set for insightful rules. We therefor decided to compare price changes over the period of 12 weeks. Although the majority of the rules still remained in the above form we managed to extract some relations related to price changes. 
