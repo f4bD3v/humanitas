@@ -1,0 +1,2 @@
+0 rules with support higher than or equal to 0.400 found.
+supp	conf	rule
