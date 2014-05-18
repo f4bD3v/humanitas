@@ -30,6 +30,18 @@ def add_dict(d):
         for loc in d_cat:
             add_dict_location(d, category, loc)
 
+def dump_csv():
+    f = open('tweets_cities_regions_daily.csv', 'wb')
+    for loc in out_dict: 
+        loc_dict = out_dict[loc]
+        for reg in loc_dict:
+            reg_dict = loc_dict[reg]
+            for day in reg_dict:
+                cnt = reg_dict[day]
+                s = "%s,%s,%s,%s" % (day, loc, reg, cnt)
+                f.write(s + "\n")
+    f.close()
+
 def main():
     files = glob('out*.pickle')
     dicts = []
@@ -43,6 +55,7 @@ def main():
     with open(out_file, 'wb') as f:
         pickle.dump(out_dict, f)
     print "# Saved output to", out_file
+    dump_csv()
 
 if __name__ == '__main__':
     main()
