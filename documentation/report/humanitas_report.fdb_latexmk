@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1400366144 "humanitas_report.tex" "humanitas_report.pdf" "humanitas_report" 1400366147
+["pdflatex"] 1400404405 "humanitas_report.tex" "humanitas_report.pdf" "humanitas_report" 1400404409
   "/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii" 1337017135 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/ifxetex/ifxetex.sty" 1284331290 1458 43ab4710dc82f3edeabecd0d099626b2 ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/atbegshi.sty" 1335995445 24460 92f559a71aac869021852c227c704b38 ""
@@ -82,13 +82,19 @@
   "/usr/local/texlive/2013/texmf-dist/tex/latex/tools/xspace.sty" 1312409015 4405 b7f0681f78908bf1aa3cd73228e9fd38 ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/xcolor/xcolor.sty" 1169481954 55224 a43bab84e0ac5e6efcaf9a98bde73a94 ""
   "/usr/local/texlive/2013/texmf-dist/tex/plain/ifetex/ifetex.tex" 1320621834 1166 4b66ad073c6073cb1bde651c18b7dbb2 ""
-  "abstract.tex" 1395842160 0 d41d8cd98f00b204e9800998ecf8427e ""
-  "chapters/analysis+prediction.tex" 1400366138 26246 53553f9b5cb1e311bb723c436b137077 ""
-  "chapters/datacollection+processing.tex" 1400249478 16428 b800f77df5fa51df59cb1a2f2b57c27c ""
-  "humanitas_report.aux" 1400366145 3031 981a057252c106d3ac681e234d90657c ""
-  "humanitas_report.tex" 1400366076 2135 42565e4d1799b7aa2a712c8183c2ad60 ""
+  "chapters/analysis+prediction.tex" 1400399772 27666 8181699ff60c6c7a7ec24bc671aef423 ""
+  "chapters/datacollection+processing.tex" 1400404366 16666 6670cd6db51bf3eca7c0a08cccde9c13 ""
+  "chapters/visualization.tex" 1400249478 748 ed6d887ae555d11ae6b3f5a863abce40 ""
+  "conc.tex" 1400404174 819 835b9b851777d208d35f989165929f8b ""
+  "humanitas_report.aux" 1400404407 4324 ae95a28279f132316258fe1edcbb4f88 ""
+  "humanitas_report.tex" 1400404125 2188 29dbdfd33de45f2e274a7034176e350c ""
   "img/CollectionProcess.pdf" 1397832622 9029 727163cbea9cea179bc9d087d158b918 ""
+  "img/plots/esn/mg/data1000.png" 1400398130 54365 33b9c932fdea1d49219d6ca29038f797 ""
+  "img/plots/esn/mg/pred1000.png" 0 -1 0 ""
+  "img/plots/esn/mg/resact.png" 1400398053 163818 2300863066abb8fbdead33f3f9d1ffda ""
+  "img/simple_esn.png" 1400366394 64161 933aa333e7bde0f7508a483374f82996 ""
   "img/simple_rnn.png" 1397333248 39387 69143c74d880a641d8052ae4402d48d2 ""
+  "intro.tex" 1400404403 1549 264e9fe53af38483beed865e233c48c2 ""
   "mlp/plots/onion_35d.eps" 0 -1 0 ""
   "plots/esn/potato_35d.eps" 0 -1 0 ""
   (generated)

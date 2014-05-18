@@ -9,12 +9,15 @@ from numpy import *
 from matplotlib.pyplot import *
 import scipy.linalg
 
-# load the data
-trainLen = 2000
-testLen = 2000
-initLen = 100
+#data = loadtxt('MackeyGlass_t17.txt')
+data = np.genfromtxt('good_series_wholesale_daily.txt', usecols = (0,1,2), delimiter=',', skiprows=1)
+data = data[:,2]
 
-data = loadtxt('MackeyGlass_t17.txt')
+# load the data
+testLen = 7
+initLen = 1000
+trainLen = len(data)-testLen-initLen
+errorLen = testLen
 
 # plot some of it
 figure(10).clear()
@@ -23,7 +26,7 @@ title('A sample of data')
 
 # generate the ESN reservoir
 inSize = outSize = 1
-resSize = 1000
+resSize = 2000
 a = 0.3 # leaking rate
 
 random.seed(42)
@@ -71,14 +74,13 @@ for t in range(testLen):
     #u = data[trainLen+t+1] 
 
 # compute MSE for the first errorLen time steps
-errorLen = 500
 mse = sum( square( data[trainLen+1:trainLen+errorLen+1] - Y[0,0:errorLen] ) ) / errorLen
 print 'MSE = ' + str( mse )
     
 # plot some signals
 figure(1).clear()
-plot( data[trainLen+1:trainLen+testLen+1], 'g' )
-plot( Y.T, 'b' )
+plot( data[trainLen+1:trainLen+testLen+1], 'b', linewidth=2.0 )
+plot( Y.T, 'r' )
 title('Target and generated signals $y(n)$ starting at $n=0$')
 legend(['Target signal', 'Free-running predicted signal'])
 

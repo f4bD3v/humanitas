@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  18 MAY 2014 00:35
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  18 MAY 2014 11:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -923,7 +923,26 @@ Normal \count register pool exhausted, switching to extended pool.
 \c@frm-thm=\count278
 \c@frm-algo=\count279
 \drop=\skip334
- (./humanitas_report.aux)
+ (./humanitas_report.aux
+
+LaTeX Warning: Label `subfig:res_35d_2' multiply defined.
+
+
+LaTeX Warning: Label `sub@subfig:res_35d_2' multiply defined.
+
+
+LaTeX Warning: Label `subfig:res_35d_1' multiply defined.
+
+
+LaTeX Warning: Label `sub@subfig:res_35d_1' multiply defined.
+
+
+LaTeX Warning: Label `subfig:res_35d_2' multiply defined.
+
+
+LaTeX Warning: Label `sub@subfig:res_35d_2' multiply defined.
+
+)
 \openout1 = `humanitas_report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 64.
@@ -1014,80 +1033,93 @@ Underfull \hbox (badness 2384) in paragraph at lines 66--66
 \T1/cmr/bx/n/14.4 Fabian Brix, Gabriel Grill, Julien Graisse,
  []
 
-(./abstract.tex) (./chapters/datacollection+processing.tex [1
+(./intro.tex [1
 
-{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
-LaTeX Font Info:    Try loading font information for U+msa on input line 64.
+{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+Underfull \hbox (badness 10000) in paragraph at lines 3--4
+
+ []
+
+) (./chapters/datacollection+processing.tex [2] [3] [4]
+LaTeX Font Info:    Try loading font information for U+msa on input line 67.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 64.
+LaTeX Font Info:    Try loading font information for U+msb on input line 67.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Overfull \hbox (11.68842pt too wide) in paragraph at lines 68--79
+Overfull \hbox (11.68842pt too wide) in paragraph at lines 71--82
  [] 
  []
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 87.
-(/usr/local/texlive/2013/texmf-dist/tex/latex/base/omscmr.fd
+[5]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 90.
+ (/usr/local/texlive/2013/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 87.
- [4]
-<./img/CollectionProcess.pdf, id=24, 597.50786pt x 845.04686pt>
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 90.
+
+<./img/CollectionProcess.pdf, id=27, 597.50786pt x 845.04686pt>
 File: ./img/CollectionProcess.pdf Graphic file (type pdf)
 
 <use ./img/CollectionProcess.pdf>
-Package pdftex.def Info: ./img/CollectionProcess.pdf used on input line 97.
+Package pdftex.def Info: ./img/CollectionProcess.pdf used on input line 100.
 (pdftex.def)             Requested size: 292.77629pt x 414.06369pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [5]
-[6 <./img/CollectionProcess.pdf>] [7]
-Underfull \hbox (badness 10000) in paragraph at lines 149--150
-
- []
-
-
+ [6] [7 <./img/CollectionProcess.pdf>]
+[8]
 Underfull \hbox (badness 10000) in paragraph at lines 151--152
 
  []
 
-[8]
-Overfull \hbox (20.2353pt too wide) in paragraph at lines 155--172
+
+Underfull \hbox (badness 10000) in paragraph at lines 153--154
+
+ []
+
+
+Overfull \hbox (20.2353pt too wide) in paragraph at lines 157--174
 [] $[]$ 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 173--174
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [9]
+Underfull \hbox (badness 10000) in paragraph at lines 175--176
 
  []
 
-[9]) (./chapters/analysis+prediction.tex
+[10]) (./chapters/analysis+prediction.tex
 Overfull \hbox (5.42624pt too wide) in paragraph at lines 4--5
 \T1/cmr/m/n/12 automate in-ter-pre-ta-tion to a cer-tain ex-tent by learn-ing a
 bout cir-cum-stances through
  []
 
-[10]
+[11]
 Overfull \hbox (3.57669pt too wide) in paragraph at lines 39--43
 \T1/cmr/m/n/12 The clas-si-cal Time se-ries fore-cast-ing ap-proach is to use t
 he ARMA (Auto-Regressive
  []
 
-[11] <./img/simple_rnn.png, id=58, 391.4625pt x 352.31625pt>
+<./img/simple_rnn.png, id=57, 391.4625pt x 352.31625pt> [12]
 File: ./img/simple_rnn.png Graphic file (type png)
 
 <use ./img/simple_rnn.png>
 Package pdftex.def Info: ./img/simple_rnn.png used on input line 69.
 (pdftex.def)             Requested size: 292.77629pt x 263.51079pt.
- [12 <./img/simple_rnn.png>] [13]
-Underfull \hbox (badness 5147) in paragraph at lines 105--106
+ [13 <./img/simple_rnn.png>]
+<./img/simple_esn.png, id=71, 514.723pt x 310.761pt>
+File: ./img/simple_esn.png Graphic file (type png)
+
+<use ./img/simple_esn.png>
+Package pdftex.def Info: ./img/simple_esn.png used on input line 102.
+(pdftex.def)             Requested size: 292.77629pt x 176.761pt.
+ [14 <./img/simple_esn.png>]
+Underfull \hbox (badness 5147) in paragraph at lines 107--108
 []\T1/cmr/m/it/12 For ev-ery left in-fi-nite se-quence $\OT1/cmr/m/n/12 (\OT1/c
 mr/bx/n/12 u\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 n\OT1/cmr/m/n/12 )\OML/cmm/m/it/1
 2 ; \OT1/cmr/bx/n/12 y\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 n \OMS/cmsy/m/n/12 ^^@ 
@@ -1095,84 +1127,94 @@ mr/bx/n/12 u\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 n\OT1/cmr/m/n/12 )\OML/cmm/m/it/1
  []
 
 
-Overfull \hbox (92.89859pt too wide) in paragraph at lines 124--126
+Overfull \hbox (92.89859pt too wide) in paragraph at lines 126--128
 \T1/cmr/m/n/12 cil-la-tors, i.e. the hid-den to out-put con-nec-tions:" http://
 stackoverflow.com/questions/21940860/echo-
  []
 
-[14]
-Underfull \hbox (badness 10000) in paragraph at lines 139--140
+[15]
+Underfull \hbox (badness 10000) in paragraph at lines 141--142
 
  []
 
-[15]
-Overfull \hbox (26.29314pt too wide) in paragraph at lines 188--191
+[16]
+Overfull \hbox (26.29314pt too wide) in paragraph at lines 190--193
 \T1/cmr/m/n/12 RLS, for mo-ti-va-tion visit this link: http://zone.ni.com/refer
 ence/en-XX/help/372357A-
  []
 
-[16]
+[17]
+! Missing $ inserted.
+<inserted text> 
+                $
+l.198 ...ww.scholarpedia.org/article/Mackey-Glass_
+                                                  equation] and noise.
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
 
-LaTeX Warning: File `plots/esn/potato_35d.eps' not found on input line 205.
+! Missing $ inserted.
+<inserted text> 
+                $
+l.199 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
 
-Package epstopdf Info: Source file: <plots/esn/potato_35d.eps>
-(epstopdf)             Output file: <plots/esn/potato_35d-eps-converted-to.pdf>
 
-(epstopdf)             Command: <repstopdf --outfile=plots/esn/potato_35d-eps-c
-onverted-to.pdf plots/esn/potato_35d.eps>
-(epstopdf)             \includegraphics on input line 205.
-Package epstopdf Info: Output file is already uptodate.
+Overfull \hbox (16.00534pt too wide) in paragraph at lines 198--199
+\T1/cmr/m/n/12 the Mackey-Glass dif-fer-en-tial equa-tion [http://www.scholarpe
+dia.org/article/Mackey-
+ []
 
-! Package pdftex.def Error: File `plots/esn/potato_35d-eps-converted-to.pdf' no
-t found.
+<./img/plots/esn/mg/data1000.png, id=86, 578.16pt x 433.62pt>
+File: ./img/plots/esn/mg/data1000.png Graphic file (type png)
+
+<use ./img/plots/esn/mg/data1000.png>
+Package pdftex.def Info: ./img/plots/esn/mg/data1000.png used on input line 204
+.
+(pdftex.def)             Requested size: 188.21288pt x 141.1564pt.
+
+<./img/plots/esn/mg/resact.png, id=87, 578.16pt x 433.62pt>
+File: ./img/plots/esn/mg/resact.png Graphic file (type png)
+
+<use ./img/plots/esn/mg/resact.png>
+Package pdftex.def Info: ./img/plots/esn/mg/resact.png used on input line 213.
+(pdftex.def)             Requested size: 188.21288pt x 141.1564pt.
+
+
+LaTeX Warning: File `./img/plots/esn/mg/pred1000.png' not found on input line 2
+22.
+
+
+! Package pdftex.def Error: File `./img/plots/esn/mg/pred1000.png' not found.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.205 ...dth=\textwidth]{plots/esn/potato_35d.eps}
+l.222 ...xtwidth]{./img/plots/esn/mg/pred1000.png}
                                                   
 Using draft setting for this image.
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 205.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 222.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 
-LaTeX Warning: File `mlp/plots/onion_35d.eps' not found on input line 214.
-
-Package epstopdf Info: Source file: <mlp/plots/onion_35d.eps>
-(epstopdf)             Output file: <mlp/plots/onion_35d-eps-converted-to.pdf>
-(epstopdf)             Command: <repstopdf --outfile=mlp/plots/onion_35d-eps-co
-nverted-to.pdf mlp/plots/onion_35d.eps>
-(epstopdf)             \includegraphics on input line 214.
-Package epstopdf Info: Output file is already uptodate.
-
-! Package pdftex.def Error: File `mlp/plots/onion_35d-eps-converted-to.pdf' not
- found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.214 ...idth=\textwidth]{mlp/plots/onion_35d.eps}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+LaTeX Warning: Float too large for page by 76.7059pt on input line 229.
 
 
-LaTeX Warning: File `plots/esn/potato_35d.eps' not found on input line 227.
+LaTeX Warning: File `plots/esn/potato_35d.eps' not found on input line 238.
 
 Package epstopdf Info: Source file: <plots/esn/potato_35d.eps>
 (epstopdf)             Output file: <plots/esn/potato_35d-eps-converted-to.pdf>
 
 (epstopdf)             Command: <repstopdf --outfile=plots/esn/potato_35d-eps-c
 onverted-to.pdf plots/esn/potato_35d.eps>
-(epstopdf)             \includegraphics on input line 227.
+(epstopdf)             \includegraphics on input line 238.
 Package epstopdf Info: Output file is already uptodate.
 
 ! Package pdftex.def Error: File `plots/esn/potato_35d-eps-converted-to.pdf' no
@@ -1182,20 +1224,20 @@ See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.227 ...dth=\textwidth]{plots/esn/potato_35d.eps}
+l.238 ...dth=\textwidth]{plots/esn/potato_35d.eps}
                                                   
 Using draft setting for this image.
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: File `mlp/plots/onion_35d.eps' not found on input line 236.
+LaTeX Warning: File `mlp/plots/onion_35d.eps' not found on input line 247.
 
 Package epstopdf Info: Source file: <mlp/plots/onion_35d.eps>
 (epstopdf)             Output file: <mlp/plots/onion_35d-eps-converted-to.pdf>
 (epstopdf)             Command: <repstopdf --outfile=mlp/plots/onion_35d-eps-co
 nverted-to.pdf mlp/plots/onion_35d.eps>
-(epstopdf)             \includegraphics on input line 236.
+(epstopdf)             \includegraphics on input line 247.
 Package epstopdf Info: Output file is already uptodate.
 
 ! Package pdftex.def Error: File `mlp/plots/onion_35d-eps-converted-to.pdf' not
@@ -1205,59 +1247,128 @@ See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.236 ...idth=\textwidth]{mlp/plots/onion_35d.eps}
+l.247 ...idth=\textwidth]{mlp/plots/onion_35d.eps}
                                                   
 Using draft setting for this image.
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-[17]
-Underfull \vbox (badness 2671) has occurred while \output is active []
 
- [18]
-Underfull \vbox (badness 2717) has occurred while \output is active []
+LaTeX Warning: File `plots/esn/potato_35d.eps' not found on input line 260.
 
- [19]
-Underfull \hbox (badness 10000) in paragraph at lines 267--268
+Package epstopdf Info: Source file: <plots/esn/potato_35d.eps>
+(epstopdf)             Output file: <plots/esn/potato_35d-eps-converted-to.pdf>
+
+(epstopdf)             Command: <repstopdf --outfile=plots/esn/potato_35d-eps-c
+onverted-to.pdf plots/esn/potato_35d.eps>
+(epstopdf)             \includegraphics on input line 260.
+Package epstopdf Info: Output file is already uptodate.
+
+! Package pdftex.def Error: File `plots/esn/potato_35d-eps-converted-to.pdf' no
+t found.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.260 ...dth=\textwidth]{plots/esn/potato_35d.eps}
+                                                  
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `mlp/plots/onion_35d.eps' not found on input line 269.
+
+Package epstopdf Info: Source file: <mlp/plots/onion_35d.eps>
+(epstopdf)             Output file: <mlp/plots/onion_35d-eps-converted-to.pdf>
+(epstopdf)             Command: <repstopdf --outfile=mlp/plots/onion_35d-eps-co
+nverted-to.pdf mlp/plots/onion_35d.eps>
+(epstopdf)             \includegraphics on input line 269.
+Package epstopdf Info: Output file is already uptodate.
+
+! Package pdftex.def Error: File `mlp/plots/onion_35d-eps-converted-to.pdf' not
+ found.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.269 ...idth=\textwidth]{mlp/plots/onion_35d.eps}
+                                                  
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[18] [19]
+Underfull \hbox (badness 10000) in paragraph at lines 300--301
 
  []
 
-[20] [21])
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [20])
+(./chapters/visualization.tex [21]
+Underfull \hbox (badness 10000) in paragraph at lines 11--13
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 14--15
+
+ []
+
+) (./conc.tex
+! Undefined control sequence.
+l.2 ...s we conceived to the newly available \href
+                                                  {http://www.kemendag.go.id...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+)
 \tf@thm=\write4
 \openout4 = `humanitas_report.thm'.
 
- [22] (./humanitas_report.aux) ) 
+ [22] [23] [24 <./img/plots/esn/mg/data1000.png> <./img/plots/esn/mg/resact.png
+>] [25] [26] (./humanitas_report.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 16151 strings out of 493315
- 258635 string characters out of 6137904
- 386607 words of memory out of 5000000
- 19379 multiletter control sequences out of 15000+600000
+ 16180 strings out of 493315
+ 259278 string characters out of 6137904
+ 388827 words of memory out of 5000000
+ 19396 multiletter control sequences out of 15000+600000
  19663 words of font info for 50 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  48i,13n,40p,1813b,482s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2013/texmf-dist/fonts/enc/d
-vips/cm-super/cm-super-t1.enc}</usr/local/texlive/2013/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmr12.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr8.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmsy10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmsy8.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfon
-ts/symbols/msbm10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm
--super/sfbi1728.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-s
-uper/sfbx1200.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-sup
-er/sfbx1440.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super
-/sfbx1728.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/s
-frm1095.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfr
-m1200.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfti1
-200.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sftt120
-0.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfxc2488.
-pfb>
-Output written on humanitas_report.pdf (22 pages, 343688 bytes).
+{/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
+</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
+/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></
+usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></us
+r/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/
+local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loc
+al/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loca
+l/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/
+texlive/2013/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/lo
+cal/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbi1728.pfb></usr/loca
+l/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/
+texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/te
+xlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texl
+ive/2013/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texliv
+e/2013/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/
+2013/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/20
+13/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb></usr/local/texlive/2013
+/texmf-dist/fonts/type1/public/cm-super/sfxc2488.pfb>
+Output written on humanitas_report.pdf (26 pages, 601482 bytes).
 PDF statistics:
- 158 PDF objects out of 1000 (max. 8388607)
- 110 compressed objects within 2 object streams
+ 177 PDF objects out of 1000 (max. 8388607)
+ 119 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 
