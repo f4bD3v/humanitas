@@ -1,3 +1,4 @@
+--------------------------------
 Tweet counts per-region per-week
 --------------------------------
 
@@ -24,3 +25,14 @@ Dictionary (D) contains two keys: 'cities', 'regions'. Each of those is mapped t
 }
 
 If a tweet comes from a city C, that belongs to region R, then this tweet is counted in both dictionaries (D['cities'] and D['regions'])
+
+--------------------------------
+Tweet counts per-region per-day
+--------------------------------
+
+Same dictionary structure
+
+Merged CSV -- https://www.dropbox.com/s/onmf49puqmhoios/tweets_cities_regions_daily.csv
+
+Merged dictionary -- https://www.dropbox.com/s/5z15jtub4jbr2zm/tweets_india_cnt_daily.pickle
+
