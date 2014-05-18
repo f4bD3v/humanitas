@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  13 MAY 2014 02:32
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  18 MAY 2014 00:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -487,6 +487,13 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
 LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
 )
+(/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)
 (/usr/local/texlive/2013/texmf-dist/tex/latex/algorithm2e/algorithm2e.sty
 Package: algorithm2e 2013/01/06 v5.00 algorithms environments
 \c@AlgoLine=\count154
@@ -540,7 +547,35 @@ subscribe by emailing sympa@lirmm.fr with 'subscribe <list> <firstname name>'
 \c@algocf=\count157
 \algocf@algoframe=\box38
 \algocf@algobox=\box39
-) (/usr/local/texlive/2013/texmf-dist/tex/latex/mdframed/mdframed.sty
+) (/usr/local/texlive/2013/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2013/02/03 v1.1-62 Sub-captions (AR)
+
+
+Class memoir Warning: You are using the caption package with the memoir class. 
+To prepare we will now reset all captioning macros and configurations to kernel
+ defaults, and then let the caption package take over. Please remember to use t
+he caption package interfaces in order to configure your captions. .
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 57.
+\captionmargin=\dimen177
+\captionmargin@=\dimen178
+\captionwidth=\dimen179
+\caption@tempdima=\dimen180
+\caption@indent=\dimen181
+\caption@parindent=\dimen182
+\caption@hangindent=\dimen183
+)
+\c@ContinuedFloat=\count158
+)
+\c@subfigure=\count159
+\c@subtable=\count160
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/mdframed/mdframed.sty
 Package: mdframed 2013/03/09\ 1.8: mdframed
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/kvoptions.sty
@@ -580,18 +615,18 @@ Package: l3seq 2013/01/12 v4434 L3 Sequences and stacks
 )
 (/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3int.sty
 Package: l3int 2013/01/13 v4444 L3 Integers
-\c_max_int=\count158
-\l_tmpa_int=\count159
-\l_tmpb_int=\count160
-\g_tmpa_int=\count161
-\g_tmpb_int=\count162
+\c_max_int=\count161
+\l_tmpa_int=\count162
+\l_tmpb_int=\count163
+\g_tmpa_int=\count164
+\g_tmpb_int=\count165
 )
 (/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3quark.sty
 Package: l3quark 2012/11/04 v4268 L3 Quarks
 )
 (/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3prg.sty
 Package: l3prg 2013/02/13 v4459 L3 Control structures
-\g__prg_map_int=\count163
+\g__prg_map_int=\count166
 )
 (/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3clist.sty
 Package: l3clist 2013/01/08 v4414 L3 Comma separated lists
@@ -607,20 +642,20 @@ Package: l3msg 2013/01/08 v4412 L3 Messages
 )
 (/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3file.sty
 Package: l3file 2013/01/14 v4446 L3 File and I/O operations
-\l_iow_line_count_int=\count164
-\l__iow_target_count_int=\count165
-\l__iow_current_line_int=\count166
-\l__iow_current_word_int=\count167
-\l__iow_current_indentation_int=\count168
+\l_iow_line_count_int=\count167
+\l__iow_target_count_int=\count168
+\l__iow_current_line_int=\count169
+\l__iow_current_word_int=\count170
+\l__iow_current_indentation_int=\count171
 )
 (/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3skip.sty
 Package: l3skip 2013/01/13 v4444 L3 Dimensions and skips
-\c_zero_dim=\dimen177
-\c_max_dim=\dimen178
-\l_tmpa_dim=\dimen179
-\l_tmpb_dim=\dimen180
-\g_tmpa_dim=\dimen181
-\g_tmpb_dim=\dimen182
+\c_zero_dim=\dimen184
+\c_max_dim=\dimen185
+\l_tmpa_dim=\dimen186
+\l_tmpb_dim=\dimen187
+\g_tmpa_dim=\dimen188
+\g_tmpb_dim=\dimen189
 Normal \skip register pool exhausted, switching to extended pool.
 \c_zero_skip=\skip256
 \c_max_skip=\skip257
@@ -637,20 +672,20 @@ Normal \skip register pool exhausted, switching to extended pool.
 )
 (/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3keys.sty
 Package: l3keys 2013/02/24 v4461 L3 Experimental key-value interfaces
-\g__keyval_level_int=\count169
-\l_keys_choice_int=\count170
+\g__keyval_level_int=\count172
+\l_keys_choice_int=\count173
 )
 (/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3fp.sty
 Package: l3fp 2013/01/19 v4449 L3 Floating points
-\c__fp_leading_shift_int=\count171
-\c__fp_middle_shift_int=\count172
-\c__fp_trailing_shift_int=\count173
-\c__fp_big_leading_shift_int=\count174
-\c__fp_big_middle_shift_int=\count175
-\c__fp_big_trailing_shift_int=\count176
-\c__fp_Bigg_leading_shift_int=\count177
-\c__fp_Bigg_middle_shift_int=\count178
-\c__fp_Bigg_trailing_shift_int=\count179
+\c__fp_leading_shift_int=\count174
+\c__fp_middle_shift_int=\count175
+\c__fp_trailing_shift_int=\count176
+\c__fp_big_leading_shift_int=\count177
+\c__fp_big_middle_shift_int=\count178
+\c__fp_big_trailing_shift_int=\count179
+\c__fp_Bigg_leading_shift_int=\count180
+\c__fp_Bigg_middle_shift_int=\count181
+\c__fp_Bigg_trailing_shift_int=\count182
 )
 (/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3box.sty
 Package: l3box 2013/01/08 v4411 L3 Experimental boxes
@@ -663,13 +698,13 @@ Package: l3box 2013/01/08 v4411 L3 Experimental boxes
 (/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3coffins.sty
 Package: l3coffins 2012/09/09 v4212 L3 Coffin code layer
 \l__coffin_internal_box=\box45
-\l__coffin_internal_dim=\dimen183
-\l__coffin_offset_x_dim=\dimen184
-\l__coffin_offset_y_dim=\dimen185
-\l__coffin_x_dim=\dimen186
-\l__coffin_y_dim=\dimen187
-\l__coffin_x_prime_dim=\dimen188
-\l__coffin_y_prime_dim=\dimen189
+\l__coffin_internal_dim=\dimen190
+\l__coffin_offset_x_dim=\dimen191
+\l__coffin_offset_y_dim=\dimen192
+\l__coffin_x_dim=\dimen193
+\l__coffin_y_dim=\dimen194
+\l__coffin_x_prime_dim=\dimen195
+\l__coffin_y_prime_dim=\dimen196
 \c_empty_coffin=\box46
 \l__coffin_aligned_coffin=\box47
 \l__coffin_aligned_internal_coffin=\box48
@@ -678,48 +713,48 @@ Package: l3coffins 2012/09/09 v4212 L3 Coffin code layer
 \l__coffin_display_coffin=\box51
 \l__coffin_display_coord_coffin=\box52
 \l__coffin_display_pole_coffin=\box53
-\l__coffin_display_offset_dim=\dimen190
-\l__coffin_display_x_dim=\dimen191
-\l__coffin_display_y_dim=\dimen192
+Normal \dimen register pool exhausted, switching to extended pool.
+\l__coffin_display_offset_dim=\dimen256
+\l__coffin_display_x_dim=\dimen257
+\l__coffin_display_y_dim=\dimen258
 )
 (/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3color.sty
 Package: l3color 2012/08/29 v4156 L3 Experimental color support
 )
 (/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3luatex.sty
 Package: l3luatex 2012/08/03 v4049 L3 Experimental LuaTeX-specific functions
-\g__cctab_allocate_int=\count180
-\g__cctab_stack_int=\count181
+\g__cctab_allocate_int=\count183
+\g__cctab_stack_int=\count184
 )
 (/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3candidates.sty
 Package: l3candidates 2013/03/14 v4468 L3 Experimental additions to l3kernel
-\l__box_top_dim=\dimen193
-\l__box_bottom_dim=\dimen194
-\l__box_left_dim=\dimen195
-\l__box_right_dim=\dimen196
-Normal \dimen register pool exhausted, switching to extended pool.
-\l__box_top_new_dim=\dimen256
-\l__box_bottom_new_dim=\dimen257
-\l__box_left_new_dim=\dimen258
-\l__box_right_new_dim=\dimen259
+\l__box_top_dim=\dimen259
+\l__box_bottom_dim=\dimen260
+\l__box_left_dim=\dimen261
+\l__box_right_dim=\dimen262
+\l__box_top_new_dim=\dimen263
+\l__box_bottom_new_dim=\dimen264
+\l__box_left_new_dim=\dimen265
+\l__box_right_new_dim=\dimen266
 \l__box_internal_box=\box54
-\l__coffin_bounding_shift_dim=\dimen260
-\l__coffin_left_corner_dim=\dimen261
-\l__coffin_right_corner_dim=\dimen262
-\l__coffin_bottom_corner_dim=\dimen263
-\l__coffin_top_corner_dim=\dimen264
-\l__coffin_scaled_total_height_dim=\dimen265
-\l__coffin_scaled_width_dim=\dimen266
+\l__coffin_bounding_shift_dim=\dimen267
+\l__coffin_left_corner_dim=\dimen268
+\l__coffin_right_corner_dim=\dimen269
+\l__coffin_bottom_corner_dim=\dimen270
+\l__coffin_top_corner_dim=\dimen271
+\l__coffin_scaled_total_height_dim=\dimen272
+\l__coffin_scaled_width_dim=\dimen273
 ))
 Package: xparse 2013/03/12 v4467 L3 Experimental document command parser
-\l__xparse_current_arg_int=\count182
-\l__xparse_m_args_int=\count183
-\l__xparse_mandatory_args_int=\count184
-\l__xparse_processor_int=\count185
-\l__xparse_v_nesting_int=\count186
+\l__xparse_current_arg_int=\count185
+\l__xparse_m_args_int=\count186
+\l__xparse_mandatory_args_int=\count187
+\l__xparse_processor_int=\count188
+\l__xparse_v_nesting_int=\count189
 )
 (/usr/local/texlive/2013/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2011/01/03 v2.1 e-TeX tools for LaTeX
-\etb@tempcnta=\count187
+\etb@tempcnta=\count190
 )
 (/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/zref-abspage.sty
 Package: zref-abspage 2012/04/04 v2.24 Module abspage for zref (HO)
@@ -748,11 +783,11 @@ Package zref Info: New property: page on input line 761.
 (/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/atbegshi.sty
 Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
 )
-\c@abspage=\count188
+\c@abspage=\count191
 Package zref Info: New property: abspage on input line 62.
 )
 \mdf@templength=\skip262
-\c@mdf@globalstyle@cnt=\count189
+\c@mdf@globalstyle@cnt=\count192
 \mdf@skipabove@length=\skip263
 \mdf@skipbelow@length=\skip264
 \mdf@leftmargin@length=\skip265
@@ -841,10 +876,10 @@ Package zref Info: New property: abspage on input line 62.
 (/usr/local/texlive/2013/texmf-dist/tex/latex/mdframed/md-frame-0.mdf
 File: md-frame-0.mdf 2013/03/09\ 1.8: md-frame-0
 )
-\mdf@envdepth=\count190
-\c@mdf@env@i=\count191
-\c@mdf@env@ii=\count192
-\c@mdf@zref@counter=\count193
+\mdf@envdepth=\count193
+\c@mdf@env@i=\count194
+\c@mdf@env@ii=\count195
+\c@mdf@zref@counter=\count196
 Package zref Info: New property: mdf@pagevalue on input line 840.
 \mdf@horizontalspaceofbox=\skip325
 )
@@ -867,10 +902,10 @@ Package: ntheorem 2011/08/15 1.33
 \theorem@framepostskip=\toks37
 \theorem@inframepreskip=\toks38
 \theorem@inframepostskip=\toks39
-\theoremindent=\dimen267
-\theorem@indent=\dimen268
-\theoremrightindent=\dimen269
-\theorem@rightindent=\dimen270
+\theoremindent=\dimen274
+\theorem@indent=\dimen275
+\theoremrightindent=\dimen276
+\theorem@rightindent=\dimen277
 \theoremheaderfont=\toks40
 \theoremseparator=\toks41
 \theoremprework=\toks42
@@ -883,24 +918,26 @@ Package: ntheorem 2011/08/15 1.33
 \thm@topsepadd=\skip333
 \shadecolor=\toks48
 )
-\c@frm-def=\count194
-\c@frm-thm=\count195
+Normal \count register pool exhausted, switching to extended pool.
+\c@frm-def=\count277
+\c@frm-thm=\count278
+\c@frm-algo=\count279
 \drop=\skip334
  (./humanitas_report.aux)
 \openout1 = `humanitas_report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -938,17 +975,16 @@ LaTeX Font Info:    ... okay on input line 62.
 
 (/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count196
-\scratchdimen=\dimen271
+\scratchcounter=\count280
+\scratchdimen=\dimen278
 \scratchbox=\box60
-Normal \count register pool exhausted, switching to extended pool.
-\nofMPsegments=\count277
-\nofMParguments=\count278
+\nofMPsegments=\count281
+\nofMParguments=\count282
 \everyMPshowfont=\toks49
-\MPscratchCnt=\count279
-\MPscratchDim=\dimen272
-\MPnumerator=\count280
-\makeMPintoPDFobject=\count281
+\MPscratchCnt=\count283
+\MPscratchDim=\dimen279
+\MPnumerator=\count284
+\makeMPintoPDFobject=\count285
 \everyMPtoPDFconversion=\toks50
 ) (/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
@@ -965,21 +1001,32 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
 \AtBeginShipoutBox=\box61
 
-Underfull \hbox (badness 4229) in paragraph at lines 64--64
+Underfull \hbox (badness 4229) in paragraph at lines 66--66
 []\T1/cmr/bx/n/14.4 Students: Alexan-der John Busser, An-ton
  []
 
 
-Underfull \hbox (badness 2384) in paragraph at lines 64--64
+Underfull \hbox (badness 2384) in paragraph at lines 66--66
 \T1/cmr/bx/n/14.4 Fabian Brix, Gabriel Grill, Julien Graisse,
  []
 
 (./abstract.tex) (./chapters/datacollection+processing.tex [1
 
 {/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
+LaTeX Font Info:    Try loading font information for U+msa on input line 64.
 
+(/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 64.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
 Overfull \hbox (11.68842pt too wide) in paragraph at lines 68--79
  [] 
  []
@@ -1016,6 +1063,11 @@ Overfull \hbox (20.2353pt too wide) in paragraph at lines 155--172
 [] $[]$ 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 173--174
+
+ []
+
 [9]) (./chapters/analysis+prediction.tex
 Overfull \hbox (5.42624pt too wide) in paragraph at lines 4--5
 \T1/cmr/m/n/12 automate in-ter-pre-ta-tion to a cer-tain ex-tent by learn-ing a
@@ -1028,13 +1080,13 @@ Overfull \hbox (3.57669pt too wide) in paragraph at lines 39--43
 he ARMA (Auto-Regressive
  []
 
-<./img/simple_rnn.png, id=54, 391.4625pt x 352.31625pt>
+[11] <./img/simple_rnn.png, id=58, 391.4625pt x 352.31625pt>
 File: ./img/simple_rnn.png Graphic file (type png)
 
 <use ./img/simple_rnn.png>
 Package pdftex.def Info: ./img/simple_rnn.png used on input line 69.
 (pdftex.def)             Requested size: 292.77629pt x 263.51079pt.
- [11] [12 <./img/simple_rnn.png>]
+ [12 <./img/simple_rnn.png>] [13]
 Underfull \hbox (badness 5147) in paragraph at lines 105--106
 []\T1/cmr/m/it/12 For ev-ery left in-fi-nite se-quence $\OT1/cmr/m/n/12 (\OT1/c
 mr/bx/n/12 u\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 n\OT1/cmr/m/n/12 )\OML/cmm/m/it/1
@@ -1042,37 +1094,147 @@ mr/bx/n/12 u\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 n\OT1/cmr/m/n/12 )\OML/cmm/m/it/1
 \OT1/cmr/m/n/12 1))\OML/cmm/m/it/12 ; n \OT1/cmr/m/n/12 =
  []
 
-[13]
+
 Overfull \hbox (92.89859pt too wide) in paragraph at lines 124--126
 \T1/cmr/m/n/12 cil-la-tors, i.e. the hid-den to out-put con-nec-tions:" http://
 stackoverflow.com/questions/21940860/echo-
  []
 
-[14] [15] [16]
-Underfull \hbox (badness 10000) in paragraph at lines 190--191
+[14]
+Underfull \hbox (badness 10000) in paragraph at lines 139--140
 
  []
+
+[15]
+Overfull \hbox (26.29314pt too wide) in paragraph at lines 188--191
+\T1/cmr/m/n/12 RLS, for mo-ti-va-tion visit this link: http://zone.ni.com/refer
+ence/en-XX/help/372357A-
+ []
+
+[16]
+
+LaTeX Warning: File `plots/esn/potato_35d.eps' not found on input line 205.
+
+Package epstopdf Info: Source file: <plots/esn/potato_35d.eps>
+(epstopdf)             Output file: <plots/esn/potato_35d-eps-converted-to.pdf>
+
+(epstopdf)             Command: <repstopdf --outfile=plots/esn/potato_35d-eps-c
+onverted-to.pdf plots/esn/potato_35d.eps>
+(epstopdf)             \includegraphics on input line 205.
+Package epstopdf Info: Output file is already uptodate.
+
+! Package pdftex.def Error: File `plots/esn/potato_35d-eps-converted-to.pdf' no
+t found.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.205 ...dth=\textwidth]{plots/esn/potato_35d.eps}
+                                                  
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 205.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+
+LaTeX Warning: File `mlp/plots/onion_35d.eps' not found on input line 214.
+
+Package epstopdf Info: Source file: <mlp/plots/onion_35d.eps>
+(epstopdf)             Output file: <mlp/plots/onion_35d-eps-converted-to.pdf>
+(epstopdf)             Command: <repstopdf --outfile=mlp/plots/onion_35d-eps-co
+nverted-to.pdf mlp/plots/onion_35d.eps>
+(epstopdf)             \includegraphics on input line 214.
+Package epstopdf Info: Output file is already uptodate.
+
+! Package pdftex.def Error: File `mlp/plots/onion_35d-eps-converted-to.pdf' not
+ found.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.214 ...idth=\textwidth]{mlp/plots/onion_35d.eps}
+                                                  
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `plots/esn/potato_35d.eps' not found on input line 227.
+
+Package epstopdf Info: Source file: <plots/esn/potato_35d.eps>
+(epstopdf)             Output file: <plots/esn/potato_35d-eps-converted-to.pdf>
+
+(epstopdf)             Command: <repstopdf --outfile=plots/esn/potato_35d-eps-c
+onverted-to.pdf plots/esn/potato_35d.eps>
+(epstopdf)             \includegraphics on input line 227.
+Package epstopdf Info: Output file is already uptodate.
+
+! Package pdftex.def Error: File `plots/esn/potato_35d-eps-converted-to.pdf' no
+t found.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.227 ...dth=\textwidth]{plots/esn/potato_35d.eps}
+                                                  
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `mlp/plots/onion_35d.eps' not found on input line 236.
+
+Package epstopdf Info: Source file: <mlp/plots/onion_35d.eps>
+(epstopdf)             Output file: <mlp/plots/onion_35d-eps-converted-to.pdf>
+(epstopdf)             Command: <repstopdf --outfile=mlp/plots/onion_35d-eps-co
+nverted-to.pdf mlp/plots/onion_35d.eps>
+(epstopdf)             \includegraphics on input line 236.
+Package epstopdf Info: Output file is already uptodate.
+
+! Package pdftex.def Error: File `mlp/plots/onion_35d-eps-converted-to.pdf' not
+ found.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.236 ...idth=\textwidth]{mlp/plots/onion_35d.eps}
+                                                  
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
 
 [17]
-Overfull \hbox (48.42516pt too wide) in paragraph at lines 210--211
-[]$\OML/cmm/m/it/12 BreadLocal \OT1/cmr/m/n/12 = \OML/cmm/m/it/12 bigincreaseMi
-lkCowBuffalo \OT1/cmr/m/n/12 = \OML/cmm/m/it/12 unchangedincrease  \OT1/cmr/m/n
-/12 =[]\OMS/cmsy/m/n/12 )  \OML/cmm/m/it/12 MaidaNA \OT1/cmr/m/n/12 =
+Underfull \vbox (badness 2671) has occurred while \output is active []
+
+ [18]
+Underfull \vbox (badness 2717) has occurred while \output is active []
+
+ [19]
+Underfull \hbox (badness 10000) in paragraph at lines 267--268
+
  []
 
-)
+[20] [21])
 \tf@thm=\write4
 \openout4 = `humanitas_report.thm'.
 
- [18] (./humanitas_report.aux) ) 
+ [22] (./humanitas_report.aux) ) 
 Here is how much of TeX's memory you used:
- 14941 strings out of 493315
- 236640 string characters out of 6137904
- 363800 words of memory out of 5000000
- 18201 multiletter control sequences out of 15000+600000
- 17346 words of font info for 42 fonts, out of 8000000 for 9000
+ 16151 strings out of 493315
+ 258635 string characters out of 6137904
+ 386607 words of memory out of 5000000
+ 19379 multiletter control sequences out of 15000+600000
+ 19663 words of font info for 50 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 48i,13n,35p,1819b,316s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,13n,40p,1813b,482s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2013/texmf-dist/fonts/enc/d
 vips/cm-super/cm-super-t1.enc}</usr/local/texlive/2013/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/pu
@@ -1081,18 +1243,21 @@ lic/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/publi
 c/amsfonts/cm/cmr12.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmr8.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/ams
 fonts/cm/cmsy10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmsy8.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-sup
-er/sfbi1728.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super
-/sfbx1200.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/s
-fbx1440.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfb
-x1728.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfrm1
-200.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfti120
+onts/cm/cmsy8.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfon
+ts/symbols/msbm10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm
+-super/sfbi1728.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-s
+uper/sfbx1200.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-sup
+er/sfbx1440.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super
+/sfbx1728.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/s
+frm1095.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfr
+m1200.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfti1
+200.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sftt120
 0.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfxc2488.
 pfb>
-Output written on humanitas_report.pdf (18 pages, 287700 bytes).
+Output written on humanitas_report.pdf (22 pages, 343688 bytes).
 PDF statistics:
- 132 PDF objects out of 1000 (max. 8388607)
- 92 compressed objects within 1 object stream
+ 158 PDF objects out of 1000 (max. 8388607)
+ 110 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -34,6 +34,7 @@ class ESN:
         self._test = data[split_ind:]
         self._Ytrain = np.zeros(len(self._traindates))
 
+        self._teacher_forcing = False
         try:
             self._Nu = self._data.shape[1]
         except IndexError:
@@ -45,8 +46,6 @@ class ESN:
         #self._initN = 365 # 1 year worth of initialization
         self._y = 0
         # select v for concrete reservoir using validation, just rerun Y=W_out.bUX for different v
-        self._nu = 1E-8
-        self._mu = 0.3
 
     def init_reservoir(self, Nx):
         # "the bigger the size of the space of reservoir signals x(n), the easier it is to find a linear combination of the signals to approximate y_target(n)"
@@ -77,14 +76,14 @@ class ESN:
         # the spectral radius determines how fast the influence of an input dies out in a reservoir with time and how stable reservoir activations are
         # => the spectral radius should be greater in tasks requiring longer memory of the input
         
-        #rhoW = np.max(np.abs(eigValues))
-        rhoW = np.max(eigValues)
+        rhoW = np.max(np.abs(eigValues))
+        #rhoW = np.max(eigValues)
 
         # Normalize random weight matrix by spectral radius
         self._W/=rhoW
 
         # Rescale matrix - Parameter to be TUNED
-        rescale = 0.8
+        rescale = 1.25
         self._W*=rescale
 
         self._Wout = np.zeros((self._Ny+self._Nx, 1))
@@ -108,6 +107,22 @@ class ESN:
 
         self._Wout = self._Wout + self._mu * np.dot(state,err)
 
+    def RLS_update(self, t, out):
+        pi = np.dot(out.T,self._P)
+
+        gamma = self._lambda + np.dot(pi,out)
+
+        self._k = pi.T / gamma
+
+        #err = np.tanh(self._data[t+1]) - np.tanh(np.dot(self._Wout.T, out))
+        err = self._data[t+1] - np.dot(self._Wout.T, out)
+
+        nWout = self._Wout + np.dot(self._k,err)
+        self._Wout = nWout
+
+        nP = (1.0/self._lambda)*(self._P-np.dot(self._k, pi))
+        self._P = (nP+nP)/2.0
+
     def run_training(self, runs = False):
         self._runs = 0
         niter = 0
@@ -115,10 +130,14 @@ class ESN:
         self._y = self._data[0]
         for t in xrange(self._N):
 
+            if self._teacher_forcing:
+                u = self._data[t]
+            else:
+                u = self._y
             # white noise on x
-            self._x = np.tanh(np.dot(self._Win, self._y)+np.dot(self._W,self._x)+np.random.normal(0, 0.0001))
+            self._x = np.tanh(np.dot(self._Win, u)+np.dot(self._W,self._x)+np.random.normal(0, 0.0001))
 
-            state = np.vstack((self._y,self._x))
+            state = np.vstack((u, self._x))
             
             if t >= self._initN:
                 self._y = np.dot(state.T, self._Wout)
@@ -129,7 +148,7 @@ class ESN:
                     yt = self._data[t+1]
                     print 'y target ', yt
 
-                self.LMS_update(t, self._y, state)
+                self.RLS_update(t, state)
                 niter += 1
 
         if isinstance(self._runs, int) and self._runs > 1:
@@ -143,13 +162,27 @@ class ESN:
                 self._runs = np.vstack((self._runcnt, self._bUX))
             self.run_training(*params) 
 
-    def custom_training(self, runs = False):
+    def custom_training(self, teacher_forcing = False, runs = False):
     #   params = self.run_training.func_code.co_varnames[1:self.run_training.func_code.co_argcount]
+        if teacher_forcing:
+            self._teacher_forcing = True
+
         self.init_training()
 
         self.init_Weights()
 
-        self._alpha = 0.3
+        self._alpha = 0.5
+
+        print 'adapting Wout online'
+        self._lambda = .999995
+        print 'feedback'
+
+        std = np.std(self._data[:self._initN])
+        delta = 100 * (std * std)
+        self._P = np.identity(self._Ny+self._Nx)
+
+        #self._P = delta * np.fliplr(self._P)
+        self._P = delta * self._P
 
         self.run_training(runs)
 
@@ -165,7 +198,7 @@ class ESN:
             print 't ', t
 
             xlast = self._x
-            self._y+=1
+            #self._y = self._data[self._N+t]
             xnext = np.tanh(np.dot(self._Win, self._y)+np.dot(self._W, xlast)+np.random.normal(0, 0.0001))
             self._x = (1-self._alpha)*xlast + self._alpha*xnext
 
@@ -236,14 +269,14 @@ def main():
     split_ind = len(data[0])-35
 
     # Reservoir size
-    Nx = 1000
-    initN = 740# 24 months initialization
+    Nx = 500
+    initN = 2500# 24 months initialization
 
     Ny = 1
     # Num. Regions and Products : R,P
     esn = ESN(data, split_ind, initN)
     esn.init_reservoir(Nx) 
-    esn.custom_training()
+    esn.custom_training(True)
     esn.plot_training('Training outputs', 'Y')
     Y = esn.generative_run(35)
     esn.plot_test(Y, 35, 'Test run', 'Price')
