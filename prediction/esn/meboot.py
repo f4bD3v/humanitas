@@ -41,6 +41,10 @@ def get_cpf(me_density, intervals):
 
 def get_quantiles(cpf, intervals, series):
     quantiles = []
+    T = float(len(series))
+    t = np.arange(T+1)
+    Rt = np.vstack((t[:-1]/T,t[1:]/T)).T
+    print Rt
     for d in xrange(series.shape[0]):
         u = np.random.uniform(0,1)
         for i in xrange(cpf.shape[0]):
