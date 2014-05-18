@@ -255,7 +255,7 @@ def get_full_data(df, all_dates, \
 
         max_nan_len = get_max_nan_len(group['price'])
         if max_nan_len > na_len_limit_ratio*len(all_dates):
-            print (state, city, product, subproduct), max_nan_len, 'exceeds max consecutive NaN length', '*********************************************'
+            print (state, city, product, subproduct), max_nan_len, 'exceeds max consecutive NaN length', na_len_limit_ratio*len(all_dates), '*********************************************'
             continue
 
 

@@ -3,24 +3,24 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-wholesale_daily = True
+wholesale_daily = False
 retail_daily = False
-retail_weekly = False
+retail_weekly = True
 
-output_by_city = False
+output_by_city = True
 merge_by_prod_reg = True
-plot_everything = False
+plot_all = False
 
 if wholesale_daily+retail_daily+retail_weekly != 1:
     raise Exception('exactly one option being True required!')
 elif wholesale_daily:
-    csv_in = os.getcwd()+'/wholesale_daily/india_timeseries_wholesale_daily_interpolated_0.6.csv'
+    csv_in = os.getcwd()+'/wholesale_daily/csv_all/india_timeseries_wholesale_daily_interpolated_0.6.csv'
     out_folder = os.getcwd()+'/wholesale_daily/'
 elif retail_daily:
-    csv_in = os.getcwd()+'/retail_daily/india_timeseries_retail_daily_interpolated_0.6.csv'
+    csv_in = os.getcwd()+'/retail_daily/csv_all/india_timeseries_retail_daily_interpolated_0.6.csv'
     out_folder = os.getcwd()+'/retail_daily/'
 elif retail_weekly:
-    csv_in = os.getcwd()+'/retail_weekly/india_timeseries_retail_weekly_interpolated_0.6.csv'
+    csv_in = os.getcwd()+'/retail_weekly/csv_all/india_timeseries_retail_weekly_interpolated_0.6.csv'
     out_folder = os.getcwd()+'/retail_weekly/'
 
 
@@ -84,7 +84,7 @@ def run_output_by_city(df_ts, all_cities):
         df_city = subdf(df_ts, city)
         for (state, city, product, subproduct) in list(df_city.columns):
             df_duy[product+'_'+subproduct] = df_city[(state, city, product, subproduct)]
-        fp = out_folder+'by_city/'
+        fp = out_folder+'csv_by_city/'
         if not os.path.exists(fp):
             os.makedirs(fp)
         fp = fp+city+'.csv'
@@ -141,7 +141,7 @@ if __name__ == '__main__':
         for state in all_states:
             df_state = subdf(df_merge, state)
             # df_state.plot()
-            plotter(df_state, fpath = out_folder+'plot_merge/', fname=state+'.png', save=True)
+            plotter(df_state, fpath = out_folder+'plot_merged/', fname=state+'.png', save=True)
 
 
         #save to csv by region
@@ -150,15 +150,15 @@ if __name__ == '__main__':
             for product in all_products:
                 series = subdf(df_merge, state, product)
                 if series.shape[1] != 0:
-                    df_reg[product] = series
+                    df_reg[product] = series.iloc[:,0]
 
-            fp = out_folder+'merged_by_reg/'
+            fp = out_folder+'csv_merged/'
             if not os.path.exists(fp):
                 os.makedirs(fp)
 
             fp = fp+state+'.csv'
             df_reg.to_csv(fp, index_label='date')
 
-    if plot_everything:
+    if plot_all:
         for label in list(df_ts.columns):
-            plotter(df_ts[label], fpath = out_folder+'plot_everything/', fname=str(label).replace('/','-')+'.png', save=True)
+            plotter(df_ts[label], fpath = out_folder+'plot_all/', fname=str(label).replace('/','-')+'.png', save=True)

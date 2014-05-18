@@ -40,9 +40,9 @@ usage = '''
 
 ##============options================
 
-run_retail_weekly = False
+run_retail_weekly = True
 run_wholesale_daily = True
-run_retail_daily = False
+run_retail_daily = True
 
 saving_csv = True
 saving_pickle = False
@@ -91,7 +91,7 @@ if __name__ == '__main__':
             mid = '_wholesale_daily'
             if with_interpolation:
                 mid = mid + '_interpolated'
-            fp = os.getcwd()+'/wholesale_daily/'
+            fp = os.getcwd()+'/wholesale_daily/csv_all/'
             if not os.path.exists(fp):
                 os.makedirs(fp)
             csv_out1_template = fp+csv_out1_template00
@@ -110,7 +110,7 @@ if __name__ == '__main__':
             mid = '_retail_weekly'
             if with_interpolation:
                 mid = mid + '_interpolated'
-            fp = os.getcwd()+'/retail_weekly/'
+            fp = os.getcwd()+'/retail_weekly/csv_all/'
             if not os.path.exists(fp):
                 os.makedirs(fp)
             csv_out1_template = fp+csv_out1_template00
@@ -131,7 +131,7 @@ if __name__ == '__main__':
             mid = '_retail_daily'
             if with_interpolation:
                 mid = mid + '_interpolated'
-            fp = os.getcwd()+'/retail_daily/'
+            fp = os.getcwd()+'/retail_daily/csv_all/'
             if not os.path.exists(fp):
                 os.makedirs(fp)
             csv_out1_template = fp+csv_out1_template00
