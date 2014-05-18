@@ -27,7 +27,8 @@
   <ul>
     <li><a href="#tabs-1">Time Series of Tweets</a></li>
     <li><a href="#tabs-2">Association Rules</a></li>
-    <li><a href="#tabs-3">Price Time Series</a></li>
+    <li><a href="#tabs-3">Daily Retail Prices</a></li>
+    <li><a href="#tabs-4">Daily Wholesale Prices</a></li>
   </ul>
   <div id="tabs-1">
     <div id="series_container" style="min-width: 310px; margin: 0 auto"></div>
@@ -36,7 +37,14 @@
     <p id="assoc_rules">No association rule found for this city.</p>
   </div>
   <div id="tabs-3">
-    <div id="price_container" style="min-width: 310px; margin: 0 auto"></div>
+    <div id="retail_container" style="min-width: 310px; margin: 0 auto">
+        <p>No retail price available for this city.</p>
+    </div>
+  </div>
+  <div id="tabs-4">
+    <div id="wholesale_container" style="min-width: 310px; margin: 0 auto">
+        <p>No wholesale price available for this city.</p>
+    </div>
   </div>
 </div>
 
@@ -44,7 +52,8 @@
 var chosen_location = $("#city_selected", top.document).attr('data-state');
 $("#tabs").tabs();
 $('#series_container').css('width', $(window).width() - 100);
-$('#price_container').css('width', $(window).width() - 100);
+$('#retail_container').css('width', $(window).width() - 100);
+$('#wholesale_container').css('width', $(window).width() - 100);
 // $('#container').css('height', $(window).height());
 $('#series_container').highcharts({
     chart: {
@@ -213,7 +222,19 @@ $('#series_container').highcharts({
 });
 
 $.get('retail_daily_by_city/' + chosen_location + '.csv', function (csv) {
-    $('#price_container').highcharts({
+    drawchart(csv, 'retail_container');
+});
+
+$.get('wholesale_daily_by_city/' + chosen_location + '.csv', function (csv) {
+    drawchart(csv, 'wholesale_container');
+});
+
+$.get("assocrules/" + chosen_location + "_assocrules.txt", function(data) {
+    $("#assoc_rules").html(data.replace(/\n/g, "<br>").replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp"));
+});
+
+function drawchart(csv, elementName) {
+    $('#' + elementName).highcharts({
         data: {
             csv: csv,
             parseDate: function (s) {
@@ -313,11 +334,6 @@ $.get('retail_daily_by_city/' + chosen_location + '.csv', function (csv) {
             }
         },
     });
-});
-
-
-$.get("assocrules/" + chosen_location + "_assocrules.txt", function(data) {
-    $("#assoc_rules").html(data.replace(/\n/g, "<br>").replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp"));
-});
+}
 </script>
 </body>
