@@ -3,7 +3,7 @@ import numpy as np
 import cPickle as pickle
 import sys
 import os
-sys.path.insert(0, '../preproc')
+# sys.path.insert(0, '../preproc')
 from df_build_func import get_all_dates, mod_header
 
 na_cutoff_rate = 0.6

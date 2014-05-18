@@ -22,37 +22,43 @@ usage = '''
                   prices of tuple (state, city, product, subproduct)
 
     general options:
-        run_retail_weekly  : True then convert india weekly into df_full and/or df_ts
-        run_wholesale_daily: True then convert india wholesale daily into df_full and/or df_ts
-        run_retail_daily   : True then convert india retail daily into df_full and/or df_ts
-        saving_csv         : True then output all df_full and df_ts to csv's
-        saving_pickle      : True then output all df_full and df_ts to pickles
-        using_df_full      : True then compute df_full
-        using_df_ts        : True then compute df_ts
-        daily_product_lst  : A list of products for importing daily dataset
-        filter_lst         : Useless now. Can be ignored.
-        with_interpolation : True then do linear interpolation on processed series
-        na_cutoff_rate     : filter out those series with more NaN than this rate
+        run_retail_weekly     : True then convert india weekly into df_full and/or df_ts
+        run_wholesale_daily   : True then convert india wholesale daily into df_full and/or df_ts
+        run_retail_daily      : True then convert india retail daily into df_full and/or df_ts
+        saving_csv            : True then output all df_full and df_ts to csv's
+        saving_pickle         : True then output all df_full and df_ts to pickles
+        using_df_full         : True then compute df_full
+        using_df_ts           : True then compute df_ts
+        daily_product_lst     : A list of products for importing daily dataset
+        filter_lst            : Useless now. Can be ignored.
+        with_interpolation    : True then do linear interpolation on processed series
+        interpolation_method  : 'linear', 'spline', 'polynomial'...
+        interpolation_order   : the order of interpolation method 'spline' and 'polynomial'
+        na_cutoff_rate        : filter out those series with more NaN than this rate
 
 '''
 
 ##============options================
 
-run_retail_weekly = False
+run_retail_weekly = True
 run_wholesale_daily = True
 run_retail_daily = True
+
 saving_csv = True
 saving_pickle = False
+saving_na_analysis = False
 
-using_df_full = True
-using_df_ts = False
+using_df_full = False
+using_df_ts = True
 
 daily_product_lst = ['Rice','Wheat','Banana', 'Apple','Coriander','Potato', 'Onion']#['Rice','Banana','Wheat', 'Apple','Coriander','Potato']
-filter_lst = []
+filter_lst = ['Rice','Wheat','Banana', 'Apple','Coriander','Potato', 'Onion']
 
-with_interpolation = False
+with_interpolation = True
+interpolation_method = 'linear'
+interpolation_order = 3
 
-na_cutoff_rate = 0.5
+na_cutoff_rate = 0.4
 
 ##====================================
 
@@ -125,13 +131,12 @@ if __name__ == '__main__':
 
         all_dates = get_all_dates(df, date_freq)
 
-        df_full, df_ts, dup_records = get_full_data(df, all_dates, \
+        df_full, df_ts, dup_records, na_table, probe = get_full_data(df, all_dates, \
                 using_df_full, using_df_ts, na_cutoff_rate, with_interpolation,\
-                filter_lst)
+                interpolation_method, interpolation_order, filter_lst)
 
-
-        #remove spikes, which are suspiciously incorrect data points from sources
-        df_full = remove_spikes(df_full, df_ts, threshold = 100) 
+        df_ts_ret = get_ret(df_ts)
+        #df_ts = remove_spikes(df_ts, 100)
 
         #print dup_records
         examine_fullness(df_full, len(all_dates), with_interpolation)
@@ -161,6 +166,10 @@ if __name__ == '__main__':
             if using_df_ts:
                 print 'saving df_ts to csv'
                 df_ts.to_csv(csv_out2, index_label='date')
+                df_ts_ret.to_csv(csv_out2+'ret', index_label='date')
 
+        if saving_na_analysis:
+            print 'saving na_table to csv'
+            na_table.to_csv('na_table.csv')
 #if __name__ == '__main__':
     #main()
