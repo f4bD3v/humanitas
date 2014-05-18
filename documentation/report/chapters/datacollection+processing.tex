@@ -29,7 +29,7 @@ Daily retail prices were found at the website, created by Department of Consumer
 
 \item[2.] Weekly retail prices
 
-Retail Price Information System (http://rpms.dacnet.nic.in/) from Indian Ministry of Agriculture was queried to obtain weekly retail prices. 
+Retail Price Information System (http://rpms.dacnet.nic.in/) from Indian Ministry of Agriculture was queried to obtain weekly retail prices.
 
 Unlike daily prices, the only available data format that was capable of being parsed, was Microsoft Excel .xls format. So all the required .xls files were downloaded using a Python script, and then 'xls2csv' was used to convert .xls documents to CSV data format. For some reason, the majority of product name were missing in downloaded .xls files, so the basic heuristic, which involved the order of product names, was used to reconstruct the data.
 The data obtained described information about prices for a large number of markets, around 60 products and hundreds of subproducts, dating back from 2005, but, unfortunately, the data was far from complete, especially for 2005-2007 time frame.
@@ -38,10 +38,26 @@ The data obtained described information about prices for a large number of marke
 
 \subsection*{Price sequences}
 
-\subsubsection*{Preprocessing}
-load data from csv into pandas dataframe 
+\subsection*{Price sequences}
+We used Pandas, a powerful and fast Python data analysis library, to load the csv files of datasets, to clean up, and to organize them into usable formats. The prices of all products in these datasets are collected through a human reporting mechanism from local institutions to a central ministry. Due to the nature of this data collecting process, the qualities of these 3 datasets suffer from human neglects and mistakes. We thus need to conduct 2 phases of work prior to time series analysis and price prediction: data clean-up and dataset usability analysis.
 
-removing NAs
+\subsubsection*{Price Data Clean-up}
+In data clean-up, we fixed several defects in the original datasets of the data sources. Each series originally has different portion of missing dates, and some have multiple data points of the same date with different values. The first stage of clean-up was to make each series align to a unique sequence of dates with constant date frequency by inserting NaNs to the missing and duplicated dates.
+
+Next, we discovered that there are many outliers with extreme values in the series. For example, a price of 10 rupee today jumps to 100 tomorrow, and then goes back to 10 the day after. Such cases are more likely caused by human mistakes in reporting prices to the Indian ministries, so we used a heuristic to remove these suspicious spikes in the series. By taking the daily differences in percentage of a series, we were able to remove data points of the dates which perform more than 100% price change in one time step (daily or weekly).
+
+Finally, we patched the missing parts of the series with common methods such as linear or cubic spline interpolation.
+
+
+\subsubsection*{Price Dataset Usability Analysis}
+
+The dataset usability analysis phase was intended to explore the data to find usable materials for analysis and prediction in later stages. We first filtered out all the series with less than 60% of non-missing data, then computed some indicators of the data availability of each product in each region. Unfortunately, we have found out that all the datasets are far from satisfying.
+
+The data availably in the daily wholesale dataset varies tremendously among different products and regions. Although there are about 15 regions, 7 candidate products, and more than 10 sub-categories for each product, most of the combinations of “region, product, sub-category” do not have enough available data for analysis and prediction. Fortunately, we did find out a few very good series which have more than 80%~90% of valid data and also perform the desired traits of high volatility and rising trend across time.
+
+On the other hand, the daily retail dataset appears to have consistent data availability among products and regions, but in fact all products have only about 60% of valid data in each region. Moreover, after examining each series via plots, we discovered that most of the daily retail series have weird behavior. For instance, the price of a series may have identical values for a long period and suddenly jump to another value, which makes the series look like levels of ladders. These series are not useful since such pattern is probably caused by dysfunctioned price reporting process.
+
+Considering the limitations of the current price datasets, we have concluded the following potential usage of them: (1) Select a few representative series of each product with very good data quality. By using these individual series as a starting point of analysis and prediction, we can find out general characteristics and also the feasibility of predicting the prices of these highly volatile commodities. (2) Merge the series of the same product in each region to construct an extended dataset containing a uniform profile for each product in each region. In this way, we can gain a national overview of trends and price variations of different products.
 
 
 \subsection*{Other sources}
@@ -72,7 +88,7 @@ Parallelisation begins with obtaining N ($\approx 10$) sets of developer credent
 \hline
 Phase 1  \\ \hline
 Users & Duration (s) & Sleep (s) & User Rate & Type \\ \hline
-334 & 2795 & 2047 & - & Total \\ \hline	    
+334 & 2795 & 2047 & - & Total \\ \hline
 299 & 2700 & 2047 & 99.7 & Normalised (3 windows) \\ \hline
 Phase 2 \\ \hline
 Tweets (Users) & Duration (s) & Sleep (s) & Tweet Rate & Type \\ \hline
@@ -124,16 +140,16 @@ Filtering the available archives of tweets taken from the API yielded near to no
 
 \subsubsection*{Sentiment analysis}
 
-Sentiment analysis, or opinion mining, is the concept of using different computer science techniques (mainly machine learning and natural language processing) in order to extract sentiment information and subjective opinions from the data. In our context this may help us to find out how circumstances in relation to commodity prices affect the overall mood in the population. 
+Sentiment analysis, or opinion mining, is the concept of using different computer science techniques (mainly machine learning and natural language processing) in order to extract sentiment information and subjective opinions from the data. In our context this may help us to find out how circumstances in relation to commodity prices affect the overall mood in the population.
 
-From the start we decided that we did not want to build our own sentiment analysis system since the proper implementation, testing and evaluation would require a considerable effort compared with the total project workload. Instead, we are planning to use some of already developed solutions and tune them to our needs. 
+From the start we decided that we did not want to build our own sentiment analysis system since the proper implementation, testing and evaluation would require a considerable effort compared with the total project workload. Instead, we are planning to use some of already developed solutions and tune them to our needs.
 
 Several sentiment analysis frameworks were tested, including:
 
 \begin{itemize}
 \item SentiStrength \par (http://sentistrength.wlv.ac.uk/)
 
-\item Stanford CoreNLP \par (http://nlp.stanford.edu/sentiment/code.html) 
+\item Stanford CoreNLP \par (http://nlp.stanford.edu/sentiment/code.html)
 
 \item 'Pattern' library from the University of Antwerp \par (http://www.clips.ua.ac.be/pages/pattern-en)
 \end{itemize}
@@ -152,12 +168,12 @@ Here is the overview of predictor category extraction algorithms we implemented:
 
 \textbf{Preprocessing}: For each relevant word in $D$ a stem is computed using the Lancaster stemming method, and the stem is added to reverse index $RI$, which maps a stem to a tuple: (category, polarity). \\
 
-\textbf{function get\_category(w):} 
+\textbf{function get\_category(w):}
 
 \indent
 \begin{algorithm}[H]
 Compute a stem $s$ from $w$ \par
-Check if $s$ is present in $RI$. 
+Check if $s$ is present in $RI$.
 
   \eIf{yes}{
 	\textbf{return} the corresponding tuple.
@@ -165,7 +181,7 @@ Check if $s$ is present in $RI$.
 		ask spell checker for a suggestion \par
 		is suggestion stem returned? \par
 		\eIf{yes}{
-			\textbf{return} the corresponding tuple from $RI$		
+			\textbf{return} the corresponding tuple from $RI$
 		}{
 			\textbf{return} None;
 		}
@@ -186,5 +202,5 @@ Several spell checking libraries were checked (Aspell and Enchant to name a few)
 For each given word $w$ we compute its stem $s$ and then edit distance (also known as Levenshtein distance) to each word (stem) from $D$. It can be done really fast thanks to C extensions of \textit{python-levenshtein} module.
 
 After that, we choose the stem with minimal edit distance (using heap to store the correspondence between distances and words and to speed up selection of the minimal one), and check if the resulting number of "errors" (which is equal to distance) is excusable for the length of word $w$. For example, we don't allow errors for words of length 5 or less, only one error is allowed for lengths from 6 to 8, etc. If everything is alright, then the suggestion is returned, otherwise the word is discarded.
- 
+
 The approach proved to be fast and tweakable, and was successfully used for tweets processing.
