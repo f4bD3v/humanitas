@@ -1,6 +1,8 @@
 import csv
 import json
 
+cities_list = ['hyderabad', 'madurai', 'chandigarh', 'bhadrawati', 'dehradun', 'jamshedpur', 'ballia', 'guwahati', 'bangalore', 'agra', 'durgapur', 'mumbai', 'vadodara', 'patna', 'itanagar', 'kolkata', 'mandi', 'bhopal', 'coimbatore', 'gurgaon', 'chennai', 'rajkot', 'palakkad', 'jammu', 'howrah', 'delhi', 'trivandrum', 'vijayawada', 'aurangabad', 'jamtara', 'jodhpur', 'srinagar', 'ahmedabad', 'kottayam', 'kota', 'padra', 'pune', 'jaipur', 'nagpur', 'cuttack', 'vellore']
+
 def getArrayFromCsv(csvFileName):
 	content = []
 	headers = None
@@ -25,10 +27,12 @@ def getArrayFromCsv(csvFileName):
 	f.close()
 	return content
 
-content = getArrayFromCsv("indian-cities.csv")
+content = getArrayFromCsv("indian-cities1.csv")
 cities = []
 for row in content:
-	if row["Longitude"] and row["Latitude"]:
+	print row["City"]
+	if row["City"].lower() in cities_list:
+		print '*************'
 		cities.append({"type": "Feature", "id": row["City"],
 			"geometry": { "type": "Point",
 			"coordinates": [float(row["Longitude"]), float(row["Latitude"])]}
