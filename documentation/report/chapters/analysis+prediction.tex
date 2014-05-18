@@ -31,7 +31,7 @@ subseries plots, periodograms, and the correolograms we mentioned before.
 
 
 \section*{Prediction Models}
-DATA: regularly sampled time series: wholesale daily, retail daily and weekly
+We decided to evaluate different prediction models on the processed price time series. Since the processing of the price data made available by the Indian government yielded very few usable time series we constrained ourselves to try the different prediction model on a set of \emph{daily} wholesale price series that had over 90\% support and could be sufficenlty cleaned and interpolated.
 
 \subsection*{Time Series Forecasting}
 
@@ -56,18 +56,19 @@ $Y = Beta*X + eps,   eps ~ ARMA(p,q)$
 Through OLS (Ordinary Least Squares) or GLS (General Least Squares) processes,
 we can obtain an optimal Beta.
 
-\subsection*{Multilayer Perceptrons}
+\subsection*{Feed Forward Neural Networks - Multilayer Perceptrons}
 taken from M. Seeger's course on Pattern Recognition and ML
 
 \subsection*{Recurrent Neural Networks (RNN)}
-source: scholarpedia
-A recurrent neural network (RNN) is a neural network in with feedback connections, enabling signals to be fed back from a layer $l$ in the network to a previous layer. %The key feature is that the weight matrix for each layer $l$ in the network contains input weights from \emph{all} other neurons in the network and not just the neurons from the previous layer. 
+A recurrent neural network (RNN) is a neural network with feedback connections, enabling signals to be fed back from a layer $l$ in the network to a previous layer. %The key feature is that the weight matrix for each layer $l$ in the network contains input weights from \emph{all} other neurons in the network and not just the neurons from the previous layer. source: scholarpedia
 
 \subsubsection*{Simple Recurrent Networks}
 The simplest form of an RNN consists of an input, an output and one hidden layer as depicted in fig.[]. 
-
-\includegraphics[width=.7\textwidth]{./img/simple_rnn.png}
-[source: wikipedia]
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{./img/simple_rnn.png}
+    \caption{source: wikipedia}
+\end{figure}
 
 \subsubsection*{General description of a discrete time RNN}
 A discrete time RNN is a graph with $K$ input units $\vec{u}$, $N$ internal network units $\vec{x}$ and $L$ output units $\vec{y}$. The activation (per layer) vectors at point n in time are denoted by $\vec{u}(n) = (u_1(n),...,u_n(n))$, $\vec{x}(n) = (x_1(n),...,x_n(n))$, $\vec{y}(n) = (y_1(n),...,y_n(n))$. Edges between the units in these sets are represented by weights $\omega_{ij}\neq0$ which are gathered in adjacency matrices. There are four types of matrices:\par
@@ -92,9 +93,7 @@ The output activations are then computed from the internal state of the network 
 \vec{y}(n+1)=f^{out}(\vec{W}^{out}(\vec{u}(n+1),\vec{x}(n+1),\vec{y}(n)))
 \]
 where $f^{out}=(f^{out}_1,...,f^{out}_L)$ are the output activation functions and the matrix of output weights is multiplied by the concatenation of input, internal and previous output activation vectors.\par
-
-%A \emph{Hopfield network} is an RNN all connections of which are symmetric and which requires stationary inputs. 
-RNNs can in theory approximate any dynamical system with chosen precision, however training them is very difficult in practice. 
+RNNs can in theory approximate any dynamical system with chosen precision, however training them is very difficult in practice. In the following section we are going to describe our use of an RNN that exhibits hexactly these properties yet is easy to train.
 
 \subsection*{Echo State Networks}
 Echo State Networks (ESN) are a type of discrete time RNNs for which training is straightforward with linear regression methods.  The temporal inputs to the network are transformed to a high-dimensional \emph{echo state}, described by the neurons of a sparsely connected \emph{random} hidden layer which is also called a reservoir. The output weights are the only weights in the network that can change and are trained in a way to match the desired output. ESNs and the related liquid state machines (LSMs) form the field of \emph{reservoir computing}.

@@ -247,12 +247,15 @@ class ESN:
         target = self._data[self._N:self._N+horizon] 
         pred = Y.flatten()
 
+        fig = plt.figure(2)
         plt.figure(2).clear()
+        plt.xticks(rotation=45)
         plt.plot_date(x=months, y=target, fmt="-", color='blue')
         plt.plot_date(x=months, y=pred, fmt="-", color='red')
         plt.title(title)
         plt.ylabel(ylabel)
         plt.grid(True)
+        fig.autofmt_xdate()
         plt.show()
         
 
@@ -265,12 +268,13 @@ def main():
     data = np.genfromtxt('good_series_wholesale_daily.txt', usecols = (0, 1), delimiter=',', skiprows=1, unpack=True, converters={0:mdates.strpdate2num('%Y-%m-%d')})
 
     # Split dataset into training and testset
+    horizon = 7
     print len(data[0])
-    split_ind = len(data[0])-35
+    split_ind = len(data[0])-horizon
 
     # Reservoir size
     Nx = 500
-    initN = 2500# 24 months initialization
+    initN = 1200# 24 months initialization
 
     Ny = 1
     # Num. Regions and Products : R,P
@@ -278,20 +282,8 @@ def main():
     esn.init_reservoir(Nx) 
     esn.custom_training(True)
     esn.plot_training('Training outputs', 'Y')
-    Y = esn.generative_run(35)
-    esn.plot_test(Y, 35, 'Test run', 'Price')
-
-    #esn.custom_training("o", teacher_forcing = True, feedback = True, xTransOrder = False, leaky = True)
-
-    """
-    TODO: 
-    * be able to switch from applying an additional nonlinear function to output
-        => Wout: dim(order*N+2) CHECK
-    * include possibility to save parameters after training
-    * be able to switch between batch and online algorithm
-        implement online RLS algorithm
-    * integrate me bootstrap
-    """
+    Y = esn.generative_run(horizon)
+    esn.plot_test(Y, horizon, 'Test run', 'Price')
 
 
 if __name__ == "__main__":
