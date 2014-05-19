@@ -1,28 +1,44 @@
-\section*{Visualization of results}
+\section*{Visualization of results}\emph{Duy Nguyen}
+\\
+We dynamically represent the results of data collection and prediction on the Indian map. In particular it includes Twitter tweets data (total number and by keywords), historical price data of commodities, and prediction of commodity prices.
 
-We essentially represent the results of data collection and prediction on the Indian map. 
+\subsection*{Technologies}
+\emph{LeafletJS:} A javascript framework that builds the world map on top of OpenStreetMap library. MapboxJS was also used to extend the functionality of different behaviors on the map as well as enhance the UI design.\\
+\emph{HighchartsJS:} A charting library written in pure JavaScript, offering an easy way of adding interactive charts to websites or web applications. It supports various chart types, from popular ones such as line, area, column, bar, pie, scatter, to more sophisticated types including angular gauges, arearange, areasplinerange, columnrange, bubble, box plot, and so on. Furthermore the functionalities of zooming to a smaller timeframe or printing charts in different formats could facilitate investigating and researching on timeseries data.\\
+And last but not least, our visualization was developed in HTML5 which allows dynamic manipulation of visualization concepts as well as easy access through web browser by various targeted users.
 
 \subsection*{Geo-visualization}
+The map shows colored states in India by average monthly tweets per inhabitant. Data is monthly from 2007 to 2014 so sliders for year and month can be used to navigate between different times.\\
+The behavior of clicking on a state will zoom in and display prominent cities in that state. Monthly number of tweets for cities are also available on hovering the city markers.
 
-\subsubsection*{Technology}
-LeafletJS: A javascript framework that builds the world map on top of OpenStreetMap library. MapboxJS is also used to extend the functionality of different behaviors on the map as well as enhance the UI design.
 
-\subsubsection*{Content}
-There are several layers shown on the map:\\
+\subsubsection*{Monthly number of tweets per inhabitant in states}
+Number of tweets include all the tweets we collected in data collection phase for the specific state. This is divided by the population of state to come up with the final number of tweets per inhabitant. For the sake of user-friendliness those values are displayed in the format i * $10^{-6}$.
+
+
+\subsection*{Unit visualization}
+This visualization is shown after choosing a particular state or city on the map. Further contents in tabs depend on whether the chosen location is a state or city.
 \begin{itemize}
-\item Tweets density of users in different Indian states.
-\item Price comparison between states\\
+\item \emph{State:} Available contents include average monthly tweets per inhabitant in that state from 2007 till now, comparison of daily tweets about several commodities in that state from 2008 till now, merged daily retail prices of commodities for all cities in that state from 2009 to 2013, merged daily wholesale prices of commodities for all cities in that state from 2005 to 2013, and results of predicted prices for commodities.
+\item \emph{City:} Available contents include total monthly tweets in that state from 2007 till now, association rules for data mining of commodities, daily retail prices of commodities from 2009 to 2013, daily wholesale prices of commodities from 2005 to 2013.\\
 \end{itemize}
 
-\subsection*{Atomic visualization}
-\subsubsection*{Technology}
-HighchartsJS
+\subsubsection*{Daily number of tweets per inhabitant in states}
+This is similar to the data displayed on geolocation map, with a slight difference in interval by daily instead of monthly. Specific periods can be investigated by selecting a timeframe.
 
-\subsubsection*{Tweets per state}
+\subsubsection*{Daily number of tweets by keywords in states}
+In order to facilitate commodities price prediction, tweets are categorized by food-related keywords such as "rice", "wheat", "fish", etc. Their daily occurences are represented by lines so that we can make a comparison about which commodities are usually mentioned on Twitter, which are useful for the prediction (via sentiment analysis phase), and so on. On the graph viewers can turn "on and off" the indicators to focus on the most interesting keywords as they wish.
 
+\subsubsection*{Historical wholesale/retail price of commodities by state and city}
+We use timeseries analysis for the historical wholesale/retail price of commodities, and their results are visualized by state and city. The main analysis bases on cities, while the results were also merged for states to produce a more macro view on those data.\\
+Furthermore, like mentioned above, turning indicators "on and off" is also supported to reduce the distraction created by many goods being displayed on the chart.
 
-\subsubsection*{Price fluctuation}
+\subsubsection*{Results of price prediction in states}
+As an extreme target of our project being the price prediction for commodities, on this visualization viewers can choose between predictions of different goods having been analyzed. Actual and predicted prices are compared by the two paralleling lines.
 
-\subsection*{Results from Visualization}
-\emph{Fabian Brix}
-Our visualization of tweets per region exemplifies the result of \href{http://web.worldbank.org/WBSITE/EXTERNAL/TOPICS/EXTPOVERTY/EXTPA/0,,contentMDK:20208963~menuPK:435735~pagePK:148956~piPK:216618~theSitePK:430367,00.html}{poverty in India's most populous state of Uttar Pradesh} (200 million inhabitants) in the use of social media and probably Information \& Communication Technologies (ICTs) in general. When moving through time in the visualization one can see that the states Karnataka (Bangalore), Maharashtra (Mumbai) ICT of Delhi are constantly ahead of Uttar Pradesh in the number of tweets they produce although their population is significantly smaller. Another phenomenon that can be observed is that Maharasthra and Karnataka are having a head-to-head race starting in 2007 although the population of Karnataka is only half the size of that of Maharashtra. This can be attributed to the fact that the state capital Bangalore is the major IT hub of India and therefore boasts more early adopters. In 2010 as more and more people take to twitter Maharashtra raises far ahead in the number of tweets produced.
+\subsection*{Some observations}
+By investigating the visualizations of different data (historical prices, social media activities, distribution of Tweets by population, etc.), we identified several interesting trends as following:
+\begin{itemize}
+\item Our visualization of tweets per region exemplifies the result of \href{http://web.worldbank.org/WBSITE/EXTERNAL/TOPICS/EXTPOVERTY/EXTPA/0,,contentMDK:20208963~menuPK:435735~pagePK:148956~piPK:216618~theSitePK:430367,00.html}{poverty in India's most populous state of Uttar Pradesh} (200 million inhabitants) in the use of social media and probably Information \& Communication Technologies (ICTs) in general. When moving through time in the visualization one can see that the states Karnataka (Bangalore), Maharashtra (Mumbai), NCT of Delhi are constantly ahead of Uttar Pradesh in the number of tweets they produce although their population is significantly smaller. Another phenomenon that can be observed is that Maharasthra and Karnataka are having a head-to-head race starting in 2007 although the population of Karnataka is only half the size of that of Maharashtra. This can be attributed to the fact that the state capital Bangalore is the major IT hub of India and therefore boasts more early adopters. In 2010 as more and more people take to twitter Maharashtra raises far ahead in the number of tweets produced. \emph{(Fabian Brix)}
+\item We have tried creating the map with both approaches: monthly number of tweets and monthly number of tweets per inhabitant. Interestingly the distribution shown on the visualization seems to stay put, which indicates that the number of tweets in states are proportional to their population. The most significant difference, as mentioned above, is in Uttar Pradesh which has the largest population but not as many tweets compared to other regions.
+\end{itemize}
