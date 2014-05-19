@@ -161,7 +161,7 @@ def init_valid_table():
 
 def get_full_data(df, all_dates, \
                     using_df_full, using_df_ts, valid_rate, with_interpolation, \
-                    interpolation_method, interpolation_order, filter_lst, na_len_limit_ratio):
+                    interpolation_method, interpolation_order, filter_lst, na_len_limit_ratio, spike_remove_threshold):
     start_time = time()
     pieces = []
     count = 0
@@ -251,7 +251,8 @@ def get_full_data(df, all_dates, \
         #remove suspicious spikes
         # probe = group.copy()
         #break
-        group['price'] = remove_spikes_series(group['price'], 100)
+        if with_interpolation:
+            group['price'] = remove_spikes_series(group['price'], spike_remove_threshold)
 
         max_nan_len = get_max_nan_len(group['price'])
         if max_nan_len > na_len_limit_ratio*len(all_dates):

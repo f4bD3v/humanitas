@@ -3,18 +3,21 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-wholesale_daily = False
+wholesale_daily = True
 retail_daily = False
-retail_weekly = True
+retail_weekly = False
 
-output_by_city = True
+output_by_city = False
 merge_by_prod_reg = True
-plot_all = False
+plot_all = True
 
 if wholesale_daily+retail_daily+retail_weekly != 1:
     raise Exception('exactly one option being True required!')
 elif wholesale_daily:
-    csv_in = os.getcwd()+'/wholesale_daily/csv_all/india_timeseries_wholesale_daily_interpolated_0.6.csv'
+    csv_in = os.getcwd()+'/wholesale_daily/csv_all/india_timeseries_wholesale_daily_interpolated_0.6.csv' #linear interpolated
+    # csv_in = os.getcwd()+'/wholesale_daily/csv_all/india_timeseries_wholesale_daily_0.59.csv'  #not interpolated
+    # csv_in = os.getcwd()+'/wholesale_daily/csv_all/india_timeseries_wholesale_daily_interpolated_0.599.csv' #spline interpolated
+    # csv_in = os.getcwd()+'/wholesale_daily/csv_all/india_timeseries_wholesale_daily_interpolated_0.5999.csv' #polynomial interpolated
     out_folder = os.getcwd()+'/wholesale_daily/'
 elif retail_daily:
     csv_in = os.getcwd()+'/retail_daily/csv_all/india_timeseries_retail_daily_interpolated_0.6.csv'
@@ -111,7 +114,9 @@ def plotter(df, fpath, fname, save=False, close=True, legend=True):
         os.makedirs(fpath)
     fp = fpath+fname
 
-    df.plot(legend=legend)
+    ax = df.plot(legend=legend, title='Wholesale Daily Prices of Products in '+fname[:-4])
+    ax.set_ylabel('Price (Rupee) / KG')
+    ax.set_xlabel('Date')
 
     if save:
         plt.savefig(fp)
