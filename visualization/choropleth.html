@@ -62,9 +62,11 @@
 <script src="jquery.ui.labeledslider.js"></script>
 <script type="text/javascript" src="ind-states.js"></script>
 <script type="text/javascript" src="twitter_data_cities.js"></script>
+<script type="text/javascript" src="twitter_data_regions.js"></script>
 <script>
 var colorScale = ['#FFFFFF', '#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
-var densityScale = [10, 100, 500, 1000, 5000, 10000, 100000, 500000];
+// var densityScale = [10, 100, 500, 1000, 5000, 10000, 100000, 500000];
+var densityScale = [0.1, 0.5, 1, 5, 10, 100, 500, 1000];
 var map, geojson, info, options, highlighted, statenameVisible = false, year = 2014, month = 1;
 // map = L.map('map').setView([22, 83], 4.7);
 map = L.mapbox.map('map', 'examples.map-zgrqqx0w').setView([22, 83], 5);
@@ -101,7 +103,7 @@ info.onAdd = function (map) {
 info.update = function (feature) {
 	this._div.innerHTML = '<h4>India tweets per region</h4>' +  (feature ?
 		'<b>' + feature.id + '</b><br />' + (getNumTweets(feature.id) ? getNumTweets(feature.id).num_tweets : 
-			(getNumTweetsCity(feature.id) ? getNumTweetsCity(feature.id).num_tweets : 'N/A')) + ' tweets / month'
+			(getNumTweetsCity(feature.id) ? getNumTweetsCity(feature.id).num_tweets : 'N/A')) + ' * 10<sup>-6</sup> tweets / inhabitant / month'
 		: 'Hover over a state');
 };
 
@@ -230,9 +232,9 @@ function stateStyle(feature) {
 }
 
 function getNumTweets(id) {
-	for(i = 0; i < tweets_count.length; i++) {
-		if(tweets_count[i].year == year && tweets_count[i].month == month) {
-			var vals = tweets_count[i].values;
+	for(i = 0; i < tweets_count_region.length; i++) {
+		if(tweets_count_region[i].year == year && tweets_count_region[i].month == month) {
+			var vals = tweets_count_region[i].values;
 			for(j = 0; j < vals.length; j++) {
 				if(vals[j].id == id) {
 					return vals[j];
@@ -377,7 +379,7 @@ function addLegend(map) {
 			to = densityScale[i + 1];
 
 			labels.push(
-				'<i style="background:' + getColor(from + 1) + '"></i> ' +
+				'<i style="background:' + getColor(from + 0.00001) + '"></i> ' +
 				from + (to ? '&ndash;' + to : '+'));
 		}
 
