@@ -154,7 +154,7 @@ class ProcessManager(threading.Thread):
                 f.write(str(fn)+'\n')
 
     def save_locations_pickle(self):
-        with open(script_directory + '/tweets_cnt_regions_cities.pick', 'wb') as f:
+        with open(script_directory + '/tweets_cnt_regions_cities_daily.pick', 'wb') as f:
             pickle.dump(location_dict, f)
 
 class TweetProcessor(threading.Thread):
@@ -215,7 +215,7 @@ class TweetProcessor(threading.Thread):
             # Extract week info
             if 'created_at' in tweet:
                 time_obj = datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
-                week_str = time_obj.strftime('%U-%Y')
+                week_str = time_obj.strftime('%d-%m-%Y')
             else:
                 week_str = 'NR'
 
