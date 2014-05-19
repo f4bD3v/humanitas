@@ -1,7 +1,7 @@
 import csv
 import json
 
-cities_list = ['hyderabad', 'madurai', 'chandigarh', 'bhadrawati', 'dehradun', 'jamshedpur', 'ballia', 'guwahati', 'bangalore', 'agra', 'durgapur', 'mumbai', 'vadodara', 'patna', 'itanagar', 'kolkata', 'mandi', 'bhopal', 'coimbatore', 'gurgaon', 'chennai', 'rajkot', 'palakkad', 'jammu', 'howrah', 'delhi', 'trivandrum', 'vijayawada', 'aurangabad', 'jamtara', 'jodhpur', 'srinagar', 'ahmedabad', 'kottayam', 'kota', 'padra', 'pune', 'jaipur', 'nagpur', 'cuttack', 'vellore', 'jalpaiguri', 'ranchi', 'bharuch', 'jalgaon', 'kolhapur', 'solapur', 'ballabhgarh', 'bareilly', 'barnala', 'bilaspur', 'dera bassi', 'gorakhpur', 'kullu', 'lalru', 'panipat', 'rania', 'rohtak', 'chirala', 'machilipatnam', 'mangalore', 'ongole', 'visakhapatnam']
+cities_list = ['kochi', 'hyderabad', 'madurai', 'chandigarh', 'bhadrawati', 'dehradun', 'jamshedpur', 'ballia', 'guwahati', 'bangalore', 'agra', 'durgapur', 'mumbai', 'vadodara', 'patna', 'itanagar', 'kolkata', 'mandi', 'bhopal', 'coimbatore', 'gurgaon', 'chennai', 'rajkot', 'palakkad', 'jammu', 'howrah', 'delhi', 'thiruvananthapuram', 'vijayawada', 'aurangabad', 'jamtara', 'jodhpur', 'srinagar', 'ahmedabad', 'kottayam', 'kota', 'padra', 'pune', 'jaipur', 'nagpur', 'cuttack', 'vellore', 'jalpaiguri', 'ranchi', 'bharuch', 'jalgaon', 'kolhapur', 'solapur', 'ballabhgarh', 'bareilly', 'barnala', 'bilaspur', 'dera bassi', 'gorakhpur', 'kullu', 'lalru', 'panipat', 'rania', 'rohtak', 'chirala', 'machilipatnam', 'mangalore', 'ongole', 'visakhapatnam']
 
 def getArrayFromCsv(csvFileName):
 	content = []
@@ -29,13 +29,17 @@ def getArrayFromCsv(csvFileName):
 
 content = getArrayFromCsv("indian-cities1.csv")
 cities = []
+cities_name = []
 for row in content:
 	print row["City"]
 	if row["City"].lower() in cities_list:
 		print '*************'
+		cities_name.append(row['City'])
 		cities.append({"type": "Feature", "id": row["City"],
 			"geometry": { "type": "Point",
 			"coordinates": [float(row["Longitude"]), float(row["Latitude"])]}
 			})
+
+print cities_name
 with open("cities_temp.json", "w") as outfile:
 	json.dump(cities, outfile)
