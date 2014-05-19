@@ -26,6 +26,7 @@ log.setLevel('INFO')
 
 DEFAULT_TIMEOUT = 300.0
 
+#extracts features from tweet text
 def extract_features(t, col_str, val_str):
     tweet_text_lower = tweet['text'].lower()
     tweet_text_clean = ' '.join(tweet_text_lower for e in string if e.isalnum())
@@ -44,6 +45,7 @@ def extract_features(t, col_str, val_str):
            col_str.append(cat)
            val_str.append(count)
 
+# loads a csv file of form "city,region" into Map and returns it
 def load_location_dict(fname):
     #path = os.path.split(os.getcwd())[0]
     #path = os.getcwd()
@@ -55,6 +57,7 @@ def load_location_dict(fname):
         next(reader, None) #ignore header
         return {rows[0].lower():rows[1].lower() for rows in reader}
 
+#extracts location from token
 def extract_location(loc, locs):
     text = re.sub('[^a-zA-Z0-9-]', ' ', loc.encode("ascii","ignore")).lower()
     loc_tokens = filter(lambda a: a != '', text.strip().split())
@@ -65,7 +68,7 @@ def extract_location(loc, locs):
                 return token
     return ""
 
-#prepares 'text' values for the db
+#prepares values of type 'text' for the db
 def prep(x):
     #return "'" + x + "'"
     text = re.sub('[^a-zA-Z0-9:-]', ' ', re.sub("-+", "-", x.encode("ascii","ignore")))
@@ -85,6 +88,7 @@ def open_tweets(fname):
         except Exception as e:
             print("Failed on {0}: {1}".format(fname, e))
 
+#checks if a word is part of the tokenized tweet text
 def contains_words(to_check, tweet_tokens):
     for word in tweet_tokens:
         if word in to_check:
@@ -210,15 +214,18 @@ class SimpleClient:
             log.info("Datacenter: %s; Host: %s; Rack: %s",
                 host.datacenter, host.address, host.rack)
 
+    #close connection to cluster
     def close(self):
         self.session.cluster.shutdown()
         self.session.shutdown()
         log.info("Connection closed.")
 
+    #use keyspace (called before cmds are executed in keyspace)
     def use_keyspace(self, keyspace):
         self.session.execute("use "+str(keyspace)+";")
         log.info("Using keyspace "+str(keyspace))
 
+    #creates db schema in cassandra
     def extended_schema(self, food_categories, pred_categories):
         self.session.execute("""
             CREATE KEYSPACE tweet_collector WITH replication =
@@ -267,10 +274,12 @@ class SimpleClient:
                 s += "STORED BY 'org.apache.hadoop.hive.cassandra.cql.CqlStorageHandler' WITH SERDEPROPERTIES ('cassandra.host'='100.88.224.12', 'cassandra.port'='9160');"
                 f.write(s + "\n")
 
+    #drops schema
     def drop_schema(self, keyspace):
         self.session.execute("DROP KEYSPACE IF EXISTS tweet_collector;")
         print "Schema (keyspace) dropped."
 
+    #create index for rows, which are used for selection
     def create_index(self, food_categories):
         for category in food_categories:
             table_name = 'tweets_' + category

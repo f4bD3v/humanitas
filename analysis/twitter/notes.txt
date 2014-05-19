@@ -1,11 +1,17 @@
-day + amount tweets by region
-day + sum (value) relevant tweets by food word + category + normalize
-regions
-userranking
+Group By:
+* day, region => amount tweets
+* day, region, food word => sum (category value) + normalize
+* [future] User ranking
+
+== Normailze ==
 
 I ... increase
 D ... decrease
+A ... all
+t ... time
+R ... region
+P ... product
 
 I(t, R, P) - D(t,R,P)
 /
-I(t,R) + D(t,R)
+A(t,R,P)
