@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1400508078 "humanitas_report.tex" "humanitas_report.pdf" "humanitas_report" 1400508081
+["pdflatex"] 1400513728 "humanitas_report.tex" "humanitas_report.pdf" "humanitas_report" 1400513731
   "/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii" 1337017135 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/ifxetex/ifxetex.sty" 1284331290 1458 43ab4710dc82f3edeabecd0d099626b2 ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/gettitlestring.sty" 1303254447 8237 52810bdb4db2270e717422560a104aea ""
@@ -89,10 +89,10 @@
   "/usr/local/texlive/2013/texmf-dist/tex/plain/ifetex/ifetex.tex" 1320621834 1166 4b66ad073c6073cb1bde651c18b7dbb2 ""
   "chapters/analysis+prediction.tex" 1400508072 31510 1179c782dd1195516566271e80ddd750 ""
   "chapters/datacollection+processing.tex" 1400487752 21497 88107e8963d16245c1a6e3288fa51536 ""
-  "chapters/visualization.tex" 1400249478 748 ed6d887ae555d11ae6b3f5a863abce40 ""
-  "conc.tex" 1400404174 819 835b9b851777d208d35f989165929f8b ""
-  "humanitas_report.aux" 1400508081 8239 28da8a91ac56cdee675e60f12ca50301 ""
-  "humanitas_report.out" 1400508079 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "chapters/visualization.tex" 1400513724 1932 df12feed1c9035f43014d5477a9cc887 ""
+  "conc.tex" 1400511490 2490 c43be82c203b0bdea2f0f878eb333c7b ""
+  "humanitas_report.aux" 1400513731 8239 2548cc39c285cc12990ddd6d4eae8e3f ""
+  "humanitas_report.out" 1400513729 0 d41d8cd98f00b204e9800998ecf8427e ""
   "humanitas_report.tex" 1400504690 2210 93eb9f7c839c37c84062ba236386844d ""
   "img/CollectionProcess.pdf" 1397832622 9029 727163cbea9cea179bc9d087d158b918 ""
   "img/plots/esn/daily/gujarat_potato_online_30d_1d.png" 1400492886 54738 1a39ea4067808915aee00b5ef9b9b5d9 ""
@@ -105,7 +105,7 @@
   "img/plots/esn/mg/resact.png" 1400398053 163818 2300863066abb8fbdead33f3f9d1ffda ""
   "img/simple_esn.png" 1400366394 64161 933aa333e7bde0f7508a483374f82996 ""
   "img/simple_rnn.png" 1397333248 39387 69143c74d880a641d8052ae4402d48d2 ""
-  "intro.tex" 1400404403 1549 264e9fe53af38483beed865e233c48c2 ""
+  "intro.tex" 1400512691 1644 5ad3b00a1210aa4ea278b32ec45b82f2 ""
   (generated)
   "humanitas_report.out"
   "humanitas_report.log"
