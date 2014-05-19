@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1400536347 "humanitas_report.tex" "humanitas_report.pdf" "humanitas_report" 1400536350
+["pdflatex"] 1400536902 "humanitas_report.tex" "humanitas_report.pdf" "humanitas_report" 1400536906
   "/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii" 1337017135 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/ifxetex/ifxetex.sty" 1284331290 1458 43ab4710dc82f3edeabecd0d099626b2 ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/gettitlestring.sty" 1303254447 8237 52810bdb4db2270e717422560a104aea ""
@@ -88,11 +88,11 @@
   "/usr/local/texlive/2013/texmf-dist/tex/latex/xcolor/xcolor.sty" 1169481954 55224 a43bab84e0ac5e6efcaf9a98bde73a94 ""
   "/usr/local/texlive/2013/texmf-dist/tex/plain/ifetex/ifetex.tex" 1320621834 1166 4b66ad073c6073cb1bde651c18b7dbb2 ""
   "chapters/analysis+prediction.tex" 1400535742 32035 a8e4180c0eca7e2f7a0b9ccbec94132a ""
-  "chapters/datacollection+processing.tex" 1400536340 30912 f7ad475802668e76a0c51088460dae6f ""
+  "chapters/datacollection+processing.tex" 1400536881 31010 472fe5ba25e7a1eb94d67653ba810407 ""
   "chapters/visualization.tex" 1400513793 1932 df12feed1c9035f43014d5477a9cc887 ""
-  "conc.tex" 1400511490 2490 c43be82c203b0bdea2f0f878eb333c7b ""
-  "humanitas_report.aux" 1400536350 8272 242f4b6f0332ce71ab016b076fb39a0a ""
-  "humanitas_report.out" 1400536348 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "conc.tex" 1400536718 2501 7564a3a1ce36a718cd37a9c6b1dda241 ""
+  "humanitas_report.aux" 1400536906 8272 f5c8e63ad4f38c0a2b2c6cd6cc6190bf ""
+  "humanitas_report.out" 1400536904 0 d41d8cd98f00b204e9800998ecf8427e ""
   "humanitas_report.tex" 1400535648 2270 4e2b2250e2abbfd9058cc9e6f4feea92 ""
   "img/CollectionProcess.pdf" 1397832622 9029 727163cbea9cea179bc9d087d158b918 ""
   "img/ESN_prezi.png" 1400521575 67184 d551a7af23e7adc8bc35b7d2a753e127 ""
@@ -105,7 +105,7 @@
   "img/plots/esn/daily/uttar_pradesh_redonion_7d_1d.png" 1400496971 42916 045baa1fa50e8ff71d42f6b964ca876a ""
   "img/plots/esn/mg/pred1000_br.png" 1400398644 122252 aa82aa6fe9d7aa843f638778450e373d ""
   "img/plots/esn/mg/resact.png" 1400398053 163818 2300863066abb8fbdead33f3f9d1ffda ""
-  "intro.tex" 1400519644 1642 1a7a10039c5ea630d31808495d5ce1d5 ""
+  "intro.tex" 1400536794 1674 b4b1114fca9591661b208a1a65288534 ""
   (generated)
   "humanitas_report.out"
   "humanitas_report.log"
