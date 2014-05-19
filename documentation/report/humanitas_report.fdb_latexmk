@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1400519648 "humanitas_report.tex" "humanitas_report.pdf" "humanitas_report" 1400519652
+["pdflatex"] 1400524560 "humanitas_report.tex" "humanitas_report.pdf" "humanitas_report" 1400524563
   "/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii" 1337017135 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/ifxetex/ifxetex.sty" 1284331290 1458 43ab4710dc82f3edeabecd0d099626b2 ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/gettitlestring.sty" 1303254447 8237 52810bdb4db2270e717422560a104aea ""
@@ -87,14 +87,15 @@
   "/usr/local/texlive/2013/texmf-dist/tex/latex/url/url.sty" 1264379145 21932 e3a9cf32ee9b853b42be14c2f25b873c ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/xcolor/xcolor.sty" 1169481954 55224 a43bab84e0ac5e6efcaf9a98bde73a94 ""
   "/usr/local/texlive/2013/texmf-dist/tex/plain/ifetex/ifetex.tex" 1320621834 1166 4b66ad073c6073cb1bde651c18b7dbb2 ""
-  "chapters/analysis+prediction.tex" 1400516234 31867 9066bf38096fca8ab65c663f9a6991dd ""
-  "chapters/datacollection+processing.tex" 1400513954 27481 9d0c27a38baa67437eb47d2ff867ecb6 ""
+  "chapters/analysis+prediction.tex" 1400524437 31992 c293d4d69c8e2b4ce4848d07f8378173 ""
+  "chapters/datacollection+processing.tex" 1400523176 28905 f99d806c67b9a0f9c6b0abaa8bc5f0bb ""
   "chapters/visualization.tex" 1400513793 1932 df12feed1c9035f43014d5477a9cc887 ""
   "conc.tex" 1400511490 2490 c43be82c203b0bdea2f0f878eb333c7b ""
-  "humanitas_report.aux" 1400519651 8233 8a9af9f8249892258abd4d5c131349c7 ""
-  "humanitas_report.out" 1400519650 0 d41d8cd98f00b204e9800998ecf8427e ""
-  "humanitas_report.tex" 1400517913 2213 d190e50f3158ede9016dbfdf00680633 ""
+  "humanitas_report.aux" 1400524563 8272 b78e4ff98c56c9b8c6b811fcc39c81a7 ""
+  "humanitas_report.out" 1400524561 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "humanitas_report.tex" 1400524553 2270 4e2b2250e2abbfd9058cc9e6f4feea92 ""
   "img/CollectionProcess.pdf" 1397832622 9029 727163cbea9cea179bc9d087d158b918 ""
+  "img/ESN_prezi.png" 1400521575 67184 d551a7af23e7adc8bc35b7d2a753e127 ""
   "img/architecture.png" 1400513954 34279 a4bd2740d6b65589f815cc9f9e86e61f ""
   "img/plots/esn/daily/gujarat_potato_online_30d_1d.png" 1400492886 54738 1a39ea4067808915aee00b5ef9b9b5d9 ""
   "img/plots/esn/daily/gujarat_potato_online_60d_1d.png" 1400492886 61156 00e97bc37b4b1bf323e066c9323f8aac ""
@@ -104,8 +105,6 @@
   "img/plots/esn/daily/uttar_pradesh_redonion_7d_1d.png" 1400496971 42916 045baa1fa50e8ff71d42f6b964ca876a ""
   "img/plots/esn/mg/pred1000_br.png" 1400398644 122252 aa82aa6fe9d7aa843f638778450e373d ""
   "img/plots/esn/mg/resact.png" 1400398053 163818 2300863066abb8fbdead33f3f9d1ffda ""
-  "img/simple_esn.png" 1400366394 64161 933aa333e7bde0f7508a483374f82996 ""
-  "img/simple_rnn.png" 1397333248 39387 69143c74d880a641d8052ae4402d48d2 ""
   "intro.tex" 1400519644 1642 1a7a10039c5ea630d31808495d5ce1d5 ""
   (generated)
   "humanitas_report.out"

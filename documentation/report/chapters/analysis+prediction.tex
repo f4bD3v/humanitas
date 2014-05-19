@@ -61,15 +61,14 @@ taken from M. Seeger's course on Pattern Recognition and ML
 
 \subsection*{Recurrent Neural Networks (RNN)}
 \emph{Fabian Brix}\\
-A recurrent neural network (RNN) is a neural network with feedback connections, enabling signals to be fed back from a layer $l$ in the network to a previous layer. %The key feature is that the weight matrix for each layer $l$ in the network contains input weights from \emph{all} other neurons in the network and not just the neurons from the previous layer. source: scholarpedia
-
-\subsubsection*{Simple Recurrent Networks}
-The simplest form of an RNN consists of an input, an output and one hidden layer as depicted in fig.[]. 
+A recurrent neural network (RNN) is a neural network with feedback connections, enabling signals to be fed back from a layer $l$ in the network to a previous layer. As opposed to feedforward neural networks where a layer $l$ can only receive inputs from a previous layer, in an RNN the weight matrix for a layer $l$ can contain input weights from \emph{all} other neurons in the network. The simplest form of an RNN consists of an input, an output and one hidden layer as depicted in \ref{fig:simple_rnn}.
+\begin{comment}
 \begin{figure}
     \centering
     \includegraphics[width=.7\textwidth]{./img/simple_rnn.png}
     \caption{source: wikipedia}
 \end{figure}
+\end{comment}
 
 \subsubsection*{General description of a discrete time RNN}
 A discrete time RNN is a graph with $K$ input units $\vec{u}$, $N$ internal network units $\vec{x}$ and $L$ output units $\vec{y}$. The activation (per layer) vectors at point n in time are denoted by $\vec{u}(n) = (u_1(n),...,u_n(n))$, $\vec{x}(n) = (x_1(n),...,x_n(n))$, $\vec{y}(n) = (y_1(n),...,y_n(n))$. Edges between the units in these sets are represented by weights $\omega_{ij}\neq0$ which are gathered in adjacency matrices. There are four types of matrices:\par
@@ -94,12 +93,16 @@ The output activations are then computed from the internal state of the network 
 \vec{y}(n+1)=f^{out}(\vec{W}^{out}(\vec{u}(n+1),\vec{x}(n+1),\vec{y}(n)))
 \]
 where $f^{out}=(f^{out}_1,...,f^{out}_L)$ are the output activation functions and the matrix of output weights is multiplied by the concatenation of input, internal and previous output activation vectors.\par
-RNNs can in theory approximate any dynamical system with chosen precision, however training them is very difficult in practice. In the following section we are going to describe our use of an RNN that exhibits hexactly these properties yet is easy to train.
+RNNs can in theory approximate any dynamical system with chosen precision, however training them is very difficult in practice. In the following section we are going to describe our use of an RNN that exhibits exactly these properties yet is easy to train.
 
 \subsection*{Echo State Networks}
 Echo State Networks (ESN) are a type of discrete time RNNs for which training is straightforward with linear regression methods.  The temporal inputs to the network are transformed to a high-dimensional \emph{echo state}, described by the neurons of a sparsely connected \emph{random} hidden layer which is also called a reservoir. The output weights are the only weights in the network that can change and are trained in a way to match the desired output. ESNs and the related liquid state machines (LSMs) form the field of \emph{reservoir computing}.
 
-\includegraphics[width=.7\textwidth]{./img/simple_esn.png}
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{img/ESN_prezi.png}
+    \caption{Network structure of an ESN with 1-dim. input and output}
+\end{figure}
 
 \subsubsection{Echo State Property}
 The intuitive meaning of the \emph{echo state property} (ESP) is that the internal state is \textbf{uniquely} determined by the history of the input signal and the teacher forced output, given that the network has been running long enough. Teacher forcing essentially means that the output $\vec{y}(n-1)$ is forced to be equal to the next time series value $\vec{u}(n)$ and thus to the next input.
@@ -120,10 +123,10 @@ Define $\sigma_{max}$ as largest singular value of $\vec{W}$, $\lambda_{max}$ as
 \item If $\|\lambda_{max}\| > 1$ then the network has no echo states for any input/output interval which contains the zero input/output tuple (0,0)
 \end{enumerate}
 \end{frm-thm}
-In practice is suffices to make sure the negation of the second point holds. 
+In practice it suffices to make sure the negation of the second point holds. 
 
 \subsubsection*{Training the ESN}
-The state of the ESN is a function of the inputs it has been presented with. Each state describes an oscillator at a given time n and during training the relation between these oscillators and the output has to be learnt. Before training can be started the reservoir weights have to be normalized by the spectral radius of the weight matrix $W$. The hyperparameters are the reservoir size (dimensionality of W) and a rescale parameter of the weight matrix to slightly increase/decrease the spectral radius.
+The state of the ESN is a function of the inputs it has been presented with. Each state describes an oscillator at a given time n and during training the relation between these oscillators and the output has to be learnt. Before training can be started the reservoir weights have to be normalized by the spectral radius of the weight matrix $W$. The hyperparameters are the reservoir size (dimensionality of W) and a rescale parameter of the weight matrix for slightly increasing/decreasing the spectral radius.
 %http://stackoverflow.com/questions/21940860/echo-state-network-learning-mackey-glass-function-but-how
 
 \paragraph*{Initial state determination}
@@ -150,7 +153,7 @@ The thikonov regularizer allows finding a stable solution that will not adversel
 Teacher forcing is the simplest training method in which the respective value of the target time series $y_{target}(n)=u(n+1)$ is fed in at every consecutive time step with input weights $W^{in}$. 
 
 \paragraph*{Feedbacks}
-During training with feedbacks the output $y(n)$ produced by the network is additionally fed back into the reservoir with feedback weights $W^{back}$. There further exists the possibly to decouple the network from the actual input during \emph{online} training which we will discuss later.
+During training with feedbacks the output $y(n)$ produced by the network is additionally fed back into the reservoir with feedback weights $W^{back}$. There further exists the possibility to decouple the network from the actual input during \emph{online} training which we will discuss later.
 
 \paragraph*{Leaky integrator neurons}
 \emph{Taken from Echo State Tech Rep. page 26/27}\\
@@ -172,7 +175,7 @@ Let a network be updated according to \eqref{eq:leaky}, with teacher-forced outp
 \end{comment}
 
 \paragraph*{Online learning}
-In contrast to learning the weights once in batch-mode after the training run is completed one can also train the output weights in an online fashion after each consecutive presentation of an input. This method allows for a better adaption of the weights to local structures present in the data. There exist several algorithms for online training of the Echo State Networks and related reservoir networks. In the following we will shortly discuss two of the basic algorithms which are mentioned most often mentioned in academic literature. 
+In contrast to learning the weights once in batch-mode after the training run is completed one can also train the output weights in an online fashion after each consecutive presentation of an input. This method allows for a better adaption of the weights to local structures present in the data. There exist several algorithms for online training of the Echo State Networks and related reservoir networks. In the following we will shortly discuss two of the basic algorithms which are most often mentioned in academic literature. 
 \begin{itemize}
 \item \textbf{Least Mean Squares (LMS):} LMS algorithms try to find the optimal weights (filtered coefficients) that minimize the mean squared error for an adaptive filter which is represented by the output weights $W^{out}$ in the case of the ESN. Essentially, LMS algorithms are stochastic gradient descent methods that perform updates according to the error present at time n that update the weights according to the apriori error and a predefined constant in every iteration.\\
 \indent
@@ -242,7 +245,7 @@ In this section we demonstrate the predictive power of the simplest ESN configur
 \end{figure}
 
 \subsubsection*{Obtained results}
-The mackey glass time series is generated by a function with added noise. Since the development of commodity prices doesn't follow a similarly easily describable pattern we did not expect to obtain comparable results. Once trained on several years of price series data the ESN is capable of predicting prices very accurately on a day-to-day basis without any needa for retraining. However, due to the limited usefulness of day-to-day predictions, we would like to predict prices farther into the future with relative accuracy. So far we have only achieved predicting the general trend for 6 to 7 days and we are not sure if greater accuracy is achievable with these models. Our experiments with inputing additional data like temperature, precipipitation, consumer price index (inflation) and twitter data show NO? significant improvements. 
+The mackey glass time series is generated by a function with added noise. Since the development of commodity prices doesn't follow a similarly easily describable pattern we did not expect to obtain comparable results. Once trained on several years of price series data the ESN is capable of predicting prices very accurately on a day-to-day basis without any need for retraining. However, due to the limited usefulness of day-to-day predictions, we would like to predict prices farther into the future with relative accuracy. So far we have only achieved predicting the general trend for 6 to 7 days and we are not sure if greater accuracy is achievable with these models. Our experiments with inputing additional data like temperature, precipitation, consumer price index (inflation) and twitter data show NO? significant improvements. 
 
 % NO BLANK SPACES
 \begin{figure}[!ht]
@@ -303,7 +306,7 @@ The mackey glass time series is generated by a function with added noise. Since 
     \label{fig:res_60d}
 \end{figure}
 
-Adjusted for inflation the prices mostly lose their upwards trend and should become is for the network to predict. This is the case, but good predictions are obtained more by chance by selecting subsets of a series to train on because modelling the dynamics of the whole series seems to be too complex for the network. In their current state, due to very limited amounts of available data, the twitter indicators cannot prove their use. Significantly bolstered however they would offer a wide range of possibilities. Matching these indicators to available price data series could show up relationships between conversations and the actual price. These relationships could be used to track price changes in real-time on a regional level through the conversations on twitter and thereby prove an interesting alternative to the inadequate/flawed data monitoring of governments. Improving predictions if possible would certainly acquire a lot more focused research in the area recurrent neural networks for time series prediction. The Echo State Network was implemented from scratch in scientific python.
+Adjusted for inflation the prices mostly lose their upwards trend and should become easier for the network to predict. This is the case, but good predictions are obtained more by chance by selecting subsets of a series to train on because modelling the dynamics of the whole series seems to be too complex for the network. In their current state, due to very limited amounts of available data, the twitter indicators cannot prove their use. Significantly bolstered however they would offer a wide range of possibilities. Matching these indicators to available price data series could show up relationships between conversations and the actual price. These relationships could be used to track price changes in real-time on a regional level through the conversations on twitter and thereby prove an interesting alternative to the inadequate/flawed data monitoring of governments. Improving predictions if possible would certainly acquire a lot more focused research in the area recurrent neural networks for time series prediction. The Echo State Network was implemented from scratch in scientific python.
 
 \subsubsection*{Further ESN research}
 Further research concerning the stability of online training of the ESN and its predicability power would encompass the implementatio of a stable RLS algorithm such as the Inverse QR-RLS as well as the implementation of the Backpropagation and Decorrelation (BPDC). The latter does not require a specific set up of the network rendeirng concerns about the initialization run and the spectral radius of the weight matrix void. Using these algorithms a performance analysis of the network has to be done before we can test the influence of additional inputs. Maybe research into Linear System Theory can provide answers as to how to make the network responsive to its own inputs in the generative run. It would lastly be interesting  to compare the ESN to its "rival" the Long Short Term Memory Network trained with the Evolino method.
