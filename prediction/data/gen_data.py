@@ -4,7 +4,12 @@ import os
 import glob
 import sys
 import copy
+import re
+import IPython
 from gen_data_config import *
+
+#debug = True
+debug = False
 
 class DataSource(object):
     data = None
@@ -18,7 +23,8 @@ class DataSource(object):
     window_size = 20
     # every how many instances are we interested in?
     jump = 1
-    # can use to_percentage_change to change [2,4,4,4,6] to [2,1,0,0,.5]
+    # can use to_percentage_change to change [2,4,4,4,6] to [2,1,0,0,.5] or
+    # normalization
     window_transformation_procedure = None
 
     def __init__(self):
@@ -26,7 +32,7 @@ class DataSource(object):
         self.date_column = DataSource.date_column
 
     def get_date(self, rownum):
-        return self.data.loc[rownum][self.date_column]
+        return self.data.iloc[rownum][self.date_column]
 
 def to_percentage_change(d):
     #print d
@@ -50,7 +56,7 @@ def dataframes_concat(l):
     return pd.DataFrame(data, columns=cols)
 
 # myself=True means the datasource is the time series itself
-def expand_data_source(dates, ds, myself=False):
+def expand_data_source(dates, ds, myself=False, j_hop=1):
     if not len(ds.data):
         #raise Exception('no data in the source')
         return None
@@ -64,12 +70,19 @@ def expand_data_source(dates, ds, myself=False):
     wnd = ds.window_size
     cols = ds.series_columns
     for date in dates:
+        if debug and myself:
+            print 'at',date
         # slide the window until `date'
         while (not myself and ds.get_date(j) < date) or \
               (myself and j < len(ds.data) and ds.get_date(j) <= date):
             new = ds.data[np.array(cols)].irow(j)[:]
+            #print '\t\tadding',ds.get_date(j)#,':',new
             window.append(new)
-            j += 1
+            if debug and myself:
+                print '\tinserting',j,':',new[0],'corresponding to',\
+                        ds.get_date(j)
+            j += j_hop
+        #print '\t\t-'
         # get rid of old stuff
         window = window[-jmp * wnd:]
         if len(window) != jmp * wnd:
@@ -79,6 +92,8 @@ def expand_data_source(dates, ds, myself=False):
                 sys.exit(-1)
             else:
                 continue
+        if debug and myself:
+            print 'adding window:',window
         if ds.window_transformation_procedure is not None:
             wwindow = copy.deepcopy(window)
             # apply the window_transformation_procedure on each column
@@ -116,35 +131,69 @@ def get_series(d, *params):
 
 
 def main():
+    try:
+        os.makedirs(dest_folder, exist_ok=True)
+    except:
+        pass
     # the series will typically be slightly smaller because we've
     # skipped a few datapoints in the beginning to create the window
     offset = price_ds.window_size - 1
 
-    for series_type, good_series_names, series_range, series_data in \
-            (('retail', retail_good_series, retail_range, retail), 
-             ('wholesale', wholesale_good_series, wholesale_range, wholesale)):
-        for s in good_series_names:
-            climate_ds.data = climate[climate['state'] == s[0]].reset_index()
-            if len(climate_ds.data):
-                for col in ('TM', 'Tm'):
-                    climate_ds.data[col] = normalize(climate_ds.data[col])
-            climate_columns = expand_data_source(series_range, climate_ds)
+    #for s in good_series:
+    for sname in all_series.columns:
+        if sname[0] != '(':
+            continue
+        #state = s[0]
+        #print '* creating features for',s,'state=',state
+        state = re.search(r"\('([^']+)',", sname).group(1)
+        print '* creating features for',sname,'state=',state
+        climate_ds.data = climate[climate['state'] == state].reset_index()
+        # normalize all used climate columns
+        if len(climate_ds.data):
+            for col in climate_ds.series_columns:
+                climate_ds.data[col] = normalize(climate_ds.data[col])
+        else:
+            print '\twarn: no climate data'
 
-            series = pd.DataFrame(
-                    {'date' : pd.Series(series_range),
-                     'price': pd.Series(get_series(series_data, *s))}
-            )
-            price_ds.data = series
-            series = expand_data_source(series_range, price_ds, myself=True)
+        print '\tcomputing climate columns...'
+        climate_columns = expand_data_source(series_range, climate_ds)
 
-            # TODO shouldn't use "retail_oil_columns" here
-            data = dataframes_concat([
-                climate_columns[offset:], 
-                retail_oil_columns[offset:],
-                retail_inflation_columns[offset:],
-                series
-            ])
-            data.to_csv( dest_folder+'/'+series_type+'-'+('-'.join(s))+'.csv' )
+        # spikes are followed very poorly without price normalization
+        #series = pd.DataFrame(
+                #{'date' : pd.Series(series_range),
+                 # pandas madness
+                 # TODO normalize
+                 #'price': 
+                 #pd.Series(all_series[sname].as_matrix(),index=all_series['date']).reindex(series_range),
+                 #columns=['price']
+                 #}
+        #)
+
+        # pandas retarded stuff
+        series = pd.DataFrame(
+                {'date': all_series['date'],
+                 'price': normalize(all_series[sname])}
+        ).set_index('date').reindex(series_range).reset_index()
+        series.columns = ['date', 'price']
+
+        price_ds.data = series
+        print '\tcomputing series columns...'
+        series = expand_data_source(series_range, price_ds, myself=True)
+
+        print offset, len(series), len(oil_columns), len(inflation_columns)
+        print '\tmerging columns...'
+        data = dataframes_concat([
+            climate_columns[offset:] if climate_columns is not None else None, 
+            oil_columns[offset:],
+            inflation_columns[offset:],
+            series
+        ])
+        data['date'] = series_range[offset:]
+        data = data.set_index('date')
+        #to_fn = dest_folder+'/'+series_type+'-'+('-'.join(s))+'.csv' 
+        to_fn = dest_folder+'/'+series_type+'-'+sname+'.csv' 
+        print '\tdumping to',to_fn
+        data.to_csv(to_fn)
 
 if __name__ == '__main__':
     main()
