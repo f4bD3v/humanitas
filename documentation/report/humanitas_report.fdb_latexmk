@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1400504968 "humanitas_report.tex" "humanitas_report.pdf" "humanitas_report" 1400504970
+["pdflatex"] 1400508078 "humanitas_report.tex" "humanitas_report.pdf" "humanitas_report" 1400508081
   "/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii" 1337017135 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/ifxetex/ifxetex.sty" 1284331290 1458 43ab4710dc82f3edeabecd0d099626b2 ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/gettitlestring.sty" 1303254447 8237 52810bdb4db2270e717422560a104aea ""
@@ -87,12 +87,12 @@
   "/usr/local/texlive/2013/texmf-dist/tex/latex/url/url.sty" 1264379145 21932 e3a9cf32ee9b853b42be14c2f25b873c ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/xcolor/xcolor.sty" 1169481954 55224 a43bab84e0ac5e6efcaf9a98bde73a94 ""
   "/usr/local/texlive/2013/texmf-dist/tex/plain/ifetex/ifetex.tex" 1320621834 1166 4b66ad073c6073cb1bde651c18b7dbb2 ""
-  "chapters/analysis+prediction.tex" 1400504963 31081 448a3693b544fedc553d897b0f2ee4aa ""
+  "chapters/analysis+prediction.tex" 1400508072 31510 1179c782dd1195516566271e80ddd750 ""
   "chapters/datacollection+processing.tex" 1400487752 21497 88107e8963d16245c1a6e3288fa51536 ""
   "chapters/visualization.tex" 1400249478 748 ed6d887ae555d11ae6b3f5a863abce40 ""
   "conc.tex" 1400404174 819 835b9b851777d208d35f989165929f8b ""
-  "humanitas_report.aux" 1400504970 8239 f8063d66821b6f4b2d54e0c249cef82a ""
-  "humanitas_report.out" 1400504969 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "humanitas_report.aux" 1400508081 8239 28da8a91ac56cdee675e60f12ca50301 ""
+  "humanitas_report.out" 1400508079 0 d41d8cd98f00b204e9800998ecf8427e ""
   "humanitas_report.tex" 1400504690 2210 93eb9f7c839c37c84062ba236386844d ""
   "img/CollectionProcess.pdf" 1397832622 9029 727163cbea9cea179bc9d087d158b918 ""
   "img/plots/esn/daily/gujarat_potato_online_30d_1d.png" 1400492886 54738 1a39ea4067808915aee00b5ef9b9b5d9 ""

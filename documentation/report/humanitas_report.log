@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  19 MAY 2014 15:09
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  19 MAY 2014 16:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1204,65 +1204,75 @@ he ARMA (Auto-Regressive
 File: ./img/simple_rnn.png Graphic file (type png)
 
 <use ./img/simple_rnn.png>
-Package pdftex.def Info: ./img/simple_rnn.png used on input line 69.
+Package pdftex.def Info: ./img/simple_rnn.png used on input line 70.
 (pdftex.def)             Requested size: 292.77629pt x 263.51079pt.
- [14 <./img/simple_rnn.png>]
-<./img/simple_esn.png, id=95, 514.723pt x 310.761pt>
+ [14 <./img/simple_rnn.png>] [15]
+<./img/simple_esn.png, id=102, 514.723pt x 310.761pt>
 File: ./img/simple_esn.png Graphic file (type png)
 
 <use ./img/simple_esn.png>
-Package pdftex.def Info: ./img/simple_esn.png used on input line 101.
+Package pdftex.def Info: ./img/simple_esn.png used on input line 102.
 (pdftex.def)             Requested size: 292.77629pt x 176.761pt.
- [15]
 Package hyperref Info: bookmark level for unknown frm-def defaults to 0 on inpu
-t line 106.
+t line 107.
 
-Underfull \hbox (badness 5147) in paragraph at lines 106--107
+Underfull \hbox (badness 5147) in paragraph at lines 107--108
 []\T1/cmr/m/it/12 For ev-ery left in-fi-nite se-quence $\OT1/cmr/m/n/12 (\OT1/c
 mr/bx/n/12 u\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 n\OT1/cmr/m/n/12 )\OML/cmm/m/it/1
 2 ; \OT1/cmr/bx/n/12 y\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 n \OMS/cmsy/m/n/12 ^^@ 
 \OT1/cmr/m/n/12 1))\OML/cmm/m/it/12 ; n \OT1/cmr/m/n/12 =
  []
 
-Package hyperref Info: bookmark level for unknown frm-thm defaults to 0 on inpu
-t line 116.
 [16 <./img/simple_esn.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 139--140
+Package hyperref Info: bookmark level for unknown frm-thm defaults to 0 on inpu
+t line 117.
+
+Underfull \hbox (badness 10000) in paragraph at lines 140--141
 
  []
 
 [17]
-Overfull \hbox (17.62482pt too wide) detected at line 195
+Overfull \hbox (17.62482pt too wide) detected at line 188
 [][] 
  []
 
 
-Overfull \hbox (29.3747pt too wide) in paragraph at lines 179--195
-[]$[]$ 
+Overfull \hbox (31.98518pt too wide) in paragraph at lines 177--188
+[] []$[]$ 
  []
 
-[18] [19] <./img/plots/esn/mg/resact.png, id=139, 578.16pt x 433.62pt>
+[18]
+Overfull \hbox (17.62482pt too wide) detected at line 206
+[][] 
+ []
+
+
+Overfull \hbox (31.98518pt too wide) in paragraph at lines 189--206
+[] []$[]$ 
+ []
+
+[19] <./img/plots/esn/mg/resact.png, id=143, 578.16pt x 433.62pt>
 File: ./img/plots/esn/mg/resact.png Graphic file (type png)
 
 <use ./img/plots/esn/mg/resact.png>
-Package pdftex.def Info: ./img/plots/esn/mg/resact.png used on input line 218.
+Package pdftex.def Info: ./img/plots/esn/mg/resact.png used on input line 229.
 (pdftex.def)             Requested size: 188.21288pt x 141.1564pt.
 
-<./img/plots/esn/mg/pred1000_br.png, id=140, 578.16pt x 433.62pt>
+<./img/plots/esn/mg/pred1000_br.png, id=144, 578.16pt x 433.62pt>
 File: ./img/plots/esn/mg/pred1000_br.png Graphic file (type png)
 
 <use ./img/plots/esn/mg/pred1000_br.png>
 Package pdftex.def Info: ./img/plots/esn/mg/pred1000_br.png used on input line 
-225.
+236.
 (pdftex.def)             Requested size: 188.21288pt x 141.1564pt.
- [20 <./img/plots/esn/mg/resact.png> <./img/plots/esn/mg/pred1000_br.png>]
+ [20]
 <./img/plots/esn/daily/gujarat_potato_online_7d_1d.png, id=149, 586.8324pt x 44
 2.2924pt>
 File: ./img/plots/esn/daily/gujarat_potato_online_7d_1d.png Graphic file (type 
 png)
  <use ./img/plots/esn/daily/gujarat_potato_online_7d_1d.png>
 Package pdftex.def Info: ./img/plots/esn/daily/gujarat_potato_online_7d_1d.png 
-used on input line 241.
+used on input line 252.
 (pdftex.def)             Requested size: 188.21288pt x 141.85365pt.
 
 <./img/plots/esn/daily/uttar_pradesh_redonion_7d_1d.png, id=150, 586.8324pt x 4
@@ -1271,10 +1281,10 @@ File: ./img/plots/esn/daily/uttar_pradesh_redonion_7d_1d.png Graphic file (type
  png)
  <use ./img/plots/esn/daily/uttar_pradesh_redonion_7d_1d.png>
 Package pdftex.def Info: ./img/plots/esn/daily/uttar_pradesh_redonion_7d_1d.png
- used on input line 248.
+ used on input line 259.
 (pdftex.def)             Requested size: 188.21288pt x 141.85365pt.
 
-Underfull \hbox (badness 3138) in paragraph at lines 249--249
+Underfull \hbox (badness 3138) in paragraph at lines 260--260
 []\T1/cmr/m/n/10.95 (b) |Price of onion in state Ut-tar
  []
 
@@ -1285,7 +1295,7 @@ File: ./img/plots/esn/daily/gujarat_potato_online_30d_1d.png Graphic file (type
  png)
  <use ./img/plots/esn/daily/gujarat_potato_online_30d_1d.png>
 Package pdftex.def Info: ./img/plots/esn/daily/gujarat_potato_online_30d_1d.png
- used on input line 260.
+ used on input line 271.
 (pdftex.def)             Requested size: 188.21288pt x 141.85365pt.
 
 <./img/plots/esn/daily/uttar_pradesh_redonion_30d_1d.png, id=152, 586.8324pt x 
@@ -1294,10 +1304,10 @@ File: ./img/plots/esn/daily/uttar_pradesh_redonion_30d_1d.png Graphic file (typ
 e png)
  <use ./img/plots/esn/daily/uttar_pradesh_redonion_30d_1d.png>
 Package pdftex.def Info: ./img/plots/esn/daily/uttar_pradesh_redonion_30d_1d.pn
-g used on input line 267.
+g used on input line 278.
 (pdftex.def)             Requested size: 188.21288pt x 141.85365pt.
 
-Underfull \hbox (badness 3138) in paragraph at lines 268--268
+Underfull \hbox (badness 3138) in paragraph at lines 279--279
 []\T1/cmr/m/n/10.95 (b) |Price of onion in state Ut-tar
  []
 
@@ -1308,7 +1318,7 @@ File: ./img/plots/esn/daily/gujarat_potato_online_60d_1d.png Graphic file (type
  png)
  <use ./img/plots/esn/daily/gujarat_potato_online_60d_1d.png>
 Package pdftex.def Info: ./img/plots/esn/daily/gujarat_potato_online_60d_1d.png
- used on input line 279.
+ used on input line 290.
 (pdftex.def)             Requested size: 188.21288pt x 141.85365pt.
 
 <./img/plots/esn/daily/uttar_pradesh_redonion_60d_1d.png, id=154, 586.8324pt x 
@@ -1317,19 +1327,28 @@ File: ./img/plots/esn/daily/uttar_pradesh_redonion_60d_1d.png Graphic file (typ
 e png)
  <use ./img/plots/esn/daily/uttar_pradesh_redonion_60d_1d.png>
 Package pdftex.def Info: ./img/plots/esn/daily/uttar_pradesh_redonion_60d_1d.pn
-g used on input line 286.
+g used on input line 297.
 (pdftex.def)             Requested size: 188.21288pt x 141.85365pt.
 
-[21 <./img/plots/esn/daily/gujarat_potato_online_7d_1d.png> <./img/plots/esn/da
-ily/uttar_pradesh_redonion_7d_1d.png>] [22 <./img/plots/esn/daily/gujarat_potat
-o_online_30d_1d.png> <./img/plots/esn/daily/uttar_pradesh_redonion_30d_1d.png> 
-<./img/plots/esn/daily/gujarat_potato_online_60d_1d.png> <./img/plots/esn/daily
-/uttar_pradesh_redonion_60d_1d.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 318--319
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [21 <./img/plots/esn/mg/resact.png> <./img/plots/esn/mg/pred1000_br.png>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [22 <./img/plots/esn/daily/gujarat_potato_online_7d_1d.png> <./img/plots/esn/d
+aily/uttar_pradesh_redonion_7d_1d.png> <./img/plots/esn/daily/gujarat_potato_on
+line_30d_1d.png> <./img/plots/esn/daily/uttar_pradesh_redonion_30d_1d.png>] [23
+ <./img/plots/esn/daily/gujarat_potato_online_60d_1d.png> <./img/plots/esn/dail
+y/uttar_pradesh_redonion_60d_1d.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 329--330
 
  []
 
-[23] [24]) (./chapters/visualization.tex
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [24])
+(./chapters/visualization.tex [25]
 Underfull \hbox (badness 10000) in paragraph at lines 11--13
 
  []
@@ -1339,7 +1358,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 14--15
 
  []
 
-[25]) (./conc.tex)
+) (./conc.tex)
 \tf@thm=\write5
 \openout5 = `humanitas_report.thm'.
 
@@ -1354,34 +1373,35 @@ Package rerunfilecheck Info: File `humanitas_report.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 75.
  ) 
 Here is how much of TeX's memory you used:
- 19589 strings out of 493315
- 312108 string characters out of 6137904
- 465459 words of memory out of 5000000
+ 19592 strings out of 493315
+ 312133 string characters out of 6137904
+ 466459 words of memory out of 5000000
  22729 multiletter control sequences out of 15000+600000
  19350 words of font info for 49 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  48i,13n,40p,2036b,488s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
 </usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
-/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></
-usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></us
-r/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/
-local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loc
-al/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loca
-l/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/
-texlive/2013/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/lo
-cal/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbi1728.pfb></usr/loca
-l/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/
-texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/te
-xlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texl
-ive/2013/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texliv
-e/2013/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/
-2013/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/20
-13/texmf-dist/fonts/type1/public/cm-super/sfxc2488.pfb>
-Output written on humanitas_report.pdf (26 pages, 974353 bytes).
+/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
+usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></u
+sr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
+/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/l
+ocal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loca
+l/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local
+/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/t
+exlive/2013/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/loc
+al/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbi1728.pfb></usr/local
+/texlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/t
+exlive/2013/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/tex
+live/2013/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texli
+ve/2013/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive
+/2013/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2
+013/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/201
+3/texmf-dist/fonts/type1/public/cm-super/sfxc2488.pfb>
+Output written on humanitas_report.pdf (26 pages, 982736 bytes).
 PDF statistics:
- 261 PDF objects out of 1000 (max. 8388607)
- 192 compressed objects within 2 object streams
- 57 named destinations out of 1000 (max. 500000)
+ 268 PDF objects out of 1000 (max. 8388607)
+ 198 compressed objects within 2 object streams
+ 60 named destinations out of 1000 (max. 500000)
  56 words of extra memory for PDF output out of 10000 (max. 10000000)
 
