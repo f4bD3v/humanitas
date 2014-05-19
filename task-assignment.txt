@@ -151,6 +151,7 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
                 Training (Teacher forcing), Testing, Evaluation
 
 * Presentation
+    [Joseph]
     * Schema of Prediction Model (e.g. Echo State Network)
     * Demo of Map
 
