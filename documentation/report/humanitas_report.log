@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  19 MAY 2014 16:01
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  19 MAY 2014 17:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1123,12 +1123,12 @@ Underfull \hbox (badness 2384) in paragraph at lines 67--67
 
 (./intro.tex [1
 
-{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 3--4
+{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]) (./cha
+pters/datacollection+processing.tex
+Underfull \vbox (badness 1635) has occurred while \output is active []
 
- []
-
-) (./chapters/datacollection+processing.tex [2] [3]
+ [2]
+[3]
 Underfull \vbox (badness 4001) has occurred while \output is active []
 
  [4]
@@ -1159,7 +1159,7 @@ File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 103.
  [7]
-<./img/CollectionProcess.pdf, id=47, 597.50786pt x 845.04686pt>
+<./img/CollectionProcess.pdf, id=48, 597.50786pt x 845.04686pt>
 File: ./img/CollectionProcess.pdf Graphic file (type pdf)
 
 <use ./img/CollectionProcess.pdf>
@@ -1200,14 +1200,14 @@ Overfull \hbox (3.57669pt too wide) in paragraph at lines 39--43
 he ARMA (Auto-Regressive
  []
 
-[13] <./img/simple_rnn.png, id=85, 391.4625pt x 352.31625pt>
+[13] <./img/simple_rnn.png, id=86, 391.4625pt x 352.31625pt>
 File: ./img/simple_rnn.png Graphic file (type png)
 
 <use ./img/simple_rnn.png>
 Package pdftex.def Info: ./img/simple_rnn.png used on input line 70.
 (pdftex.def)             Requested size: 292.77629pt x 263.51079pt.
  [14 <./img/simple_rnn.png>] [15]
-<./img/simple_esn.png, id=102, 514.723pt x 310.761pt>
+<./img/simple_esn.png, id=103, 514.723pt x 310.761pt>
 File: ./img/simple_esn.png Graphic file (type png)
 
 <use ./img/simple_esn.png>
@@ -1251,14 +1251,14 @@ Overfull \hbox (31.98518pt too wide) in paragraph at lines 189--206
 [] []$[]$ 
  []
 
-[19] <./img/plots/esn/mg/resact.png, id=143, 578.16pt x 433.62pt>
+[19] <./img/plots/esn/mg/resact.png, id=144, 578.16pt x 433.62pt>
 File: ./img/plots/esn/mg/resact.png Graphic file (type png)
 
 <use ./img/plots/esn/mg/resact.png>
 Package pdftex.def Info: ./img/plots/esn/mg/resact.png used on input line 229.
 (pdftex.def)             Requested size: 188.21288pt x 141.1564pt.
 
-<./img/plots/esn/mg/pred1000_br.png, id=144, 578.16pt x 433.62pt>
+<./img/plots/esn/mg/pred1000_br.png, id=145, 578.16pt x 433.62pt>
 File: ./img/plots/esn/mg/pred1000_br.png Graphic file (type png)
 
 <use ./img/plots/esn/mg/pred1000_br.png>
@@ -1266,7 +1266,7 @@ Package pdftex.def Info: ./img/plots/esn/mg/pred1000_br.png used on input line
 236.
 (pdftex.def)             Requested size: 188.21288pt x 141.1564pt.
  [20]
-<./img/plots/esn/daily/gujarat_potato_online_7d_1d.png, id=149, 586.8324pt x 44
+<./img/plots/esn/daily/gujarat_potato_online_7d_1d.png, id=150, 586.8324pt x 44
 2.2924pt>
 File: ./img/plots/esn/daily/gujarat_potato_online_7d_1d.png Graphic file (type 
 png)
@@ -1275,7 +1275,7 @@ Package pdftex.def Info: ./img/plots/esn/daily/gujarat_potato_online_7d_1d.png
 used on input line 252.
 (pdftex.def)             Requested size: 188.21288pt x 141.85365pt.
 
-<./img/plots/esn/daily/uttar_pradesh_redonion_7d_1d.png, id=150, 586.8324pt x 4
+<./img/plots/esn/daily/uttar_pradesh_redonion_7d_1d.png, id=151, 586.8324pt x 4
 42.2924pt>
 File: ./img/plots/esn/daily/uttar_pradesh_redonion_7d_1d.png Graphic file (type
  png)
@@ -1289,7 +1289,7 @@ Underfull \hbox (badness 3138) in paragraph at lines 260--260
  []
 
 
-<./img/plots/esn/daily/gujarat_potato_online_30d_1d.png, id=151, 586.8324pt x 4
+<./img/plots/esn/daily/gujarat_potato_online_30d_1d.png, id=152, 586.8324pt x 4
 42.2924pt>
 File: ./img/plots/esn/daily/gujarat_potato_online_30d_1d.png Graphic file (type
  png)
@@ -1298,7 +1298,7 @@ Package pdftex.def Info: ./img/plots/esn/daily/gujarat_potato_online_30d_1d.png
  used on input line 271.
 (pdftex.def)             Requested size: 188.21288pt x 141.85365pt.
 
-<./img/plots/esn/daily/uttar_pradesh_redonion_30d_1d.png, id=152, 586.8324pt x 
+<./img/plots/esn/daily/uttar_pradesh_redonion_30d_1d.png, id=153, 586.8324pt x 
 442.2924pt>
 File: ./img/plots/esn/daily/uttar_pradesh_redonion_30d_1d.png Graphic file (typ
 e png)
@@ -1312,7 +1312,7 @@ Underfull \hbox (badness 3138) in paragraph at lines 279--279
  []
 
 
-<./img/plots/esn/daily/gujarat_potato_online_60d_1d.png, id=153, 586.8324pt x 4
+<./img/plots/esn/daily/gujarat_potato_online_60d_1d.png, id=154, 586.8324pt x 4
 42.2924pt>
 File: ./img/plots/esn/daily/gujarat_potato_online_60d_1d.png Graphic file (type
  png)
@@ -1321,7 +1321,7 @@ Package pdftex.def Info: ./img/plots/esn/daily/gujarat_potato_online_60d_1d.png
  used on input line 290.
 (pdftex.def)             Requested size: 188.21288pt x 141.85365pt.
 
-<./img/plots/esn/daily/uttar_pradesh_redonion_60d_1d.png, id=154, 586.8324pt x 
+<./img/plots/esn/daily/uttar_pradesh_redonion_60d_1d.png, id=155, 586.8324pt x 
 442.2924pt>
 File: ./img/plots/esn/daily/uttar_pradesh_redonion_60d_1d.png Graphic file (typ
 e png)
@@ -1358,11 +1358,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 14--15
 
  []
 
-) (./conc.tex)
+) (./conc.tex [26])
 \tf@thm=\write5
 \openout5 = `humanitas_report.thm'.
 
- [26]
+ [27]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 75.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 75.
  (./humanitas_report.aux)
@@ -1373,8 +1373,8 @@ Package rerunfilecheck Info: File `humanitas_report.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 75.
  ) 
 Here is how much of TeX's memory you used:
- 19592 strings out of 493315
- 312133 string characters out of 6137904
+ 19593 strings out of 493315
+ 312140 string characters out of 6137904
  466459 words of memory out of 5000000
  22729 multiletter control sequences out of 15000+600000
  19350 words of font info for 49 fonts, out of 8000000 for 9000
@@ -1398,10 +1398,10 @@ ve/2013/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive
 /2013/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2
 013/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/201
 3/texmf-dist/fonts/type1/public/cm-super/sfxc2488.pfb>
-Output written on humanitas_report.pdf (26 pages, 982736 bytes).
+Output written on humanitas_report.pdf (27 pages, 986575 bytes).
 PDF statistics:
- 268 PDF objects out of 1000 (max. 8388607)
- 198 compressed objects within 2 object streams
- 60 named destinations out of 1000 (max. 500000)
+ 277 PDF objects out of 1000 (max. 8388607)
+ 205 compressed objects within 3 object streams
+ 61 named destinations out of 1000 (max. 500000)
  56 words of extra memory for PDF output out of 10000 (max. 10000000)
 
