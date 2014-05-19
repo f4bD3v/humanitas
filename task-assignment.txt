@@ -47,12 +47,20 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
         [Anton, Gabriel, Fabian] 
     - Normalize tweet indicators and write template query
         [Gabriel]
+        
+* Association Rule Mining
+   - implement with the orange package 
+   - price analysis
+        [Alex]
+        done
 
 * Data processing
-    * All data sources must be tabular, csv with the columns discussed on
+    - All data sources must be tabular, csv with the columns discussed on
       github
         [Anton]
-
+    - Provide a data source in wide format and with categorial values 
+        [Alex]
+        done
     * Compute statistics and analyze the data to have more information on
       which models can work
         [Ching-Chia, Stefan]
@@ -77,7 +85,9 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
         Price transmission analysis, Association rule learning
         [Alex, Fabian]
         IMPORTANT: we need to do more work on this part
-
+    
+   
+    
     * FF neural networks
         [Fabian, Stefan]
         -- use pybrain to implement, train and test the model at
@@ -140,6 +150,7 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
             -- Time Series analysis 
                 +PCA
             -- Association rules
+               [Alex]
 
         * Prediction Models
             -- Time Series Forecasting 
