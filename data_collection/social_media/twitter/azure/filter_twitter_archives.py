@@ -1,3 +1,9 @@
+'''
+  Author: Gabriel Grill
+  filters and parses tweets from twitter archives and stores
+  them according to quality of region detection into specific files
+'''
+
 import argparse
 import json
 import bz2
@@ -5,10 +11,8 @@ import io
 import tarfile
 import sys
 
-#from numba import jit, autojit
-
 if sys.hexversion < 0x03030000:
-    print("WARNING: this code is known to fail for python < 3.3", file=sys.stderr)
+    print("This code fails for python < 3.3", file=sys.stderr)
 
 parser = argparse.ArgumentParser( description="Filter and categorize tweets.")
 parser.add_argument('outdir', help="output directory")
@@ -18,6 +22,8 @@ args = parser.parse_args()
 
 path = "words/"
 
+#this function is inspired by:
+#https://github.com/maugier/cs422/blob/master/extraction/tarchunk.py
 def open_tweets(tarname):
     tar = tarfile.open(tarname, mode='r|*')
     for tarinfo in tar:
@@ -33,7 +39,6 @@ def open_tweets(tarname):
             print("Failed on {0}: {1}".format(name, e))
 
 
-##@jit
 def alltweets():
     for tf in args.files:
         yield from open_tweets(tf)
@@ -48,14 +53,12 @@ def get_words(fn):
 
     return word_set
 
-#@jit
 def contains_words(to_check, tweet):
     for word in tweet:
         if (word in to_check):
             return True
     return False
 
-#@jit
 def in_rect(p, r):
     return (p[0] >= r[0][0] and p[0] <= r[1][0]) and (
            p[1] <= r[0][1] and p[1] >= r[1][1])
@@ -70,19 +73,16 @@ def in_rect(p, r):
 #india_coord = [((33, 68), (8, 89)), ((37, 73), (32, 80))]
 #indo_coord = [((5, 95), (-10, 141))]
 
-#@jit
 def coords_in_india(coords):
     return 'coordinates' in coords and (
            in_rect(coords['coordinates'], ((68.0, 33.0), (89.0, 8.0))) and
            in_rect(coords['coordinates'], ((73.0, 37.0), (80.0, 32.0))) )
 
-#@jit
 def coords_in_indo(coords):
     return 'coordinates' in coords and (
            in_rect(coords['coordinates'], ((95.0, 5.0), (141.0, -10.0))) )
 
 
-#@jit
 def place_in(country, place):
     return 'country_code' in place and place['country_code'] == country
 
@@ -125,7 +125,6 @@ f_india_unknown = open(outdir + "tweets_india_unknown.json", f_mode)
 #indonesian words + unknown location
 f_indo_unknown = open(outdir + "tweets_indo_unknown.json", f_mode)
 
-#@jit
 def process_tweet(tweet, line):
     tweet_text = tweet['text'].lower().split()
     if(contains_words(food_words_india, tweet_text) and
@@ -174,22 +173,10 @@ def process_tweet(tweet, line):
        else:
           f_indo_unknown.write(line)
 
-#@autojit
 def main():
-    #count = 0
     for (tweet, line) in alltweets():
-        #print(tweet)
-        #print("test\n")
         if('text' in tweet and 'retweeted_status' not in tweet):
-            #p = Process(target=process_tweet, args=(tweet,q,))
-            #p.start()
             process_tweet(tweet, line)
-
-        #if(count % 10000 == 0):
-        #    print(count)
-
-        #count += 1
-
 
 main()
 
