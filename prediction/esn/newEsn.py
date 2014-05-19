@@ -24,11 +24,12 @@ class ESN:
         training tips:
         -keep reservoir size small for selection of hyperparams
     """	
-    def __init__(self, data, split_ind, initN):
+    def __init__(self, data, infl, split_ind, initN):
         self._dates = data[0]
         self._traindates =  self._dates[initN+1:split_ind+1]
         data = data[1]
         self._data = data
+        #self._data = data/infl[1]
         self._N = split_ind
         self._train = data[initN:split_ind+1]
         self._test = data[split_ind:]
@@ -174,7 +175,7 @@ class ESN:
         self._alpha = 0.5
 
         print 'adapting Wout online'
-        self._lambda = .999995
+        self._lambda = .999999
         print 'feedback'
 
         std = np.std(self._data[:self._initN])
@@ -190,16 +191,17 @@ class ESN:
         # TODO print error, prompt save params? use pickle for dumping
 
     # specify prediction horizon when calling function
-    def generative_run(self, horizon):
-        Y = np.zeros((self._Ny,horizon))
+    def generative_run(self, horizon, output):
+        Y = np.zeros((self._Ny, self._data.shape[0]))
+        Y[:,self._N-1] = self._y
         # use last output as input to make first prediction
         print self._data[self._N-1]
         for t in range(horizon):
             print 't ', t
 
             xlast = self._x
-            #self._y = self._data[self._N+t]
-            xnext = np.tanh(np.dot(self._Win, self._y)+np.dot(self._W, xlast)+np.random.normal(0, 0.0001))
+            self._y = self._data[self._N+t]
+            xnext = np.tanh(np.dot(self._Win, self._y)+np.dot(self._W, xlast))
             self._x = (1-self._alpha)*xlast + self._alpha*xnext
 
             out = np.vstack((self._y, self._x))
@@ -208,8 +210,13 @@ class ESN:
             u = self._data[self._N+t]
             print 'u ', u
             print 'y ', self._y
-            Y[:,t] = self._y
+            Y[:,self._N+t] = self._y
             # use prediction as input to the network
+
+        to_dump = np.asarray([self._traindates, self._data, Y])
+        print to_dump.shape
+        fn = str(output)+'_h'+str(horizon)+'.csv'
+        #np.savetxt(fn, to_dump, delimiter=",")
 
         self.test_err(Y, horizon)
         return Y
@@ -219,7 +226,7 @@ class ESN:
         print 'training mse: ', mse
 
     def test_err(self, Y, horizon):
-		mse = np.sum( np.square( self._data[self._N:self._N+horizon] - Y[0,0:horizon] ) ) / horizon 
+		mse = np.sum( np.square( self._data[self._N-1:self._N+horizon] - Y[0,:horizon+1] ) ) / horizon 
 		print 'test mse: ', mse
 
     def plot_training(self, title, ylabel):
@@ -242,10 +249,12 @@ class ESN:
     def plot_test(self, Y, horizon, title, ylabel):
         fmt = mdates.DateFormatter('%d-%m-%Y')
         #loc = mdates.WeekdayLocator(byweekday=mdates.Monday)
-        months = self._dates[self._N:self._N+horizon]
+        months = self._dates[self._N-1:self._N+horizon]
 
-        target = self._data[self._N:self._N+horizon] 
-        pred = Y.flatten()
+        target = self._data[self._N-1:self._N+horizon] 
+        pred = Y[0,self._N-1:].flatten()
+        print target.shape
+        print pred.shape
 
         fig = plt.figure(2)
         plt.figure(2).clear()
@@ -265,8 +274,8 @@ def main():
     # convert date to floats
     #data = np.loadtxt('oilprices.txt', delimiter=',', skiprows=1, unpack=True, converters={0 :mdates.strpdate2num('%Y-%m-%d')})
 
-    data = np.genfromtxt('good_series_wholesale_daily.txt', usecols = (0, 1), delimiter=',', skiprows=1, unpack=True, converters={0:mdates.strpdate2num('%Y-%m-%d')})
-
+    data = np.genfromtxt('good_series_wholesale_daily.txt', usecols = (0, 4), delimiter=',', skiprows=1, unpack=True, converters={0:mdates.strpdate2num('%Y-%m-%d')})
+    infl = np.genfromtxt('inflation_for_discount.txt', usecols = (0, 1), delimiter=',', skiprows=1, unpack=True, converters={0:mdates.strpdate2num('%Y-%m-%d')})
     # Split dataset into training and testset
     horizon = 7
     print len(data[0])
@@ -274,15 +283,16 @@ def main():
 
     # Reservoir size
     Nx = 500
-    initN = 1200# 24 months initialization
+    initN = 740# 24 months initialization
 
+    print len(infl[0])
     Ny = 1
     # Num. Regions and Products : R,P
-    esn = ESN(data, split_ind, initN)
+    esn = ESN(data, infl, split_ind, initN)
     esn.init_reservoir(Nx) 
     esn.custom_training(True)
     esn.plot_training('Training outputs', 'Y')
-    Y = esn.generative_run(horizon)
+    Y = esn.generative_run(horizon, 'red_onion')
     esn.plot_test(Y, horizon, 'Test run', 'Price')
 
 
