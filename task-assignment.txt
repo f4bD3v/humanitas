@@ -17,7 +17,7 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
         * setup Spark, Shark, Cassandra cluster
           [Gabriel]
             -- ready
-        * db scheme for cassandra
+        * db schema for cassandra
           [Gabriel, Anton, Fabian]
             -- ready
         * Get user ids of twitter users from India with many tweets
@@ -34,8 +34,6 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
 
     * Crawl daily and weekly price data and stocks; sources in data/india/sources.txt
         [Anton, request help where needed]
-        IMPORTANT: fetch daily retail data from http://fcainfoweb.nic.in/PMSver2/Reports/Report_Menu_web.aspx and write to csv so it can be processed
-        -- also document shortly what to pay attention to using the gov sites in sources.txt
 
     * additional data (India+Indonesia): food production, food stocks, weather, Consumer Price Index (CPI), currency exchange rate (w.r.t $), crude oil price 
         [Alex, Joseph, Duy]
@@ -49,13 +47,20 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
         [Anton, Gabriel, Fabian] 
     - Normalize tweet indicators and write template query
         [Gabriel]
+        
+* Association Rule Mining
+   - implement with the orange package 
+   - price analysis
+        [Alex]
+        done
 
 * Data processing
-    * All data sources must be tabular, csv with the columns discussed on
+    - All data sources must be tabular, csv with the columns discussed on
       github
         [Anton]
-        -- Anton will try to fix the weekly data problem next week
-
+    - Provide a data source in wide format and with categorial values 
+        [Alex]
+        done
     * Compute statistics and analyze the data to have more information on
       which models can work
         [Ching-Chia, Stefan]
@@ -80,7 +85,9 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
         Price transmission analysis, Association rule learning
         [Alex, Fabian]
         IMPORTANT: we need to do more work on this part
-
+    
+   
+    
     * FF neural networks
         [Fabian, Stefan]
         -- use pybrain to implement, train and test the model at
@@ -121,7 +128,7 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
 
         -- Twitter 
                 - Issue of localization - mapping tweets to user location
-                   [Gabriel]
+                    [Gabriel]
                 - Historical Tweets
                     Approach 1 - through API by user (extensive)          
                         [Joseph]
@@ -131,6 +138,10 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
 
                     Filtering
                         [Anton, Gabriel]
+
+                    Categorization, basic NLP (stemming, spellchecking)
+                        [Anton]
+
                 - Infrastructure, Cassandra 
                     [Gabriel] 
 
@@ -139,6 +150,7 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
             -- Time Series analysis 
                 +PCA
             -- Association rules
+               [Alex]
 
         * Prediction Models
             -- Time Series Forecasting 

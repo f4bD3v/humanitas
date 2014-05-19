@@ -3,31 +3,44 @@
 \subsection*{Interpretation}
 automate interpretation to a certain extent by learning about circumstances through online data.
 
-\subsection*{Time Series Analysis}
-Time series data has a natural temporal relation between different data points.
-It is important in the analysis to extract significant temporal statistics out
-of data. We will focus on analyze stationarity, autocorrelation, trend, volatility
-change, and seasonality of our price datasets in R.
+\subsection*{Time Series Analysis} \footnotesize\textit{Ching-Chia Wang}}
+Food price data has a natural temporal relation between different data points. It is important in the analysis to extract significant temporal statistics out of data. We will focus on analyze stationarity, autocorrelation, trend, and seasonality of our price datasets in R.
 
-Stationarity of a series guarantees that the mean and variance of the data do not
-change over time. This is crucial for a meaningful analysis, since if the data is
-not stationary, we can not be sure that anything we derive from the present will
-be consistent in the future. We can transform our data into a stationary one by
-taking k-th difference to remove the underlying trend, and then apply standard
-test procedures such as KPSS test [1] to see if the differenced series is stationary.
+\subsubsection*{Test of Stationarity of Price Series}
+Stationarity of a series guarantees that the mean and variance of the data do not change over time. This is crucial for a meaningful analysis, since if the data is not stationary, we can not be sure that anything we derive from the present will be consistent in the future.
 
-Autocorrelation is another important trait in time series data. It suggests the
-degree of correlation between different time periods. By plotting correlograms
-(autocorrelation plots) of our data, we will be able to identify if the fluctuation
-of prices may be due to white noise or other hidden structures.
+We have conducted the KPSS test for stationarity [1] on some representative series from the price dataset. A test result of a sample series is presented in the table below. In general, the price series of foods in India have p-values less than 0.05, which indicates that we have to reject the null hypothesis that the series is stationary. On the other hand, the first differences of the price series have p-values larger than 0.05, which means that they are potentially stationary time series. Based on this test result, we will use the first difference of the series in later analysis.
 
-Seasonality is reasonably expected in our agricultural related time series. Several
-methods might help us to detect seasonality, such as common run charts, seasonal
-subseries plots, periodograms, and the correolograms we mentioned before.
-
-(trend and volatility change is straightforward and can be concluded once we have the datasets)
+\begin{table}[h]
+\begin{tabular}{lll}
+\cline{1-1}
+\multicolumn{1}{|l|}{}             & Price Series & First Difference of Price Series \\ \cline{1-1}
+p-value of null hypothesis "Trend" & 0.01         &
+\end{tabular}
+\end{table}
+Table: Result of KPSS-test of stationarity on the sample series: Price of “Jyoti” Potato in West Bengal. A p-value less than 0.05 indicates a rejection of the null hypothesis that the series is stationary under the 95% confidence level.
 
 [1] Kwiatkowski, D.; Phillips, P. C. B.; Schmidt, P.; Shin, Y. (1992). "Testing the null hypothesis of stationarity against the alternative of a unit root". Journal of Econometrics 54 (1–3): 159–178.
+
+\subsubsection*{Autocorrelation of Price Series}
+Autocorrelation(ACF) is another important trait in time series data. It suggests the degree of correlation between current value and the value with a period before. By plotting correlograms (autocorrelation plots) of our data, we will be able to identify if the fluctuation of prices may be due to white noise or other hidden structures.
+
+The figure below is the correlogram of a sample series. The dotted line indicates the region of white noises. Any signal located inside that region is considered statistically insignificant. The ACF value at lag 0 is fixed at 1 because current value is 100% correlated with itself. Observe that we have some short positive signals near lag 0, and there appears to be some annual patterns in price changes. The current change in price of the series seems to be positively correlated with those a few months before, and a few years before, up to 4 years.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{./img/correlogram.png}
+    \caption{Correlogram of the first difference of the sample series: Price of “Jyoti” Potato in West Bengal.}
+\end{figure}
+
+\subsubsection*{Seasonality}
+Seasonality is reasonably expected in our agricultural related time series. We have conducted a standard seasonality decomposition on our price dataset. One sample result is shown in Figure 2. The price series in the first subplot is decomposed into 3 series: seasonal, trend, and remainder. Slight annual patterns are presented, but note that they are in small magnitude comparing to the price series. One important observation is that the remainder series is highly volatile and inconsistent over time.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{./img/seasonal.png}
+    \caption{Correlogram of the first difference of the sample series: Price of “Jyoti” Potato in West Bengal.}
+\end{figure}
 
 
 \section*{Prediction Models}
@@ -72,7 +85,7 @@ A recurrent neural network (RNN) is a neural network with feedback connections, 
 \subsubsection*{General description of a discrete time RNN}
 A discrete time RNN is a graph with $K$ input units $\vec{u}$, $N$ internal network units $\vec{x}$ and $L$ output units $\vec{y}$. The activation (per layer) vectors at point n in time are denoted by $\vec{u}(n) = (u_1(n),...,u_n(n))$, $\vec{x}(n) = (x_1(n),...,x_n(n))$, $\vec{y}(n) = (y_1(n),...,y_n(n))$. Edges between the units in these sets are represented by weights $\omega_{ij}\neq0$ which are gathered in adjacency matrices. There are four types of matrices:\par
 \begin{itemize}
-	\item $\vec{W}^{in}_{N\times K}$ contains inputs weights for an internal unit in each row respectively 
+	\item $\vec{W}^{in}_{N\times K}$ contains inputs weights for an internal unit in each row respectively
 	\item $\vec{W}_{N\times N}$ contains the internal weights. This matrix is usually sparse with densities $5\%-20\%$
 	\item $\vec{W}^{out}_{L\times (K+N+L)}$ contains the weights for edges, which can stem from the input, the internal units and the outputs themselves, leading to the output units.
 	\item $\vec{W}^{back}_{N\times L}$ contain weights for the edges that project back from the output units to the $N$ internal units
@@ -81,7 +94,7 @@ A discrete time RNN is a graph with $K$ input units $\vec{u}$, $N$ internal netw
 In a \emph{fully recurrent network} every unit receives input from all other units neurons and therefore input units can have direct impact on output units. Output units can further be interconnected.\par
 
 \paragraph{Evaluation}
-The calculation of the new state of the internal neurons in time-step $n+1$ is called evaluation. 
+The calculation of the new state of the internal neurons in time-step $n+1$ is called evaluation.
 \[
 \vec{x}(n+1)=\vec{f}(\vec{W}^{in}\vec{u}(n+1)+\vec{W}\vec{x}(n)+\vec{W}^{back}\vec{y}(n))
 \]
@@ -107,7 +120,7 @@ Echo State Networks (ESN) are a type of discrete time RNNs for which training is
 The intuitive meaning of the \emph{echo state property} (ESP) is that the internal state is \textbf{uniquely} determined by the history of the input signal and the teacher forced output, given that the network has been running long enough. Teacher forcing essentially means that the output $\vec{y}(n-1)$ is forced to be equal to the next time series value $\vec{u}(n)$ and thus to the next input.
 \begin{frm-def}
 For every left infinite sequence $(\vec{u}(n),\vec{y}(n-1)),n=\dots,-2,-1,0$ and all state sequences $\vec{x}(n),\vec{x'}(n)$ which are generated according to
-\begin{align*}	
+\begin{align*}
 	\vec{x}(n+1)=\vec{f}(\vec{W}^{in}\vec{u}(n+1)+\vec{W}\vec{x}(n)+\vec{W}^{back}\vec{y}(n))\\
 	\vec{x'}(n+1)=\vec{f}(\vec{W}^{in}\vec{u}(n+1)+\vec{W}\vec{x'}(n)+\vec{W}^{back}\vec{y}(n))
 \end{align*}
@@ -122,7 +135,7 @@ Define $\sigma_{max}$ as largest singular value of $\vec{W}$, $\lambda_{max}$ as
 \item If $\|\lambda_{max}\| > 1$ then the network has no echo states for any input/output interval which contains the zero input/output tuple (0,0)
 \end{enumerate}
 \end{frm-thm}
-In practice it suffices to make sure the negation of the second point holds. 
+In practice it suffices to make sure the negation of the second point holds.
 
 \subsubsection*{Training the ESN}
 The state of the ESN is a function of the inputs it has been presented with. Each state describes an oscillator at a given time n and during training the relation between these oscillators and the output has to be learnt. Before training can be started the reservoir weights have to be normalized by the spectral radius of the weight matrix $W$. The hyperparameters are the reservoir size (dimensionality of W) and a rescale parameter of the weight matrix for slightly increasing/decreasing the spectral radius.
@@ -149,7 +162,7 @@ The Tikhonov regularizer allows finding a stable solution that will not adversel
 \end{equation}
 
 \paragraph*{Teacher forcing}
-Teacher forcing is the simplest training method in which the respective value of the target time series $y_{target}(n)=u(n+1)$ is fed in at every consecutive time step with input weights $W^{in}$. 
+Teacher forcing is the simplest training method in which the respective value of the target time series $y_{target}(n)=u(n+1)$ is fed in at every consecutive time step with input weights $W^{in}$.
 
 \paragraph*{Feedbacks}
 During training with feedbacks the output $y(n)$ produced by the network is additionally fed back into the reservoir with feedback weights $W^{back}$. There further exists the possibility to decouple the network from the actual input during \emph{online} training which we will discuss later.
@@ -174,7 +187,7 @@ Let a network be updated according to \eqref{eq:leaky}, with teacher-forced outp
 \end{comment}
 
 \paragraph*{Online learning}
-In contrast to learning the weights once in batch-mode after the training run is completed one can also train the output weights in an online fashion after each consecutive presentation of an input. This method allows for a better adaption of the weights to local structures present in the data. There exist several algorithms for online training of the Echo State Networks and related reservoir networks. In the following we will shortly discuss two of the basic algorithms which are most often mentioned in academic literature. 
+In contrast to learning the weights once in batch-mode after the training run is completed one can also train the output weights in an online fashion after each consecutive presentation of an input. This method allows for a better adaption of the weights to local structures present in the data. There exist several algorithms for online training of the Echo State Networks and related reservoir networks. In the following we will shortly discuss two of the basic algorithms which are most often mentioned in academic literature.
 \begin{itemize}
 \item \textbf{Least Mean Squares (LMS):} LMS algorithms try to find the optimal weights (filtered coefficients) that minimize the mean squared error for an adaptive filter which is represented by the output weights $W^{out}$ in the case of the ESN. Essentially, LMS algorithms are stochastic gradient descent methods that perform updates according to the error present at time n that update the weights according to the a priori error and a predefined constant in every iteration.\\
 \indent
@@ -232,7 +245,7 @@ In this section we demonstrate the predictive power of the simplest ESN configur
         \caption{Sample of ESN activations resulting from the training series}
         \label{subfig:mg_act}
         \end{subfigure}
-        \quad 
+        \quad
         \begin{subfigure}[b]{.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{./img/plots/esn/mg/pred1000_br.png}
@@ -244,7 +257,7 @@ In this section we demonstrate the predictive power of the simplest ESN configur
 \end{figure}
 
 \subsubsection*{Obtained results}
-The mackey glass time series is generated by a function with added noise. Since the development of commodity prices doesn't follow a similarly easily describable pattern we did not expect to obtain comparable results. Once trained on several years of price series data the ESN is capable of predicting prices very accurately on a day-to-day basis without any need for retraining. However, due to the limited usefulness of day-to-day predictions, we would like to predict prices farther into the future with relative accuracy. So far we have only achieved predicting the general trend for 6 to 7 days and we are not sure if greater accuracy is achievable with these models. Our experiments with inputting additional data like temperature, precipitation, consumer price index (inflation) and twitter data show NO? significant improvements. 
+The mackey glass time series is generated by a function with added noise. Since the development of commodity prices doesn't follow a similarly easily describable pattern we did not expect to obtain comparable results. Once trained on several years of price series data the ESN is capable of predicting prices very accurately on a day-to-day basis without any need for retraining. However, due to the limited usefulness of day-to-day predictions, we would like to predict prices farther into the future with relative accuracy. So far we have only achieved predicting the general trend for 6 to 7 days and we are not sure if greater accuracy is achievable with these models. Our experiments with inputting additional data like temperature, precipitation, consumer price index (inflation) and twitter data show NO? significant improvements.
 
 % NO BLANK SPACES
 \begin{figure}[!ht]
@@ -252,7 +265,7 @@ The mackey glass time series is generated by a function with added noise. Since 
         \begin{subfigure}[b]{.45\linewidth}
         \centering
         \includegraphics[width=\textwidth]{./img/plots/esn/daily/gujarat_potato_online_7d_1d.png}
-        \caption{Wholesale price of potato, state Gujarat; test RMSE in rupees: 0.199} 
+        \caption{Wholesale price of potato, state Gujarat; test RMSE in rupees: 0.199}
         \label{subfig:res_7d_1}
         \end{subfigure}
         \quad
@@ -262,7 +275,7 @@ The mackey glass time series is generated by a function with added noise. Since 
         \caption{Wholesale price of red onion, state Uttar Pradesh; test RMSE in rupees 0.145}
         \label{subfig:res_7d_2}
         \end{subfigure}
-    \caption{7 day day-to-day prediction for two different commodities in different states}   
+    \caption{7 day day-to-day prediction for two different commodities in different states}
     \label{fig:res_7d}
 \end{figure}
 
@@ -271,7 +284,7 @@ The mackey glass time series is generated by a function with added noise. Since 
         \begin{subfigure}[b]{.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{./img/plots/esn/daily/gujarat_potato_online_30d_1d.png}
-        \caption{Wholesale price of potato, state Gujarat; test RMSE in rupees: 0.293} 
+        \caption{Wholesale price of potato, state Gujarat; test RMSE in rupees: 0.293}
         \label{subfig:res_30d_1}
         \end{subfigure}
         \quad
@@ -281,7 +294,7 @@ The mackey glass time series is generated by a function with added noise. Since 
         \caption{Wholesale price of red onion, state Uttar Pradesh; test RMSE in rupees 0.145}
         \label{subfig:res_30d_2}
         \end{subfigure}
-    \caption{30 day day-to-day prediction for two different commodities in different states}   
+    \caption{30 day day-to-day prediction for two different commodities in different states}
     \label{fig:res_30d}
 \end{figure}
 
@@ -290,7 +303,7 @@ The mackey glass time series is generated by a function with added noise. Since 
         \begin{subfigure}[b]{.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{./img/plots/esn/daily/gujarat_potato_online_60d_1d.png}
-        \caption{Wholesale price of potato, state Gujarat; test RMSE in rupees: 0.310} 
+        \caption{Wholesale price of potato, state Gujarat; test RMSE in rupees: 0.310}
         \label{subfig:res_60d_1}
         \end{subfigure}
         \quad
@@ -301,7 +314,7 @@ The mackey glass time series is generated by a function with added noise. Since 
         \label{subfig:res_60d_2}
         \end{subfigure}
 
-    \caption{60 day day-to-day prediction}   
+    \caption{60 day day-to-day prediction}
     \label{fig:res_60d}
 \end{figure}
 
@@ -312,22 +325,23 @@ Further research concerning the stability of online training of the ESN and its 
 ADD REFERENCES
 
 \subsection*{Data Mining}
+\emph{Alexander Buesser} \\
 
 In this section we give a brief introduction to association rule mining and detail the implementation and evaluation of the system. In order to run the code you will need to install the libraries Scipy and Orange.
 
 \subsubsection{A brief introduction to Association rule mining}
 
-The objective of association  mining is the elicitation of useful rules from which new knowledge can be derived. Association mining applications have been applied to many different domains including market basket analysis, risk analysis in commercial environments, clinical medicine and crime prevention. They are all areas in which the relationship between objects can provide useful knowledge. 
+The objective of association  mining is the elicitation of useful rules from which new knowledge can be derived. Association mining applications have been applied to many different domains including market basket analysis, risk analysis in commercial environments, clinical medicine and crime prevention. They are all areas in which the relationship between objects can provide useful knowledge.
 
-Itemsets are identified by the use of two metrics support and confidence. 
+Itemsets are identified by the use of two metrics support and confidence.
 
-Support is a measure of the statistical significance of the rule. Rules with a very low support are more likely to occur by chance. With respect to the market basket analysis items that are seldom bought together by customers are not profitable to promote together. For this reason support is often used as a filter to eliminate uninteresting rules. 
+Support is a measure of the statistical significance of the rule. Rules with a very low support are more likely to occur by chance. With respect to the market basket analysis items that are seldom bought together by customers are not profitable to promote together. For this reason support is often used as a filter to eliminate uninteresting rules.
 
-Confidence on the other hand is is a measure on how reliable the inference made by a rule is. For a given rule $A \implies B$, the higher the confidence, the more likely it is for the item set B to be present in the transactions that contain A. IN a sense confidence provides an estimate of the conditional probability for B given A. 
+Confidence on the other hand is is a measure on how reliable the inference made by a rule is. For a given rule $A \implies B$, the higher the confidence, the more likely it is for the item set B to be present in the transactions that contain A. IN a sense confidence provides an estimate of the conditional probability for B given A.
 
-It is worth noting that the inference made by an association rule does not necessarily imply causality. Instead the implication indicates a strong concurrence relationship between items in the antecedent and consequent of the rule. 
+It is worth noting that the inference made by an association rule does not necessarily imply causality. Instead the implication indicates a strong concurrence relationship between items in the antecedent and consequent of the rule.
 
-So how do we go about implementing this in an algorithm? A rather naive approach would be to check if each itemset satisfies minimum support. However this is rather inefficient and unnecessary. We can make use of of the observation that every subset of a frequent item set also has to be a frequent item set. This works the other way as well. If a set is not frequent then its superset can not be frequent either. This observation allows us to prevent unnecessary computation. The Apriori Algorithm uses this downward closure to identify frequent item sets. Candidates that do not satisfy minimal support are pruned, which automatically reduces the algorithm's search space. Once frequent item sets have been generated the algorithm enters the second face, namely generating derivations for which the metric minimal confidence is used. 
+So how do we go about implementing this in an algorithm? A rather naive approach would be to check if each itemset satisfies minimum support. However this is rather inefficient and unnecessary. We can make use of of the observation that every subset of a frequent item set also has to be a frequent item set. This works the other way as well. If a set is not frequent then its superset can not be frequent either. This observation allows us to prevent unnecessary computation. The Apriori Algorithm uses this downward closure to identify frequent item sets. Candidates that do not satisfy minimal support are pruned, which automatically reduces the algorithm's search space. Once frequent item sets have been generated the algorithm enters the second face, namely generating derivations for which the metric minimal confidence is used.
 
 \subsubsection{Implementation}
 
@@ -335,23 +349,23 @@ The implementation is guided through three stage namely data crunching, classifi
 
 
 
-In order to run the Apriori Algorithm we needed to do some preprocessing since the data available was in an incompatible format. The data readily available to us was in the form 
-of Date Country City Category Commodity 1, Date Country City Category Commodity 2. In the statistics community this kind of format is referred to as the "long format". In order to run Apriori we need to convert the table to a "wide format" meaning that all commodities need to be related to one index. You can imagine a matrix where the y axis is described by city + date and the x axis is labeled with all the available commodities. To do the conversion we used Stata, a statistical software which is mostly used in the field of social science. Before reading the data into state we filtered the document for special characters ("", /) and replaced all unavailable price informations with "NA". For this purpose we used the filter.py script. Once we read in the data into state we removed duplicates and started the conversion. To reproduce the correct table format you fan follow our implementation in the stata script.  The data is now in the correct table format what remains to be done is slicing the table according to a city and sorting the data in order of decreasing time stamps. These steps are performed in the dataFrame.py. We now continue to process the files by classifying continues variables into categories. We therefor filtered the maximum and minimum increase/decrease in price to establish a range of values. Depending on whether a price increase fall into the first, second or third of the price range we classified it as small, medium or big increase/decrease respectively. The categorical data can now be processed by the assoc.py file. The library orange provides an implementation of the a priori gen algorithm. We simply set the min support value and write the 10 rules with the highest support count to a file. 
+In order to run the Apriori Algorithm we needed to do some preprocessing since the data available was in an incompatible format. The data readily available to us was in the form
+of Date Country City Category Commodity 1, Date Country City Category Commodity 2. In the statistics community this kind of format is referred to as the "long format". In order to run Apriori we need to convert the table to a "wide format" meaning that all commodities need to be related to one index. You can imagine a matrix where the y axis is described by city + date and the x axis is labeled with all the available commodities. To do the conversion we used Stata, a statistical software which is mostly used in the field of social science. Before reading the data into state we filtered the document for special characters ("", /) and replaced all unavailable price informations with "NA". For this purpose we used the filter.py script. Once we read in the data into state we removed duplicates and started the conversion. To reproduce the correct table format you fan follow our implementation in the stata script.  The data is now in the correct table format what remains to be done is slicing the table according to a city and sorting the data in order of decreasing time stamps. These steps are performed in the dataFrame.py. We now continue to process the files by classifying continues variables into categories. We therefor filtered the maximum and minimum increase/decrease in price to establish a range of values. Depending on whether a price increase fall into the first, second or third of the price range we classified it as small, medium or big increase/decrease respectively. The categorical data can now be processed by the assoc.py file. The library orange provides an implementation of the a priori gen algorithm. We simply set the min support value and write the 10 rules with the highest support count to a file.
 
 \subsubsection{Results}
 
-What we were hoping to find were seasonal related price changes such as those we experience when shopping for fruits and vegetables at our local grocery stores. Rules such as $Tomatoes = big increase \implies potatoes = small decrease$ could serve 
+What we were hoping to find were seasonal related price changes such as those we experience when shopping for fruits and vegetables at our local grocery stores. Rules such as $Tomatoes = big increase \implies potatoes = small decrease$ could serve
 
 
-Our initial granularity was set to weekly data. From our meta analysis we observed that prices quite frequently stay unchanged over the period of several weeks. This resulted in an overwhelming amount of rules in the form of commodity $A = unchanged \implies B= unchanged$. This made it really hard to filter the set for insightful rules. We therefor decided to compare price changes over the period of 12 weeks. Although the majority of the rules still remained in the above form we managed to extract some relations related to price changes. 
+Our initial granularity was set to weekly data. From our meta analysis we observed that prices quite frequently stay unchanged over the period of several weeks. This resulted in an overwhelming amount of rules in the form of commodity $A = unchanged \implies B= unchanged$. This made it really hard to filter the set for insightful rules. We therefor decided to compare price changes over the period of 12 weeks. Although the majority of the rules still remained in the above form we managed to extract some relations related to price changes.
 
-We conclude that the strongest correlations exist between commodities with unchanged prices. This observation underlines the nature of food commodities. Agricultural commodities are known to be less volatile then for example energy commodities. We further noticed that depending on the region we would have a totally different rule count. Capital cities tend to have a bigger rule base meaning that there exist a higher correlation between products. Two extreme example are Dassau, which resulted in no patterns at all and Shillong which produced over 260000 rules. In addition our experiments showed the finer the granularity of the data the higher the support and correlation between products. This is only natural given that prices can stay stable over the period of weeks or even months. 
+We conclude that the strongest correlations exist between commodities with unchanged prices. This observation underlines the nature of food commodities. Agricultural commodities are known to be less volatile then for example energy commodities. We further noticed that depending on the region we would have a totally different rule count. Capital cities tend to have a bigger rule base meaning that there exist a higher correlation between products. Two extreme example are Dassau, which resulted in no patterns at all and Shillong which produced over 260000 rules. In addition our experiments showed the finer the granularity of the data the higher the support and correlation between products. This is only natural given that prices can stay stable over the period of weeks or even months.
 
 \subsubsection{Trading advice }
 
 As concluded above our algorithm found many associations between products. In order to interpret most of the results specialized domain knowledge in trading with commodities is  necessary. Some more obvious rules we managed to interpret were the following:
 
-$BreadLocal=big increase MilkCowBuffalo=unchanged increase \implies \\MaidaNA=unchanged increase$. If prices of bread inflate it is save to trade Maida, as its price will most certainly stay stable. \\$BiscuitGlucose=unchanged increase \implies BesanNA=small increase$, similarly means that stable pries in biscuits will imply a small increase in Besan. 
+$BreadLocal=big increase MilkCowBuffalo=unchanged increase \implies \\MaidaNA=unchanged increase$. If prices of bread inflate it is save to trade Maida, as its price will most certainly stay stable. \\$BiscuitGlucose=unchanged increase \implies BesanNA=small increase$, similarly means that stable pries in biscuits will imply a small increase in Besan.
 
 \begin{comment}
 \subsubsection*{Finding the right topology for the specific prediction problem}
@@ -368,5 +382,3 @@ of network-to-output connections. Essentially, this trains readout functions
 which transform the echo state into the desired output signal. Technically,
 this amounts to a linear regression task.
 \end{comment}
-
-
