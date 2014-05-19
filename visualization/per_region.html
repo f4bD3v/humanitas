@@ -16,19 +16,25 @@
 <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script src="twitter_data_by_region.js"></script>
+<script src="twitter_rice.js"></script>
 <div id="tabs">
   <ul>
-    <li><a href="#tabs-1">Time Series of Tweets</a></li>
-    <li><a href="#tabs-2">Association Rules</a></li>
-    <li><a href="#tabs-3">Price Prediction</a></li>
+    <li><a href="#tabs-1">Total tweets</a></li>
+    <li><a href="#tabs-2">Tweets by goods</a></li>
+    <li><a href="#tabs-3">Association Rules</a></li>
+    <li><a href="#tabs-4">Price Prediction</a></li>
   </ul>
   <div id="tabs-1">
     <div id="twitter_container" style="min-width: 310px; margin: 0 auto"></div>
   </div>
   <div id="tabs-2">
-    <div id="price_container" style="min-width: 310px; margin: 0 auto"></div>
+    <div id="twitter_good_container" style="min-width: 310px; margin: 0 auto"></div>
   </div>
   <div id="tabs-3">
+    <div id="price_container" style="min-width: 310px; margin: 0 auto"></div>
+  </div>
+  <div id="tabs-4">
     <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
     <p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
   </div>
@@ -37,20 +43,31 @@
 <script>
 
 var chosen_location = $("#state_info_btn", top.document).attr('data-state');
-var twitter_data;
 $("#tabs").tabs();
-$('#twitter_container').css('width', $(window).width() - 50);
-$('#price_container').css('width', $(window).width() - 50);
+$('#twitter_container').css('width', $(window).width() - 100);
+$('#twitter_good_container').css('width', $(window).width() - 100);
+$('#price_container').css('width', $(window).width() - 100);
 // $('#container').css('height', $(window).height());
-$.ajax({
-  dataType: "json",
-  url: "twitter_rice.json",
-  async: false,
-  success: function(data){
-    twitter_data = data;
-  }
-});
-$('#twitter_container').highcharts({
+
+// $.ajax({
+//   dataType: "json",
+//   url: "http://duypnguyen.hostingsiteforfree.com/humanitas/twitter_rice.json",
+//   async: false,
+//   success: function(data){
+//     twitter_goods = data;
+//   }
+// });
+
+// $.ajax({
+//   dataType: "json",
+//   url: "http://duypnguyen.hostingsiteforfree.com/humanitas/twitter_data_by_region.json",
+//   async: false,
+//   success: function(data){
+//     twitter_data = data;
+//   }
+// });
+
+$('#twitter_good_container').highcharts({
     // chart: {
     //     type: 'spline'
     // },
@@ -134,9 +151,65 @@ $('#twitter_container').highcharts({
         name: 'Number of tweets',
         pointInterval: 24 * 3600 * 1000,
         pointStart: Date.UTC(2008, 0, 01),
+        data: twitter_goods[chosen_location],
+    }]
+});
+
+$('#twitter_container').highcharts({
+    chart: {
+        zoomType: 'x'
+    },
+    title: {
+        text: 'Tweets density in ' + chosen_location + ' from 2007 to 2014'
+    },
+    subtitle: {
+        text: document.ontouchstart === undefined ?
+            'Click and drag in the plot area to zoom in' :
+            'Pinch the chart to zoom in'
+    },
+    xAxis: {
+        type: 'datetime',
+        minRange: 14 * 24 * 3600000 // fourteen days
+    },
+    yAxis: {
+        title: {
+            text: 'Tweets in region'
+        }
+    },
+    legend: {
+        enabled: false
+    },
+    plotOptions: {
+        area: {
+            fillColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                stops: [
+                    [0, Highcharts.getOptions().colors[0]],
+                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                ]
+            },
+            marker: {
+                radius: 2
+            },
+            lineWidth: 1,
+            states: {
+                hover: {
+                    lineWidth: 1
+                }
+            },
+            threshold: null
+        }
+    },
+
+    series: [{
+        type: 'area',
+        name: 'Number of tweets',
+        pointInterval: 24 * 3600 * 1000,
+        pointStart: Date.UTC(2007, 0, 01),
         data: twitter_data[chosen_location],
     }]
 });
+
 
 </script>
 </body>

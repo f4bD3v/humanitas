@@ -62,9 +62,9 @@
 <script src="jquery.ui.labeledslider.js"></script>
 <script type="text/javascript" src="ind-states.js"></script>
 <script>
-var colorScale = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
-var densityScale = [10, 20, 50, 100, 200, 500, 1000];
-var map, geojson, info, options, highlighted, statenameVisible = false, year = 1980, month = 1;
+var colorScale = ['#FFFFFF', '#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
+var densityScale = [10, 100, 500, 1000, 5000, 10000, 100000, 500000];
+var map, geojson, info, options, highlighted, statenameVisible = false, year = 2014, month = 1;
 // map = L.map('map').setView([22, 83], 4.7);
 map = L.mapbox.map('map', 'examples.map-zgrqqx0w').setView([22, 83], 5);
 // var cloudmade = L.tileLayer('http://{s}.tiles.mapbox.com/v3/duynguyen-epfl.4ppn9udi/{z}/{x}/{y}.png', {
@@ -98,8 +98,8 @@ info.onAdd = function (map) {
 };
 
 info.update = function (feature) {
-	this._div.innerHTML = '<h4>India Tweets Density</h4>' +  (feature ?
-		'<b>' + feature.id + '</b><br />' + (getDensity(feature.id) ? getDensity(feature.id).strength : 'N/A') + ' tweets / m<sup>2</sup>'
+	this._div.innerHTML = '<h4>India tweets per region</h4>' +  (feature ?
+		'<b>' + feature.id + '</b><br />' + (getNumTweets(feature.id) ? getNumTweets(feature.id).num_tweets : 'N/A') + ' tweets / month'
 		: 'Hover over a state');
 };
 
@@ -139,8 +139,8 @@ $('#toggle_dashboard').click(function(){
 
 $( "#slider_year" ).labeledslider({
 	value: year,
-	min: 2008,
-	max: 2013,
+	min: 2007,
+	max: 2014,
 	step: 1,
 	slide: function( event, ui ) {
 		year = ui.value;
@@ -149,7 +149,7 @@ $( "#slider_year" ).labeledslider({
 });
 
 $( "#slider_month" ).labeledslider({
-	value: year,
+	value: month,
 	min: 1,
 	max: 12,
 	step: 1,
@@ -224,14 +224,14 @@ function stateStyle(feature) {
 		color: 'grey',
 		dashArray: '4',
 		fillOpacity: 0.6,
-		fillColor: getColor(getDensity(feature.id) ? getDensity(feature.id).strength : 0)
+		fillColor: getColor(getNumTweets(feature.id) ? getNumTweets(feature.id).num_tweets : 0)
 	};
 }
 
-function getDensity(id) {
-	for(i = 0; i < density.length; i++) {
-		if(density[i].year == year && density[i].month == month) {
-			var vals = density[i].values;
+function getNumTweets(id) {
+	for(i = 0; i < tweets_count.length; i++) {
+		if(tweets_count[i].year == year && tweets_count[i].month == month) {
+			var vals = tweets_count[i].values;
 			for(j = 0; j < vals.length; j++) {
 				if(vals[j].id == id) {
 					return vals[j];
@@ -354,6 +354,9 @@ function addLegend(map) {
 		var div = L.DomUtil.create('div', 'info legend'),
 			labels = [],
 			from, to;
+
+		labels.push(
+				'<i style="background:' + getColor(0) + '"></i>0&ndash;' + densityScale[0]);
 
 		for (var i = 0; i < densityScale.length; i++) {
 			from = densityScale[i];
