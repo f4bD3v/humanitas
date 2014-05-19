@@ -40,9 +40,9 @@ usage = '''
 
 ##============options================
 
-run_retail_weekly = True
+run_retail_weekly = False
 run_wholesale_daily = True
-run_retail_daily = True
+run_retail_daily = False
 
 saving_csv = True
 saving_pickle = False
@@ -55,11 +55,12 @@ daily_product_lst = ['Rice','Wheat','Banana', 'Apple','Coriander','Potato', 'Oni
 filter_lst = ['Rice','Wheat','Banana', 'Apple','Coriander','Potato', 'Onion']
 
 with_interpolation = True
-interpolation_method = 'linear' #'spline', 'polynomial'
-interpolation_order = 3
+interpolation_method = 'polynomial'#'spline'#'linear' #'spline', 'polynomial'
+interpolation_order = 2
+spike_remove_threshold = 50
 
-valid_rate = 0.6
-na_len_limit_ratio = 0.05
+valid_rate = 0.5999
+na_len_limit_ratio = 0.025
 
 ##====================================
 
@@ -152,7 +153,7 @@ if __name__ == '__main__':
 
         df_full, df_ts, dup_records, valid_table, probe = get_full_data(df, all_dates, \
                 using_df_full, using_df_ts, valid_rate, with_interpolation,\
-                interpolation_method, interpolation_order, filter_lst, na_len_limit_ratio)
+                interpolation_method, interpolation_order, filter_lst, na_len_limit_ratio, spike_remove_threshold)
 
         if run_wholesale_daily:
             df_full = df_full/100
