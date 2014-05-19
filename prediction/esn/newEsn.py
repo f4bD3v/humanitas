@@ -196,7 +196,7 @@ class ESN:
     # specify prediction horizon when calling function
     def generative_run(self, horizon, output):
         Y = np.zeros((self._Ny, self._data.shape[0]))
-        Y[:,self._N-1] = np.nan
+        Y[:,self._N-1] = 0
         # use last output as input to make first prediction
         print self._data[self._N-1]
         for t in range(horizon):
@@ -215,11 +215,13 @@ class ESN:
             print 'y ', self._y
             Y[:,self._N+t] = self._y
             # use prediction as input to the network
-
-        to_dump = np.asarray([self._traindates, self._data, Y])
+        print self._dates.shape
+        print self._data.shape
+        print Y[0,:].shape
+        to_dump = np.asarray([self._dates.T, self._data.T, Y[0,:].T])
         print to_dump.shape
         fn = str(output)+'_h'+str(horizon)+'.csv'
-        #np.savetxt(fn, to_dump, delimiter=",")
+        np.savetxt(fn, to_dump, delimiter=",")
 
         self.test_err(Y, horizon)
         return Y
@@ -235,7 +237,7 @@ class ESN:
         print 'test rmse: ', rmse
 
 
-    def plot_training(self, title, ylabel):
+    def plot_training(self, title, ylabel, pltn):
         print 'plotting training'
         fmt = mdates.DateFormatter('%d-%m-%Y')
         #loc = mdates.WeekdayLocator(byweekday=mdates.Monday)
@@ -250,9 +252,10 @@ class ESN:
         plt.title(title)
         plt.ylabel(ylabel)
         plt.grid(True)
-        plt.show()
+        plt.savefig('training_'+str(pltn))
+        #plt.show()
 
-    def plot_test(self, Y, horizon, title, ylabel):
+    def plot_test(self, Y, horizon, title, ylabel, pltn):
         fmt = mdates.DateFormatter('%d-%m-%Y')
         #loc = mdates.WeekdayLocator(byweekday=mdates.Monday)
         months = self._dates[self._N:self._N+horizon+1]
@@ -271,7 +274,8 @@ class ESN:
         plt.ylabel(ylabel)
         plt.grid(True)
         fig.autofmt_xdate()
-        plt.show()
+        plt.savefig('test_'+str(pltn))
+        #plt.show()
         
 
 def main():
@@ -280,26 +284,36 @@ def main():
     # convert date to floats
     #data = np.loadtxt('oilprices.txt', delimiter=',', skiprows=1, unpack=True, converters={0 :mdates.strpdate2num('%Y-%m-%d')})
 
-    data = np.genfromtxt('good_series_wholesale_daily.txt', usecols = (0, 4), delimiter=',', skiprows=1, unpack=True, converters={0:mdates.strpdate2num('%Y-%m-%d')})
     infl = np.genfromtxt('inflation_for_discount.txt', usecols = (0, 1), delimiter=',', skiprows=1, unpack=True, converters={0:mdates.strpdate2num('%Y-%m-%d')})
-    # Split dataset into training and testset
-    horizon = 7
-    print len(data[0])
-    split_ind = len(data[0])-horizon
+    with open('usable_series.txt') as f:
+        content = f.readlines()
+    print content
 
-    # Reservoir size
-    Nx = 1000
-    initN = 740# 24 months initialization
+    for i in xrange(1, len(content)+1):
+        data = np.genfromtxt('good_series_wholesale_daily.txt', usecols = (0, i), delimiter=',', skiprows=1, unpack=True, converters={0:mdates.strpdate2num('%Y-%m-%d')})
+        # Split dataset into training and testset
+        horizon = 90
+        print len(data[0])
+        split_ind = len(data[0])-horizon
 
-    print len(infl[0])
-    Ny = 1
-    # Num. Regions and Products : R,P
-    esn = ESN(data, infl, split_ind, initN)
-    esn.init_reservoir(Nx) 
-    esn.custom_training(True)
-    esn.plot_training('Training outputs', 'Y')
-    Y = esn.generative_run(horizon, 'red_onion')
-    esn.plot_test(Y, horizon, 'Test run', 'Price')
+        # Reservoir size
+        Nx = 1000
+        initN = 740# 24 months initialization
+
+        print len(infl[0])
+        Ny = 1
+        
+        info = content[i-1].strip('(').strip(')').strip("'").split(',')
+        fn = str(info[0])+'-('+str(info[1])+')_'+str(info[2])+'-'+str(info[3])
+
+        # Num. Regions and Products : R,P
+        esn = ESN(data, infl, split_ind, initN)
+        esn.init_reservoir(Nx) 
+        esn.custom_training(True)
+        esn.plot_training('Training outputs', 'Y', fn)
+        
+        Y = esn.generative_run(horizon, fn)
+        esn.plot_test(Y, horizon, 'Test run', 'Price (INR)', fn)
 
 
 if __name__ == "__main__":
