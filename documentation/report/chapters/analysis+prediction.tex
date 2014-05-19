@@ -122,14 +122,13 @@ Define $\sigma_{max}$ as largest singular value of $\vec{W}$, $\lambda_{max}$ as
 In practice is suffices to make sure the negation of the second point holds. 
 
 \subsubsection*{Training the ESN}
-"The state of the ESN is therefore a function of the finite history of the inputs presented to the network. Now, in order to predict the output from the states of the oscillators the only thing that has to be learned is how to couple the outputs to the oscillators, i.e. the hidden to output connections:"
-http://stackoverflow.com/questions/21940860/echo-state-network-learning-mackey-glass-function-but-how
-
-Hyperparameters: dimensionality of W, spectral radius $\alpha$
+The state of the ESN is a function of the inputs it has been presented with. Each state describes an oscillator at a given time n and during training the relation between these oscillators and the output has to be learnt. Before training can be started the reservoir weights have to be normalized by the spectral radius of the weight matrix $W$. The hyperparameters are the reservoir size (dimensionality of W) and a rescale parameter of the weight matrix to slightly increase/decrease the spectral radius.
+%http://stackoverflow.com/questions/21940860/echo-state-network-learning-mackey-glass-function-but-how
 
 \paragraph*{Initial state determination}
-Prior to training the Echo State Network has to be run for substantive set of inputs with discarding of the results. A spectral radius close to unity implies slow forgetting of the starting state and therefore a substantial part of the training set has to be invested.
-EchoStatesTechRep.pdf, p.32
+Prior to training the Echo State Network has to be run for an initial set of inputs discarding the results. A spectral radius close to unity implies slow forgetting of the starting state and therefore a substantial part of the training set has to be invested. We used an initiation sequence of 740 points which equates to two years of data.
+
+%EchoStatesTechRep.pdf, p.32
 \begin{comment}
 The network is run for a first set of inputs and the results are then discarded. If the spectral radius is close to unity, implying slow forgetting of the starting state, the initial set has to be a substantial part of the training dataset.
 "Likewise, when the trained network is used to predict a sequence, a long initial run of the sequence must be fed into the network before the actual prediction can start. This is a nuisance because such long initial transients are in principle unnecessary"
@@ -156,7 +155,7 @@ During training with feedbacks the output $y(n)$ produced by the network is addi
 \emph{Taken from Echo State Tech Rep. page 26/27}\\
 % exploitation: \vec{f}(\vec{W}^{in}\vec{u}(n+1)+\vec{W}\vec{x}(n)+\vec{W}^{back}\vec{y}(n))
 In order for the Echo State Network to be able to learn slowly and continuously changing dynamics and thereby to capture long-term phenomena in the price series we feed in, we need a way to introduce continuous dynamics. This is done via approximation of the differential equation of a continuous-time leaky integrator network
-\begin{equation}
+\begin{equation}\label{eq:leaky}
     \frac{d\vec{x}}{d\vec{t}} = C (-\alpha\vec{x} + \vec{f}(\vec{W}^{in}\vec{u}(n+1)+\vec{W}\vec{x}(n)+\vec{W}^{back}\vec{y}(n)))
 \end{equation}
 where C is a time constant and $\alpha$ the leaking decay rate. For the approximation we introduce a stepsize $\delta$:
@@ -165,9 +164,11 @@ where C is a time constant and $\alpha$ the leaking decay rate. For the approxim
 \end{equation}
 In the implementation we used a simple weighted average of consecutive reservoir states $(1-\alpha)x(n-1)+\alpha x(n)$.
 
+\begin{comment}
 \begin{frm-thm}
-Let a network be updated according to
+Let a network be updated according to \eqref{eq:leaky}, with teacher-forced output.
 \end{frm-thm}
+\end{comment}
 
 \paragraph*{Online learning}
 In contrast to learning the weights once in batch-mode after the training run is completed one can also train the output weights in an online fashion after each consecutive presentation of an input. This method allows for a better adaption of the weights to local structures present in the data. There exist several algorithms for online training of the Echo State Networks and related reservoir networks. In the following we will shortly discuss two of the basic algorithms which are mentioned most often mentioned in academic literature. 
@@ -175,104 +176,121 @@ In contrast to learning the weights once in batch-mode after the training run is
 \item \textbf{Least Mean Squares (LMS):} LMS algorithms try to find the optimal weights (filtered coefficients) that minimize the mean squared error for an adaptive filter. Essentially LMS are stochastic gradient descent methods that perform updates according to the error present at time n.  LMS algorithms are a class of adaptive filter used 
 Very simple: Least Mean Squares, but bad performance
 update weights in each iteration
-...
-\end{itemize}
-\begin{frm-algo}
+\item \textbf{Recursive Least Squares (RLS):} RLS algorithms have a faster convergence speed compared to LMS algorithms. RLS optimizes a discounted least square error measure at every timestep n taking into account all signals generated by the sequence $0 \leq k \leq n$ using the inverse correlation matrix of inputs P. The inputs for the adaptive filter in the case of the ESN can be the concatenation of input, generated echo states and last output.\vspace{10pt}
+\indent
+\begin{algorithm}[H]
+\textbf{Initialization:}\\
+$P_0 = \delta I$ where $\delta \propto \sigma(input)$\\
+$\lambda < 1$\\
+\textbf{Update steps:}\\
 \begin{enumerate}
-	\item
-
-	\item
-
+\item $\pi(n) = P(n-1)^T \cdot x(n)$
+\item $\gamma(n) = \lambda + \pi(n)x(n)$
+\item $k(n) = \pi(n)/\gamma(n)$
+\item $e(n) = y_{teach}-W^{out}(n-1)x(n)$
+\item $W^{out}(n)=W^{out}+k(n)e(n)$
+\item $P(n) = [P(n-1)-k(n)\pi(n)s]/\lambda$
 \end{enumerate}
-\end{frm-algo}
+% \caption{Algo}
+\end{algorithm}
+The standard RLS algorithm is unstable during training, diverges when the $P(n)$ loses positive definiteness. Chosing $\lambda$ very close to 1 was temporarily enough to alleviate the problem. The QR decomposition-based RLS (QR-RLS) algorithm can, however, resolve completely this instability. Instead of working with the inverse correlation matrix of the input signal, the QR-RLS algorithm performs QR decomposition directly on the correlation matrix of the input signal. Therefore, this algorithm guarantees the property of positive definiteness and is more numerically stable than the standard RLS algorithm.
+%http://zone.ni.com/reference/en-XX/help/372357A-01/lvaftconcepts/aft\_rls\_algorithms/
+\end{itemize}
 
-Recursive Least Squares unstable during training
-Therefore use (inverse) QR RLS, for motivation visit this link:
-http://zone.ni.com/reference/en-XX/help/372357A-01/lvaftconcepts/aft\_rls\_algorithms/
 
 \paragraph*{Parameter selection with Maximum Entropy Bootstrap (Meboot)}
-In order to find the best parameters for generalization during training of the neural network models with we create replicate time series of a selected price sequence dataset. The method we employ to this end is called 'Maximum Entropy Bootstrap' (meboot) and was introduced by H.D. Vinod in 2006. [reference]. The reason for the use of this specific method is that, due to temporal dependence, time series cannot simply be randomly sampled into a new dataset. The meboot algorithm allows for construction of random replicates of the given time series showing the same statistical properties.
+In order to find the best parameters for generalization during training of the neural network models with we tried to create replicate time series of a selected price sequence dataset. The method employed to this end is called 'Maximum Entropy Bootstrap' (meboot) and was introduced by H.D. Vinod in 2006. [reference]. The reason for the use of this specific method is that, due to temporal dependence, time series cannot simply be randomly sampled into a new dataset. The meboot algorithm allows for construction of random replicates of the given time series showing the same statistical properties. We did, however, not manage to fully implement the algorithm from how it was described in the paper.
 
 \subsubsection*{Demonstration}
-In this section we demonstrate the predictive power of the simplest ESN configuration. Ridge Regression is used to train on and predict a time series generated using the Mackey-Glass differential equation \[http://www.scholarpedia.org/article/Mackey-Glass_equation\] and noise.
+In this section we demonstrate the predictive power of the simplest ESN configuration with a reservoir size of 1000 neurons. Ridge Regression is used to train on and predict a time series generated using the \href{http://www.scholarpedia.org/article/Mackey-Glass_equation}{Mackey-Glass differential equation} and noise.
+
+%\begin{subfigure}[b]{.33\textwidth}
+%\centering
+%\includegraphics[width=\textwidth]{./img/plots/esn/mg/data1000.png}
+%\caption{Sample of 1000 training points of Mackey Glass series}
+%\label{subfig:mg_train}
+%\end{subfigure}
 
 \begin{figure}[!ht]
     \centering
-        \begin{comment}
-        \begin{subfigure}[b]{.35\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{./img/plots/esn/mg/data1000.png}
-        \caption{Sample of 1000 training points of Mackey Glass series}
-        \label{subfig:res_35d_1}
-        \end{subfigure}
-        \end{comment}
-
-        \begin{subfigure}[b]{.35\textwidth}
+        \begin{subfigure}[b]{.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{./img/plots/esn/mg/resact.png}
-        \caption{Sample of resulting activations after running the training series through the ESN}
-        \label{subfig:res_35d_2}
+        \caption{Sample of ESN activations resulting from the training series}
+        \label{subfig:mg_act}
         \end{subfigure}
-
-        \begin{subfigure}[b]{.35\textwidth}
+        \quad 
+        \begin{subfigure}[b]{.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{./img/plots/esn/mg/pred1000_br.png}
         \caption{Near perfect prediction 1000 points Mackey Glass testset by ESN}
-        \label{subfig:res_35d_2}
+        \label{subfig:mg_pred}
         \end{subfigure}
-
     \caption{Results of simple ESN trained with Ridge Regression on a Mackey Glass time series consisting of 2000 points; parameters: spectral radius $1.25$, leaking rate $0.3$.}
     \label{fig:mackeyglass}
 \end{figure}
 
 \subsubsection*{Obtained results}
-The mackey glass time series is generated by a function with added noise. Since the development of commodity prices doesn't follow a similarly easily describable pattern we did not expect to obtain comparable results. Once trained on several years of price series data the ESN is capable of predicting prices very accurately on a day-to-day prices without any retraining needed (show 35/70/140 days). However, due to the limited usefulness of day-to-day predictions, we would like to predict prices farther into the future with relative accuracy. So far we have only achieved predicting the general trend for 6 to 7 days and we are not sure if greater accuracy is achievable with these models. Our experiments with inputing additional data like temperature, precipipitation, consumer price index (inflation) and twitter data show NO? significant improvements. In their current state, due to very limited amounts of available data, the twitter indicators cannot prove their use. Significantly bolstered however they would offer a wide range of possibilities. Matching these indicators to available price data series could show up relationships between conversations and the actual price. These relationships could be used to track price changes in real-time on a regional level through the conversations on twitter and thereby prove an interesting alternative to the inadequate/flawed data monitoring of governments. Improving predictions if possible would certainly acquire a lot more focused research in the area recurrent neural networks for time series prediction. The Echo State Network was implemented from scratch in scientific python.
+The mackey glass time series is generated by a function with added noise. Since the development of commodity prices doesn't follow a similarly easily describable pattern we did not expect to obtain comparable results. Once trained on several years of price series data the ESN is capable of predicting prices very accurately on a day-to-day prices without any retraining needed (show 35/70/140 days). However, due to the limited usefulness of day-to-day predictions, we would like to predict prices farther into the future with relative accuracy. So far we have only achieved predicting the general trend for 6 to 7 days and we are not sure if greater accuracy is achievable with these models. Our experiments with inputing additional data like temperature, precipipitation, consumer price index (inflation) and twitter data show NO? significant improvements. Adjusted for inflation the prices mostly lose their upwards trend and should become is for the network to predict. This is the case, but good predictions are obtained more by chance by selecting subsets of a series to train on because modelling the dynamics of the whole series seems to be too complex for the network. In their current state, due to very limited amounts of available data, the twitter indicators cannot prove their use. Significantly bolstered however they would offer a wide range of possibilities. Matching these indicators to available price data series could show up relationships between conversations and the actual price. These relationships could be used to track price changes in real-time on a regional level through the conversations on twitter and thereby prove an interesting alternative to the inadequate/flawed data monitoring of governments. Improving predictions if possible would certainly acquire a lot more focused research in the area recurrent neural networks for time series prediction. The Echo State Network was implemented from scratch in scientific python.
 
-\begin{comment}
+% NO BLANK SPACES
 \begin{figure}[!ht]
     \centering
-        \begin{subfigure}[b]{.45\textwidth}
+        \begin{subfigure}[b]{.45\linewidth}
         \centering
-        \includegraphics[width=\textwidth]{plots/esn/potato_35d.eps}
+        \includegraphics[width=\textwidth]{./img/plots/esn/daily/gujarat_potato_online_7d_1d.png}
         \caption{Price of potato in state Gujarat. Test set prices between .. and .. . MSE: 0.0xxx}
-        \label{subfig:res_35d_1}
+        \label{subfig:res_7d_1}
         \end{subfigure}
-
         \quad
-
-        \begin{subfigure}[b]{.45\textwidth}
+        \begin{subfigure}[b]{.45\linewidth}
         \centering
-        \includegraphics[width=\textwidth]{mlp/plots/onion_35d.eps}
-        \caption{Price of onion in state Somewhere. Test set prices between .. and .. . MSE: 0.0xxx}
-        \label{subfig:res_35d_2}
+        \includegraphics[width=\textwidth]{./img/plots/esn/daily/uttar_pradesh_redonion_7d_1d.png}
+        \caption{Price of onion in state Uttar Pradesh. Test set prices between .. and .. . MSE: 0.0xxx}
+        \label{subfig:res_7d_2}
         \end{subfigure}
-
-    \caption{35 day day-to-day prediction}   
-    \label{fig:res_35d}
+    \caption{7 day day-to-day prediction for two different commodities in different states}   
+    \label{fig:res_7d}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
         \begin{subfigure}[b]{.45\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{plots/esn/potato_35d.eps}
+        \includegraphics[width=\textwidth]{./img/plots/esn/daily/gujarat_potato_online_30d_1d.png}
         \caption{Price of potato in state Gujarat. Test set prices between .. and .. . MSE: 0.0xxx}
-        \label{subfig:res_70d_1}
+        \label{subfig:res_30d_1}
         \end{subfigure}
-
         \quad
-
         \begin{subfigure}[b]{.45\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{mlp/plots/onion_35d.eps}
-        \caption{Price of onion in state Somewhere. Test set prices between .. and .. . MSE: 0.0xxx}
-        \label{subfig:res_70d_2}
+        \includegraphics[width=\textwidth]{./img/plots/esn/daily/uttar_pradesh_redonion_30d_1d.png}
+        \caption{Price of onion in state Uttar Pradesh. Test set prices between .. and .. . MSE: 0.0xxx}
+        \label{subfig:res_30d_2}
+        \end{subfigure}
+    \caption{30 day day-to-day prediction for two different commodities in different states}   
+    \label{fig:res_30d}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+        \begin{subfigure}[b]{.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./img/plots/esn/daily/gujarat_potato_online_60d_1d.png}
+        \caption{Price of potato in state Gujarat. Test set prices between .. and .. . MSE: 0.0xxx}
+        \label{subfig:res_60d_1}
+        \end{subfigure}
+        \quad
+        \begin{subfigure}[b]{.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./img/plots/esn/daily/uttar_pradesh_redonion_60d_1d.png}
+        \caption{Price of red onion in state Uttar Pradesh. Test set prices between .. and .. . MSE: 0.0xxx}
+        \label{subfig:res_60d_2}
         \end{subfigure}
 
-    \caption{70 day day-to-day prediction}   
-    \label{fig:res_70d}
+    \caption{60 day day-to-day prediction}   
+    \label{fig:res_60d}
 \end{figure}
-\end{comment}
 
 \subsubsection*{Further research}
 Implement stable version of RLS - Inverse QR RLS (book), implement Backpropagation Decorrelation algorithm (doesn't require specific set up of the network - spectral radius, initialization run etc., try to obtain better results for further research (make the network responsive to feeding back its own outputs), contrast ESN to its 'rival' the Long Short Term Memory Network trained with the Evolino method 
@@ -319,8 +337,6 @@ As concluded above our algorithm found many associations between products. In or
 
 $BreadLocal=big increase MilkCowBuffalo=unchanged increase \implies \\MaidaNA=unchanged increase$. If prices of bread inflate it is save to trade Maida, as its price will most certainly stay stable. \\$BiscuitGlucose=unchanged increase \implies BesanNA=small increase$, similarly means that stable pries in biscuits will imply a small increase in Besan. 
 
-
-
 \begin{comment}
 \subsubsection*{Finding the right topology for the specific prediction problem}
 
@@ -328,9 +344,6 @@ $BreadLocal=big increase MilkCowBuffalo=unchanged increase \implies \\MaidaNA=un
 conceive network that converges fast to speed up training\par
 "Known supervised training techniques for RNNS comprise Back Propagation Through Time (BPTT), Real Time Recurrent Learn- ing (RTRL) or Extended Kalman Filtering (EKF) all of which have some major drawbacks."
 {\em Application of BPTT to RNNs requires stacking identical copies of the network thus unfolding the cyclic paths in the synaptic connections. Unlike back-propagation used in feed-forward nets, BPTT is not guaranteed to con- verge to a local error minimum, computational cost is O(TN2) per time step where N is the number of nodes, T the number of epochs. In contrast RTRL needs O((N + L)4) (L denotes number of output units), which makes this algorithm only applicable for small nets. The algorithm complexity of EKF is O(LN2). EKF is mathematically very elaborate and only a few experts have trained predefined dynamical system behaviors successfully}\par
-
-
-\subsubsection*{Avoiding overfitting}
 
 \cite{jaeger_echo_state_RNN}
 The third section explains how echo state networks can be trained in a
