@@ -116,6 +116,7 @@ Tweet collection for Humanitas occurred in two main waves. In the first wave 180
 \end{figure}
 
 \subsubsection*{Approach 2: Filtering tweets provided by webarchive.org}
+\emph{Gabriel Grill} \\
 Since previous approaches failed because of Twitters download limitations, we decided to collect tweets also from the freely available tweet archives at:
 
 \emph{https://archive.org/details/twitterstream}.
@@ -132,31 +133,45 @@ The applied filter got rid of tweets not containing at least one food commodity 
 According to the categories mentioned above, the tweets were split up in several files. Since the \emph{Approach 1.} conveyed much more tweets, the archive sample was only used for data exploration and testing of the more refined tweet processing.
 
 \subsubsection*{Daily tweet aggregator}
+\emph{Gabriel Grill} \\
 Our first idea was to build a continuously running process, which fetches the newest data from the twitter stream from India. But after applying a simple filter, we came to the conclusion that the data is to sparse for this approach, since the 'Twitter Streaming API' supplies only 1\% of all available tweets. Since the amount of twitter users in India is rapidly growing, this could be a promising approach for the future.
 
 \subsubsection*{Clustering according to keywords}
+\emph{Gabriel Grill} \\
 Since relevant data was really sparse, we didn't expect much gain from any unsupervised learning techniques and decided to omit clustering.
 
 \subsubsection*{Issue of storage}
+<<<<<<< HEAD
 At first we believed that there wouldn't be enough space to store all tweets, but after setting up an azure node, we found that there is about 133 GB of temporal storage associated with it. We used this space to store the huge amount of tweets, but since the storage is temporal we lost tweets several times. This was due to configuration mistakes by us and Azure's 'healing'. When Azure detects anomalies, internal errors or just that it has to move images around, affected nodes are restarted, which results in a loss of tweets for us. Because of that, all filtered tweets were later stored on the main disk to avoid future losses.
+=======
+\emph{Gabriel Grill} \\
+At first we believed that there wouldn't be enough space to store all tweets, but after setting up an azure node, we found that there is about 133 GB of temporal storage associated with it. We used this space to store the huge amount of tweets, but since the storage is temporal we lost tweets several times. This was due to configuration mistakes by us and Azure's 'healing'. When Azure detects anomalies, internal errors or just has to move images around, affected nodes are restarted, which results in tweet loss for us. Because of that, all filtered tweets were later stored on the main disk to avoid future losses.
+>>>>>>> 66ed924448ab7eed07dead70175e5b7c03ffc33f
 
 \subsection*{Issue of localization}
+\emph{Gabriel Grill} \\
 It's is very important for use to detect the location of tweets, because we want to predict the volatile food prices at regional granularity.
 
 \subsubsection*{Geolocalized tweets}
 Filtering the available archives of tweets taken from the API yielded near to no geolocalized tweets from India matching our set of keywords. The reason is evident, because the twitter API only allows extraction of 1\% of tweets and only 2\% of tweets are actually geolocalized. In effect, getting tweets that match our keywords specific to food commodities is very unlikely. We had more luck with tweets from Indonesia, however as already explained we were unable to attain enough price sequences from Indonesia to actually train a model. Furthermore, the time constraints didn't allow us to get tweets from India and Indonesia in parallel in order to do some "stand-alone" clustering analysis.
 
 \subsubsection*{Approximation: Mapping tweets to user location}
+<<<<<<< HEAD
 To get as many tweets as possible associated with a location we decided to use the locations of user accounts as a simple heuristic. We created a mapping between city and region names and used it to identify valid locations, which were then used during later processing.
+=======
+\emph{Gabriel Grill} \\
+To get as many tweets as possible associated with a location we decided to use the locations of user accounts as a simple heuristic. We created a mapping between city and region names and used to to identify valid locations, which were then used during later processing.
+>>>>>>> 66ed924448ab7eed07dead70175e5b7c03ffc33f
 
 \section*{Processing}
 After all tweets were collected we had to process and reformat their content for the neural networks (prediction) and the web visualisation.
 
 \subsection*{Crafting indicators from tweets}
+\emph{Gabriel Grill} \\
 To use the collected tweets for prediction in the neural network, aggregated indicators had to be extracted from the collection. The result of this processing was then stored in a \emph{csv} file which was supplied to the neural network.
 
 \subsubsection*{Sentiment analysis}
-
+\emph{Anton Ovchinnikov} \\
 Sentiment analysis, or opinion mining, is the concept of using different computer science techniques (mainly machine learning and natural language processing) in order to extract sentiment information and subjective opinions from the data. In our context this may help us to find out how circumstances in relation to commodity prices affect the overall mood in the population.
 
 From the start we decided that we did not want to build our own sentiment analysis system since the proper implementation, testing and evaluation would require a considerable effort compared with the total project workload. Instead, we are planning to use some of already developed solutions and tune them to our needs.
@@ -171,11 +186,11 @@ Several sentiment analysis frameworks were tested, including:
 \item 'Pattern' library from the University of Antwerp \par (http://www.clips.ua.ac.be/pages/pattern-en)
 \end{itemize}
 All of these software packages produced reasonable results on some short and simple sentences, but sentiment grades looked almost random on a set of real collected tweets. Most likely, factors such as misspelled words, acronyms, usage of slang and irony contributed to the overall ambiguity of sentiment grades assignment.
-\newpage
+\newline \newline
 Therefore, we decided to build and use our own simple system, which incorporated basic natural language processing and opinion mining techniques, but was mainly focused on extracting relevant keywords, which could help to estimate tweets from the specific point of view. This approach, which also takes into account issues originating from word misspelling, is described in next two paragraphs.
 
 \subsubsection*{Extracting predictor categories}
-
+\emph{Anton Ovchinnikov} \\
 First, several "predictor categories" were selected. These categories represent different aspects of price variation, and each category includes several sets of words of different polarities. For example, the category \emph{"price"} has two polarities: \emph{"high"} and \emph{"low"}.
 \\
 The following word list belongs to \emph{"high"} polarity:
@@ -227,7 +242,7 @@ On a high level, every tweet is split into words, and then each word (token) is 
 
 
 \subsubsection*{Tweets spell checking}
-
+\emph{Anton Ovchinnikov} \\
 People often do not pay much attention about the proper word spelling while communicating over the Internet and using social networks, but misspelled words may introduce mistakes in processing pipeline and significantly reduce the amount of filtered tweets, since the relevant, but incorrectly written word might not be recognized by the algorithm.
 
 Several spell checking libraries were checked (Aspell and Enchant to name a few), but their 'suggest' method lacked both performance (several seconds to generate a suggestion for thousands words, which is very slow) and flexibility (it's not possible to specify the number of generated suggestions, as well as a threshold, such as maximal edit distance between words). Therefore, we decided to use a simple approach which involved computing edit distances between a given word and words from predictor categories dictionary ($D$).
@@ -239,6 +254,7 @@ After that, we choose the stem with minimal edit distance (using heap to store t
 The approach proved to be fast and tweakable, and was successfully used for tweets processing.
 
 \subsection*{Generation of time series}
+\emph{Gabriel Grill} \\
 All these indicators are crafted into a single time series of the form \emph{'Product', 'date', 'region', 'indicator1', ... , 'indicatorN'} via Shark queries. These indicators represent the amount of tweets matching a certain predictive category (as mentioned previously) normalized by the total amount of tweets mentioning the product that day. If a tweet is part of multiple categories, it's not clear what the intention behind the tweet was. That's why, as heuristic, we divide the sum of mentions of each predictive category by the total amount of identified mentioned categories for that tweet. We have a script to generate queries for all products and a script to parse the output into \emph{csv} format. The figure \ref{fig:architecture} illustrates the whole processing pipeline and gives a good overview of the architecture at the same time as well.
 
 \begin{figure}
@@ -248,6 +264,7 @@ All these indicators are crafted into a single time series of the form \emph{'Pr
 \end{figure}
 
 \subsection*{Infrastructure \& Architecture}
+\emph{Gabriel Grill} \\
 Almost all downloading and processing of tweets was done in parallel on 8 Azure nodes. A script was written to upload public keys to the nodes for seamless access. The same script was used to execute various task on all or specific nodes. To handle the huge amounts of data and do efficient OLAP, we decided to use spark/shark. The data was first stored on each node separately on disk, then processed and afterwards inserted into a Cassandra DB cluster running on the nodes. The Apache Cassandra project is open source implementation of a NoSQL, column-oriented data base. It's known for being fault tolerant, which was very useful during various restarts, and processing many inserts fast. Since we had very limited memory on the non-temporal disk, we experienced 'Out of memory' errors, but because all data has been uploaded to the whole cluster, the scripts could continue running smoothly although some nodes were down. We also experienced node faults whenever the Azure node management 'healed' nodes.
 
 Setting up the Cassandra cluster across multiple Azure subscriptions was tiring, since all used ports had to be opened on all machines manually via the Azure management web interface. Opening ports was regretfully not enough to get a fully functioning Spark cluster running, because Spark uses random ports for communication between running jobs. We tried setting up a VPN, but decided to quit after several hours due to time constraints and because it is not essential for the result that the Spark cluster be made up of all nodes. Luckily Shark on top of Spark with only one node was still fully functional and executed queries at reasonable speed. To connect Shark with Cassandra we used the Hive support for Cassandra driver 'cash' by tuplejump. We experienced several problems (some undocumented) while installing (e.g. libraries missing, wrong paths, ...), but still managed to get it running. To improve speed between the nodes all VMs were created in the same region. 
