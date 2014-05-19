@@ -8,13 +8,23 @@ http://minds.jacobs-university.de/mantas
 from numpy import *
 from matplotlib.pyplot import *
 import scipy.linalg
+import matplotlib.dates as mdates
+
+
+#data = loadtxt('MackeyGlass_t17.txt')
+data = np.genfromtxt('good_series_wholesale_daily.txt', usecols = (0, 4), delimiter=',', skiprows=1, unpack=True, converters={0:mdates.strpdate2num('%Y-%m-%d')})
+infl = np.genfromtxt('inflation_for_discount.txt', usecols = (0, 1), delimiter=',', skiprows=1)
+dates = data[0]
+data = data[1]
+print infl[:,1].shape
+data = data/infl[:,1]
 
 # load the data
-trainLen = 2000
-testLen = 2000
-initLen = 100
-
-data = loadtxt('MackeyGlass_t17.txt')
+testLen = 8
+initLen = 1000
+trainLen = len(data)-testLen-initLen
+print 'trainLen ', trainLen
+errorLen = testLen-1
 
 # plot some of it
 figure(10).clear()
@@ -53,15 +63,16 @@ for t in range(trainLen):
 # train the output
 reg = 1e-8  # regularization coefficient
 X_T = X.T
+print X_T
 Wout = dot( dot(Yt,X_T), linalg.inv( dot(X,X_T) + \
     reg*eye(1+inSize+resSize) ) )
 #Wout = dot( Yt, linalg.pinv(X) )
 
 # run the trained ESN in a generative mode. no need to initialize here, 
 # because x is initialized with training data and we continue from there.
-Y = zeros((outSize,testLen))
+Y = zeros((outSize,errorLen))
 u = data[trainLen]
-for t in range(testLen):
+for t in range(testLen-1):
     x = (1-a)*x + a*tanh( dot( Win, vstack((1,u)) ) + dot( W, x ) )
     y = dot( Wout, vstack((1,u,x)) )
     Y[:,t] = y
@@ -71,14 +82,22 @@ for t in range(testLen):
     #u = data[trainLen+t+1] 
 
 # compute MSE for the first errorLen time steps
-errorLen = 500
 mse = sum( square( data[trainLen+1:trainLen+errorLen+1] - Y[0,0:errorLen] ) ) / errorLen
 print 'MSE = ' + str( mse )
     
+fmt = mdates.DateFormatter('%d-%m-%Y')
+#loc = mdates.WeekdayLocator(byweekday=mdates.Monday)
+months = dates[trainLen+1:trainLen+testLen]
+print months.shape
+print Y.shape
 # plot some signals
-figure(1).clear()
-plot( data[trainLen+1:trainLen+testLen+1], 'g' )
-plot( Y.T, 'b' )
+fig = figure(1)
+#$plot( data[trainLen+1:trainLen+testLen+1], 'b', linewidth=2.0 )
+#plot( Y.T, 'r' )
+xticks(rotation=45)
+plot_date(x=months, y=data[trainLen+1:trainLen+testLen], fmt="-", linewidth=2.0 , color='blue')
+plot_date(x=months, y=Y.T, fmt="-", color='red')
+fig.autofmt_xdate()
 title('Target and generated signals $y(n)$ starting at $n=0$')
 legend(['Target signal', 'Free-running predicted signal'])
 

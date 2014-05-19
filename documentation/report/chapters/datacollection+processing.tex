@@ -1,5 +1,8 @@
 \section*{Time Series data}
 
+'In consequence we will start building the system using data made available by the Ministry of Agriculture of the government of India. It provides monthly and partly even weekly price recordings dating back to 2002 through the website.'
+
+
 Different sources
 Price categories: Retail prices, wholesale prices
 
@@ -26,7 +29,7 @@ Daily retail prices were found at the website, created by Department of Consumer
 
 \item[2.] Weekly retail prices
 
-Retail Price Information System (http://rpms.dacnet.nic.in/) from Indian Ministry of Agriculture was queried to obtain weekly retail prices. 
+Retail Price Information System (http://rpms.dacnet.nic.in/) from Indian Ministry of Agriculture was queried to obtain weekly retail prices.
 
 Unlike daily prices, the only available data format that was capable of being parsed, was Microsoft Excel .xls format. So all the required .xls files were downloaded using a Python script, and then 'xls2csv' was used to convert .xls documents to CSV data format. For some reason, the majority of product name were missing in downloaded .xls files, so the basic heuristic, which involved the order of product names, was used to reconstruct the data.
 The data obtained described information about prices for a large number of markets, around 60 products and hundreds of subproducts, dating back from 2005, but, unfortunately, the data was far from complete, especially for 2005-2007 time frame.
@@ -34,12 +37,24 @@ The data obtained described information about prices for a large number of marke
 \end{itemize}
 
 \subsection*{Price sequences}
+We used Pandas, a powerful and fast Python data analysis library, to load the csv files of datasets, to clean up, and to organize them into usable formats. The prices of all products in these datasets are collected through a human reporting mechanism from local institutions to a central ministry. Due to the nature of this data collecting process, the qualities of these 3 datasets suffer from human neglects and mistakes. We thus need to conduct 2 phases of work prior to time series analysis and price prediction: data clean-up and dataset usability analysis.
 
-\subsubsection*{Preprocessing}
-load data from csv into pandas dataframe 
+\subsubsection*{Price Data Clean-up}
+In data clean-up, we fixed several defects in the original datasets of the data sources. Each series originally has different portion of missing dates, and some have multiple data points of the same date with different values. The first stage of clean-up was to make each series align to a unique sequence of dates with constant date frequency by inserting NaNs to the missing and duplicated dates.
 
-removing NAs
+Next, we discovered that there are many outliers with extreme values in the series. For example, a price of 10 rupee today jumps to 100 tomorrow, and then goes back to 10 the day after. Such cases are more likely caused by human mistakes in reporting prices to the Indian ministries, so we used a heuristic to remove these suspicious spikes in the series. By taking the daily differences in percentage of a series, we were able to remove data points of the dates which perform more than 100% price change in one time step (daily or weekly).
 
+Finally, we patched the missing parts of the series with common methods such as linear or cubic spline interpolation.
+
+\subsubsection*{Price Dataset Usability Analysis}
+
+The dataset usability analysis phase was intended to explore the data to find usable materials for analysis and prediction in later stages. We first filtered out all the series with less than 60% of non-missing data, then computed some indicators of the data availability of each product in each region. Unfortunately, we have found out that all the datasets are far from satisfying.
+
+The data availably in the daily wholesale dataset varies tremendously among different products and regions. Although there are about 15 regions, 7 candidate products, and more than 10 sub-categories for each product, most of the combinations of region, product, sub-category do not have enough available data for analysis and prediction. Fortunately, we did find out a few very good series which have more than 80%~90% of valid data and also perform the desired traits of high volatility and rising trend across time.
+
+On the other hand, the daily retail dataset appears to have consistent data availability among products and regions, but in fact all products have only about 60% of valid data in each region. Moreover, after examining each series via plots, we discovered that most of the daily retail series have weird behavior. For instance, the price of a series may have identical values for a long period and suddenly jump to another value, which makes the series look like levels of ladders. These series are not useful since such pattern is probably caused by dysfunctioned price reporting process.
+
+Considering the limitations of the current price datasets, we have concluded the following potential usage of them: (1) Select a few representative series of each product with very good data quality. By using these individual series as a starting point of analysis and prediction, we can find out general characteristics and also the feasibility of predicting the prices of these highly volatile commodities. (2) Merge the series of the same product in each region to construct an extended dataset containing a uniform profile for each product in each region. In this way, we can gain a national overview of trends and price variations of different products.
 
 \subsection*{Other sources}
 distribution \& production
@@ -47,19 +62,20 @@ distribution \& production
 exchange rate
 crude oil
 
+Additional types of data were ``scraped'' from two online sources using HTML parsing library, `BeautifulSoup' for Python. The first of these sources was meteorological web site Tu Tiempo (http://www.tutiempo.net). Daily climate data (comprising temperature, humidity, perspiration etc.) for the last 16 years (1999-2014) was collected for over 100 locations in India. The script for this is get\_climate\_data.py. The second source was monthly inflation (CPI) data for India for the past 16 years from inflation.eu. The script for this purpose is get\_inflation\_data.py.
 
 \section*{Social Media data}
-Twitter
+Twitter is a rich resource for studying cutting-edge trends on a global scale. Given a sufficiently large data collection effort, Twitter user discourse indicating changes in commodity prices may be obtained. This discourse supplies us with predictors The Humanitas project harvests huge amounts of user activity from this social media platform in order to capture the sparsely distributed activity pertaining to food prices. It is this aspect of the project which promotes it to the domain of `big data'.
 
 \subsection*{Historical tweets}
 
 \subsubsection*{Approach 1: Fetching "historical" tweets through Twitter API}
 
-Using the Twython package for python we are able to interface with the Twitter API. Our methodology (figure \ref{fig:methodology}) is to select the twitter accounts of a number of regional celebrities as starting points. These are likely to `followed' by large numbers of local users. In a first phase (TWEET\_COLLECTION.py.get\_followers()), from each of these sources we may extract a list of followers and filter by various characteristics. Once a substantial list has been constructed it must be merged (merge.py and remove\_intersection.py), we may proceed to download the tweet activity (up to the 3200 most recent tweets) of each of these users in a second phase (TWEET\_COLLECTION.py.get\_tweets()).
+Using the Twython package for python we are able to interface with the Twitter API. Our methodology (figure \ref{fig:methodology}) is to select the twitter accounts of a number of regional celebrities as starting points. These are likely to `followed' by large numbers of local users. In a first phase (tweet\_collection.py.get\_followers()), from each of these sources we may extract a list of followers and filter by various characteristics. Once a substantial list has been constructed it must be merged (merge.py and remove\_intersection.py), we may proceed to download the tweet activity (up to the 3200 most recent tweets) of each of these users in a second phase (tweet\_collection.py.get\_tweets()).
 
 Despite recent updates allowing developers greater access, Twitter still imposes troublesome constraints on the number of requests per unit time window (15 minutes) and, consequently, the data collection rate. It is therefore necessary to: 1) optimise the use of each request; and 2) parallelise the data collection effort.
 
-As far as optimisation is concerned, the \textbf{GET statuses/user\_timeline} call may be called 300 times per 15 minute time window with up to 200 tweets returned per request. This sets a hard upper bound of 60000 tweets per time window. This is why the filtering stage of the first phase is so crucial. Using the \textbf{GET followers/list} call (30 calls/time window), we may discard in advance the majority of twitter users with low numbers of tweets (often zero), so as to avoid burning the limited user timeline requests on fruitless users, thus increasing the data collection rate. With this approach we may approach optimality and achieve 4-5 million tweets daily per process. However, it may be prudent to strike a balance between tweets per day and tweets per user. Therefore a nominal filter is currently set to 50 tweets minimum rather than 200. It is furthermore necessary to install dynamic time-tracking mechanisms within the source code so as to monitor the request rates and to impose a process 'sleep' when required.
+As far as optimisation is concerned, the \textbf{GET statuses/user\_timeline} call may be called 300 times per 15 minute time window with up to 200 tweets returned per request. This sets a hard upper bound of 60000 tweets per time window. This is why the filtering stage of the first phase is so crucial. Using the \textbf{GET followers/list} call (30 calls/time window), we may discard in advance the majority of twitter users with low numbers of tweets (often zero), so as to avoid burning the limited user timeline requests on fruitless users, thus increasing the data collection rate. With this approach we may approach optimality and achieve 4-5 million tweets daily per process. However, it may be prudent to strike a balance between tweets per day and tweets per user. Therefore a nominal filter is currently set to 50 tweets minimum rather than 200. It is furthermore necessary to install dynamic time-tracking mechanisms within the source code so as to monitor the request rates and to impose a process `sleep' when required.
 
 Parallelisation begins with obtaining N ($\approx 10$) sets of developer credentials from Twitter (https://dev.twitter.com/). These N credentials may then be used to launch N processes (get\_users.sh) collecting user data in parallel. Given the decision to divide the follower collection and tweet collection into separate phases (this may alternatively be done simultaneously), there is no need for distributed interaction between the processes to control overlap, as each process will simply take $1/N$ th of the follower list produced in phase 1 and process it accordingly. It should be relatively simple to initiate this parallel computation given the design of the scripts.
 
@@ -69,7 +85,7 @@ Parallelisation begins with obtaining N ($\approx 10$) sets of developer credent
 \hline
 Phase 1  \\ \hline
 Users & Duration (s) & Sleep (s) & User Rate & Type \\ \hline
-334 & 2795 & 2047 & - & Total \\ \hline	    
+334 & 2795 & 2047 & - & Total \\ \hline
 299 & 2700 & 2047 & 99.7 & Normalised (3 windows) \\ \hline
 Phase 2 \\ \hline
 Tweets (Users) & Duration (s) & Sleep (s) & Tweet Rate & Type \\ \hline
@@ -77,7 +93,7 @@ Tweets (Users) & Duration (s) & Sleep (s) & Tweet Rate & Type \\ \hline
 150008 (309) & 2700 & 922 & 50002.7 &  Normalised (3 windows) \\ \hline
 \end{tabular}
 \end{center}
-\caption{A picture of the same gull looking the other way!}
+\caption{Trial run results}
 \label{table:benchmark}
 \end{table}
 
@@ -91,7 +107,7 @@ A benchmarking test (table \ref{table:benchmark}) performed in order to support 
 
 It is important to note however, that the rate of "good" users increases varies depending on the notoriety of the source account outside of India. To ensure good coverage for user collection, a wide variety of source users was chosen including rival politicians, musicians, sportspersons, film stars, journalists and entrepreneurs.
 
-Tweet collection for Humanitas occurred in two main waves. In the first wave 180 000 users identifiers were collected. This amounted to 110 million tweets, collected over about three days, totalling 288GB of information (note a tweet response comprises the textual content as well as a substantial amount of meta data). In second wave of collection we encountered the effect of diminishing returns as many of the newly harvested users had already featured in the first wave. Despite a lengthier collection effort, only 110 000 new users were collected, leading to 70 million additional tweets and a grand total for the two waves of about 500GB of data. Future collection work for Humanitas would benefit from a more sophisticated approach, for example, by constructing a Twitter user graph.
+Tweet collection for Humanitas occurred in two main waves. In the first wave 180 000 users identifiers were collected. This amounted to 110 million tweets, collected over about three days, totalling 288GB of information (note a tweet response comprises the textual content as well as a substantial amount of meta data). In second wave of collection we encountered the effect of diminishing returns as many of the newly harvested users had already featured in the first wave. Despite a lengthier collection effort, only 110 000 new users were collected, leading to 70 million additional tweets and a grand total for the two waves of about 500GB of data. Future collection work for Humanitas would benefit from a more sophisticated approach to collecting users (phase 1), for example, by constructing a Twitter user graph.
 
 \begin{figure}
 \includegraphics[width=.7\textwidth]{./img/CollectionProcess.pdf}
@@ -100,62 +116,97 @@ Tweet collection for Humanitas occurred in two main waves. In the first wave 180
 \end{figure}
 
 \subsubsection*{Approach 2: Filtering tweets provided by webarchive.org}
-https://archive.org/details/twitterstream
+Since previous approaches failed because of Twitters download limitations, we decided to collect tweets also from the freely available tweet archives at:
 
-\subsection*{Daily? tweet aggregator}
+\emph{https://archive.org/details/twitterstream}.
+\newline
+These archives contain 1\% of all tweets from 2011 to 2013 (not only India!). The collection of tweets was done via a python script which was executed on all 8 Azure nodes in parallel. Beforehand the respective archives were downloaded to the nodes with a download speed of approx. 20 MB/s. The storage was to our surprise no problem, because every Azure node gets 133 GB of temporal storage for disposal. About 550 GB of compressed tweets were processed and filtered in about 36 hours per node.
+\newline
+The applied filter got rid of tweets not containing at least one food commodity specific word (e.g. rice, curry, food, ...) and one predictive word (e.g. increase, decrease, price, ...). Also Retweets were filtered out, because sophisticated duplicate detection across 8 nodes can be costly and some exploration of the data showed that almost all duplicates were filtered out with this simple check. Since we want to predict food prices for certain regions, the location of the tweets is very important. We came up with a simple scheme to detect locations:
+\begin{itemize}
+\item \textbf{Geo-location:} Some tweet objects contain a field 'coords' which states the exact location coordinates the tweet was sent from.
+\item \textbf{Mentioned regions:} In the associated tweet text regions can be mentioned, which can also give clues on the regions affected.
+\item \textbf{Places:} When submitting a tweet an user can also specify a place associated with the tweet. This information can be extracted from the tweet objects.
+\item \textbf{User location:} Most tweets objects also have an associated user object, which contains a user location sometimes. The textual information of this field is tokenized and compared with a list of known regions.
+\end{itemize}
+According to the categories mentioned above, the tweets were split up in several files. Since the \emph{Approach 1.} conveyed much more tweets, the archive sample was only used for data exploration and testing of the more refined tweet processing.
+
+\subsubsection*{Daily tweet aggregator}
+Our first idea was to build a continuously running process, which fetches the newest data from the twitter stream from India. But after applying a simple filter, we came to the conclusion that the data is to sparse for this approach, since the 'Twitter Streaming API' supplies only 1\% of all available tweets. Since the amount of twitter users in India is rapidly growing, this could be a promising approach for the future.
 
 \subsubsection*{Clustering according to keywords}
+Since relevant data was really sparse, we didn't expect much gain from any unsupervised learning techniques and decided to omit clustering.
+
+\subsubsection*{Issue of storage}
+At first we believed that there wouldn't be enough space to store all tweets, but after setting up an azure node, we found that there is about 133 GB of temporal storage associated with it. We used this space to store the huge amount of tweets, but since the storage is temporal we lost tweets several times. This was due to configuration mistakes by us and Azure's 'healing'. When Azure detects anomalies, internal errors or just has to move images around, affected nodes are restarted, which results in tweet loss for us. Because of that, all filtered tweets were later stored on the main disk to avoid future losses.
 
 \subsection*{Issue of localization}
+It's is very important for use to detect the location of tweets, because we want to predict the volatile food prices at regional granularity.
 
 \subsubsection*{Geolocalized tweets}
 Filtering the available archives of tweets taken from the API yielded near to no geolocalized tweets from India matching our set of keywords. This reason is evident, because the twitter API only allows extraction of 1\% of tweets and only 2\% of tweets are actually geolocalized. In effect, getting tweets that match our keywords specific to food commodities is very unlikely. We had more luck with tweets from Indonesia, however as already explained we were unable to attain enough price sequences from Indonesia to actually train a model. Furthermore, the time constraints didn't allow us to get tweets from India and Indonesia in parallel in order to do some "stand-alone" clustering analysis.
 
 \subsubsection*{Approximation: Mapping tweets to user location}
-
+To get as many tweets as possible associated with a location we decided to use the locations of user accounts as a simple heuristic. We created a mapping between city and region names and used to to identify valid locations, which were then used during later processing.
 
 \section*{Processing}
-
-\subsection*{Merging Series}
+After all tweets were collected we had to process and reformat their content for the neural networks (prediction) and the web visualisation.
 
 \subsection*{Crafting indicators from tweets}
+To use the collected tweets for prediction in the neural network, aggregated indicators had to be extracted from the collection. The result of this processing was then stored in a \emph{csv} file which was supplied to the neural network.
 
 \subsubsection*{Sentiment analysis}
 
-Sentiment analysis, or opinion mining, is the concept of using different computer science techniques (mainly machine learning and natural language processing) in order to extract sentiment information and subjective opinions from the data. In our context this may help us to find out how circumstances in relation to commodity prices affect the overall mood in the population. 
+Sentiment analysis, or opinion mining, is the concept of using different computer science techniques (mainly machine learning and natural language processing) in order to extract sentiment information and subjective opinions from the data. In our context this may help us to find out how circumstances in relation to commodity prices affect the overall mood in the population.
 
-From the start we decided that we did not want to build our own sentiment analysis system since the proper implementation, testing and evaluation would require a considerable effort compared with the total project workload. Instead, we are planning to use some of already developed solutions and tune them to our needs. 
-
+From the start we decided that we did not want to build our own sentiment analysis system since the proper implementation, testing and evaluation would require a considerable effort compared with the total project workload. Instead, we are planning to use some of already developed solutions and tune them to our needs.
+\newline \newline
 Several sentiment analysis frameworks were tested, including:
 
 \begin{itemize}
 \item SentiStrength \par (http://sentistrength.wlv.ac.uk/)
 
-\item Stanford CoreNLP \par (http://nlp.stanford.edu/sentiment/code.html) 
+\item Stanford CoreNLP \par (http://nlp.stanford.edu/sentiment/code.html)
 
 \item 'Pattern' library from the University of Antwerp \par (http://www.clips.ua.ac.be/pages/pattern-en)
 \end{itemize}
-
 All of these software packages produced reasonable results on some short and simple sentences, but sentiment grades looked almost random on a set of real collected tweets. Most likely, factors such as misspelled words, acronyms, usage of slang and irony contributed to the overall ambiguity of sentiment grades assignment.
-
-Therefore, we decided to build and use our own simple system, which incorporated basic opinion mining, but was mainly focused on extracting relevant keywords, which could help to estimate tweets from the specific point of view. This approach, which also takes into account issues originating from word misspelling, is described in next two paragraphs.
+\newpage
+Therefore, we decided to build and use our own simple system, which incorporated basic natural language processing and opinion mining techniques, but was mainly focused on extracting relevant keywords, which could help to estimate tweets from the specific point of view. This approach, which also takes into account issues originating from word misspelling, is described in next two paragraphs.
 
 \subsubsection*{Extracting predictor categories}
 
-First, several "predictor categories" were selected. These categories represent different aspects of price variation, and each category include several sets of words of different polarities. For example, the category "price" has two polarities: "high" and "low". The following word list belongs to "high" polarity: 'high', 'expensive', 'costly', 'pricey', 'overpriced', and these are words from "low" list: 'low', 'low-cost', 'cheap', 'low-budget', 'dirt-cheap', 'bargain'. Likewise, a category "supply" has "high" polarity (with words 'available', 'full', 'enough', 'sustain', 'access', 'convenient') and "low" ('run-out', 'empty', 'depleted', 'rotting'). The dictionary with total of 6 categories (each having at least two polarity word lists) was built ("predict", "price", "sentiment", "poverty", "needs", "supply"), let's call it $D$.
+First, several "predictor categories" were selected. These categories represent different aspects of price variation, and each category includes several sets of words of different polarities. For example, the category \emph{"price"} has two polarities: \emph{"high"} and \emph{"low"}.
+\\
+The following word list belongs to \emph{"high"} polarity:
 
+\emph{'high', 'expensive', 'costly', 'pricey', 'overpriced'},
+\\
+and these are words from \emph{"low"} list:
+
+\emph{'low', 'low-cost', 'cheap', 'low-budget', 'dirt-cheap', 'bargain'}.
+\\ \\
+Likewise, a category "supply" has "high" polarity:
+
+\emph{'available', 'full', 'enough', 'sustain', 'access', 'convenient'},
+\\
+and "low":
+
+\emph{'run-out', 'empty', 'depleted', 'rotting'}.
+\\ \\
+The dictionary with total of 6 categories (each having at least two polarity word lists) was built (\emph{"predict", "price", "sentiment", "poverty", "needs", "supply"}), let's call it $D$.
+\\ \\
 Then, for each tweet a feature vector is built, representing the amount of words from each category and polarity. Several cases have to be taken into account. First of all, a word may be not in its base form ("price" -> "prices", "increase" -> "increasing"), which will prevent an incoming word from matching one from $D$. Therefore, we use stemming technique to reduce each word to its stem (or root) form. Another problem is misspelled words ("increase" -> "incrase", "incraese"), and for tweets it happens more than usual due to widespread use of mobile devices with tiny keyboards. Our solution to this problem is covered in the next section.
-
-Here is the overview of predictor category extraction algorithms we implemented:\\
-
+\newpage
+Here is the overview of predictor category extraction algorithms we implemented:\\ \\
 \textbf{Preprocessing}: For each relevant word in $D$ a stem is computed using the Lancaster stemming method, and the stem is added to reverse index $RI$, which maps a stem to a tuple: (category, polarity). \\
 
-\textbf{function get\_category(w):} 
+\textbf{function get\_category(w):}
 
 \indent
 \begin{algorithm}[H]
 Compute a stem $s$ from $w$ \par
-Check if $s$ is present in $RI$. 
+Check if $s$ is present in $RI$.
 
   \eIf{yes}{
 	\textbf{return} the corresponding tuple.
@@ -163,14 +214,16 @@ Check if $s$ is present in $RI$.
 		ask spell checker for a suggestion \par
 		is suggestion stem returned? \par
 		\eIf{yes}{
-			\textbf{return} the corresponding tuple from $RI$		
+			\textbf{return} the corresponding tuple from $RI$
 		}{
 			\textbf{return} None;
 		}
   	}
 % \caption{Algo}
 \end{algorithm}
-\noindent
+\noindent \\
+
+On a high level, every tweet is split into words, and then each word (token) is passed through 'get\_category' function. But here's another problem we face using this approach: each relevant word we met may have a negation word (particle) before it, which subverts the meaning: "increases" -> "doesn't increase", "have food" -> "have no food", etc. To deal with this problem, we employed the following method: we added a special 'negation' category with a list of negation words ("not", "haven't", "won't", etc.), and if there is a word with "negative" category before some relative word (to be more precise, within some constant distance from it, say 2), then we change the polarity of relative word's category. For example, if a word is from category "poverty" and has "high" polarity (like "starving"), then negative category word right before it (such as "aren't") will turn the polarity to "low".
 
 
 \subsubsection*{Tweets spell checking}
@@ -178,9 +231,23 @@ Check if $s$ is present in $RI$.
 People often do not pay much attention about the proper word spelling while communicating over the Internet and using social networks, but misspelled words may introduce mistakes in processing pipeline and significantly reduce the amount of filtered tweets, since the relevant, but incorrectly written word might not be recognized by the algorithm.
 
 Several spell checking libraries were checked (Aspell and Enchant to name a few), but their 'suggest' method lacked both performance (several seconds to generate a suggestion for thousands words, which is very slow) and flexibility (it's not possible to specify the number of generated suggestions, as well as a threshold, such as maximal edit distance between words). Therefore, we decided to use simple approach which involved computing edit distances between a given word and words from predictor categories dictionary ($D$).
-
+\\
 For each given word $w$ we compute its stem $s$ and then edit distance (also known as Levenshtein distance) to each word (stem) from $D$. It can be done really fast thanks to C extensions of \textit{python-levenshtein} module.
-
+\\
 After that, we choose the stem with minimal edit distance (using heap to store the correspondence between distances and words and to speed up selection of the minimal one), and check if the resulting number of "errors" (which is equal to distance) is excusable for the length of word $w$. For example, we don't allow errors for words of length 5 or less, only one error is allowed for lengths from 6 to 8, etc. If everything is alright, then the suggestion is returned, otherwise the word is discarded.
- 
+
 The approach proved to be fast and tweakable, and was successfully used for tweets processing.
+
+\subsection*{Generation of time series}
+All these indicators are crafted into a single time series of the form \emph{'Product', 'date', 'region', 'indicator1', ... , 'indicatorN'} via Shark queries. These indicators represent the amount of tweets matching a certain predictive category (as mentioned previously) normalized by the total amount of tweets mentioning the product that day. If a tweet is part of multiple categories, it's not clear what the intention behind the tweet was. That's why, as heuristic, we divide the sum of mentions of each predictive category by the total amount of identified mentioned categories for that tweet. We have a script to generate queries for all products and a script to parse the output into \emph{csv} format. The figure \ref{fig:architecture} illustrates the whole processing pipeline and gives a good overview of the architecture at the same time as well.
+
+\begin{figure}
+\includegraphics[width=.7\textwidth]{./img/architecture.png}
+\caption{Tweet processing pipeline.}
+\label{fig:architecture}
+\end{figure}
+
+\subsection*{Infrastructure \& Architecture}
+Almost all downloading and processing of tweets was done in parallel on 8 Azure nodes. A script was written to upload public keys to the nodes for seamless access. The same script was used to execute various task on all or specific nodes. To handle the huge amounts of data and do efficient OLAP, we decided to use spark/shark. The data was first stored on each node separately on disk, then processed and afterwards inserted into a Cassandra DB cluster running on the nodes. The Apache Cassandra project is open source implementation of a NoSQL, column-oriented data base. It's known for being fault tolerant, which was very useful during various restarts, and processing many inserts fast. Since we had very limited memory on the non-temporal disk, we experienced 'Out of memory' errors, but because all data has been uploaded to the whole cluster, the scripts could continue running smoothly although some nodes were down. We also experienced node faults whenever the Azure node management 'healed' nodes.
+
+Setting up the Cassandra cluster across multiple Azure subscriptions was tiring, since all used ports had to be opened on all machines manually via the Azure management web interface. Opening ports was regretfully not enough to get a fully functioning Spark cluster running, because Spark uses random ports for communication between running jobs. We tried setting up a VPN, but decided to quit after several hours due to time constraints and it not being essential for the result that the Spark cluster is made up of all nodes. Luckily Shark on top of Spark with only one node was still fully functional and executed queries at reasonable speed. To connect Shark with Cassandra we used the Hive support for Cassandra driver 'cash' by tuplejump. We experienced several problems (some undocumented) while installing (e.g. libraries missing, wrong paths, ...), but still managed to get it running. To improve speed between the nodes all VMs were created in the same region. 

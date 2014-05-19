@@ -1,0 +1,12 @@
+14700 rules with support higher than or equal to 0.400 found.
+supp	conf	rule
+0.425	0.607	BiscuitGlucose=unchanged increase -> ArharSplit=small increase
+0.425	0.810	ArharSplit=small increase -> BiscuitGlucose=unchanged increase
+0.400	0.533	MilkCowBuffalo=unchanged increase -> ArharSplit=small increase
+0.400	0.762	ArharSplit=small increase -> MilkCowBuffalo=unchanged increase
+0.400	0.533	MilkDairy=unchanged increase -> ArharSplit=small increase
+0.400	0.762	ArharSplit=small increase -> MilkDairy=unchanged increase
+0.425	0.548	RiceSuperfine=unchanged increase -> ArharSplit=small increase
+0.425	0.810	ArharSplit=small increase -> RiceSuperfine=unchanged increase
+0.425	0.531	SaltLoosecommon=unchanged increase -> ArharSplit=small increase
+0.425	0.810	ArharSplit=small increase -> SaltLoosecommon=unchanged increase

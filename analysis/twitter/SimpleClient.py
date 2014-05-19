@@ -24,8 +24,9 @@ from time import sleep
 log = logging.getLogger()
 log.setLevel('INFO')
 
-execute_timeout = 60.0
+DEFAULT_TIMEOUT = 300.0
 
+#extracts features from tweet text
 def extract_features(t, col_str, val_str):
     tweet_text_lower = tweet['text'].lower()
     tweet_text_clean = ' '.join(tweet_text_lower for e in string if e.isalnum())
@@ -44,6 +45,7 @@ def extract_features(t, col_str, val_str):
            col_str.append(cat)
            val_str.append(count)
 
+# loads a csv file of form "city,region" into Map and returns it
 def load_location_dict(fname):
     #path = os.path.split(os.getcwd())[0]
     #path = os.getcwd()
@@ -55,6 +57,7 @@ def load_location_dict(fname):
         next(reader, None) #ignore header
         return {rows[0].lower():rows[1].lower() for rows in reader}
 
+#extracts location from token
 def extract_location(loc, locs):
     text = re.sub('[^a-zA-Z0-9-]', ' ', loc.encode("ascii","ignore")).lower()
     loc_tokens = filter(lambda a: a != '', text.strip().split())
@@ -65,7 +68,7 @@ def extract_location(loc, locs):
                 return token
     return ""
 
-#prepares 'text' values for the db
+#prepares values of type 'text' for the db
 def prep(x):
     #return "'" + x + "'"
     text = re.sub('[^a-zA-Z0-9:-]', ' ', re.sub("-+", "-", x.encode("ascii","ignore")))
@@ -85,6 +88,7 @@ def open_tweets(fname):
         except Exception as e:
             print("Failed on {0}: {1}".format(fname, e))
 
+#checks if a word is part of the tokenized tweet text
 def contains_words(to_check, tweet_tokens):
     for word in tweet_tokens:
         if word in to_check:
@@ -115,7 +119,7 @@ class SimpleClient:
     #seperate thread for max. performance
     def send_batch(self, inserts):
         log.info("invoking batch execution insert")
-        self.session.execute("BEGIN BATCH\n" + "\n".join(inserts) + "\nAPPLY BATCH;", timeout=execute_timeout)
+        self.session.execute("BEGIN BATCH\n" + "\n".join(inserts) + "\nAPPLY BATCH;")
         log.info("batch of tweets loaded into db")
 
     def create_insert(self, t, t_tokens, food_word_dict, cat_counts=None):
@@ -196,7 +200,7 @@ class SimpleClient:
     #inserts a tweet into the db
     def send_tweet(self, t):
         s = self.create_insert(t)
-        self.session.execute(s, timeout=execute_timeout)
+        self.session.execute(s)
         log.info("tweet loaded into db")
 
     #connect to cluster
@@ -204,28 +208,32 @@ class SimpleClient:
         cluster = Cluster(nodes)
         metadata = cluster.metadata
         self.session = cluster.connect()
+        self.session.default_timeout = DEFAULT_TIMEOUT
         log.info("Connected to cluster: " + metadata.cluster_name)
         for host in metadata.all_hosts():
             log.info("Datacenter: %s; Host: %s; Rack: %s",
                 host.datacenter, host.address, host.rack)
 
+    #close connection to cluster
     def close(self):
         self.session.cluster.shutdown()
         self.session.shutdown()
         log.info("Connection closed.")
 
+    #use keyspace (called before cmds are executed in keyspace)
     def use_keyspace(self, keyspace):
-        self.session.execute("use "+str(keyspace)+";", timeout=execute_timeout)
+        self.session.execute("use "+str(keyspace)+";")
         log.info("Using keyspace "+str(keyspace))
 
+    #creates db schema in cassandra
     def extended_schema(self, food_categories, pred_categories):
         self.session.execute("""
             CREATE KEYSPACE tweet_collector WITH replication =
-            {'class':'SimpleStrategy', 'replication_factor':1};""", timeout=execute_timeout)
+            {'class':'SimpleStrategy', 'replication_factor':1};""")
         log.info('Created keyspace tweet_collector')
 
         sleep(3)
-        self.session.execute("use tweet_collector;", timeout=execute_timeout)
+        self.session.execute("use tweet_collector;")
 
         create_table_strs = []
         for f_category in food_categories:
@@ -251,7 +259,7 @@ class SimpleClient:
                  ',\n'.join(map((lambda coln: str(coln) + " int"), pred_categories)) + ',\n' + \
                  "PRIMARY KEY (id) );"
             print("Map: " + te)
-            self.session.execute(te, timeout=execute_timeout)
+            self.session.execute(te)
             create_table_strs.append(te)
             log.info("> Table " + table_name + " created.")
             sleep(1)
@@ -262,13 +270,16 @@ class SimpleClient:
             for s in create_table_strs:
                 s = re.sub(r'\btext\b', 'string', s)
                 s = re.sub(r'CREATE TABLE', 'CREATE EXTERNAL TABLE', s)
-                s = re.sub(r',\nPRIMARY KEY.*$', ');', s)
+                s = re.sub(r',\nPRIMARY KEY.*$', ")\n", s)
+                s += "STORED BY 'org.apache.hadoop.hive.cassandra.cql.CqlStorageHandler' WITH SERDEPROPERTIES ('cassandra.host'='100.88.224.12', 'cassandra.port'='9160');"
                 f.write(s + "\n")
 
+    #drops schema
     def drop_schema(self, keyspace):
-        self.session.execute("DROP KEYSPACE IF EXISTS tweet_collector;", timeout=execute_timeout)
+        self.session.execute("DROP KEYSPACE IF EXISTS tweet_collector;")
         print "Schema (keyspace) dropped."
 
+    #create index for rows, which are used for selection
     def create_index(self, food_categories):
         for category in food_categories:
             table_name = 'tweets_' + category
@@ -278,7 +289,7 @@ class SimpleClient:
                     CREATE INDEX %s
                     ON %s (%s);""" % (index_name, table_name, column)
                 print create_str
-                self.session.execute(create_str, timeout=execute_timeout)
+                self.session.execute(create_str)
                 sleep(3)
                 log.info("> Index %s on table %s created." % (index_name, table_name) )
 
@@ -286,7 +297,7 @@ class SimpleClient:
 
     #prints all saved tweets
     def print_rows(self):
-        results = self.session.execute("SELECT * FROM tweets;", timeout=execute_timeout)
+        results = self.session.execute("SELECT * FROM tweets;")
         print("Tweet table:")
         print("---------------------------------------------------------------")
         for row in results:

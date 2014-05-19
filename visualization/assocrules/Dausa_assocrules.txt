@@ -1,0 +1,4 @@
+2 rules with support higher than or equal to 0.400 found.
+supp	conf	rule
+0.410	0.842	SaltLoosecommon=unchanged increase -> BiscuitGlucose=unchanged increase
+0.410	0.696	BiscuitGlucose=unchanged increase -> SaltLoosecommon=unchanged increase

@@ -25,7 +25,7 @@ usage = '''
         get_full_data            : given df, return df_full or df_ts by option. The com-
                                    putation of both is done all at once, thus no overhead.
         extract_duplicates       : return duplicated parts and dates of a data frame
-        remove_spikes            : remove suspicious spikes in df_full
+        remove_spikes            : remove suspicious spikes in datasets
 '''
 
 
@@ -99,6 +99,8 @@ def mod_header(cols):
 
 def examine_fullness(df, leng, with_interpolation):
     passed = True
+    if df.shape[0] == 0:
+        return
     for (state, city, product, subproduct), group in \
             df.groupby(['state', 'city','product','subproduct']):
         if group.shape[0] < leng:
@@ -119,6 +121,8 @@ def examine_fullness(df, leng, with_interpolation):
 
 
 def examine_df_ts_fullness(df_ts, leng, with_interpolation):
+    if df_ts.shape[0] == 0:
+        return
     passed = True
     for label in list(df_ts.columns):
         if df_ts[label].shape[0] < leng:
@@ -150,15 +154,22 @@ def get_piece(missing_dates, old_row):
 
     return pd.concat(pieces)
 
+def init_valid_table():
+    ret = pd.DataFrame(columns=[10,20,30,40,50,60,70,80,90,100], index=['count'])
+    ret.fillna(0, inplace=True)
+    return ret
+
 def get_full_data(df, all_dates, \
-                    using_df_full, using_df_ts, na_cutoff_rate, with_interpolation, \
-                    filter_lst):
+                    using_df_full, using_df_ts, valid_rate, with_interpolation, \
+                    interpolation_method, interpolation_order, filter_lst, na_len_limit_ratio):
     start_time = time()
     pieces = []
     count = 0
     err_count = 0
     df_full = pd.DataFrame()
     df_ts = pd.DataFrame()
+    valid_table = init_valid_table()
+    probe = pd.Series()
 
     print 'Using df_full?', using_df_full
     print 'Using df_ts?', using_df_ts
@@ -204,7 +215,7 @@ def get_full_data(df, all_dates, \
         #data with empty subproduct in daily dataset is incorrect
         if freq == 'day':
             if subproduct == '':
-                print 'ignore empty daily subproduct',(state, city, product, subproduct, country, freq)
+                #print 'ignore empty daily subproduct',(state, city, product, subproduct, country, freq)
                 #empty_subproduct.append(((state, city, product, subproduct, country, freq), group.shape))
                 continue
 
@@ -214,29 +225,43 @@ def get_full_data(df, all_dates, \
         try:
             group = group.reindex(all_dates)
         except Exception, e:
-            print e, (state, city, product, subproduct, country, freq)
+            print 'handle exception:', (state, city, product, subproduct, country, freq)
             err_count += 1
             group.reset_index(inplace=True)
             group.columns = mod_header(group.columns)
             dupdf, dup_dates = extract_duplicates(group)
             dup_records.append(((state, city, product, subproduct, country, freq), dupdf))
 
-            if freq == 'week':
-                continue
-            else:
-                #handle duplicates of daily datasets
-                group.drop_duplicates(cols='date', inplace=True)
-                #fill NaN in the missing dates again
-                group.set_index('date', inplace=True)
-                group = group.reindex(all_dates)
-                print 'duplicate handled, new length', group.shape[0], '/', len(all_dates)
+            # if freq == 'week':
+            #     continue
+            # else:
+            # #handle duplicates of daily datasets
+            group.drop_duplicates(cols='date', inplace=True)
+            #fill NaN in the missing dates again
+            group.set_index('date', inplace=True)
+            group = group.reindex(all_dates)
+            #print 'duplicate handled, new length', group.shape[0], '/', len(all_dates)
 
-        #skip those with more NaN than na_cutoff_rate
-        if 1. - group['price'].count() * 1. / len(all_dates) > na_cutoff_rate:
+        #skip those with less valid data rate than valid_rate
+        if group['price'].count() * 1. / len(all_dates) < valid_rate:
             continue
 
+        #convert str to float
+        group['price'] = group['price'].astype(float)
+        #remove suspicious spikes
+        # probe = group.copy()
+        #break
+        group['price'] = remove_spikes_series(group['price'], 100)
+
+        max_nan_len = get_max_nan_len(group['price'])
+        if max_nan_len > na_len_limit_ratio*len(all_dates):
+            print (state, city, product, subproduct), max_nan_len, 'exceeds max consecutive NaN length', na_len_limit_ratio*len(all_dates), '*********************************************'
+            continue
+
+
         if with_interpolation:
-            group['price'] = group['price'].interpolate().bfill().ffill()
+            group['price'] = group['price'].interpolate(method=interpolation_method, order=interpolation_order).bfill().ffill()
+
 
         #df_ts part
         if using_df_ts:
@@ -283,7 +308,7 @@ def get_full_data(df, all_dates, \
     if using_df_ts:
         print 'size of df_ts = ', df_ts.shape
 
-    return df_full, df_ts, dup_records
+    return df_full, df_ts, dup_records, valid_table, probe
 
 
 def extract_duplicates(group):
@@ -294,12 +319,57 @@ def extract_duplicates(group):
     return df_ret, dup_dates
 
 
-def remove_spikes(df_full, df_ts, threshold):
-
+def remove_spikes(df_ts, threshold):
+    ddf = df_ts.copy()
+    ddf_ret = get_ret(ddf)
 
     ddf = ddf[ddf_ret<threshold]
     ddf_ret = ddf_ret[ddf_ret<threshold]
     ddf = ddf[ddf_ret > -threshold]
     ddf_ret = ddf_ret[ddf_ret > -threshold]
 
-    return ddf, ddf_ret
+    return ddf
+
+def get_ret(df_ts):
+    ret = pd.DataFrame()
+    for label in list(df_ts.columns):
+        s = df_ts[label]/df_ts[label].shift(1) - 1
+        ret[label] = s
+
+    return ret* 100
+
+
+
+def remove_spikes_series(series, threshold):
+    ddf = series.copy()
+    ddf_ret = get_ret_series(ddf)
+
+    ddf = ddf[ddf_ret<threshold]
+    ddf_ret = ddf_ret[ddf_ret<threshold]
+    ddf = ddf[ddf_ret > -threshold]
+    ddf_ret = ddf_ret[ddf_ret > -threshold]
+
+    return ddf
+
+
+def get_ret_series(series):
+    #print series.head()
+    ret = series/series.shift(1) - 1
+
+    return ret* 100
+
+
+def get_max_nan_len(series):
+    bool_series = series >= 0
+    max_len = 0
+    current_len = 0
+    for idx in list(bool_series.index):
+        if bool_series[idx] == False:
+            current_len += 1
+        else:
+            current_len = 0
+
+        if current_len > max_len:
+            max_len = current_len
+
+    return max_len

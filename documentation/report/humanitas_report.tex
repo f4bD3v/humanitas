@@ -14,13 +14,16 @@
 \usepackage{titlesec}  %needs recent version of »titlesec«
 \usepackage{xcolor}
 \usepackage{graphicx}
-\usepackage{amsmath}
+\usepackage{amsmath, amsfonts}
 \usepackage{algorithm2e}
+\usepackage{subcaption}
+\usepackage{hyperref}
 
 \usepackage{mdframed}
 \usepackage[framed]{ntheorem}
 \newframedtheorem{frm-def}{Definition}
 \newframedtheorem{frm-thm}{Theorem}
+\newframedtheorem{frm-algo}{Algorithm}
 
 % bold vectors
 \let\oldhat\hat
@@ -63,9 +66,10 @@
 
 \titleGM
 
-\input{./abstract.tex}
-
+\input{./intro.tex}
 \input{./chapters/datacollection+processing.tex}
 \input{./chapters/analysis+prediction.tex}
+\input{./chapters/visualization.tex}
+\input{./conc.tex}
 
 \end{document}

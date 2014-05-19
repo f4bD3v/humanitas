@@ -1,0 +1,12 @@
+280 rules with support higher than or equal to 0.400 found.
+supp	conf	rule
+0.439	0.947	BlackNA=unchanged increase -> BiscuitGlucose=unchanged increase
+0.439	0.621	BiscuitGlucose=unchanged increase -> BlackNA=unchanged increase
+0.439	1.000	BreadLocal=unchanged increase -> BiscuitGlucose=unchanged increase
+0.439	0.621	BiscuitGlucose=unchanged increase -> BreadLocal=unchanged increase
+0.439	1.000	CoconutDry=unchanged increase -> BiscuitGlucose=unchanged increase
+0.439	0.621	BiscuitGlucose=unchanged increase -> CoconutDry=unchanged increase
+0.634	0.963	GheeDesi=unchanged increase -> BiscuitGlucose=unchanged increase
+0.634	0.897	BiscuitGlucose=unchanged increase -> GheeDesi=unchanged increase
+0.488	0.800	MaizeFAQ=unchanged increase -> BiscuitGlucose=unchanged increase
+0.488	0.690	BiscuitGlucose=unchanged increase -> MaizeFAQ=unchanged increase

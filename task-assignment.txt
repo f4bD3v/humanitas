@@ -17,7 +17,7 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
         * db scheme for cassandra
           [Fabian, Gabriel helps]
             -- ready
-        * Clustering of tweets
+        * Categories for tweets
           [Gabriel, Fabian, Anton]
           IMPORTANT TODO, DEADLINE 3rd Mai
         * Get user ids of twitter users from India with many tweets
@@ -40,7 +40,7 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
 
 
 * Twitter analysis
-    - Clustering of Tweets
+    - Categories for Tweets
         [Anton, Fabian, Gabriel] 
 
 * Data processing
@@ -90,7 +90,6 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
         [Fabian, Stefan]
 
     * Support Vector Regression
-        [Gabriel]
         -- train and test the model at models/svr/model1.txt
         -- very low priority
 
@@ -124,7 +123,7 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
                         [Gabriel]
 
                     Filtering
-
+                        [Anton, Gabriel]
                 - Infrastructure, Cassandra 
                     [Gabriel works his magic, Fabian helps] 
 

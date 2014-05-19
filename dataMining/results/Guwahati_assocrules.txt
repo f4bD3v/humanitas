@@ -1,0 +1,12 @@
+40 rules with support higher than or equal to 0.400 found.
+supp	conf	rule
+0.474	0.900	EggsNA=unchanged increase -> CoconutNA=unchanged increase
+0.474	0.900	CoconutNA=unchanged increase -> EggsNA=unchanged increase
+0.474	1.000	GingellyNA=unchanged increase -> CoconutNA=unchanged increase
+0.474	0.900	CoconutNA=unchanged increase -> GingellyNA=unchanged increase
+0.474	1.000	GroundnutNA=unchanged increase -> CoconutNA=unchanged increase
+0.474	0.900	CoconutNA=unchanged increase -> GroundnutNA=unchanged increase
+0.421	0.889	MaidaNA=unchanged increase -> CoconutNA=unchanged increase
+0.421	0.800	CoconutNA=unchanged increase -> MaidaNA=unchanged increase
+0.421	0.889	GingellyNA=unchanged increase -> EggsNA=unchanged increase
+0.421	0.800	EggsNA=unchanged increase -> GingellyNA=unchanged increase

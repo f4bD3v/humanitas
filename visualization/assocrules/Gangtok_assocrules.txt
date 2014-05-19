@@ -1,0 +1,3 @@
+supp	conf	rule
+0.750	1.000	SujiNA=unchanged increase -> RiceSuperfine=unchanged increase
+0.750	1.000	RiceSuperfine=unchanged increase -> SujiNA=unchanged increase

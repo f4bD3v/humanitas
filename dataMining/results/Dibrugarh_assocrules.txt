@@ -1,0 +1,12 @@
+30 rules with support higher than or equal to 0.400 found.
+supp	conf	rule
+0.417	0.556	RiceCommonCoarse=unchanged increase -> BesanNA=unchanged increase
+0.417	0.909	BesanNA=unchanged increase -> RiceCommonCoarse=unchanged increase
+0.417	0.667	MilkCowBuffalo=unchanged increase -> BreadLocal=unchanged increase
+0.417	0.833	BreadLocal=unchanged increase -> MilkCowBuffalo=unchanged increase
+0.458	0.846	MilkDairy=unchanged increase -> BreadLocal=unchanged increase
+0.458	0.917	BreadLocal=unchanged increase -> MilkDairy=unchanged increase
+0.417	0.556	RiceCommonCoarse=unchanged increase -> BreadLocal=unchanged increase
+0.417	0.833	BreadLocal=unchanged increase -> RiceCommonCoarse=unchanged increase
+0.500	0.667	RiceCommonCoarse=unchanged increase -> ChickenPoultry=unchanged increase
+0.500	0.923	ChickenPoultry=unchanged increase -> RiceCommonCoarse=unchanged increase

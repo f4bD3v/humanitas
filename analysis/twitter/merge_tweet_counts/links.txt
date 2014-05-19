@@ -1,0 +1,38 @@
+--------------------------------
+Tweet counts per-region per-week
+--------------------------------
+
+Merged dictionary -- https://www.dropbox.com/s/g11yh6dcgl68w3b/tweets_india_cnt.pickle
+
+Archive of raw pickles files, collected from each server -- https://www.dropbox.com/s/lwkcz9rvzf6svtp/tweets_india_cnt_raw.zip
+
+# # #
+
+Dictionary (D) contains two keys: 'cities', 'regions'. Each of those is mapped to dictionary that has the following structure:
+
+{ 'location1' : {
+                    '12-2010' : 120,    # There were 120 tweets during week 12 of year 2010 from this location
+                    '45-2014' : 4231,   # 4231 tweets for week 45, year 2014
+                        ...
+                }
+
+  'location2' : {
+                    '23-2011' : 223,
+                    '40-2014' : 31321,
+                }
+
+        ...
+}
+
+If a tweet comes from a city C, that belongs to region R, then this tweet is counted in both dictionaries (D['cities'] and D['regions'])
+
+--------------------------------
+Tweet counts per-region per-day
+--------------------------------
+
+Same dictionary structure
+
+Merged CSV -- https://www.dropbox.com/s/onmf49puqmhoios/tweets_cities_regions_daily.csv
+
+Merged dictionary -- https://www.dropbox.com/s/5z15jtub4jbr2zm/tweets_india_cnt_daily.pickle
+

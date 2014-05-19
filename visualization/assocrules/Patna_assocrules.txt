@@ -1,0 +1,12 @@
+266 rules with support higher than or equal to 0.400 found.
+supp	conf	rule
+0.405	0.708	GramSplit=small increase -> BesanNA=small increase
+0.405	0.944	BesanNA=small increase -> GramSplit=small increase
+0.500	0.955	BreadLocal=unchanged increase -> BiscuitGlucose=unchanged increase
+0.500	0.700	BiscuitGlucose=unchanged increase -> BreadLocal=unchanged increase
+0.405	0.810	BrinjalFAQ=small increase -> BiscuitGlucose=unchanged increase
+0.405	0.567	BiscuitGlucose=unchanged increase -> BrinjalFAQ=small increase
+0.500	0.955	CoconutDry=unchanged increase -> BiscuitGlucose=unchanged increase
+0.500	0.700	BiscuitGlucose=unchanged increase -> CoconutDry=unchanged increase
+0.429	0.750	GramSplit=small increase -> BiscuitGlucose=unchanged increase
+0.429	0.600	BiscuitGlucose=unchanged increase -> GramSplit=small increase
