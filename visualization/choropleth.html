@@ -61,6 +61,7 @@
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script src="jquery.ui.labeledslider.js"></script>
 <script type="text/javascript" src="ind-states.js"></script>
+<script type="text/javascript" src="twitter_data_cities.js"></script>
 <script>
 var colorScale = ['#FFFFFF', '#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
 var densityScale = [10, 100, 500, 1000, 5000, 10000, 100000, 500000];
@@ -99,7 +100,8 @@ info.onAdd = function (map) {
 
 info.update = function (feature) {
 	this._div.innerHTML = '<h4>India tweets per region</h4>' +  (feature ?
-		'<b>' + feature.id + '</b><br />' + (getNumTweets(feature.id) ? getNumTweets(feature.id).num_tweets : 'N/A') + ' tweets / month'
+		'<b>' + feature.id + '</b><br />' + (getNumTweets(feature.id) ? getNumTweets(feature.id).num_tweets : 
+			(getNumTweetsCity(feature.id) ? getNumTweetsCity(feature.id).num_tweets : 'N/A')) + ' tweets / month'
 		: 'Hover over a state');
 };
 
@@ -179,10 +181,9 @@ $("#state_info_btn").on("click", function() {
 	$("#chart_dialog").dialog({
 		width: $(window).width(),
 		height: $(window).height(),
-		title: "Time Series",
+		title: $("#state_info_btn").attr('data-state'),
 		modal: true,
-    });
-	// document.getElementById("chart_iframe").contentDocument.getElementById("series_container").setAttribute('data-state', $("#state_info_btn").attr('data-state'));
+	});
 });
 
 function drawMap() {
@@ -232,6 +233,19 @@ function getNumTweets(id) {
 	for(i = 0; i < tweets_count.length; i++) {
 		if(tweets_count[i].year == year && tweets_count[i].month == month) {
 			var vals = tweets_count[i].values;
+			for(j = 0; j < vals.length; j++) {
+				if(vals[j].id == id) {
+					return vals[j];
+				}
+			}
+		}
+	}
+}
+
+function getNumTweetsCity(id) {
+	for(i = 0; i < tweets_count_city.length; i++) {
+		if(tweets_count_city[i].year == year && tweets_count_city[i].month == month) {
+			var vals = tweets_count_city[i].values;
 			for(j = 0; j < vals.length; j++) {
 				if(vals[j].id == id) {
 					return vals[j];
@@ -337,11 +351,11 @@ function resetPoint(e) {
 function detailToPoint(e) {
 	$("#city_selected").attr('data-state', e.target.feature.id);
 	$("#chart_dialog").html('');
-	$("#chart_dialog").append($("<iframe id='chart_iframe' />").attr("src", "timeseries.html"));
+	$("#chart_dialog").append($("<iframe id='chart_iframe' />").attr("src", "per_city.html"));
 	$("#chart_dialog").dialog({
 		width: $(window).width(),
 		height: $(window).height(),
-		title: "Time Series Chart",
+		title: e.target.feature.id,
 		modal: true,
     });
 }

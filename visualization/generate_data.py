@@ -1,7 +1,8 @@
 import csv, datetime, json, calendar
 
 json_regions = ['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chattisgarh', 'NCT of Delhi', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jammu and Kashmir', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Orissa', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal']
-cities_list = ['kochi', 'hyderabad', 'madurai', 'chandigarh', 'bhadrawati', 'dehradun', 'jamshedpur', 'ballia', 'guwahati', 'bangalore', 'agra', 'durgapur', 'mumbai', 'vadodara', 'patna', 'itanagar', 'kolkata', 'mandi', 'bhopal', 'coimbatore', 'gurgaon', 'chennai', 'rajkot', 'palakkad', 'jammu', 'howrah', 'delhi', 'trivandrum', 'vijayawada', 'aurangabad', 'jamtara', 'jodhpur', 'srinagar', 'ahmedabad', 'kottayam', 'kota', 'padra', 'pune', 'jaipur', 'nagpur', 'cuttack', 'vellore', 'jalpaiguri', 'ranchi', 'bharuch', 'jalgaon', 'kolhapur', 'solapur', 'ballabhgarh', 'bareilly', 'barnala', 'bilaspur', 'dera bassi', 'gorakhpur', 'kullu', 'lalru', 'panipat', 'rania', 'rohtak', 'chirala', 'machilipatnam', 'mangalore', 'ongole', 'visakhapatnam']
+json_cities = ['Durgapur', 'Jalpaiguri', 'Jamshedpur', 'Kolkata', 'Patna', 'Ranchi', 'Guwahati', 'Itanagar', 'Ahmedabad', 'Aurangabad', 'Bharuch', 'Jalgaon', 'Kolhapur', 'Mumbai', 'Nagpur', 'Pune', 'Rajkot', 'Solapur', 'Vadodara', 'Agra', 'Ballabhgarh', 'Bareilly', 'Barnala', 'Bhopal', 'Bilaspur', 'Chandigarh', 'Dehradun', 'Dera Bassi', 'Gorakhpur', 'Gurgaon', 'Jaipur', 'Jammu', 'Jodhpur', 'Kota', 'Kullu', 'Lalru', 'Delhi', 'Panipat', 'Rania', 'Rohtak', 'Srinagar', 'Bangalore', 'Chennai', 'Chirala', 'Coimbatore', 'Hyderabad', 'Kochi', 'Machilipatnam', 'Madurai', 'Mangalore', 'Ongole', 'Palakkad', 'Vellore', 'Vijayawada', 'Visakhapatnam', 'Cuttack', 'Padra', 'Kottayam', 'Jamtara', 'Thiruvananthapuram', 'Howrah', 'Mandi', 'Ballia', 'Bhadrawati']
+cities_list = ['kochi', 'hyderabad', 'madurai', 'chandigarh', 'bhadrawati', 'dehradun', 'jamshedpur', 'ballia', 'guwahati', 'bangalore', 'agra', 'durgapur', 'mumbai', 'vadodara', 'patna', 'itanagar', 'kolkata', 'mandi', 'bhopal', 'coimbatore', 'gurgaon', 'chennai', 'rajkot', 'palakkad', 'jammu', 'howrah', 'delhi', 'thiruvananthapuram', 'vijayawada', 'aurangabad', 'jamtara', 'jodhpur', 'srinagar', 'ahmedabad', 'kottayam', 'kota', 'padra', 'pune', 'jaipur', 'nagpur', 'cuttack', 'vellore', 'jalpaiguri', 'ranchi', 'bharuch', 'jalgaon', 'kolhapur', 'solapur', 'ballabhgarh', 'bareilly', 'barnala', 'bilaspur', 'dera bassi', 'gorakhpur', 'kullu', 'lalru', 'panipat', 'rania', 'rohtak', 'chirala', 'machilipatnam', 'mangalore', 'ongole', 'visakhapatnam']
 
 chingchia_cities = [
 	'Amreli',
@@ -126,6 +127,11 @@ def getOriginName(lowerName):
 		if region.lower() == lowerName:
 			return region
 
+def getCityOriginName(lowerName):
+	for region in json_cities:
+		if region.lower() == lowerName:
+			return region
+
 def add_months(sourcedate, months):
 	month = sourcedate.month - 1 + months
 	year = sourcedate.year + month / 12
@@ -245,10 +251,10 @@ def get_all_twitter():
 	tweet_data = sorted(tweet_data, key=lambda x: x['date_obj'])
 	print tweet_data[0]
 
-	vals = [[] for x in xrange(len(json_regions))]
+	vals = [[] for x in xrange(len(json_cities))]
 
 	# Daily
-	results = dict(zip(json_regions, vals))
+	results = dict(zip(json_cities, vals))
 	starttime = datetime.datetime.strptime('2007-1-1', '%Y-%m-%d')
 	endtime = datetime.datetime.strptime('2014-5-11', '%Y-%m-%d')
 	timecount = starttime
@@ -259,19 +265,19 @@ def get_all_twitter():
 		print timecount
 		while tweetcount < len(tweet_data) and tweet_data[tweetcount]['date_obj'] <= timecount:
 			row = tweet_data[tweetcount]
-			if row['type'] == 'regions':
+			if row['type'] == 'cities':
 				print '+++++++++++++++'
 				print row['date_obj']
 				print row['location_name']
-				print getOriginName(row['location_name'])
-				if getOriginName(row['location_name']) != None:
-					if len(results[getOriginName(row['location_name'])]) <= loopcount:
-						results[getOriginName(row['location_name'])].append(int(row['num_tweets']))
+				print getCityOriginName(row['location_name'])
+				if getCityOriginName(row['location_name']) != None:
+					if len(results[getCityOriginName(row['location_name'])]) <= loopcount:
+						results[getCityOriginName(row['location_name'])].append(int(row['num_tweets']))
 					else:
-						results[getOriginName(row['location_name'])][-1] += int(row['num_tweets'])
+						results[getCityOriginName(row['location_name'])][-1] += int(row['num_tweets'])
 			tweetcount += 1
 
-		for state in json_regions:
+		for state in json_cities:
 			if len(results[state]) == loopcount:
 				results[state].append(0)
 
@@ -289,11 +295,11 @@ def get_all_twitter():
 
 		new_timecount = add_months(timecount, 1)
 		days = int((new_timecount - timecount).total_seconds() / 3600 / 24)
-		if acount + days > len(results[json_regions[0]]):
-			days = len(results[json_regions[0]]) - acount
+		if acount + days > len(results[json_cities[0]]):
+			days = len(results[json_cities[0]]) - acount
 		print '-------days-------'
 		print days
-		for region in json_regions:
+		for region in json_cities:
 			monthly_results[-1]['values'].append({'id': region, 'num_tweets': sum(results[region][acount:acount+days])})
 		timecount = new_timecount
 		acount += days
@@ -301,9 +307,9 @@ def get_all_twitter():
 	print monthly_results[0]
 	print monthly_results[-1]
 
-	with open("twitter_data.json", "w") as outfile:
+	with open("twitter_data_cities.json", "w") as outfile:
 		json.dump(monthly_results, outfile)
-	with open("twitter_data_by_region.json", "w") as outfile:
+	with open("twitter_data_by_city.json", "w") as outfile:
 		json.dump(results, outfile)
 
 get_all_twitter()
