@@ -116,24 +116,42 @@ Tweet collection for Humanitas occurred in two main waves. In the first wave 180
 \end{figure}
 
 \subsubsection*{Approach 2: Filtering tweets provided by webarchive.org}
-https://archive.org/details/twitterstream
+Since previous approaches failed because of Twitters download limitations, we decided to collect tweets also from the freely available tweet archives from \emph{https://archive.org/details/twitterstream}. The collection was done via a python script which was executed on all 8 azure nodes in parallel. Beforehand the respective archives were downloaded to the nodes with a download speed of approx. 20 MB/s. The storage was to our surprise no problem, because every azure node gets 133 GB of temporal storage to for disposal. About 550 GB of compressed tweets were processed and filtered in about 36 hours per node.
+
+The applied filter removed tweets not containing at least one food word (e.g. rice, curry, food, ...) and one predictive word (e.g. increase, decrease, price, ...). Also retweets were filtered out, because sophisticated duplicate detection across 8 nodes can be costly and some exploration of the data showed that almost all duplicates are filtered out through this check. Since we want to predict food prices for certain regions, the location of the tweets is very important. We came up with a simple scheme to detect locations:
+\begin{itemize}
+\item \textbf{Geo-location:} Some tweet objects contain a field 'coords' which indicates n the exact location the tweet was sent from.
+\item \textbf{Mentioned regions:} In the associated tweet text regions can be mentioned, which can also give clues on the regions affected.
+\item \textbf{Places:} When submitting a tweet an user can also specify a place associated with the tweet. This information can be extracted from the tweet objects.
+\item \textbf{User location:} Most tweets objects also have an associated user object, which contains a user location sometimes. The textual information of the filed is tokenized and compared with a list of known regions.
+\end{itemize}
+According the categories mentioned above, the tweets were split up in several files. Since the \emph{Approach 1.} conveyed much more tweets, the yielded sample was only used for experimental data exploration and testing of the more refined tweet processing.
 
 \subsection*{Daily? tweet aggregator}
+Our first idea was to build up a continuously running process, which fetches the newest data from the twitter stream from india. But after applying a simple filter, we came to the conclusion that the data is to sparse for this approach.
 
 \subsubsection*{Clustering according to keywords}
+Since the relevant data was really sparse, we didn't expect much gain from any unsupervised learning techniques and decided to omit clustering.
+
+\subsection*{Issue of storage}
+At first we believed that there wouldn't be enough space to store all tweets, but after setting up an azure node, we found that there is about 133 GB of temporal storage associated with it. We used this space to store the huge amount of tweets, but since the storage is temporal we lost tweets a couple of times. Azure 'heals' (restarts) nodes, when it detects anomalies, internal errors or just moves images around, which results in memory loss. We lost big tweet collections several times because of that. All filtered tweets were later stored on the main disk to avoid further loss.
 
 \subsection*{Issue of localization}
+It's is very important for use to detect the location of tweets, because we want to predict the volatile food prices at regional granularity.
 
 \subsubsection*{Geolocalized tweets}
 Filtering the available archives of tweets taken from the API yielded near to no geolocalized tweets from India matching our set of keywords. This reason is evident, because the twitter API only allows extraction of 1\% of tweets and only 2\% of tweets are actually geolocalized. In effect, getting tweets that match our keywords specific to food commodities is very unlikely. We had more luck with tweets from Indonesia, however as already explained we were unable to attain enough price sequences from Indonesia to actually train a model. Furthermore, the time constraints didn't allow us to get tweets from India and Indonesia in parallel in order to do some "stand-alone" clustering analysis.
 
 \subsubsection*{Approximation: Mapping tweets to user location}
+To get as many tweets as possible associated with a location we decided to use the locations of user accounts as a simple heuristic. We created a mapping between city and region names and used to to identify valid locations, which were then used during later processing.
 
 \section*{Processing}
+After all data was collected we had to process the data for the neural networks (prediction) and the web visualisation.
 
 \subsection*{Merging Series}
 
 \subsection*{Crafting indicators from tweets}
+To use the collected tweets for prediction in the neural network, aggregated indicators need to be extracted from the collection. The result of this processing is then stored in a csv file which is supplied to the neural network.
 
 \subsubsection*{Sentiment analysis}
 
@@ -201,3 +219,14 @@ For each given word $w$ we compute its stem $s$ and then edit distance (also kno
 After that, we choose the stem with minimal edit distance (using heap to store the correspondence between distances and words and to speed up selection of the minimal one), and check if the resulting number of "errors" (which is equal to distance) is excusable for the length of word $w$. For example, we don't allow errors for words of length 5 or less, only one error is allowed for lengths from 6 to 8, etc. If everything is alright, then the suggestion is returned, otherwise the word is discarded.
 
 The approach proved to be fast and tweakable, and was successfully used for tweets processing.
+
+\begin{figure}
+\includegraphics[width=.7\textwidth]{./img/architecture.png}
+\caption{Tweet processing pipeline.}
+\label{fig:architecture}
+\end{figure}
+
+\subsubsection*{Infrastructure}
+Almost all downloading and processing of tweets was done in parallel on 8 Azure nodes. A script was written to upload public keys to the nodes for seamless access. The same script was used to execute various task on all or specific nodes. To handle the huge amounts of data and do efficient OLAP, we decided to use spark/shark. The data was first stored on each node separately on disk, then processed and afterwards inserted into a Cassandra DB cluster running on the nodes. The Apache Cassandra project is open source implementation of a NoSQL, column-oriented data base. It's known for being fault tolerant, which was very useful during various restarts, and processing many inserts fast. Since we had very limited memory on the non-temporal disk, we experienced 'Out of memory' errors, but because all data has been uploaded to the whole cluster, the scripts could continue running smoothly although some nodes were down. We also experienced node faults whenever the Azure node management 'healed' nodes.
+
+Setting up the Cassandra cluster across multiple Azure subscriptions was tiring, since all used ports had to be opened on all machines manually via the Azure management web interface. Opening ports was regretfully not enough to get a fully functioning Spark cluster running, because Spark uses random ports for communication between running jobs. We tried setting up a VPN, but decided to quit after several hours due to time constraints and it not being essential for the result that the Spark cluster is made up of all nodes. Luckily Shark on top of Spark with only one node was still fully functional and executed queries at reasonable speed. To connect Shark with Cassandra we used the Hive support for Cassandra driver 'cash' by tuplejump. We experienced several problems (some undocumented) while installing (e.g. libraries missing, wrong paths, ...), but still managed to get it running. To improve speed between the nodes all VMs were created in the same region. 
