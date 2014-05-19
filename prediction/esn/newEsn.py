@@ -28,7 +28,8 @@ class ESN:
         self._dates = data[0]
         self._traindates =  self._dates[initN+1:split_ind+1]
         data = data[1]
-        self._data = data/infl[1]
+        self._data = data
+        #self._data = data/infl[1]
         self._N = split_ind
         self._train = data[initN:split_ind+1]
         self._test = data[split_ind:]
@@ -199,7 +200,7 @@ class ESN:
             print 't ', t
 
             xlast = self._x
-            #self._y = self._data[self._N+t]
+            self._y = self._data[self._N+t]
             xnext = np.tanh(np.dot(self._Win, self._y)+np.dot(self._W, xlast))
             self._x = (1-self._alpha)*xlast + self._alpha*xnext
 
@@ -273,7 +274,7 @@ def main():
     # convert date to floats
     #data = np.loadtxt('oilprices.txt', delimiter=',', skiprows=1, unpack=True, converters={0 :mdates.strpdate2num('%Y-%m-%d')})
 
-    data = np.genfromtxt('good_series_wholesale_daily.txt', usecols = (0, 1), delimiter=',', skiprows=1, unpack=True, converters={0:mdates.strpdate2num('%Y-%m-%d')})
+    data = np.genfromtxt('good_series_wholesale_daily.txt', usecols = (0, 4), delimiter=',', skiprows=1, unpack=True, converters={0:mdates.strpdate2num('%Y-%m-%d')})
     infl = np.genfromtxt('inflation_for_discount.txt', usecols = (0, 1), delimiter=',', skiprows=1, unpack=True, converters={0:mdates.strpdate2num('%Y-%m-%d')})
     # Split dataset into training and testset
     horizon = 7
@@ -282,7 +283,7 @@ def main():
 
     # Reservoir size
     Nx = 500
-    initN = 1500# 24 months initialization
+    initN = 740# 24 months initialization
 
     print len(infl[0])
     Ny = 1
@@ -291,7 +292,7 @@ def main():
     esn.init_reservoir(Nx) 
     esn.custom_training(True)
     esn.plot_training('Training outputs', 'Y')
-    Y = esn.generative_run(horizon, 'red onion')
+    Y = esn.generative_run(horizon, 'red_onion')
     esn.plot_test(Y, horizon, 'Test run', 'Price')
 
 
