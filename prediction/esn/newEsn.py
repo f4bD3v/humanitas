@@ -30,9 +30,12 @@ class ESN:
         data = data[1]
         self._data = data
         #self._data = data/infl[1]
+
         self._N = split_ind
-        self._train = data[initN:split_ind+1]
-        self._test = data[split_ind:]
+        self._train = self._data[initN:split_ind+1]
+        self._test = self._data[split_ind:]
+        print 'std ', (np.std(self._test))
+
         self._Ytrain = np.zeros(len(self._traindates))
 
         self._teacher_forcing = False
@@ -193,7 +196,7 @@ class ESN:
     # specify prediction horizon when calling function
     def generative_run(self, horizon, output):
         Y = np.zeros((self._Ny, self._data.shape[0]))
-        Y[:,self._N-1] = self._y
+        Y[:,self._N-1] = np.nan
         # use last output as input to make first prediction
         print self._data[self._N-1]
         for t in range(horizon):
@@ -223,11 +226,14 @@ class ESN:
 
     def train_err(self):
         mse = np.sum( np.square( self._train[1:] - self._Ytrain[:] ) ) / (self._N-self._initN)
-        print 'training mse: ', mse
+        print 'training rmse: ', mse
 
     def test_err(self, Y, horizon):
-		mse = np.sum( np.square( self._data[self._N-1:self._N+horizon] - Y[0,:horizon+1] ) ) / horizon 
-		print 'test mse: ', mse
+        mse = np.sum( np.square( self._data[self._N:self._N+horizon+1] - Y[0,self._N:self._N+horizon+1] ) ) / horizon
+        rmse = np.sqrt(mse)
+        print 'test mse: ', mse
+        print 'test rmse: ', rmse
+
 
     def plot_training(self, title, ylabel):
         print 'plotting training'
@@ -249,10 +255,10 @@ class ESN:
     def plot_test(self, Y, horizon, title, ylabel):
         fmt = mdates.DateFormatter('%d-%m-%Y')
         #loc = mdates.WeekdayLocator(byweekday=mdates.Monday)
-        months = self._dates[self._N-1:self._N+horizon]
+        months = self._dates[self._N:self._N+horizon+1]
 
-        target = self._data[self._N-1:self._N+horizon] 
-        pred = Y[0,self._N-1:].flatten()
+        target = self._data[self._N:self._N+horizon+1] 
+        pred = Y[0,self._N:].flatten()
         print target.shape
         print pred.shape
 
@@ -282,7 +288,7 @@ def main():
     split_ind = len(data[0])-horizon
 
     # Reservoir size
-    Nx = 500
+    Nx = 1000
     initN = 740# 24 months initialization
 
     print len(infl[0])
