@@ -11,6 +11,7 @@
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<span class="hidden" id="city_selected"></span>
 <div id="map"></div>
 <div id="credits" class="bottom_boxes">
     <div id="credits_box">
@@ -78,8 +79,8 @@ map.on({
 });
 
 // cities markers
-citiesDataMod = citiesData
-citiesDataMod.features = citiesDataMod.features.slice(0, 20);
+citiesDataMod = citiesData;
+// citiesDataMod.features = citiesDataMod.features.slice(0, 20);
 citiesGeojson = L.geoJson(citiesDataMod, {
 	// style: stateStyle,
 	onEachFeature: onEachPoint,
@@ -138,9 +139,9 @@ $('#toggle_dashboard').click(function(){
 
 $( "#slider_year" ).labeledslider({
 	value: year,
-	min: 1980,
-	max: 1990,
-	step: 10,
+	min: 2008,
+	max: 2013,
+	step: 1,
 	slide: function( event, ui ) {
 		year = ui.value;
 		drawMap();
@@ -174,13 +175,14 @@ $( "#slider_month" ).labeledslider({
 
 $("#state_info_btn").on("click", function() {
 	$("#chart_dialog").html('');
-	$("#chart_dialog").append($("<iframe id='chart_iframe' />").attr("src", "stackedchart.html"));
+	$("#chart_dialog").append($("<iframe id='chart_iframe' />").attr("src", "per_region.html"));
 	$("#chart_dialog").dialog({
 		width: $(window).width(),
 		height: $(window).height(),
-		title: "Stacked Chart",
+		title: "Time Series",
 		modal: true,
     });
+	// document.getElementById("chart_iframe").contentDocument.getElementById("series_container").setAttribute('data-state', $("#state_info_btn").attr('data-state'));
 });
 
 function drawMap() {
@@ -333,6 +335,7 @@ function resetPoint(e) {
 }
 
 function detailToPoint(e) {
+	$("#city_selected").attr('data-state', e.target.feature.id);
 	$("#chart_dialog").html('');
 	$("#chart_dialog").append($("<iframe id='chart_iframe' />").attr("src", "timeseries.html"));
 	$("#chart_dialog").dialog({

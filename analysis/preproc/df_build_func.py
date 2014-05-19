@@ -25,7 +25,7 @@ usage = '''
         get_full_data            : given df, return df_full or df_ts by option. The com-
                                    putation of both is done all at once, thus no overhead.
         extract_duplicates       : return duplicated parts and dates of a data frame
-        remove_spikes            : remove suspicious spikes in df_full
+        remove_spikes            : remove suspicious spikes in datasets
 '''
 
 
@@ -160,8 +160,8 @@ def init_valid_table():
     return ret
 
 def get_full_data(df, all_dates, \
-                    using_df_full, using_df_ts, na_cutoff_rate, with_interpolation, \
-                    interpolation_method, interpolation_order, filter_lst):
+                    using_df_full, using_df_ts, valid_rate, with_interpolation, \
+                    interpolation_method, interpolation_order, filter_lst, na_len_limit_ratio):
     start_time = time()
     pieces = []
     count = 0
@@ -215,7 +215,7 @@ def get_full_data(df, all_dates, \
         #data with empty subproduct in daily dataset is incorrect
         if freq == 'day':
             if subproduct == '':
-                print 'ignore empty daily subproduct',(state, city, product, subproduct, country, freq)
+                #print 'ignore empty daily subproduct',(state, city, product, subproduct, country, freq)
                 #empty_subproduct.append(((state, city, product, subproduct, country, freq), group.shape))
                 continue
 
@@ -225,7 +225,7 @@ def get_full_data(df, all_dates, \
         try:
             group = group.reindex(all_dates)
         except Exception, e:
-            print e, (state, city, product, subproduct, country, freq)
+            print 'handle exception:', (state, city, product, subproduct, country, freq)
             err_count += 1
             group.reset_index(inplace=True)
             group.columns = mod_header(group.columns)
@@ -240,10 +240,10 @@ def get_full_data(df, all_dates, \
             #fill NaN in the missing dates again
             group.set_index('date', inplace=True)
             group = group.reindex(all_dates)
-            print 'duplicate handled, new length', group.shape[0], '/', len(all_dates)
+            #print 'duplicate handled, new length', group.shape[0], '/', len(all_dates)
 
-        #skip those with more NaN than na_cutoff_rate
-        if 1. - group['price'].count() * 1. / len(all_dates) > na_cutoff_rate:
+        #skip those with less valid data rate than valid_rate
+        if group['price'].count() * 1. / len(all_dates) < valid_rate:
             continue
 
         #convert str to float
@@ -253,8 +253,15 @@ def get_full_data(df, all_dates, \
         #break
         group['price'] = remove_spikes_series(group['price'], 100)
 
+        max_nan_len = get_max_nan_len(group['price'])
+        if max_nan_len > na_len_limit_ratio*len(all_dates):
+            print (state, city, product, subproduct), max_nan_len, 'exceeds max consecutive NaN length', na_len_limit_ratio*len(all_dates), '*********************************************'
+            continue
+
+
         if with_interpolation:
             group['price'] = group['price'].interpolate(method=interpolation_method, order=interpolation_order).bfill().ffill()
+
 
         #df_ts part
         if using_df_ts:
@@ -350,3 +357,19 @@ def get_ret_series(series):
     ret = series/series.shift(1) - 1
 
     return ret* 100
+
+
+def get_max_nan_len(series):
+    bool_series = series >= 0
+    max_len = 0
+    current_len = 0
+    for idx in list(bool_series.index):
+        if bool_series[idx] == False:
+            current_len += 1
+        else:
+            current_len = 0
+
+        if current_len > max_len:
+            max_len = current_len
+
+    return max_len

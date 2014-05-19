@@ -15,36 +15,52 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/data.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+<!-- Additional files for the Highslide popup effect -->
+<script type="text/javascript" src="http://www.highcharts.com/media/com_demo/highslide-full.min.js"></script>
+<script type="text/javascript" src="http://www.highcharts.com/media/com_demo/highslide.config.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="http://www.highcharts.com/media/com_demo/highslide.css" />
 
 <div id="tabs">
   <ul>
     <li><a href="#tabs-1">Time Series of Tweets</a></li>
     <li><a href="#tabs-2">Association Rules</a></li>
-    <li><a href="#tabs-3">Price Prediction</a></li>
+    <li><a href="#tabs-3">Daily Retail Prices</a></li>
+    <li><a href="#tabs-4">Daily Wholesale Prices</a></li>
   </ul>
   <div id="tabs-1">
     <div id="series_container" style="min-width: 310px; margin: 0 auto"></div>
   </div>
   <div id="tabs-2">
-    <p id="assoc_rules"></p>
+    <p id="assoc_rules">No association rule found for this city.</p>
   </div>
   <div id="tabs-3">
-    <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
-    <p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+    <div id="retail_container" style="min-width: 310px; margin: 0 auto">
+        <p>No retail price available for this city.</p>
+    </div>
+  </div>
+  <div id="tabs-4">
+    <div id="wholesale_container" style="min-width: 310px; margin: 0 auto">
+        <p>No wholesale price available for this city.</p>
+    </div>
   </div>
 </div>
 
 <script>
+var chosen_location = $("#city_selected", top.document).attr('data-state');
 $("#tabs").tabs();
-$('#series_container').css('width', $(window).width() - 50);
+$('#series_container').css('width', $(window).width() - 100);
+$('#retail_container').css('width', $(window).width() - 100);
+$('#wholesale_container').css('width', $(window).width() - 100);
 // $('#container').css('height', $(window).height());
 $('#series_container').highcharts({
     chart: {
         zoomType: 'x'
     },
     title: {
-        text: 'USD to EUR exchange rate from 2006 through 2008'
+        text: 'Tweets density in Mumbai from 2009 to 2013'
     },
     subtitle: {
         text: document.ontouchstart === undefined ?
@@ -57,7 +73,7 @@ $('#series_container').highcharts({
     },
     yAxis: {
         title: {
-            text: 'Exchange rate'
+            text: 'Tweets density'
         }
     },
     legend: {
@@ -87,7 +103,7 @@ $('#series_container').highcharts({
 
     series: [{
         type: 'area',
-        name: 'USD to EUR',
+        name: 'Tweets density',
         pointInterval: 24 * 3600 * 1000,
         pointStart: Date.UTC(2006, 0, 01),
         data: [
@@ -205,8 +221,119 @@ $('#series_container').highcharts({
     }]
 });
 
-$.get("assocrules/Delhi_assocrules.txt", function(data) {
+$.get('retail_daily_by_city/' + chosen_location + '.csv', function (csv) {
+    drawchart(csv, 'retail_container');
+});
+
+$.get('wholesale_daily_by_city/' + chosen_location + '.csv', function (csv) {
+    drawchart(csv, 'wholesale_container');
+});
+
+$.get("assocrules/" + chosen_location + "_assocrules.txt", function(data) {
     $("#assoc_rules").html(data.replace(/\n/g, "<br>").replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp"));
 });
+
+function drawchart(csv, elementName) {
+    $('#' + elementName).highcharts({
+        data: {
+            csv: csv,
+            parseDate: function (s) {
+                var match = s.match(/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/);
+                if (match) {
+                    return Date.UTC(+match[1], +match[2] - 1, +match[3]);
+                }
+            }
+        },
+
+        chart: {
+            zoomType: 'x'
+        },
+
+        title: {
+            text: 'Daily retail prices in ' + chosen_location
+        },
+
+        subtitle: {
+            text: 'Source: ...'
+        },
+
+        xAxis: {
+            type: 'datetime',
+            tickWidth: 0,
+            gridLineWidth: 1,
+            minRange: 14 * 24 * 3600000, // fourteen days
+            labels: {
+                align: 'left',
+                x: 3,
+                y: 12
+            }
+        },
+
+        yAxis: [{ // left y axis
+            title: {
+                text: null
+            },
+            labels: {
+                align: 'left',
+                x: -3,
+                y: 16,
+                format: '{value:.,0f}'
+            },
+            showFirstLabel: false
+        }, { // right y axis
+            linkedTo: 0,
+            gridLineWidth: 0,
+            opposite: true,
+            title: {
+                text: null
+            },
+            labels: {
+                align: 'right',
+                x: 3,
+                y: 16,
+                format: '{value:.,0f}'
+            },
+            showFirstLabel: false
+        }],
+
+        legend: {
+            align: 'left',
+            verticalAlign: 'top',
+            y: 20,
+            floating: true,
+            borderWidth: 0
+        },
+
+        tooltip: {
+            shared: true,
+            crosshairs: true
+        },
+
+        plotOptions: {
+            series: {
+                cursor: 'pointer',
+                point: {
+                    events: {
+                        click: function (e) {
+                            hs.htmlExpand(null, {
+                                pageOrigin: {
+                                    x: e.pageX,
+                                    y: e.pageY
+                                },
+                                headingText: this.series.name,
+                                maincontentText: Highcharts.dateFormat('%A, %b %e, %Y', this.x) +':<br/> '+
+                                    this.y +' visits',
+                                width: 200
+                            });
+                        }
+                    }
+                },
+                marker: {
+                    lineWidth: 1
+                }
+            }
+        },
+    });
+}
 </script>
 </body>
