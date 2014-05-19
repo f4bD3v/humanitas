@@ -150,7 +150,7 @@ After all tweets were collected we had to process and reformat their content for
 
 \subsection*{Crafting indicators from tweets}
 \emph{Gabriel Grill} \\
-To use the collected tweets for prediction in the neural network, aggregated indicators had to be extracted from the collection. The result of this processing was then stored in a \emph{csv} file which was supplied to the neural network.
+To use the collected tweets for prediction in the neural network, aggregated indicators had to be extracted from the collection. The result of this processing was then stored in \emph{csv} files.
 
 \subsubsection*{Sentiment analysis}
 \emph{Anton Ovchinnikov} \\
@@ -194,7 +194,7 @@ and "low":
 The dictionary with a total of 6 categories (each having at least two polarity word lists) was built (\emph{"predict", "price", "sentiment", "poverty", "needs", "supply"}), let's call it $D$.
 \\ \\
 Then, for each tweet a feature vector is built, representing the amount of words from each category and polarity. Several cases have to be taken into account. First of all, a word may be not in its base form ("price" -> "prices", "increase" -> "increasing"), which will prevent an incoming word from matching one from $D$. Therefore, we use stemming technique to reduce each word to its stem (or root) form. Another problem is misspelled words ("increase" -> "incrase", "incraese"), and for tweets it happens more than usual due to widespread use of mobile devices with tiny keyboards. Our solution to this problem is covered in the next section.
-%\newpage
+
 Here is the overview of predictor category extraction algorithms we implemented:\\ \\
 \textbf{Preprocessing}: For each relevant word in $D$ a stem is computed using the Lancaster stemming method, and the stem is added to reverse index $RI$, which maps a stem to a tuple: (category, polarity). \\
 
