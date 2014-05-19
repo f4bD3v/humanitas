@@ -11,14 +11,14 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
         * distribution of tasks to azure nodes
           [Gabriel, Joseph (use/adapt for user id download)]
             -- ready
-        * write script for inserting tweets into cassandra
+        * write simple script for inserting tweets into cassandra
           [Gabriel]
             -- ready
         * setup Spark, Shark, Cassandra cluster
           [Gabriel]
             -- ready
         * db scheme for cassandra
-          [Gabriel, Fabian helps]
+          [Gabriel, Anton, Fabian]
             -- ready
         * Get user ids of twitter users from India with many tweets
           [Joseph, Stefan&Gabriel helps]
