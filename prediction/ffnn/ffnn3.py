@@ -18,18 +18,21 @@ def printModel(net):
             print '\t%s (to %s) - %d weights' % (conn.name, conn.outmod.name,
                                           len(conn.params))
 
-def toPybrainData(T, R, P, infile, outfile, small=False):
+# region=None -> all regions
+def toPybrainData(T, R, P, infile, outfile, small=False,region=None):
     ds = SupervisedDataSet(T * R * P, R * P)
     numDatapoints = 0
     d = pd.read_csv(infile)
     print 'correct R=',len(d.region.unique())
+    if region is not None:
+        d = d[d['region'] == region]
     for window, rows in d.groupby(['window']):
         rows.sort(['region', 'product'])
         in_ = []
         out_ = []
         for i, row in rows.iterrows():
-            in_.append(row.initial)
-            changes = map(float, row.changes.split('|'))
+            in_.append(row['initial'])
+            changes = map(float, row['changes'].split('|'))
             in_ += changes[:-1]
             out_.append(changes[-1])
         ds.addSample(in_, out_)
@@ -53,9 +56,9 @@ class RetailDailyTrain:
     model_file = 'daily-retail'
     models = [None, 
                 buildModel1, 
-                functools.partial(buildModel2, K0=5, K1=30, K2=10)
-                functools.partial(buildModel2, K0=8, K1=30, K2=80)
-                functools.partial(buildModel2, K0=8, K1=20, K2=50)
+                functools.partial(buildModel2, K0=5, K1=30, K2=10),
+                functools.partial(buildModel2, K0=8, K1=30, K2=80),
+                functools.partial(buildModel2, K0=8, K1=20, K2=50),
             ]
 
 

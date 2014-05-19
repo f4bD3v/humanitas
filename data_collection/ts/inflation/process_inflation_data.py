@@ -19,10 +19,11 @@ data['date'] = data['date'].map(fmt_date).astype(pd.datetime)
 
 data['monthly'] = data['monthly'].map(
         lambda x:str(x).replace('%','')).astype(np.float64)
+data['monthly'] = 1. + data['monthly']/100.
 
 data.set_index(data['date'], inplace=True)
 data.sort(['date'], inplace=True)
-data['monthly'] = data['monthly'].cumsum()
+data['monthly'] = data['monthly'].cumprod()
 
 data.to_csv('../../../data/india/inflation/inflation_data_processed.csv')
 

@@ -41,8 +41,7 @@ FROM ( SELECT COALESCE(region,"india") AS nregion, year(time) AS nyear, month, d
     (SUM(COALESCE(price_high,0)/(cnts+1))           - SUM(COALESCE(price_low,0)/(cnts+1)))          AS price_sum,
     (SUM(COALESCE(poverty_high,0)/(cnts+1))         - SUM(COALESCE(poverty_low,0)/(cnts+1)))        AS pover_sum
     FROM tweet_collector.%s GROUP BY region, year(time), month, day) x
-WHERE (x.predi_sum > 0 or x.needs_sum > 0 or x.senti_sum > 0 or x.suppl_sum > 0 or x.price_sum > 0 or x.pover_sum > 0) 
-       and (x.tot_sum > 0)
+WHERE (x.tot_sum > 0)
 ORDER BY x.nyear DESC, x.month DESC, x.day DESC, x.nregion DESC;
 """
 
