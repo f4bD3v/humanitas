@@ -33,7 +33,7 @@ subseries plots, periodograms, and the correolograms we mentioned before.
 \section*{Prediction Models}
 We decided to evaluate different prediction models on the processed price time series. Since the processing of the price data made available by the Indian government yielded very few usable time series we constrained ourselves to try the different prediction model on a set of \emph{daily} wholesale price series that had over 90\% support and could be sufficenlty cleaned and interpolated.
 
-\subsection*{Time Series Forecasting}
+\subsection*{Time Series Forecasting \footnotesize\textit{Ching-Chia Wang}}
 
 \subsubsection*{ARMA Model}
 The classical Time series forecasting approach is to use the ARMA (Auto-Regressive
@@ -59,8 +59,7 @@ we can obtain an optimal Beta.
 \subsection*{Feed Forward Neural Networks - Multilayer Perceptrons}
 taken from M. Seeger's course on Pattern Recognition and ML
 
-\subsection*{Recurrent Neural Networks (RNN)}
-\emph{Fabian Brix}\\
+\subsection*{Recurrent Neural Networks (RNN) \footnotesize\emph{Fabian Brix}}
 A recurrent neural network (RNN) is a neural network with feedback connections, enabling signals to be fed back from a layer $l$ in the network to a previous layer. As opposed to feedforward neural networks where a layer $l$ can only receive inputs from a previous layer, in an RNN the weight matrix for a layer $l$ can contain input weights from \emph{all} other neurons in the network. The simplest form of an RNN consists of an input, an output and one hidden layer as depicted in \ref{fig:simple_rnn}.
 \begin{comment}
 \begin{figure}
