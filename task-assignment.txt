@@ -4,8 +4,8 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
 
 * Data collection
     * Twitter
-        * Web archive filtering of keywords to see if there's anything of
-          value there
+        * Web archive filtering of keywords and region detection to see
+          if there's anything of value there
           [Gabriel, Ching-Chia (Indonesia keywords)]
             -- ready
         * distribution of tasks to azure nodes
@@ -46,8 +46,8 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
 
 * Twitter analysis
     - Categories for Tweets
-        [Anton, Fabian, Gabriel] 
-    - Normalize tweet indicators
+        [Anton, Gabriel, Fabian] 
+    - Normalize tweet indicators and write template query
         [Gabriel]
 
 * Data processing
