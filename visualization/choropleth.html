@@ -101,10 +101,19 @@ info.onAdd = function (map) {
 };
 
 info.update = function (feature) {
-	this._div.innerHTML = '<h4>India tweets per region</h4>' +  (feature ?
-		'<b>' + feature.id + '</b><br />' + (getNumTweets(feature.id) ? getNumTweets(feature.id).num_tweets : 
-			(getNumTweetsCity(feature.id) ? getNumTweetsCity(feature.id).num_tweets : 'N/A')) + ' * 10<sup>-6</sup> tweets / inhabitant / month'
-		: 'Hover over a state');
+	if(feature) {
+		var str;
+		if(getNumTweets(feature.id)) {
+			str = '<b>' + feature.id + '</b><br />' + parseFloat(Math.round(getNumTweets(feature.id).num_tweets * 100) / 100).toFixed(2) + ' * 10<sup>-6</sup> tweets / inhabitant / month';
+		} else if(getNumTweetsCity(feature.id)) {
+			str = '<b>' + feature.id + '</b><br />' + getNumTweetsCity(feature.id).num_tweets + ' tweets / month';
+		} else {
+			str = 'N/A';
+		}
+		this._div.innerHTML = '<h4>India tweets count</h4>' +  str;
+	} else {
+		this._div.innerHTML = '<h4>India tweets count</h4>Hover over a state';
+	}
 };
 
 info.addTo(map);
