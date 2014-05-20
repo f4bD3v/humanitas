@@ -47,31 +47,33 @@ Seasonality is reasonably expected in our agricultural related time series. We h
 \section*{Prediction Models}
 We decided to evaluate different prediction models on the processed price time series. Since the processing of the price data made available by the Indian government yielded very few usable time series we constrained ourselves to try the different prediction model on a set of \emph{daily} wholesale price series that had over 90\% support and could be sufficiently cleaned and interpolated.
 
-\begin{comment}
 \subsection*{Time Series Forecasting \footnotesize\textit{Ching-Chia Wang}}
 
-\subsubsection*{ARMA Model}
-The classical Time series forecasting approach is to use the ARMA (Auto-Regressive
-Moving Average) model to predict the target variable as a linear function which
-consists of the auto-regressive part (lag variables) and the moving average part
-(effects from recent random shocks).
+\subsubsection*{Regression with ARMA error}
+In our regression model, the target vector is the sum of linear combinations of multiple regressors and an ARMA (Auto-Regressive Moving Average) error shock. Our regression model is formulated as such:
 
-The ARMA(p,q) model: (will refine math representations later)
+$Y = Beta*X + eps,   eps ~ ARMA(p,q)$,
 
-$Phi(B) * Y_t = Theta(B) * eps_t$
+where Y is the target fitted variables (the price series), X contains the regressors, Beta is a linear coefficient matrix, and eps is the error shock. The ARMA modeling of error shock consists of the auto-regressive part (lag variables) and the moving average part (effects from recent random shocks). The fitting of the ARMA model and the historical error is accomplished by maximum likelihood estimation. On the other hand, through OLS (Ordinary Least Squares) or GLS (General Least Squares) processes, we can obtain an optimal Beta which minimized the mean square error between the predicted Y and the actual Y.
 
-The fitting of the model and the historical
-data can be accomplished by maximum likelihood estimation.
+The prediction dataset consists of a food price series, an oil price series, an inflation index series, 2 weather series (temperature and rainfall), and some extra series generated from the previous 3 series with pre-defined time lag in quarters or years. By introducing some extended series, we try to capture the annual cyclic pattern observed in the time series analysis. The food price series is used as the target prediction variable, while the others are regressors.
 
-\subsubsection*{Regression}
-We can also apply ARMA to the linear regression model. It is formulated as such:
+We use the regression model to predict the price series in a rolling fashion using R. First, a window of some fixed size, such as 3 years, defines the range of the training data. After fitting the model, the algorithm will then forecast a fixed length of future days after the training window. Then, the end of the window moves to the end of the previous forecasted dates so that the process can predict for the next days. This process runs recursively, and our price prediction is in continuous days up to the end of the dataset.
 
-$Y = Beta*X + eps,   eps ~ ARMA(p,q)$
+Our experimental result is shown in the figure and table below. The 95% or 99% quantiles of prediction error in the table means that 95% or 99% of the prediction errors fall inside the interval of the quantiles. As forecasting days increase, the root mean square error and the quantiles rise too. The best result is using a moving window size of 3 years and running 1 week price forecasting as 95% of the prediction errors are less than 1 rupee.
 
-Through OLS (Ordinary Least Squares) or GLS (General Least Squares) processes,
-we can obtain an optimal Beta.
-
-\end{comment}
+\begin{table}[h]
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+\hspace{5pt} Moving Training Window Size & 3 years & 3 years & 5 years & 5 years & 7 years &  7 years \\ \hline
+Rolling Forecast Step & 1 week & 1 month & 1 week & 1 month & 1 week & 1 month\\ \hline
+RMSE & 1.0023 & 1.3397 & 1.8486 & 3.0762 & 2.5517 & 4.2862\\ \hline
+95% Quantiles of Prediction Error & (-0.61, 0.84) & (-1.63, 2.18) & (-0.67, 1.12) & (-2.24, 2.07) & too few observations & too few observations\\ \hline
+99% Quantiles of Prediction Error & (-1.39, 1.91) & (-2.68, 3.7) & (-2.61, 1.94) & (-4.06, 2.68) & too few observations & too few observations\\ \hline
+\end{tabular}
+\label{table:time series prediction results}
+\end{table}
+Table: Prediction result of regression with ARMA error shock with different training moving window size and forecasting steps.
 
 \subsection*{Neural networks - introduction}
 \emph{Stefan Mihaila}\\
