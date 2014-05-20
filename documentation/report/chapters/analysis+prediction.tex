@@ -12,12 +12,14 @@ Stationarity of a series guarantees that the mean and variance of the data do no
 We have conducted the KPSS test for stationarity on some representative series from the price dataset. A test result of a sample series is presented in the table below. In general, the price series of foods in India have p-values less than 0.05, which indicates that we have to reject the null hypothesis that the series is stationary. On the other hand, the first differences of the price series have p-values larger than 0.05, which means that they are potentially stationary time series. Based on this test result, we will use the first difference of the series in later analysis.
 
 \begin{table}[h]
-\begin{tabular}{lll}
-\cline{1-1}
-\multicolumn{1}{|l|}{}             & Price Series & First Difference of Price Series \\ \cline{1-1}
-p-value of null hypothesis "Trend" & 0.01         &
+\begin{tabular}{|l|l|l|}
+\hline
+\hspace{5pt} & Price Series & First Difference of Price Series \\ \hline
+p-value of null hypothesis "Trend" & 0.01 & 0.1\\ \hline
 \end{tabular}
+\label{series_tab}
 \end{table}
+
 Table: Result of KPSS-test of stationarity on the sample series: Price of “Jyoti” Potato in West Bengal. A p-value less than 0.05 indicates a rejection of the null hypothesis that the series is stationary under the 95\% confidence level.
 
 %[1] Kwiatkowski, D.; Phillips, P. C. B.; Schmidt, P.; Shin, Y. (1992). "Testing the null hypothesis of stationarity against the alternative of a unit root". Journal of Econometrics 54 (1–3): 159–178.
