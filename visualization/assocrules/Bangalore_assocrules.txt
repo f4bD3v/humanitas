@@ -1,2 +1,12 @@
-0 rules with support higher than or equal to 0.400 found.
+160 rules with support higher than or equal to 0.400 found.
 supp	conf	rule
+0.415	0.739	MaidaNA=unchanged increase -> AttaFAQ=unchanged increase
+0.415	0.850	AttaFAQ=unchanged increase -> MaidaNA=unchanged increase
+0.439	0.818	SujiNA=unchanged increase -> AttaFAQ=unchanged increase
+0.439	0.900	AttaFAQ=unchanged increase -> SujiNA=unchanged increase
+0.512	1.000	BreadLocal=unchanged increase -> BiscuitGlucose=unchanged increase
+0.512	0.913	BiscuitGlucose=unchanged increase -> BreadLocal=unchanged increase
+0.488	0.870	MaidaNA=unchanged increase -> BiscuitGlucose=unchanged increase
+0.488	0.870	BiscuitGlucose=unchanged increase -> MaidaNA=unchanged increase
+0.463	0.950	MilkCowBuffalo=unchanged increase -> BiscuitGlucose=unchanged increase
+0.463	0.826	BiscuitGlucose=unchanged increase -> MilkCowBuffalo=unchanged increase

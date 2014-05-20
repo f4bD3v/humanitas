@@ -51,10 +51,10 @@
   </div>
   <div id="tabs-5">
     <select id="good_selector" class="form-control" style="width:200px;">
-        <option value='Rice-Coarse'>Rice-Coarse</option>
+        <option value='Rice-Coarse' selected>Rice-Coarse</option>
         <option value='Rice-Ratnachudi'>Rice-Ratnachudi</option>
         <option value='Potato-Potato'>Potato-Potato</option>
-        <option value='Potato-Jyoti' selected>Potato-Jyoti</option>
+        <option value='Potato-Jyoti'>Potato-Jyoti</option>
         <option value='Onion-Red'>Onion-Red</option>
         <option value='Wheat-Dara'>Wheat-Dara</option>
     </select>
@@ -134,7 +134,7 @@ $("#good_selector").on('change', function() {
     redrawPrediction($(this).val());
 });
 
-redrawPrediction('Potato-Jyoti');
+redrawPrediction('Rice-Coarse');
 function redrawPrediction(good) {
 $.get('prediction/' + chosen_location + '_' + good + '.csv', function (csv) {
     $('#prediction_container').highcharts({

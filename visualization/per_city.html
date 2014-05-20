@@ -62,7 +62,7 @@ $('#tweets_container').highcharts({
         zoomType: 'x'
     },
     title: {
-        text: 'Tweets density in ' + chosen_location + ' from 2007 to 2014'
+        text: 'Total tweets in ' + chosen_location + ' from 2007 to 2014'
     },
     subtitle: {
         text: document.ontouchstart === undefined ?
@@ -141,7 +141,7 @@ function drawchart(csv, elementName) {
         },
 
         title: {
-            text: 'Daily retail prices in ' + chosen_location
+            text: 'Daily ' + elementName.split('_')[0] + ' prices in ' + chosen_location
         },
 
         subtitle: {
