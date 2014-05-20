@@ -1,0 +1,43 @@
+[Predictive]
+
+Gujarat - Potato
+var  9.61850615182
+
+7d test mse:  0.0333692508408
+test rmse:  0.182065912448
+
+30d - test mse:  0.0857442073146
+test rmse:  0.292894314123
+var  0.964484888889
+
+60d - test mse:  0.0957601227615
+test rmse:  0.309525349728
+
+without inflation: division by maximum two
+
+7d - test rmse:  0.0639823019492
+30d - test rmse:  0.116595878396
+var  0.224536336062
+
+60d - test rmse:  0.119134164205
+
+Uttar Pradesh - Onion Red
+7d
+test rmse:  0.18509059927
+
+30d
+test rmse:  0.144814526267
+
+60d - test mse:  0.01604531759
+test rmse:  0.126634033707
+
+120d - test rmse:  0.356454240688
+
+[Generative]
+Gujarat - Potato
+
+30d
+test mse:  1.156557849
+test rmse:  1.07543379573
+
+RMSE / STD(TEST) => discounting inflation does not have an effect

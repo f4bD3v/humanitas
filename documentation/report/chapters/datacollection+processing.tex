@@ -1,16 +1,15 @@
-\section*{Time Series data}
+\section*{Time Series data \footnotesize\emph{Fabian Brix, Anton Ovchinnikov}}
 The basis for the prediction part of this project are time series of price data. We acquired these for different stages of pricing in the supply chain and at different time granularities from different Indian government ministries. The data had to be downloaded and processed into usable formats from the websites of these ministries. The different sources consist of the Ministry of Agriculture and the Ministry of Trade and their various departments. In terms of different types of prices we differentiate between wholesale market prices and retail prices. We subsequently structure our documentation of data sources and the data processing according to these two types.
 
 \subsection*{Wholesale prices}
 
 \subsubsection*{Wholesale price index}
-(taken from investopedia.com)\\
 An index that measures and tracks the changes in price of goods in the stages before the retail level. Wholesale price indexes (WPIs) report monthly to show the average price changes of goods sold in bulk, and they are a group of the indicators that follow growth in the economy.\par
-Although some countries still use the WPIs as a measure of inflation, many countries, including the United States, use the producer price index (PPI) instead.\par
+%(taken from investopedia.com)\\
 
 \subsubsection*{Data sources}
 We came across a \href{http://agmarknet.nic.in/}{website} maintained by the Indian Ministry of Agriculture that tracked \emph{daily} wholesale prices for units of 100 kilograms for a huge number of market places across the country. The data is recorded back to 2005 and is supplemented by stock arrival numbers.\par
-Due to large amount of data available, as well as time and resources needed to pull it, we constrained ourselves to choosing several major products (Onion, Rice, Wheat, Apple, Banana, Coriander, Potato, Paddy(Dhan), Tomato), whereat the Python script was used to download all available data for the selected products directly from the website, using simple HTTP GET requests. Raw HTML data was then converted to CSV format with predefined structure and saved for later processing.
+Due to large amount of data available, as well as time and resources needed to pull it, we constrained ourselves to choosing several major products (Onion, Rice, Wheat, Apple, Banana, Coriander, Potato, Paddy(Dhan), Tomato), where a Python script was used to download all available data for the selected products directly from the website, using simple HTTP GET requests. Raw HTML data was then converted to CSV format with predefined structure and saved for later processing.
 
 \subsection*{Retail prices}
 \subsubsection*{Data sources}
@@ -19,16 +18,17 @@ Due to large amount of data available, as well as time and resources needed to p
 
 \item[1.] Daily retail prices
 
-Daily retail prices were found at the website, created by Department of Consumer Affairs of India (http://fcainfoweb.nic.in/). One can choose the type of report (price report, variation report, average/month end report) and the desired date, and then receive the requested data in HTML format. This website was used to query price reports from 2009 to 2014, for 59 cities and 22 products. Similar to the wholesale daily prices, raw HTML data was converted to CSV files in normalized format, which was intended to facilitate further processing.
+Daily retail prices were found at the \href{http://fcainfoweb.nic.in/}{website}, created by Department of Consumer Affairs of India. One can choose the type of report (price report, variation report, average/month end report) and the desired date, and then receive the requested data in HTML format. This website was used to query price reports from 2009 to 2014, for 59 cities and 22 products. Similar to the wholesale daily prices, raw HTML data was converted to CSV files in normalized format, which was intended to facilitate further processing.
 
 \item[2.] Weekly retail prices
+
 The \href{http://rpms.dacnet.nic.in/}{Retail Price Information System} of the Indian Ministry of Agriculture was queried to obtain weekly retail prices.\par
 Unlike daily prices, the only available data format that was capable of being parsed, was Microsoft Excel .xls format. So all the required .xls files were downloaded using a Python script, and then 'xls2csv' was used to convert .xls documents to CSV data format. For some reason, the majority of product names were missing in the downloaded .xls files, so a basic heuristic, which involved the order of product names, was used to reconstruct the data.
 The data obtained described information about prices for a large number of markets, around 60 products and hundreds of subproducts, dating back to 2005, but, unfortunately, the data was far from complete, especially for 2005-2007 time frame.
 
 \end{itemize}
 
-\subsection*{Price sequences}
+\subsection*{Price sequences \footnotesize\emph{Ching-Chia Wang}}
 We used Pandas, a powerful and fast Python data analysis library, to load the csv files of datasets, to clean them up, and to organize them into usable formats. The prices of all products in these datasets are collected through a human reporting mechanism from local institutions to a central ministry. Due to the nature of this data collecting process, the qualities of these 3 datasets suffer from human neglects and mistakes. We thus need to conduct 2 phases of work prior to time series analysis and price prediction: data clean-up and dataset usability analysis.
 
 \subsubsection*{Price Data Clean-up}
@@ -37,6 +37,26 @@ In data clean-up, we fixed several defects in the original datasets of the data 
 Next, we discovered that there are many outliers with extreme values in the series. For example, a price of 10 rupee today jumps to 100 tomorrow, and then goes back to 10 the day after. Such cases are more likely caused by human mistakes in reporting prices to the Indian ministries, so we used a heuristic to remove these suspicious spikes in the series. By taking the daily differences in percentage of a series, we were able to remove data points of the dates which perform more than 100\% price change in one time step (daily or weekly).
 
 Finally, we patched the missing parts of the series with common methods such as linear or cubic spline interpolation.
+
+\begin{figure}[!ht]
+    \centering
+        \begin{subfigure}[b]{.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./img/before.png}
+        \caption{Sample price series before data cleaning}
+        \label{subfig:sc1}
+        \end{subfigure}
+        \quad
+        \begin{subfigure}[b]{.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./img/after.png}
+        \caption{Sample price series after spikes-removing and interpolation}
+        \label{subfig:sc2}
+        \end{subfigure}
+
+    \caption{Example of time series cleaning process}
+    \label{fig:series_cleaning}
+\end{figure}
 
 \subsubsection*{Price Dataset Usability Analysis}
 
@@ -48,21 +68,17 @@ On the other hand, the daily retail dataset appears to have consistent data avai
 
 Considering the limitations of the current price datasets, we have concluded the following potential usage of them: (1) Select a few representative series of each product with very good data quality. By using these individual series as a starting point of analysis and prediction, we can find out general characteristics and also the feasibility of predicting the prices of these highly volatile commodities. (2) Merge the series of the same product in each region to construct an extended dataset containing a uniform profile for each product in each region. In this way, we can gain a national overview of trends and price variations of different products.
 
-\subsection*{Other sources}
-After some research we decided to include additional data that affects especially agricultural commodity prices such as the price of crude oil, climate data (temperature and precipitation) and the inflation in form of the Consumer Price Index (CPI). The monthly international price of crude oil  was downloaded from a US government website and all other sources had to be scraped from websites.  and  to our prediction other data sources that have an effect on commodity prices.
-Additional types of data were ``scraped'' from two online sources using HTML parsing library, `BeautifulSoup' for Python. The first of these sources was meteorological web site Tu Tiempo (http://www.tutiempo.net). Daily climate data (comprising temperature, humidity, perspiration etc.) for the last 16 years (1999-2014) was collected for over 100 locations in India. The script for this is get\_climate\_data.py. The second source was monthly inflation (CPI) data for India for the past 16 years from inflation.eu. The script for this purpose is get\_inflation\_data.py.
-
+\subsection*{Other sources \footnotesize\emph{Joseph Boyd}}
+After some research we decided to include additional data that affects especially agricultural commodity prices such as the price of crude oil, climate data and the inflation in form of the Consumer Price Index (CPI). The monthly international price of crude oil was downloaded from a US government website. All other types of data were ``scraped'' from two online sources using HTML parsing library, `BeautifulSoup' for Python. The first of these sources was meteorological web site Tu Tiempo (http://www.tutiempo.net). Daily climate data (comprising temperature, humidity, perspiration etc.) for the last 16 years (1999-2014) was collected for over 100 locations in India. The script for this is get\_climate\_data.py. The second source was monthly inflation (CPI) data for India for the past 16 years from inflation.eu. The script for this purpose is get\_inflation\_data.py.
 %exchange rate
 %crude oil
 
-\section*{Social Media data}
-For the other significant part of the project we decided to limit ourselves to a basic analysis of conversations on twitter. Originally we planned to also look into other platforms such as Facebook but quickly came to realize that the data publicly available through the API was of little use to us. Obtaining data from the twitter APIs turned out to be harder than expected and involved a number of heuristics. Twitter provides different APIs for different purposes. The two that are free are the Streaming API which allows real-time streaming of only 1\% of newly generated tweets. Since we wanted 'historical' tweets we had to find a workaround by using the REST API and getting tweets by user.\par
+\section*{Social Media data \footnotesize\emph{Joseph Boyd}}
+For the other significant part of the project we decided to limit ourselves to a basic analysis of conversations on twitter. Originally we planned to also look into other platforms such as Facebook but quickly came to realize that the data publicly available through the API was of little use to us. Obtaining data from the twitter APIs turned out to be harder than expected and involved a number of heuristics. Twitter provides different APIs for different purposes. The two that are free are the Streaming API which allows real-time streaming of only 1\% of newly posted tweets. Since we wanted 'historical' tweets we had to find a workaround by using the REST API and getting tweets by user.\par
 Twitter is a rich resource for studying cutting-edge trends on a global scale. Given a sufficiently large data collection effort, Twitter user discourse indicating changes in commodity prices may be obtained. This discourse supplies us with predictors The Humanitas project harvests huge amounts of user activity from this social media platform in order to capture the sparsely distributed activity pertaining to food prices. It is this aspect of the project which promotes it to the domain of `big data'.
 
 \subsection*{Historical tweets}
-
-\subsubsection*{Approach 1: Fetching "historical" tweets through Twitter API}
-
+\subsubsection*{Approach 1: Fetching "historical" tweets through Twitter API \footnotesize\emph{Joseph Boyd}}
 Using the Twython package for python we are able to interface with the Twitter API. Our methodology (figure \ref{fig:methodology}) is to select the twitter accounts of a number of regional celebrities as starting points. These are likely to be `followed' by large numbers of local users. In a first phase (tweet\_collection.py.get\_followers()), from each of these sources we may extract a list of followers and filter by various characteristics. Once a substantial list has been constructed it must be merged (merge.py and remove\_intersection.py), we may proceed to download the tweet activity (up to the 3200 most recent tweets) of each of these users in a second phase (tweet\_collection.py.get\_tweets()).
 
 Despite recent updates allowing developers greater access, Twitter still imposes troublesome constraints on the number of requests per unit time window (15 minutes) and, consequently, the data collection rate. It is therefore necessary to: 1) optimise the use of each request; and 2) parallelise the data collection effort.

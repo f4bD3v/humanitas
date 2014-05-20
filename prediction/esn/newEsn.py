@@ -218,7 +218,7 @@ class ESN:
         print self._dates.shape
         print self._data.shape
         print Y[0,:].shape
-        to_dump = np.asarray([self._dates.T, self._data.T, Y[0,:].T])
+        to_dump = np.column_stack((self._data, Y[0,:]))
         print to_dump.shape
         fn = str(output)+'_h'+str(horizon)+'.csv'
         np.savetxt(fn, to_dump, delimiter=",")
@@ -303,7 +303,7 @@ def main():
         print len(infl[0])
         Ny = 1
         
-        info = content[i-1].strip('(').strip(')').strip("'").split(',')
+        info = content[i-1].split(',')
         fn = str(info[0])+'-('+str(info[1])+')_'+str(info[2])+'-'+str(info[3])
 
         # Num. Regions and Products : R,P
