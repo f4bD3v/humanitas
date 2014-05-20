@@ -1,0 +1,6 @@
+
+After all the tweets are collected, a filtering is performed, leaving only tweets which contain commonly used food-related words.
+
+After that simple NLP processing is employed, including stemming (to reduce a word to its base form) and spellchecking (since people don't usually bother much about correct spelling in social media).
+
+Finally, features are extracted and normalized, using a dictionary of categories with different polarities. One category example is presented at the bottom.
