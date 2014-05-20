@@ -50,15 +50,20 @@ if __name__ == "__main__":
 
     pieces = []
     for file in file_lst:
-        product = file[:-4]
+        if file =='.DS_Store':
+            continue
+        product = file[10:-4]
         file = fp+file
         print file
-        df_temp = pd.read_csv(file, header=0, index_col=0)
+        print product
+        df_temp = pd.read_csv(file, names=['date', 'state', 'predictive_word', \
+            'needs', 'sentiment', 'supply', 'price', 'poverty', 'tweet_count'], index_col=0)
         subdf = pd.DataFrame()
         subdf['state'] = df_temp['state']
         subdf[product] = df_temp[indicator]
 
         pieces.append(subdf)
+
 
     df = pd.concat(pieces)
 
@@ -66,6 +71,8 @@ if __name__ == "__main__":
     df.date = pd.to_datetime(df.date, format='%Y-%m-%d')
     df = df.sort('date')
 
+
+    df.to_csv('df_sorted.csv')
     #convert states to the correct names
     df.state = df.state.map(convert_to_capital)
 

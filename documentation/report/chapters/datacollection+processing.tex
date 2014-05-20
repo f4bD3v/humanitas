@@ -49,19 +49,17 @@ On the other hand, the daily retail dataset appears to have consistent data avai
 
 Considering the limitations of the current price datasets, we have concluded the following potential usage of them: (1) Select a few representative series of each product with very good data quality. By using these individual series as a starting point of analysis and prediction, we can find out general characteristics and also the feasibility of predicting the prices of these highly volatile commodities. (2) Merge the series of the same product in each region to construct an extended dataset containing a uniform profile for each product in each region. In this way, we can gain a national overview of trends and price variations of different products.
 
-\subsection*{Other sources}
+\subsection*{Other sources \footnotesize\emph{Joseph Boyd}}
 After some research we decided to include additional data that affects especially agricultural commodity prices such as the price of crude oil, climate data and the inflation in form of the Consumer Price Index (CPI). The monthly international price of crude oil was downloaded from a US government website. All other types of data were ``scraped'' from two online sources using HTML parsing library, `BeautifulSoup' for Python. The first of these sources was meteorological web site Tu Tiempo (http://www.tutiempo.net). Daily climate data (comprising temperature, humidity, perspiration etc.) for the last 16 years (1999-2014) was collected for over 100 locations in India. The script for this is get\_climate\_data.py. The second source was monthly inflation (CPI) data for India for the past 16 years from inflation.eu. The script for this purpose is get\_inflation\_data.py.
 %exchange rate
 %crude oil
 
-\section*{Social Media data}
+\section*{Social Media data \footnotesize\emph{Joseph Boyd}}
 For the other significant part of the project we decided to limit ourselves to a basic analysis of conversations on twitter. Originally we planned to also look into other platforms such as Facebook but quickly came to realize that the data publicly available through the API was of little use to us. Obtaining data from the twitter APIs turned out to be harder than expected and involved a number of heuristics. Twitter provides different APIs for different purposes. The two that are free are the Streaming API which allows real-time streaming of only 1\% of newly posted tweets. Since we wanted 'historical' tweets we had to find a workaround by using the REST API and getting tweets by user.\par
 Twitter is a rich resource for studying cutting-edge trends on a global scale. Given a sufficiently large data collection effort, Twitter user discourse indicating changes in commodity prices may be obtained. This discourse supplies us with predictors The Humanitas project harvests huge amounts of user activity from this social media platform in order to capture the sparsely distributed activity pertaining to food prices. It is this aspect of the project which promotes it to the domain of `big data'.
 
 \subsection*{Historical tweets}
-
-\subsubsection*{Approach 1: Fetching "historical" tweets through Twitter API}
-
+\subsubsection*{Approach 1: Fetching "historical" tweets through Twitter API \footnotesize\emph{Joseph Boyd}}
 Using the Twython package for python we are able to interface with the Twitter API. Our methodology (figure \ref{fig:methodology}) is to select the twitter accounts of a number of regional celebrities as starting points. These are likely to be `followed' by large numbers of local users. In a first phase (tweet\_collection.py.get\_followers()), from each of these sources we may extract a list of followers and filter by various characteristics. Once a substantial list has been constructed it must be merged (merge.py and remove\_intersection.py), we may proceed to download the tweet activity (up to the 3200 most recent tweets) of each of these users in a second phase (tweet\_collection.py.get\_tweets()).
 
 Despite recent updates allowing developers greater access, Twitter still imposes troublesome constraints on the number of requests per unit time window (15 minutes) and, consequently, the data collection rate. It is therefore necessary to: 1) optimise the use of each request; and 2) parallelise the data collection effort.
