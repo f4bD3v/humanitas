@@ -1,7 +1,6 @@
-\section*{Price Transmission Analysis}
-
-\subsection*{Interpretation}
-automate interpretation to a certain extent by learning about circumstances through online data.
+\section*{Price Data Analysis}
+%\subsection*{Interpretation}
+%automate interpretation to a certain extent by learning about circumstances through online data.
 
 \subsection*{Time Series Analysis \footnotesize\textit{Ching-Chia Wang}}
 Food price data has a natural temporal relation between different data points. It is important in the analysis to extract significant temporal statistics out of data. We will focus on analyze stationarity, autocorrelation, trend, and seasonality of our price datasets in R.
@@ -18,10 +17,8 @@ We have conducted the KPSS test for stationarity on some representative series f
 p-value of null hypothesis "Trend" & 0.01 & 0.1\\ \hline
 \end{tabular}
 \label{table:kpss}
-\caption{Table fo results of KPSS-test of stationarity on the sample series (table \ref{table:kpss}): Price of "Jyoti" Potato in West Bengal. A p-value less than 0.05 indicates a rejection of the null hypothesis that the series is stationary under the 95\% confidence level.}
+\caption{Table of results of KPSS-test of stationarity on the sample series: Price of "Jyoti" Potato in West Bengal. A p-value less than 0.05 indicates a rejection of the null hypothesis that the series is stationary under the 95\% confidence level. \cite{kwiat}}
 \end{table}
-
-%[1] Kwiatkowski, D.; Phillips, P. C. B.; Schmidt, P.; Shin, Y. (1992). "Testing the null hypothesis of stationarity against the alternative of a unit root". Journal of Econometrics 54 (1–3): 159–178.
 
 \subsubsection*{Autocorrelation of Price Series}
 Autocorrelation(ACF) is another important trait in time series data. It suggests the degree of correlation between current value and the value with a period before. By plotting correlograms (autocorrelation plots) of our data, we will be able to identify if the fluctuation of prices may be due to white noise or other hidden structures.
@@ -95,8 +92,7 @@ RMSE & 1.0023 & 1.3397 & 1.8486 & 3.0762 \\ \hline
     \label{fig:tm_pred}
 \end{figure}
 
-\subsection*{Neural networks - introduction}
-\emph{Stefan Mihaila}\\
+\subsection*{Neural networks - introduction \footnotesize\emph{Stefan Mihaila}}
 Artificial neural networks are computational models with very varied
 applications in pattern recognition. Their capability of learning impressively
 complex patterns and finding deep meaning in data have caused such models
@@ -105,8 +101,7 @@ number of prediction tasks. For the purpose of price predictions, we have
 mainly focused on two different types of neural networks: \emph{feed-forward
 neural networks} and \emph{echo-state neural networks}.
 
-\subsection*{Feed Forward Neural Networks - Multilayer Perceptrons}
-\emph{Stefan Mihaila}\\
+\subsection*{Feed Forward Neural Networks - Multilayer Perceptrons \footnotesize\emph{Stefan Mihaila}}
 A feed-forward neural network is generally described by the number of neurons
 and the connections between them. Each connection is assigned a weight (real
 number), and the value (the activation in neuro-slang) of a neuron is computed
@@ -158,8 +153,7 @@ a given interval.
     \caption{A feed-forward neural network with two hidden layers}
 \end{figure}
 
-\subsection*{Feed Forward Neural Networks - models used}
-\emph{Stefan Mihaila}\\
+\subsection*{Feed Forward Neural Networks - models used \footnotesize\emph{Stefan Mihaila}}
 During our project, I have thought of numerous FFNN models that would make
 sense to be trained, but most of my ideas in the beginning were overly
 optimistic: I assumed we can train a single large neural network to
@@ -309,7 +303,7 @@ where $f^{out}=(f^{out}_1,...,f^{out}_L)$ are the output activation functions an
 RNNs can in theory approximate any dynamical system with chosen precision, however training them is very difficult in practice. In the following section we are going to describe our use of an RNN that exhibits exactly these properties yet is easy to train.
 
 \subsection*{Echo State Networks}
-Echo State Networks (ESN) are a type of discrete time RNNs for which training is straightforward with linear regression methods.  The temporal inputs to the network are transformed to a high-dimensional \emph{echo state}, described by the neurons of a sparsely connected \emph{random} hidden layer which is also called a reservoir. The output weights are the only weights in the network that can change and are trained in a way to match the desired output. ESNs and the related liquid state machines (LSMs) form the field of \emph{reservoir computing}.
+Echo State Networks (ESN) are a type of discrete time RNNs for which training is straightforward with linear regression methods.  The temporal inputs to the network are transformed to a high-dimensional \emph{echo state}, described by the neurons of a sparsely connected \emph{random} hidden layer which is also called a reservoir. The output weights are the only weights in the network that can change and are trained in a way to match the desired output. ESNs and the related liquid state machines (LSMs) form the field of \emph{reservoir computing}. This part of the report is based on \cite{esn_rep}.
 
 \begin{figure}
     \centering
@@ -339,7 +333,7 @@ Define $\sigma_{max}$ as largest singular value of $\vec{W}$, $\lambda_{max}$ as
 In practice it suffices to make sure the negation of the second point holds.
 
 \subsubsection*{Training the ESN}
-The state of the ESN is a function of the inputs it has been presented with. Each state describes an oscillator at a given time n and during training the relation between these oscillators and the output has to be learnt. Before training can be started the reservoir weights have to be normalized by the spectral radius of the weight matrix $W$. The hyperparameters are the reservoir size (dimensionality of W) and a rescale parameter of the weight matrix for slightly increasing/decreasing the spectral radius.
+The state of the ESN is a function of the inputs it has been presented with. Each state describes an oscillator at a given time n and during training the relation between these oscillators and the output has to be learnt. Before training can be started the reservoir weights have to be normalized by the spectral radius of the weight matrix $W$. The hyperparameters are the reservoir size (dimensionality of W) and a rescale parameter of the weight matrix for slightly increasing/decreasing the spectral radius. This part of the report is baed on a comprehensive overvie of practical issues of ESNs \cite{esn_practical}. 
 %http://stackoverflow.com/questions/21940860/echo-state-network-learning-mackey-glass-function-but-how
 
 \paragraph*{Initial state determination}
