@@ -1,4 +1,19 @@
-setwd('~/work/R/india')
+#############################################################
+#############################################################
+
+## This script is for time series analysis of stationarity,
+## autocorrelations, and seasonal patterns
+
+#############################################################
+#############################################################
+
+#please manually set the work space to your local directory
+setwd("~/work/R/india")
+
+#############################################################
+#############################################################
+
+
 source('functions.R')
 
 name.inf = "inflation_for_discount.csv"
