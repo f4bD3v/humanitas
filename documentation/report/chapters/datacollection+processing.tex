@@ -39,6 +39,18 @@ Next, we discovered that there are many outliers with extreme values in the seri
 
 Finally, we patched the missing parts of the series with common methods such as linear or cubic spline interpolation.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{./img/before.png}
+    \caption{Sample price series before data cleaning}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{./img/after.png}
+    \caption{Sample price series after spikes-removing and interpolation}
+\end{figure}
+
 \subsubsection*{Price Dataset Usability Analysis}
 
 The dataset usability analysis phase was intended to explore the data to find usable materials for analysis and prediction in later stages. We first filtered out all the series with less than 60\% of non-missing data, then computed some indicators of the data availability of each product in each region. Unfortunately, we have found out that all the datasets are far from satisfying.

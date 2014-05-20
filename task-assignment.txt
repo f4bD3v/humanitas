@@ -28,7 +28,7 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
             -- > approx. 180M tweets downloaded
         * storing features of filtered tweets in Cassandra
           [Gabriel, Anton, Fabian]
-            -- reday
+            -- ready
         * storing tweets with MongoDB
           [Duy, contact Joseph and Gabriel]
 
