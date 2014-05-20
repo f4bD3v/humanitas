@@ -56,8 +56,180 @@ $Y = Beta*X + eps,   eps ~ ARMA(p,q)$
 Through OLS (Ordinary Least Squares) or GLS (General Least Squares) processes,
 we can obtain an optimal Beta.
 
+\subsection*{Neural networks - introduction}
+\emph{Stefan Mihaila}\\
+Artificial neural networks are computational models with very varied 
+applications in pattern recognition. Their capability of learning impressively
+complex patterns and finding deep meaning in data have caused such models 
+to gain widespread attention and become a very popular choice for a large 
+number of prediction tasks. For the purpose of price predictions, we have 
+mainly focused on two different types of neural networks: \emph{feed-forward 
+neural networks} and \emph{echo-state neural networks}.
+
 \subsection*{Feed Forward Neural Networks - Multilayer Perceptrons}
-taken from M. Seeger's course on Pattern Recognition and ML
+\emph{Stefan Mihaila}\\
+A feed-forward neural network is generally described by the number of neurons
+and the connections between them. Each connection is assigned a weight (real
+number), and the value (the activation in neuro-slang) of a neuron is computed
+as the weighted sum of its input neurons. This value is then passed through a
+non-linear function that ``squeezes'' the real number into $[-1, 1]$. It is
+this non-linear mapping that allows neural networks to learn non-linear
+patterns from the data.
+
+In the case of feed-forward neural networks, the neurons and the connections
+form a directed acyclic graph. In other words, a neuron cannot have a
+connection to itself (neither directly nor through any path). In this sense, 
+the information is only sent ``forward'' (in one direction). Such a network can
+be arranged in layers, based on the existing connections. Therefore, a more 
+practical way of describing a FFNN model is by the number of layers and by 
+the connections between them (most often full connection between neurons is
+used).
+
+Two layers, namely the first and last, have special meaning: they are called
+the \emph{input layer} and \emph{output layer}, respectively. 
+The other layers (the ones in the middle) are called \emph{hidden layers}.
+
+The \emph{input layer} is used as the ``source'' (the place from where the data
+is fed into the network), and the \emph{output layer} is viewed as the ``sink''
+(the place where a prediction is made on the input data). If our data-set has 5
+input columns and one target column (to be predicted) then we will place 5 
+neurons in the input layer, each being responsible for taking values in one of 
+the columns and one output neuron in the output layer.
+
+The process of training a neural network is the process of assigning weights
+(real values) to all the connections in such a way that when we are feeding
+input from our training set into the network, we get an output very close to
+the correct output. This closeness is measured in terms of an error function
+(such as the mean squared error). In order to optimize the weights of such a
+network, we have to find a minimum of this error function, process which is
+achieved most commonly through \emph{gradient descent}. The process of adapting
+the weights after every gradient descent step is called \emph{backpropagation}
+(because we are going backwards from output to input).
+
+Note that unlike echo-state neural networks, FFNN do not have an internal state
+(i.e. do not have a memory). As such, they are most commonly used to train
+non-sequential data (data for which the order of the data-points does not matter). 
+This is obviously not the case for a time series.  However, a FFNN can be 
+abused into learning sequential data by feeding a sliding window of input over
+a given interval.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{img/ffnn_prezi.png}
+    \caption{A feed-forward neural network with two hidden layers}
+\end{figure}
+
+\subsection*{Feed Forward Neural Networks - models used}
+\emph{Stefan Mihaila}\\
+
+During our project, I have thought of numerous FFNN models that would make
+sense to be trained, but most of my ideas in the beginning were overly
+optimistic: I assumed we can train a single large neural network to
+simultaneously predict all prices for all products in all regions; feeding all
+of those inputs at once into the network would have been very useful as it
+would have allowed the training process to find correlations across different
+regions and different products.
+
+However, it turned out that this was impossible to do, as the available time 
+series are way too sparse and gapped to allow such models to be trained.  
+As such, I resorted to individually training a network for each of a few 
+wholesale daily time series which had good data (downloaded by Anton, selected, 
+preprocessed and interpolated by Ching-Chia).
+
+As some time series are more complex than others, I had to try different
+model hyperparameters for each time series (to have good generalization and
+prevent over-fitting). The hyperparameters are the number
+of hidden layers and the number of neurons in each hidden layer. I have mainly
+worked with the following models of 2 and 3 hidden layers: $(10, 10)$, 
+$(10, 10, 5)$, $(15, 15)$, $(15, 20)$, $(20, 20)$. For all the models, I have
+used fully connected layers (i.e. each pair of consecutive layers were fully
+connected).
+
+To maximize the prediction power of the trained network, I have used $40$
+inputs to the network:
+\begin{enumerate}
+    \item A sliding window of the normalized per-region monthly
+        \emph{precipitation} amounts over the last 9 months (9 input neurons)
+    \item A sliding window of the normalized per-region monthly mean 
+        \emph{temperatures} over the last 9 months (9 input neurons)
+    \item Sliding window for last 9 months of normalized \emph{international 
+        oil prices} (9 input neurons)
+    \item Sliding window for last 4 months of the \emph{consumer price index}
+        (4 input neurons)
+    \item Sliding window for the last 36 days of prices, in 4 day jumps (9
+        input neurons)
+\end{enumerate}
+
+Because the prices are sometimes stable for a few days in a row, I am trying to
+predict prices in 4 day jumps (i.e. given input at $t-36, t-32, t-28, \dots,
+t$, the target is the price at $t+4$). I am then filling in the predictions for
+$t+1$, $t+2$ and $t+3$ using linear interpolation between $t$ and $t+4$.
+Such a network should be able to predict 4 days in advance without receiving
+any feedback. However, after 4 days, the network should receive feedback. I
+believe this can be stretched for longer periods, but the limited time and the
+long durations of training the models has not allowed me to test this
+hypothesis.
+
+
+\begin{figure}[H]
+    \centering
+        \begin{subfigure}[b]{.45\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/ffnn/1.pdf}
+        \caption{Wholesale daily prediction for potato in Vadhvan (Gujarat)} 
+        \label{subfig:ffnn_pred_1}
+        \end{subfigure}
+        \quad
+        \begin{subfigure}[b]{.45\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/ffnn/2.pdf}
+        \label{subfig:ffnn_pred_2}
+        \caption{Wholesale daily prediction for apple in Bareilly (Uttar Pradesh)}
+        \end{subfigure}
+        \begin{subfigure}[b]{.45\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/ffnn/3.pdf}
+        \caption{Wholesale daily prediction for onion in Bareilly (Uttar Pradesh)} 
+        \label{subfig:ffnn_pred_3}
+        \end{subfigure}
+        \quad
+        \begin{subfigure}[b]{.45\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/ffnn/4.pdf}
+        \label{subfig:ffnn_pred_4}
+        \caption{Wholesale daily prediction for rice in Bareilly (Uttar Pradesh)}
+        \end{subfigure}
+        \begin{subfigure}[b]{.45\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/ffnn/5.pdf}
+        \label{subfig:ffnn_pred_5}
+        \caption{Wholesale daily prediction for potato in Burdwan (West Bengal)}
+        \end{subfigure}
+        \begin{subfigure}[b]{.45\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/ffnn/6.pdf}
+        \label{subfig:ffnn_pred_6}
+        \caption{Wholesale daily prediction for potato in Champadanga (West Bengal)}
+        \end{subfigure}
+        \begin{subfigure}[b]{.45\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/ffnn/7.pdf}
+        \label{subfig:ffnn_pred_7}
+        \caption{Wholesale daily prediction for rice in Champadanga (West Bengal)}
+        \end{subfigure}
+    \caption{Four-day-ahead predictions with the FFNN on various time series}   
+    \label{fig:ffnn_pred}
+\end{figure}
+
+On the time series we have selected, the FFNN seems to be performing quite
+well. The testing of the neural network was performed as follows: the first
+$85\%$ of the time series was used for training the network, the last $15\%$ of
+the time series was used for testing. The blue plot highlights the true series,
+the green plot shows the network prediction for the train data (naturally very
+good, as it has already seen the data) and the red plot shows the prediction
+over test data (data it has never seen). The performance can be estimated by
+comparing the red plot to the blue plot. Remember that the network still gets
+feedback on how it's doing, but only every 4 days.
 
 \subsection*{Recurrent Neural Networks (RNN) \footnotesize\emph{Fabian Brix}}
 A recurrent neural network (RNN) is a neural network with feedback connections, enabling signals to be fed back from a layer $l$ in the network to a previous layer. As opposed to feedforward neural networks where a layer $l$ can only receive inputs from a previous layer, in an RNN the weight matrix for a layer $l$ can contain input weights from \emph{all} other neurons in the network. The simplest form of an RNN consists of an input, an output and one hidden layer as depicted in \ref{fig:simple_rnn}.

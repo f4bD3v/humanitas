@@ -1,0 +1,9 @@
+Network inputs:
+    CPI (last 4 months)
+    oil price (last 9 months)
+    temperature and precipitation (last 9 months)
+    price data (last 40 days, in 4 day jumps)
+
+Network models tried:
+    2 and 3 hidden layers with various number of neurons:
+        (10, 10); (10, 10, 5); (10, 15); (15, 15); (20, 20)
