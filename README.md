@@ -1,4 +1,4 @@
 humanitas
 =========
 
-A commodity price & supply prediction framework for developing countries
+A monitoring & prediction toolset for volatile commodity prices in developing countries
