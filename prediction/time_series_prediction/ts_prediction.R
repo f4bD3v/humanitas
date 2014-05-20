@@ -1,8 +1,10 @@
 #############################################################
 #############################################################
 
-## This script is for time series prediction using regression 
+## This script is for time series prediction using regression
 ## model with ARMA error shock in a rolling fashion
+
+## Author: Ching-Chia
 
 #############################################################
 #############################################################
@@ -21,7 +23,7 @@ library(rugarch)
 library(forecast)
 library(PerformanceAnalytics)
 library(QRM)
- 
+
 name = c()
 name[1] = "wholesale-daily-('Gujarat', 'Vadhvan', 'Potato', 'Potato', 0.83).csv"
 name[2] = "wholesale-daily-('NCT of Delhi', 'Najafgarh', 'Wheat', 'Dara', 0.82).csv"
@@ -31,7 +33,7 @@ name[5] = "wholesale-daily-('Uttar Pradesh', 'Bareilly', 'Rice', 'Coarse', 0.83)
 name[6] = "wholesale-daily-('West Bengal', 'Burdwan', 'Potato', 'Jyoti', 0.89).csv"
 name[7] = "wholesale-daily-('West Bengal', 'Champadanga', 'Potato', 'Jyoti', 0.85).csv"
 name[8] = "wholesale-daily-('West Bengal', 'Champadanga', 'Rice', 'Ratnachudi (718 5-749)', 0.94).csv"
-  
+
 folder.seq = "sequential/"
 folder.4days = "4days/"
 
@@ -72,7 +74,7 @@ if(WestBengal.Potato){
   c.names = colnames(data)
   #data = data[,-3]
   price.idx = 3
-  
+
   #lag quarters, 1 quarter~20 quarters(5 years)
   for(i in 1:8){
     lag = round(i*365/4)
@@ -88,7 +90,7 @@ if(WestBengal.Potato){
 #     data = cbind(data, lagger(data[,1], lag))
 #     c.names = c(c.names, paste('oil_',lag, sep=''))
 #   }
-#   
+#
 #   #lag months, 1~6 months
 #   for(i in 1:6){
 #     lag = i*30

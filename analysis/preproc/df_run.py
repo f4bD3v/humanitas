@@ -1,10 +1,12 @@
 from df_build_func import *
 
+description = '''
+        This script read India daily and/or weekly csv files into Pandas dataframes, df_full and/or df_ts
 
+        Author: Ching-Chia
+'''
 
 usage = '''
-    This script read India daily and/or weekly csv files into Pandas dataframes, df_full and/or df_ts
-
     sample output files (with valid_rate == 0.6):
         india_original_weekly_0.6.csv
         india_timeseries_weekly_0.6.csv

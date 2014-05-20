@@ -2,6 +2,11 @@ import pandas as pd
 import numpy as np
 import os
 
+description = '''
+        This script converts CPI inflation rates into usable format for discounting price series
+
+        Author: Ching-Chia
+'''
 csv_in = os.getcwd()+'/../../data/india/inflation/inflation_data_processed.csv'
 
 

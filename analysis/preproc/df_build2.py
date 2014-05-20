@@ -7,14 +7,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import sys
 
-usage = '''
-        df_full: a patched df with all missing dates filled with NaN.
-        df_ts: flattened version of df_full. Using parameters like
-               "with_interpolation" and "na_cutoff_rate".
-
-        If "using_df_ts" is False, get_full_data() will not generate df_ts.
-
+description = '''
+        This script is outdated and not used.
+        See df_run.py and df_build_func.py
 '''
+
 
 fp_csv = os.getcwd()+'/../../data/india/csv_weekly/rpms.dacnet.nic.in/all_commodities_weekly_india_'
 fp_state = os.getcwd()+'/../../data/india/csv_daily/agmarknet.nic.in/regions.csv'

@@ -7,6 +7,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import sys
 
+description = '''
+        This script is outdated and not used.
+        See df_run.py and df_build_func.py
+'''
+
+
 fp = os.getcwd()+'/../../data/india/csv_weekly/rpms.dacnet.nic.in/all_commodities_weekly_india_'
 pk_in = 'all_India_week.pickle'
 pk_out = 'all_India_week_timeseries.pickle'
