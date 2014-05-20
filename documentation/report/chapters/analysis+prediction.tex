@@ -181,7 +181,7 @@ of hidden layers and the number of neurons in each hidden layer. I have mainly
 worked with the following models of 2 and 3 hidden layers: $(10, 10)$,
 $(10, 10, 5)$, $(15, 15)$, $(15, 20)$, $(20, 20)$. For all the models, I have
 used fully connected layers (i.e. each pair of consecutive layers were fully
-connected).\pagebreak
+connected).
 
 To maximize the prediction power of the trained network, I have used $40$
 inputs to the network:
@@ -389,6 +389,7 @@ Let a network be updated according to \eqref{eq:leaky}, with teacher-forced outp
 In contrast to learning the weights once in batch-mode after the training run is completed one can also train the output weights in an online fashion after each consecutive presentation of an input. This method allows for a better adaption of the weights to local structures present in the data. There exist several algorithms for online training of the Echo State Networks and related reservoir networks. In the following we will shortly discuss two of the basic algorithms which are most often mentioned in academic literature.
 \begin{itemize}
 \item \textbf{Least Mean Squares (LMS):} LMS algorithms try to find the optimal weights (filtered coefficients) that minimize the mean squared error for an adaptive filter which is represented by the output weights $W^{out}$ in the case of the ESN. Essentially, LMS algorithms are stochastic gradient descent methods that perform updates according to the error present at time n that update the weights according to the a priori error and a predefined constant in every iteration.\\
+\bigskip
 \indent
 \begin{algorithm}[H]
 \textbf{Initialization:}\\
@@ -401,6 +402,7 @@ $W^{out}(0) = \vec{0}$\\
 % \caption{Algo}
 \end{algorithm}
 \item \textbf{Recursive Least Squares (RLS):} RLS algorithms have a faster convergence speed compared to LMS algorithms. RLS optimizes the discounted square a priori error $\sum_{k=1}^{n} \lambda^{n-k}((y_{teach}(k) - y(n))^2$ with forgetting factor $\lambda$ at every timestep n. All signals generated in the sequence $1 \leq k \leq n$ are taken into account using the inverse correlation matrix of inputs P. The inputs for the adaptive filter in the case of the ESN can be the concatenation of input, generated echo states and last output.\\
+\bigskip
 \indent
 \begin{algorithm}[H]
 \textbf{Initialization:}\\
