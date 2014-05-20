@@ -1,4 +1,4 @@
-				read me: Association Rules
+				read me: Association Rules by Alexander Buesser
 
 
 
