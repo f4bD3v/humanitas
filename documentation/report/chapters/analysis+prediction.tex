@@ -18,19 +18,19 @@ We have conducted the KPSS test for stationarity [1] on some representative seri
 p-value of null hypothesis "Trend" & 0.01         &
 \end{tabular}
 \end{table}
-Table: Result of KPSS-test of stationarity on the sample series: Price of “Jyoti” Potato in West Bengal. A p-value less than 0.05 indicates a rejection of the null hypothesis that the series is stationary under the 95% confidence level.
+Table: Result of KPSS-test of stationarity on the sample series: Price of “Jyoti” Potato in West Bengal. A p-value less than 0.05 indicates a rejection of the null hypothesis that the series is stationary under the 95\% confidence level.
 
 [1] Kwiatkowski, D.; Phillips, P. C. B.; Schmidt, P.; Shin, Y. (1992). "Testing the null hypothesis of stationarity against the alternative of a unit root". Journal of Econometrics 54 (1–3): 159–178.
 
 \subsubsection*{Autocorrelation of Price Series}
 Autocorrelation(ACF) is another important trait in time series data. It suggests the degree of correlation between current value and the value with a period before. By plotting correlograms (autocorrelation plots) of our data, we will be able to identify if the fluctuation of prices may be due to white noise or other hidden structures.
 
-The figure below is the correlogram of a sample series. The dotted line indicates the region of white noises. Any signal located inside that region is considered statistically insignificant. The ACF value at lag 0 is fixed at 1 because current value is 100% correlated with itself. Observe that we have some short positive signals near lag 0, and there appears to be some annual patterns in price changes. The current change in price of the series seems to be positively correlated with those a few months before, and a few years before, up to 4 years.
+The figure below is the correlogram of a sample series. The dotted line indicates the region of white noises. Any signal located inside that region is considered statistically insignificant. The ACF value at lag 0 is fixed at 1 because current value is 100\% correlated with itself. Observe that we have some short positive signals near lag 0, and there appears to be some annual patterns in price changes. The current change in price of the series seems to be positively correlated with those a few months before, and a few years before, up to 4 years.
 
 \begin{figure}
     \centering
     \includegraphics[width=.7\textwidth]{./img/correlogram.png}
-    \caption{Correlogram of the first difference of the sample series: Price of “Jyoti” Potato in West Bengal.}
+    \caption{Correlogram of the first difference of the sample series: Price of "Jyoti" Potato in West Bengal.}
 \end{figure}
 
 \subsubsection*{Seasonality}
@@ -39,7 +39,7 @@ Seasonality is reasonably expected in our agricultural related time series. We h
 \begin{figure}
     \centering
     \includegraphics[width=.7\textwidth]{./img/seasonal.png}
-    \caption{Correlogram of the first difference of the sample series: Price of “Jyoti” Potato in West Bengal.}
+    \caption{Correlogram of the first difference of the sample series: Price of "Jyoti" Potato in West Bengal.}
 \end{figure}
 
 
@@ -115,7 +115,7 @@ Echo State Networks (ESN) are a type of discrete time RNNs for which training is
 
 \begin{figure}
     \centering
-    \includegraphics[width=.7\textwidth]{img/ESN_prezi.png}
+    \includegraphics[width=.6\textwidth]{img/ESN_prezi.png}
     \caption{Network structure of an ESN with 1-dim. input and output}
 \end{figure}
 
@@ -146,13 +146,10 @@ The state of the ESN is a function of the inputs it has been presented with. Eac
 
 \paragraph*{Initial state determination}
 Prior to training the Echo State Network has to be run for an initial set of inputs discarding the results. A spectral radius close to unity implies slow forgetting of the starting state and therefore a substantial part of the training set has to be invested. We used an initiation sequence of 740 points which equates to two years of data.
-
 %EchoStatesTechRep.pdf, p.32
-\begin{comment}
-The network is run for a first set of inputs and the results are then discarded. If the spectral radius is close to unity, implying slow forgetting of the starting state, the initial set has to be a substantial part of the training dataset.
-"Likewise, when the trained network is used to predict a sequence, a long initial run of the sequence must be fed into the network before the actual prediction can start. This is a nuisance because such long initial transients are in principle unnecessary"
-"By contrast, a recurrent neural network such as our echo state network, but also such as the networks used in [5] need long initial runs to “tune in” to the to-be-predicted sequence. [5] tackle this problem by training a second, auxiliary “initiator” network."
-\end{comment}
+%The network is run for a first set of inputs and the results are then discarded. If the spectral radius is close to unity, implying slow forgetting of the starting state, the initial set has to be a substantial part of the training dataset.
+%"Likewise, when the trained network is used to predict a sequence, a long initial run of the sequence must be fed into the network before the actual prediction can start. This is a nuisance because such long initial transients are in principle unnecessary"
+%"By contrast, a recurrent neural network such as our echo state network, but also such as the networks used in [5] need long initial runs to “tune in” to the to-be-predicted sequence. [5] tackle this problem by training a second, auxiliary “initiator” network."
 
 \paragraph*{Batch learning with Ridge Regression}
 The easiest way to train an Echo State Network is through minimizing the residual of an overdetermined linear set of equations. After the reservoir initialization phase, at init\_index of the time series data, the internal states are saved together with the network inputs at every time step as rows to a matrix $X$. This results in a linear set of equations $XW^{out}=Y$, where $Y \in \mathbb{R}^N$ is the vector of outputs starting at init\_index+1. Since the system is overdetermined with no unique solution for the weights $W^{out}$ that perfectly fits all equations one applies Tikhonov regularization instead of ordinary least squares. Consequently we minimize the residual of the SLE with an added regularization term:\\
@@ -329,25 +326,24 @@ Adjusted for inflation the prices mostly lose their upwards trend and should bec
         \centering
         \includegraphics[width=\textwidth]{./img/plots/esn/red_onion_pred_6d_batch.png}
         \caption{Wholesale price of red onion, accurate prediction produced for 5 days by training with a limited amount of data somewhere in the middle of the series}
-        \label{subfig:res_60d_1}
+        \label{subfig:res_ch6d}
         \end{subfigure}
         \quad
         \begin{subfigure}[b]{.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{./img/plots/esn/red_onion_initN3000_30d.png}
         \caption{Wholesale price of red onion, trying to reproduce accurate prediction by training on the last two years, best result of various parameter choices}
-        \label{subfig:res_60d_2}
+        \label{subfig:res_ch30d}
         \end{subfigure}
 
     \caption{Results from training with ridge regression on a very limited amount of data maximum three years. The prediction can be gotten about right even for one month horizon. However, so far it adjusting the training phase and the spectral radius is more of a game of chance. The influence of the reservoir size seems to be neglectable having tried sizes of 500, 1000, 2000.}
-    \label{fig:res_60d}
+    \label{fig:res_chance}
 \end{figure}
 
 In their current state, due to the very limited amounts of available data, the twitter indicators cannot prove their use. Significantly bolstered, however, they would offer a wide range of possibilities. Matching these indicators to available price data series could show up relationships between conversations and the actual price. These relationships could be used to track price changes in real-time on a regional level through the conversations on twitter and thereby prove an interesting alternative to the inadequate data monitoring of the Indian government. Improving predictions, if possible, would certainly require a lot more focused research in the area of recurrent neural networks for time series prediction. The ESN was implemented from scratch in scientific python.
 
 \subsubsection*{Further ESN research}
 Further research concerning the stability of online training of the ESN and its predictability power would encompass the implementation of a stable RLS algorithm such as the Inverse QR-RLS as well as the implementation of the Backpropagation and Decorrelation (BPDC). The latter does not require a specific set up of the network rendering concerns about the initialization run and the spectral radius of the weight matrix void. Using these algorithms a performance analysis of the network has to be done before we can test the influence of additional inputs. Maybe research into Linear System Theory can provide answers as to how to make the network responsive to its own inputs in the generative run. It would lastly be interesting  to compare the ESN to its "rival" the Long Short Term Memory Network trained with the Evolino method.
-ADD REFERENCES
 
 \subsection*{Data Mining}
 \emph{Alexander Buesser} \\
