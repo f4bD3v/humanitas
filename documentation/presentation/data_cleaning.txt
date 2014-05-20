@@ -1,0 +1,28 @@
+Draft of presenting "Data cleaning" slide:
+
+In this stage of work, we want to clean up the messy price dataset, and more importantly,
+to explore the dataset to find usable materials for analysis and prediction. W use Pandas
+to organize and analyze the data. There are 3 steps in this stage.
+
+<next slide>
+
+First, before data cleaning, we have to get a general overview of the dataset by
+generating some rough statistics. We found out that the dataset is highly heterogeneous.
+For example, for the rice alone.... (see slide)
+Moreover, all food commodities have differnet sub-categories and distributed in
+different cities, which makes it even harder to summarize or simplify the dataset.
+
+<next slide>
+
+Next, we have to do a lot of data cleaning because the data collecting process is
+done by human beings, and so it's full of errors and neglects. We have missing dates,
+duplicated dates, and incorrect extreme data points. (see the figure) (data cleaning
+process are shown on slide)
+
+<next slide>
+
+Last, we are ready to find out useful stuff out of the dataset. Unfortunately,
+we discovered that the dataset is very sparse. For example most of the combinations
+of "region, city, sub-category" of rice are missing. Among 174,048 possible series,
+we have only got about 3,000 series. So we have come up with 2 possible solutions of
+using the price dataset. (read slides)
