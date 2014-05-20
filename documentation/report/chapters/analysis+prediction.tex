@@ -75,19 +75,25 @@ RMSE & 1.0023 & 1.3397 & 1.8486 & 3.0762 & 2.5517 & 4.2862\\ \hline
 \end{table}
 Table: Prediction result of regression with ARMA error shock with different training moving window size and forecasting steps.
 
-\begin{figure}
+\begin{figure}[!ht]
     \centering
-    \includegraphics[width=.7\textwidth]{./img/regression_prediction.png}
-    \caption{Prediction result of the sample series: Price of "Jyoti" Potato in West Bengal. }
+        \begin{subfigure}[b]{.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./img/regression_prediction.png}
+        \caption{Prediction result of the sample series: Price of "Jyoti" Potato in West Bengal.}
+        \label{subfig:tmp1}
+        \end{subfigure}
+        \quad
+        \begin{subfigure}[b]{.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./img/histogram_of_errors.png}
+        \caption{Histogram of prediction errors of the sample series: Price of "Jyoti" Potato in West Bengal.}
+        \label{subfig:tmp2}
+        \end{subfigure}
+
+    \caption{Example of time series cleaning process}
+    \label{fig:tm_pred}
 \end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=.7\textwidth]{./img/histogram_of_errors.png}
-    \caption{Histogram of prediction errors of the sample series: Price of "Jyoti" Potato in West Bengal}
-\end{figure}
-
-
 
 \subsection*{Neural networks - introduction}
 \emph{Stefan Mihaila}\\
@@ -154,7 +160,6 @@ a given interval.
 
 \subsection*{Feed Forward Neural Networks - models used}
 \emph{Stefan Mihaila}\\
-
 During our project, I have thought of numerous FFNN models that would make
 sense to be trained, but most of my ideas in the beginning were overly
 optimistic: I assumed we can train a single large neural network to
@@ -181,28 +186,12 @@ connected).
 To maximize the prediction power of the trained network, I have used $40$
 inputs to the network:
 \begin{enumerate}
-    \item A sliding window of the normalized per-region monthly
-        \emph{precipitation} amounts over the last 9 months (9 input neurons)
-    \item A sliding window of the normalized per-region monthly mean
-        \emph{temperatures} over the last 9 months (9 input neurons)
-    \item Sliding window for last 9 months of normalized \emph{international
-        oil prices} (9 input neurons)
-    \item Sliding window for last 4 months of the \emph{consumer price index}
-        (4 input neurons)
-    \item Sliding window for the last 36 days of prices, in 4 day jumps (9
-        input neurons)
+\item A sliding window of the normalized per-region monthly \emph{precipitation} amounts over the last 9 months (9 input neurons)
+\item A sliding window of the normalized per-region monthly mean \emph{temperatures} over the last 9 months (9 input neurons)
+\item Sliding window for last 9 months of normalized \emph{international oil prices} (9 input neurons)
+\item Sliding window for last 4 months of the \emph{consumer price index} (4 input neurons)
+\item Sliding window for the last 36 days of prices, in 4 day jumps (9 input neurons)
 \end{enumerate}
-
-Because the prices are sometimes stable for a few days in a row, I am trying to
-predict prices in 4 day jumps (i.e. given input at $t-36, t-32, t-28, \dots,
-t$, the target is the price at $t+4$). I am then filling in the predictions for
-$t+1$, $t+2$ and $t+3$ using linear interpolation between $t$ and $t+4$.
-Such a network should be able to predict 4 days in advance without receiving
-any feedback. However, after 4 days, the network should receive feedback. I
-believe this can be stretched for longer periods, but the limited time and the
-long durations of training the models has not allowed me to test this
-hypothesis.
-
 
 \begin{figure}[H]
     \centering
@@ -219,6 +208,14 @@ hypothesis.
         \label{subfig:ffnn_pred_2}
         \caption{Wholesale daily prediction for apple in Bareilly (Uttar Pradesh)}
         \end{subfigure}
+\end{figure}
+
+Because the prices are sometimes stable for a few days in a row, I am trying to
+predict prices in 4 day jumps (i.e. given input at $t-36, t-32, t-28, \dots,
+t$, the target is the price at $t+4$). I am then filling in the predictions for
+$t+1$, $t+2$ and $t+3$ using linear interpolation between $t$ and $t+4$.
+
+\begin{figure}[H]
         \begin{subfigure}[b]{.45\linewidth}
         \centering
         \includegraphics[width=\textwidth]{img/ffnn/3.pdf}
@@ -232,6 +229,16 @@ hypothesis.
         \label{subfig:ffnn_pred_4}
         \caption{Wholesale daily prediction for rice in Bareilly (Uttar Pradesh)}
         \end{subfigure}
+\end{figure}
+
+Such a network should be able to predict 4 days in advance without receiving
+any feedback. However, after 4 days, the network should receive feedback. I
+believe this can be stretched for longer periods, but the limited time and the
+long durations of training the models has not allowed me to test this
+hypothesis.
+
+\begin{figure}[H]
+    \centering
         \begin{subfigure}[b]{.45\linewidth}
         \centering
         \includegraphics[width=\textwidth]{img/ffnn/5.pdf}
@@ -244,15 +251,8 @@ hypothesis.
         \label{subfig:ffnn_pred_6}
         \caption{Wholesale daily prediction for potato in Champadanga (West Bengal)}
         \end{subfigure}
-        \begin{subfigure}[b]{.45\linewidth}
-        \centering
-        \includegraphics[width=\textwidth]{img/ffnn/7.pdf}
-        \label{subfig:ffnn_pred_7}
-        \caption{Wholesale daily prediction for rice in Champadanga (West Bengal)}
-        \end{subfigure}
-    \caption{Four-day-ahead predictions with the FFNN on various time series}
-    \label{fig:ffnn_pred}
 \end{figure}
+
 
 On the time series we have selected, the FFNN seems to be performing quite
 well. The testing of the neural network was performed as follows: the first
@@ -263,6 +263,18 @@ good, as it has already seen the data) and the red plot shows the prediction
 over test data (data it has never seen). The performance can be estimated by
 comparing the red plot to the blue plot. Remember that the network still gets
 feedback on how it's doing, but only every 4 days.
+
+\begin{figure}[H]
+    \centering
+        \begin{subfigure}[b]{.45\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/ffnn/7.pdf}
+        \label{subfig:ffnn_pred_7}
+        \caption{Wholesale daily prediction for rice in Champadanga (West Bengal)}
+        \end{subfigure}
+    \caption{Four-day-ahead predictions with the FFNN on various time series}
+    \label{fig:ffnn_pred}
+\end{figure}
 
 \subsection*{Recurrent Neural Networks (RNN) \footnotesize\emph{Fabian Brix}}
 A recurrent neural network (RNN) is a neural network with feedback connections, enabling signals to be fed back from a layer $l$ in the network to a previous layer. As opposed to feedforward neural networks where a layer $l$ can only receive inputs from a previous layer, in an RNN the weight matrix for a layer $l$ can contain input weights from \emph{all} other neurons in the network. The simplest form of an RNN consists of an input, an output and one hidden layer as depicted in \ref{fig:simple_rnn}.
