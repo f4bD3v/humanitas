@@ -1,3 +1,7 @@
+#---------------------------------
+#Joseph Boyd - joseph.boyd@epfl.ch
+#---------------------------------
+
 import os ; import sys ; import pickle
 
 def main():

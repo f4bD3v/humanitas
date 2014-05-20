@@ -1,3 +1,7 @@
+#---------------------------------
+#Joseph Boyd - joseph.boyd@epfl.ch
+#---------------------------------
+
 from datetime import datetime
 from twython import Twython
 from sys import getsizeof
