@@ -7,6 +7,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import sys
 
+description = '''
+        This script is outdated and not used.
+        See df_run.py and df_build_func.py
+'''
+
 initialize = False
 fp = os.getcwd()+'/../../data/india/csv_weekly/rpms.dacnet.nic.in/all_commodities_weekly_india_'
 pk_in = 'all_India_week.pickle'
@@ -73,7 +78,7 @@ if __name__ == "__main__":
         if prod not in all_prod_subs:
             all_prod_subs[prod] = set()
         all_prod_subs[prod].update(subs)
-    
+
     print 'Elapsed time phase 1: '+str(time()-start_time)+' sec'
 
     # build up dataframe where columns are time serieses
@@ -106,7 +111,7 @@ if __name__ == "__main__":
                     empty_label.append(label)
                     #validcounts.append(0)
                 else:
-                    
+
                     crt_time = time()
                     subdf.set_index('date', inplace=True)
                     setindex_total_time += time()-crt_time

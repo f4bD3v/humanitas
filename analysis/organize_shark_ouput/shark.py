@@ -4,6 +4,14 @@ import os, sys
 sys.path.insert(0, '../preproc')
 from df_build_func import *
 
+usage = '''
+        This script is for organizing shark output (Tweet indicators) into
+        consistent time series format with the price dataset.
+
+        The resulting csv will be stored per region. eg, 'Uttar Pradesh.csv'
+
+'''
+
 indicator = 'tweet_count'
 
 fp = os.getcwd()+'/shark_out/'
@@ -114,4 +122,4 @@ if __name__ == "__main__":
 
 
 
-    df.to_csv('df.csv')
+    #df.to_csv('df.csv')

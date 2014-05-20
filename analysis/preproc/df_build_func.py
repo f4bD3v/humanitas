@@ -9,6 +9,13 @@ import csv
 import collections
 import matplotlib.pyplot as plt
 
+description = '''
+        functions for df_run.py
+
+        Author: Ching-Chia
+'''
+
+
 usage = '''
         get_raw_weekly           : read india weekly csv into one big dataframe, df_raw
         get_raw_daily            : read india wholesale daily csv into one big dataframe, df_raw

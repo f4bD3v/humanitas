@@ -6,6 +6,13 @@ import os
 # sys.path.insert(0, '../preproc')
 from df_build_func import get_all_dates, mod_header
 
+description = '''
+        This script is for data usability analysis
+
+        Author: Ching-Chia
+'''
+
+
 na_cutoff_rate = 0.6
 date_freq = 'W-Fri'
 #csv_df_full = os.getcwd()+'/../../data/india/csv_preprocessed/wholesale_daily/india_original_wholesale_daily.csv'
@@ -76,14 +83,3 @@ def main():
     num_cities, best_non_na = na_analysis(df, date_freq)
     num_cities.to_csv('num_cities_downsampled'+str(na_cutoff_rate)+'.csv')
     best_non_na.to_csv('best_non_na_downsampled'+str(na_cutoff_rate)+'.csv')
-
-
-
-    # df_3y = subsample(df, '2011-01-01')
-    # num_cities_3y, best_non_na_3y = na_analysis(df_3y)
-    # num_cities_3y.to_csv('num_cities_3y_downsampled'+str(na_cutoff_rate)+'.csv')
-    # best_non_na_3y.to_csv('best_non_na_3y_downsampled'+str(na_cutoff_rate)+'.csv')
-
-
-# if __name__ == '__main__':
-    # main()

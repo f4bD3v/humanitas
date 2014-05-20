@@ -3,6 +3,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
+description = '''
+        This script merges series of the same product within each region.
+        Also for plotting.
+
+        Author: Ching-Chia
+'''
+
+
 wholesale_daily = True
 retail_daily = False
 retail_weekly = False

@@ -43,7 +43,7 @@ Finally, we patched the missing parts of the series with common methods such as 
         \begin{subfigure}[b]{.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{./img/before.png}
-        \caption{Sample price series before data cleaning}
+        \caption{Sample price series after date alignment during data cleaning}
         \label{subfig:sc1}
         \end{subfigure}
         \quad
@@ -67,6 +67,12 @@ The data availability in the daily wholesale dataset varies tremendously among d
 On the other hand, the daily retail dataset appears to have consistent data availability among products and regions, but in fact all products have only about 60\% of valid data in each region. Moreover, after examining each series via plots, we discovered that most of the daily retail series have weird behavior. For instance, the price of a series may have identical values for a long period and suddenly jump to another value, which makes the series look like levels of ladders. These series are not useful since such pattern is probably caused by dysfunctional price reporting process. Last, the weekly retail datatset has too many incorrect data points due to the heuristic of parsing excel files mentioned in the previous section. We thus concluded that the weekly retail dataset can be discarded with no loss.
 
 Considering the limitations of the current price datasets, we have concluded the following potential usage of them: (1) Select a few representative series of each product with very good data quality. By using these individual series as a starting point of analysis and prediction, we can find out general characteristics and also the feasibility of predicting the prices of these highly volatile commodities. (2) Merge the series of the same product in each region to construct an extended dataset containing a uniform profile for each product in each region. In this way, we can gain a national overview of trends and price variations of different products.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{./img/merged_west_bengal_products.png}
+    \caption{Merged series of foods in West Bengal from the wholesale daily dataset}
+\end{figure}
 
 \subsection*{Other sources \footnotesize\emph{Joseph Boyd}}
 After some research we decided to include additional data that affects especially agricultural commodity prices such as the price of crude oil, climate data and the inflation in form of the Consumer Price Index (CPI). The monthly international price of crude oil was downloaded from a US government website. All other types of data were ``scraped'' from two online sources using HTML parsing library, `BeautifulSoup' for Python. The first of these sources was meteorological web site Tu Tiempo (http://www.tutiempo.net). Daily climate data (comprising temperature, humidity, perspiration etc.) for the last 16 years (1999-2014) was collected for over 100 locations in India. The script for this is get\_climate\_data.py. The second source was monthly inflation (CPI) data for India for the past 16 years from inflation.eu. The script for this purpose is get\_inflation\_data.py.

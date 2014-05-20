@@ -4,13 +4,11 @@ import pandas as pd
 from time import time
 from collections import namedtuple
 
-DataTuple = namedtuple('DataTuple', 'date freq country city product sub price')
+description = '''
+                This script converts a list of csv files into one dataframe
 
-def get_usage():
-    usage_str = """
-        csv2df_bulk: read a sequence of csv files to one big dataframe
-    """
-    return usage_str
+                Author: Ching-Chia
+'''
 
 def csv2df(file_path, bulk=False):
     print 'loading '+file_path

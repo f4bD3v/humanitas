@@ -5,11 +5,11 @@ import matplotlib.pyplot as plt
 from df_build_func import get_all_dates, mod_header
 from time import time
 
-
-usage = '''
+description = '''
         This script downsamples a daily dataset to a weekly one (on Fridays).
         Then apply NaN analysis on it.
 
+        Author: Ching-Chia
 '''
 
 # csv_in = os.getcwd()+'/../../data/india/csv_preprocessed/preproc_wholesale_daily/india_original_wholesale_daily_0.4.csv'
