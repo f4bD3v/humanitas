@@ -65,15 +65,15 @@ Our experimental result is shown in the figure and table below. The 95\% or 99\%
 \begin{table}[h]
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
-\hspace{5pt} Moving Training Window Size & 3 years & 3 years & 5 years & 5 years & 7 years &  7 years \\ \hline
-Rolling Forecast Step & 1 week & 1 month & 1 week & 1 month & 1 week & 1 month\\ \hline
-RMSE & 1.0023 & 1.3397 & 1.8486 & 3.0762 & 2.5517 & 4.2862\\ \hline
-95\% Quantiles of Prediction Error & (-0.61, 0.84) & (-1.63, 2.18) & (-0.67, 1.12) & (-2.24, 2.07) & too few observations & too few observations\\ \hline
-99\% Quantiles of Prediction Error & (-1.39, 1.91) & (-2.68, 3.7) & (-2.61, 1.94) & (-4.06, 2.68) & too few observations & too few observations\\ \hline
+\hspace{5pt} Moving Training Window Size & 3 years & 3 years & 5 years & 5 years  \\ \hline
+Rolling Forecast Step & 1 week & 1 month & 1 week & 1 month  \\ \hline
+RMSE & 1.0023 & 1.3397 & 1.8486 & 3.0762 \\ \hline
+95\% Quantiles of Prediction Error & (-0.61, 0.84) & (-1.63, 2.18) & (-0.67, 1.12) & (-2.24, 2.07) \\ \hline
+99\% Quantiles of Prediction Error & (-1.39, 1.91) & (-2.68, 3.7) & (-2.61, 1.94) & (-4.06, 2.68)  \\ \hline
 \end{tabular}
 \label{table:time series prediction results}
+\caption{Prediction result of regression with ARMA error shock with different training moving window size and forecasting steps.}
 \end{table}
-Table: Prediction result of regression with ARMA error shock with different training moving window size and forecasting steps.
 
 \begin{figure}
     \centering
