@@ -14,3 +14,4 @@ data/india/csv_daily/agmarknet.nic.in/speed*.txt
 *.sublime*
 team_contacts.txt
 *.fdb_latexmk
+resources/

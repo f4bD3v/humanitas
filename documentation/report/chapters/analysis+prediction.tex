@@ -276,13 +276,12 @@ feedback on how it's doing, but only every 4 days.
 
 \subsection*{Recurrent Neural Networks (RNN) \footnotesize\emph{Fabian Brix}}
 A recurrent neural network (RNN) is a neural network with feedback connections, enabling signals to be fed back from a layer $l$ in the network to a previous layer. As opposed to feedforward neural networks where a layer $l$ can only receive inputs from a previous layer, in an RNN the weight matrix for a layer $l$ can contain input weights from \emph{all} other neurons in the network. The simplest form of an RNN consists of an input, an output and one hidden layer as depicted in \ref{fig:simple_rnn}.
-\begin{comment}
 \begin{figure}
     \centering
     \includegraphics[width=.7\textwidth]{./img/simple_rnn.png}
     \caption{source: wikipedia}
+    \label{fig:simple_rnn}
 \end{figure}
-\end{comment}
 
 \subsubsection*{General description of a discrete time RNN}
 A discrete time RNN is a graph with $K$ input units $\vec{u}$, $N$ internal network units $\vec{x}$ and $L$ output units $\vec{y}$. The activation (per layer) vectors at point n in time are denoted by $\vec{u}(n) = (u_1(n),...,u_n(n))$, $\vec{x}(n) = (x_1(n),...,x_n(n))$, $\vec{y}(n) = (y_1(n),...,y_n(n))$. Edges between the units in these sets are represented by weights $\omega_{ij}\neq0$ which are gathered in adjacency matrices. There are four types of matrices:\par

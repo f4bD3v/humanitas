@@ -1,9 +1,0 @@
-Alexander John Busser, alexander.busser@epfl.ch
-Anton Ovchinnikov, anton.ovchinnikov@epfl.ch
-Ching-Chia Wang, ching-chia.wang@epfl.ch
-Duy Nguyen, duy.nguyen@epfl.ch
-Fabian Brix, fabian.brix@epfl.ch
-Gabriel Grill, gabriel.grill@epfl.ch
-Julien Graisse, julien.graisse@epfl.ch
-Joseph Boyd, joseph.boyd@epfl.ch
-Stefan Mihaila, stefan.mihaila@epfl.ch
