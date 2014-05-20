@@ -3,34 +3,35 @@
 \subsection*{Interpretation}
 automate interpretation to a certain extent by learning about circumstances through online data.
 
-\subsection*{Time Series Analysis} \footnotesize\textit{Ching-Chia Wang}}
+\subsection*{Time Series Analysis \footnotesize\textit{Ching-Chia Wang}}
 Food price data has a natural temporal relation between different data points. It is important in the analysis to extract significant temporal statistics out of data. We will focus on analyze stationarity, autocorrelation, trend, and seasonality of our price datasets in R.
 
 \subsubsection*{Test of Stationarity of Price Series}
 Stationarity of a series guarantees that the mean and variance of the data do not change over time. This is crucial for a meaningful analysis, since if the data is not stationary, we can not be sure that anything we derive from the present will be consistent in the future.
 
-We have conducted the KPSS test for stationarity [1] on some representative series from the price dataset. A test result of a sample series is presented in the table below. In general, the price series of foods in India have p-values less than 0.05, which indicates that we have to reject the null hypothesis that the series is stationary. On the other hand, the first differences of the price series have p-values larger than 0.05, which means that they are potentially stationary time series. Based on this test result, we will use the first difference of the series in later analysis.
+We have conducted the KPSS test for stationarity on some representative series from the price dataset. A test result of a sample series is presented in the table below. In general, the price series of foods in India have p-values less than 0.05, which indicates that we have to reject the null hypothesis that the series is stationary. On the other hand, the first differences of the price series have p-values larger than 0.05, which means that they are potentially stationary time series. Based on this test result, we will use the first difference of the series in later analysis.
 
 \begin{table}[h]
-\begin{tabular}{lll}
-\cline{1-1}
-\multicolumn{1}{|l|}{}             & Price Series & First Difference of Price Series \\ \cline{1-1}
-p-value of null hypothesis "Trend" & 0.01         &
+\begin{tabular}{|l|l|l|}
+\hline
+\hspace{5pt} & Price Series & First Difference of Price Series \\ \hline
+p-value of null hypothesis "Trend" & 0.01 & 0.1\\ \hline
 \end{tabular}
+\label{table:kpss}
 \end{table}
-Table: Result of KPSS-test of stationarity on the sample series: Price of “Jyoti” Potato in West Bengal. A p-value less than 0.05 indicates a rejection of the null hypothesis that the series is stationary under the 95% confidence level.
 
-[1] Kwiatkowski, D.; Phillips, P. C. B.; Schmidt, P.; Shin, Y. (1992). "Testing the null hypothesis of stationarity against the alternative of a unit root". Journal of Econometrics 54 (1–3): 159–178.
+Result of KPSS-test of stationarity on the sample series (table \ref{table:kpss}): Price of "Jyoti" Potato in West Bengal. A p-value less than 0.05 indicates a rejection of the null hypothesis that the series is stationary under the 95\% confidence level.
+%[1] Kwiatkowski, D.; Phillips, P. C. B.; Schmidt, P.; Shin, Y. (1992). "Testing the null hypothesis of stationarity against the alternative of a unit root". Journal of Econometrics 54 (1–3): 159–178.
 
 \subsubsection*{Autocorrelation of Price Series}
 Autocorrelation(ACF) is another important trait in time series data. It suggests the degree of correlation between current value and the value with a period before. By plotting correlograms (autocorrelation plots) of our data, we will be able to identify if the fluctuation of prices may be due to white noise or other hidden structures.
 
-The figure below is the correlogram of a sample series. The dotted line indicates the region of white noises. Any signal located inside that region is considered statistically insignificant. The ACF value at lag 0 is fixed at 1 because current value is 100% correlated with itself. Observe that we have some short positive signals near lag 0, and there appears to be some annual patterns in price changes. The current change in price of the series seems to be positively correlated with those a few months before, and a few years before, up to 4 years.
+The figure below is the correlogram of a sample series. The dotted line indicates the region of white noises. Any signal located inside that region is considered statistically insignificant. The ACF value at lag 0 is fixed at 1 because current value is 100\% correlated with itself. Observe that we have some short positive signals near lag 0, and there appears to be some annual patterns in price changes. The current change in price of the series seems to be positively correlated with those a few months before, and a few years before, up to 4 years.
 
 \begin{figure}
     \centering
     \includegraphics[width=.7\textwidth]{./img/correlogram.png}
-    \caption{Correlogram of the first difference of the sample series: Price of “Jyoti” Potato in West Bengal.}
+    \caption{Correlogram of the first difference of the sample series: Price of "Jyoti" Potato in West Bengal.}
 \end{figure}
 
 \subsubsection*{Seasonality}
@@ -39,13 +40,14 @@ Seasonality is reasonably expected in our agricultural related time series. We h
 \begin{figure}
     \centering
     \includegraphics[width=.7\textwidth]{./img/seasonal.png}
-    \caption{Correlogram of the first difference of the sample series: Price of “Jyoti” Potato in West Bengal.}
+    \caption{Correlogram of the first difference of the sample series: Price of "Jyoti" Potato in West Bengal.}
 \end{figure}
 
 
 \section*{Prediction Models}
 We decided to evaluate different prediction models on the processed price time series. Since the processing of the price data made available by the Indian government yielded very few usable time series we constrained ourselves to try the different prediction model on a set of \emph{daily} wholesale price series that had over 90\% support and could be sufficiently cleaned and interpolated.
 
+\begin{comment}
 \subsection*{Time Series Forecasting \footnotesize\textit{Ching-Chia Wang}}
 
 \subsubsection*{ARMA Model}
@@ -69,8 +71,182 @@ $Y = Beta*X + eps,   eps ~ ARMA(p,q)$
 Through OLS (Ordinary Least Squares) or GLS (General Least Squares) processes,
 we can obtain an optimal Beta.
 
+\end{comment}
+
+\subsection*{Neural networks - introduction}
+\emph{Stefan Mihaila}\\
+Artificial neural networks are computational models with very varied 
+applications in pattern recognition. Their capability of learning impressively
+complex patterns and finding deep meaning in data have caused such models 
+to gain widespread attention and become a very popular choice for a large 
+number of prediction tasks. For the purpose of price predictions, we have 
+mainly focused on two different types of neural networks: \emph{feed-forward 
+neural networks} and \emph{echo-state neural networks}.
+
 \subsection*{Feed Forward Neural Networks - Multilayer Perceptrons}
-taken from M. Seeger's course on Pattern Recognition and ML
+\emph{Stefan Mihaila}\\
+A feed-forward neural network is generally described by the number of neurons
+and the connections between them. Each connection is assigned a weight (real
+number), and the value (the activation in neuro-slang) of a neuron is computed
+as the weighted sum of its input neurons. This value is then passed through a
+non-linear function that ``squeezes'' the real number into $[-1, 1]$. It is
+this non-linear mapping that allows neural networks to learn non-linear
+patterns from the data.
+
+In the case of feed-forward neural networks, the neurons and the connections
+form a directed acyclic graph. In other words, a neuron cannot have a
+connection to itself (neither directly nor through any path). In this sense, 
+the information is only sent ``forward'' (in one direction). Such a network can
+be arranged in layers, based on the existing connections. Therefore, a more 
+practical way of describing a FFNN model is by the number of layers and by 
+the connections between them (most often full connection between neurons is
+used).
+
+Two layers, namely the first and last, have special meaning: they are called
+the \emph{input layer} and \emph{output layer}, respectively. 
+The other layers (the ones in the middle) are called \emph{hidden layers}.
+
+The \emph{input layer} is used as the ``source'' (the place from where the data
+is fed into the network), and the \emph{output layer} is viewed as the ``sink''
+(the place where a prediction is made on the input data). If our data-set has 5
+input columns and one target column (to be predicted) then we will place 5 
+neurons in the input layer, each being responsible for taking values in one of 
+the columns and one output neuron in the output layer.
+
+The process of training a neural network is the process of assigning weights
+(real values) to all the connections in such a way that when we are feeding
+input from our training set into the network, we get an output very close to
+the correct output. This closeness is measured in terms of an error function
+(such as the mean squared error). In order to optimize the weights of such a
+network, we have to find a minimum of this error function, process which is
+achieved most commonly through \emph{gradient descent}. The process of adapting
+the weights after every gradient descent step is called \emph{backpropagation}
+(because we are going backwards from output to input).
+
+Note that unlike echo-state neural networks, FFNN do not have an internal state
+(i.e. do not have a memory). As such, they are most commonly used to train
+non-sequential data (data for which the order of the data-points does not matter). 
+This is obviously not the case for a time series.  However, a FFNN can be 
+abused into learning sequential data by feeding a sliding window of input over
+a given interval.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{img/ffnn_prezi.png}
+    \caption{A feed-forward neural network with two hidden layers}
+\end{figure}
+
+\subsection*{Feed Forward Neural Networks - models used}
+\emph{Stefan Mihaila}\\
+
+During our project, I have thought of numerous FFNN models that would make
+sense to be trained, but most of my ideas in the beginning were overly
+optimistic: I assumed we can train a single large neural network to
+simultaneously predict all prices for all products in all regions; feeding all
+of those inputs at once into the network would have been very useful as it
+would have allowed the training process to find correlations across different
+regions and different products.
+
+However, it turned out that this was impossible to do, as the available time 
+series are way too sparse and gapped to allow such models to be trained.  
+As such, I resorted to individually training a network for each of a few 
+wholesale daily time series which had good data (downloaded by Anton, selected, 
+preprocessed and interpolated by Ching-Chia).
+
+As some time series are more complex than others, I had to try different
+model hyperparameters for each time series (to have good generalization and
+prevent over-fitting). The hyperparameters are the number
+of hidden layers and the number of neurons in each hidden layer. I have mainly
+worked with the following models of 2 and 3 hidden layers: $(10, 10)$, 
+$(10, 10, 5)$, $(15, 15)$, $(15, 20)$, $(20, 20)$. For all the models, I have
+used fully connected layers (i.e. each pair of consecutive layers were fully
+connected).
+
+To maximize the prediction power of the trained network, I have used $40$
+inputs to the network:
+\begin{enumerate}
+    \item A sliding window of the normalized per-region monthly
+        \emph{precipitation} amounts over the last 9 months (9 input neurons)
+    \item A sliding window of the normalized per-region monthly mean 
+        \emph{temperatures} over the last 9 months (9 input neurons)
+    \item Sliding window for last 9 months of normalized \emph{international 
+        oil prices} (9 input neurons)
+    \item Sliding window for last 4 months of the \emph{consumer price index}
+        (4 input neurons)
+    \item Sliding window for the last 36 days of prices, in 4 day jumps (9
+        input neurons)
+\end{enumerate}
+
+Because the prices are sometimes stable for a few days in a row, I am trying to
+predict prices in 4 day jumps (i.e. given input at $t-36, t-32, t-28, \dots,
+t$, the target is the price at $t+4$). I am then filling in the predictions for
+$t+1$, $t+2$ and $t+3$ using linear interpolation between $t$ and $t+4$.
+Such a network should be able to predict 4 days in advance without receiving
+any feedback. However, after 4 days, the network should receive feedback. I
+believe this can be stretched for longer periods, but the limited time and the
+long durations of training the models has not allowed me to test this
+hypothesis.
+
+
+\begin{figure}[H]
+    \centering
+        \begin{subfigure}[b]{.45\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/ffnn/1.pdf}
+        \caption{Wholesale daily prediction for potato in Vadhvan (Gujarat)} 
+        \label{subfig:ffnn_pred_1}
+        \end{subfigure}
+        \quad
+        \begin{subfigure}[b]{.45\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/ffnn/2.pdf}
+        \label{subfig:ffnn_pred_2}
+        \caption{Wholesale daily prediction for apple in Bareilly (Uttar Pradesh)}
+        \end{subfigure}
+        \begin{subfigure}[b]{.45\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/ffnn/3.pdf}
+        \caption{Wholesale daily prediction for onion in Bareilly (Uttar Pradesh)} 
+        \label{subfig:ffnn_pred_3}
+        \end{subfigure}
+        \quad
+        \begin{subfigure}[b]{.45\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/ffnn/4.pdf}
+        \label{subfig:ffnn_pred_4}
+        \caption{Wholesale daily prediction for rice in Bareilly (Uttar Pradesh)}
+        \end{subfigure}
+        \begin{subfigure}[b]{.45\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/ffnn/5.pdf}
+        \label{subfig:ffnn_pred_5}
+        \caption{Wholesale daily prediction for potato in Burdwan (West Bengal)}
+        \end{subfigure}
+        \begin{subfigure}[b]{.45\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/ffnn/6.pdf}
+        \label{subfig:ffnn_pred_6}
+        \caption{Wholesale daily prediction for potato in Champadanga (West Bengal)}
+        \end{subfigure}
+        \begin{subfigure}[b]{.45\linewidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/ffnn/7.pdf}
+        \label{subfig:ffnn_pred_7}
+        \caption{Wholesale daily prediction for rice in Champadanga (West Bengal)}
+        \end{subfigure}
+    \caption{Four-day-ahead predictions with the FFNN on various time series}   
+    \label{fig:ffnn_pred}
+\end{figure}
+
+On the time series we have selected, the FFNN seems to be performing quite
+well. The testing of the neural network was performed as follows: the first
+$85\%$ of the time series was used for training the network, the last $15\%$ of
+the time series was used for testing. The blue plot highlights the true series,
+the green plot shows the network prediction for the train data (naturally very
+good, as it has already seen the data) and the red plot shows the prediction
+over test data (data it has never seen). The performance can be estimated by
+comparing the red plot to the blue plot. Remember that the network still gets
+feedback on how it's doing, but only every 4 days.
 
 \subsection*{Recurrent Neural Networks (RNN) \footnotesize\emph{Fabian Brix}}
 A recurrent neural network (RNN) is a neural network with feedback connections, enabling signals to be fed back from a layer $l$ in the network to a previous layer. As opposed to feedforward neural networks where a layer $l$ can only receive inputs from a previous layer, in an RNN the weight matrix for a layer $l$ can contain input weights from \emph{all} other neurons in the network. The simplest form of an RNN consists of an input, an output and one hidden layer as depicted in \ref{fig:simple_rnn}.
@@ -112,7 +288,7 @@ Echo State Networks (ESN) are a type of discrete time RNNs for which training is
 
 \begin{figure}
     \centering
-    \includegraphics[width=.7\textwidth]{img/ESN_prezi.png}
+    \includegraphics[width=.6\textwidth]{img/ESN_prezi.png}
     \caption{Network structure of an ESN with 1-dim. input and output}
 \end{figure}
 
@@ -143,13 +319,10 @@ The state of the ESN is a function of the inputs it has been presented with. Eac
 
 \paragraph*{Initial state determination}
 Prior to training the Echo State Network has to be run for an initial set of inputs discarding the results. A spectral radius close to unity implies slow forgetting of the starting state and therefore a substantial part of the training set has to be invested. We used an initiation sequence of 740 points which equates to two years of data.
-
 %EchoStatesTechRep.pdf, p.32
-\begin{comment}
-The network is run for a first set of inputs and the results are then discarded. If the spectral radius is close to unity, implying slow forgetting of the starting state, the initial set has to be a substantial part of the training dataset.
-"Likewise, when the trained network is used to predict a sequence, a long initial run of the sequence must be fed into the network before the actual prediction can start. This is a nuisance because such long initial transients are in principle unnecessary"
-"By contrast, a recurrent neural network such as our echo state network, but also such as the networks used in [5] need long initial runs to “tune in” to the to-be-predicted sequence. [5] tackle this problem by training a second, auxiliary “initiator” network."
-\end{comment}
+%The network is run for a first set of inputs and the results are then discarded. If the spectral radius is close to unity, implying slow forgetting of the starting state, the initial set has to be a substantial part of the training dataset.
+%"Likewise, when the trained network is used to predict a sequence, a long initial run of the sequence must be fed into the network before the actual prediction can start. This is a nuisance because such long initial transients are in principle unnecessary"
+%"By contrast, a recurrent neural network such as our echo state network, but also such as the networks used in [5] need long initial runs to “tune in” to the to-be-predicted sequence. [5] tackle this problem by training a second, auxiliary “initiator” network."
 
 \paragraph*{Batch learning with Ridge Regression}
 The easiest way to train an Echo State Network is through minimizing the residual of an overdetermined linear set of equations. After the reservoir initialization phase, at init\_index of the time series data, the internal states are saved together with the network inputs at every time step as rows to a matrix $X$. This results in a linear set of equations $XW^{out}=Y$, where $Y \in \mathbb{R}^N$ is the vector of outputs starting at init\_index+1. Since the system is overdetermined with no unique solution for the weights $W^{out}$ that perfectly fits all equations one applies Tikhonov regularization instead of ordinary least squares. Consequently we minimize the residual of the SLE with an added regularization term:\\
@@ -257,7 +430,7 @@ In this section we demonstrate the predictive power of the simplest ESN configur
 \end{figure}
 
 \subsubsection*{Obtained results}
-The mackey glass time series is generated by a function with added noise. Since the development of commodity prices doesn't follow a similarly easily describable pattern we did not expect to obtain comparable results. Once trained on several years of price series data the ESN is capable of predicting prices very accurately on a day-to-day basis without any need for retraining. However, due to the limited usefulness of day-to-day predictions, we would like to predict prices farther into the future with relative accuracy. So far we have only achieved predicting the general trend for 6 to 7 days and we are not sure if greater accuracy is achievable with these models. Our experiments with inputting additional data like temperature, precipitation, consumer price index (inflation) and twitter data show NO? significant improvements.
+The mackey glass time series is generated by a function with added noise. Since the development of commodity prices doesn't follow a similarly easily describable pattern we did not expect to obtain comparable results. Once trained on several years of price series data the ESN is capable of predicting prices very accurately on a day-to-day basis without any need for retraining. However, due to the limited usefulness of day-to-day predictions, we would like to predict prices farther into the future with relative accuracy. So far we have only achieved predicting the general trend for 6 to 7 days in isolated cases where the dynamics of the training period favoured a prediction and we are not sure if greater accuracy is achievable with these models. %Our experiments with inputting additional data like temperature, precipitation, consumer price index (inflation) and twitter data show NO? significant improvements.
 
 % NO BLANK SPACES
 \begin{figure}[!ht]
@@ -265,14 +438,14 @@ The mackey glass time series is generated by a function with added noise. Since 
         \begin{subfigure}[b]{.45\linewidth}
         \centering
         \includegraphics[width=\textwidth]{./img/plots/esn/daily/gujarat_potato_online_7d_1d.png}
-        \caption{Wholesale price of potato, state Gujarat; test RMSE in rupees: 0.199}
+        \caption{Wholesale price of potato, state Gujarat; test RMSE in INR: 0.199}
         \label{subfig:res_7d_1}
         \end{subfigure}
         \quad
         \begin{subfigure}[b]{.45\linewidth}
         \centering
         \includegraphics[width=\textwidth]{./img/plots/esn/daily/uttar_pradesh_redonion_7d_1d.png}
-        \caption{Wholesale price of red onion, state Uttar Pradesh; test RMSE in rupees 0.145}
+        \caption{Wholesale price of red onion, state Uttar Pradesh; test RMSE in INR: 0.145}
         \label{subfig:res_7d_2}
         \end{subfigure}
     \caption{7 day day-to-day prediction for two different commodities in different states}
@@ -284,14 +457,14 @@ The mackey glass time series is generated by a function with added noise. Since 
         \begin{subfigure}[b]{.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{./img/plots/esn/daily/gujarat_potato_online_30d_1d.png}
-        \caption{Wholesale price of potato, state Gujarat; test RMSE in rupees: 0.293}
+        \caption{Wholesale price of potato, state Gujarat; test RMSE in INR: 0.293}
         \label{subfig:res_30d_1}
         \end{subfigure}
         \quad
         \begin{subfigure}[b]{.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{./img/plots/esn/daily/uttar_pradesh_redonion_30d_1d.png}
-        \caption{Wholesale price of red onion, state Uttar Pradesh; test RMSE in rupees 0.145}
+        \caption{Wholesale price of red onion, state Uttar Pradesh; test RMSE in INR: 0.145}
         \label{subfig:res_30d_2}
         \end{subfigure}
     \caption{30 day day-to-day prediction for two different commodities in different states}
@@ -303,14 +476,14 @@ The mackey glass time series is generated by a function with added noise. Since 
         \begin{subfigure}[b]{.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{./img/plots/esn/daily/gujarat_potato_online_60d_1d.png}
-        \caption{Wholesale price of potato, state Gujarat; test RMSE in rupees: 0.310}
+        \caption{Wholesale price of potato, state Gujarat; test RMSE in INR: 0.310}
         \label{subfig:res_60d_1}
         \end{subfigure}
         \quad
         \begin{subfigure}[b]{.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{./img/plots/esn/daily/uttar_pradesh_redonion_60d_1d.png}
-        \caption{Wholesale price of red onion, state Uttar Pradesh; test RMSE in rupees 0.127}
+        \caption{Wholesale price of red onion, state Uttar Pradesh; test RMSE in INR: 0.127}
         \label{subfig:res_60d_2}
         \end{subfigure}
 
@@ -318,11 +491,32 @@ The mackey glass time series is generated by a function with added noise. Since 
     \label{fig:res_60d}
 \end{figure}
 
-Adjusted for inflation the prices mostly lose their upwards trend and should become easier for the network to predict. This is the case, but good predictions are obtained more by chance by selecting subsets of a series to train on because modeling the dynamics of the whole series seems to be too complex for the network. In their current state, due to very limited amounts of available data, the twitter indicators cannot prove their use. Significantly bolstered however they would offer a wide range of possibilities. Matching these indicators to available price data series could show up relationships between conversations and the actual price. These relationships could be used to track price changes in real-time on a regional level through the conversations on twitter and thereby prove an interesting alternative to the inadequate/flawed data monitoring of governments. Improving predictions if possible would certainly acquire a lot more focused research in the area recurrent neural networks for time series prediction. The Echo State Network was implemented from scratch in scientific python.
+Adjusted for inflation the prices mostly lose their upwards trend and should become easier for the network to predict. This is the case, but good predictions are again obtained more by chance than anything else by selecting subsets of a series to train on. Modeling the dynamics of the whole series seems to remain too complex for the network.
+
+\begin{figure}[!ht]
+    \centering
+        \begin{subfigure}[b]{.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./img/plots/esn/red_onion_pred_6d_batch.png}
+        \caption{Wholesale price of red onion, accurate prediction produced for 5 days by training with a limited amount of data somewhere in the middle of the series}
+        \label{subfig:res_ch6d}
+        \end{subfigure}
+        \quad
+        \begin{subfigure}[b]{.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./img/plots/esn/red_onion_initN3000_30d.png}
+        \caption{Wholesale price of red onion, trying to reproduce accurate prediction by training on the last two years, best result of various parameter choices}
+        \label{subfig:res_ch30d}
+        \end{subfigure}
+
+    \caption{Results from training with ridge regression on a very limited amount of data maximum three years. The prediction can be gotten about right even for one month horizon. However, so far it adjusting the training phase and the spectral radius is more of a game of chance. The influence of the reservoir size seems to be neglectable having tried sizes of 500, 1000, 2000.}
+    \label{fig:res_chance}
+\end{figure}
+
+In their current state, due to the very limited amounts of available data, the twitter indicators cannot prove their use. Significantly bolstered, however, they would offer a wide range of possibilities. Matching these indicators to available price data series could show up relationships between conversations and the actual price. These relationships could be used to track price changes in real-time on a regional level through the conversations on twitter and thereby prove an interesting alternative to the inadequate data monitoring of the Indian government. Improving predictions, if possible, would certainly require a lot more focused research in the area of recurrent neural networks for time series prediction. The ESN was implemented from scratch in scientific python.
 
 \subsubsection*{Further ESN research}
 Further research concerning the stability of online training of the ESN and its predictability power would encompass the implementation of a stable RLS algorithm such as the Inverse QR-RLS as well as the implementation of the Backpropagation and Decorrelation (BPDC). The latter does not require a specific set up of the network rendering concerns about the initialization run and the spectral radius of the weight matrix void. Using these algorithms a performance analysis of the network has to be done before we can test the influence of additional inputs. Maybe research into Linear System Theory can provide answers as to how to make the network responsive to its own inputs in the generative run. It would lastly be interesting  to compare the ESN to its "rival" the Long Short Term Memory Network trained with the Evolino method.
-ADD REFERENCES
 
 \subsection*{Data Mining}
 \emph{Alexander Buesser} \\

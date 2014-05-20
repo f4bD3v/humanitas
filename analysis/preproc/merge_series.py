@@ -8,8 +8,8 @@ retail_daily = False
 retail_weekly = False
 
 output_by_city = False
-merge_by_prod_reg = True
-plot_all = True
+merge_by_prod_reg = False
+plot_all = False
 
 if wholesale_daily+retail_daily+retail_weekly != 1:
     raise Exception('exactly one option being True required!')
@@ -167,3 +167,15 @@ if __name__ == '__main__':
     if plot_all:
         for label in list(df_ts.columns):
             plotter(df_ts[label], fpath = out_folder+'plot_all/', fname=str(label).replace('/','-')+'.png', save=True)
+
+
+    csv_in2 = os.getcwd()+'/wholesale_daily/csv_all/india_timeseries_wholesale_daily_0.59.csv'  #not interpolated
+    df_ts_dirt = read_df_ts(csv_in2)
+
+    p1 = subdf(df_ts, 'Bethuadahari','Fine')
+    p2 = subdf(df_ts_dirt, 'Bethuadahari','Fine')
+    ax1 = p1.plot(title='Price Series After Data Cleaning')
+    ax1.set_ylabel('Price (Rupee) / KG')
+
+    ax2 = p2.plot(title='Price Series Before Data Cleaning')
+    ax2.set_ylabel('Price (Rupee) / KG')

@@ -1,0 +1,8 @@
+Gujarat,Vadhvan,Potato,Potato,0.83
+NCT of Delhi,Najafgarh,Wheat,Dara,0.82
+Uttar Pradesh,Bareilly,Apple,Delicious,0.9
+Uttar Pradesh,Bareilly,Onion,Red,0.91
+Uttar Pradesh,Bareilly,Rice,Coarse,0.83
+West Bengal,Burdwan,Potato,Jyoti,0.89
+West Bengal,Champadanga,Potato,Jyoti,0.85
+West Bengal,Champadanga,Rice,Ratnachudi,0.94

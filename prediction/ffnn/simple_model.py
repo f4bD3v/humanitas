@@ -34,7 +34,7 @@ series_orig_data = pd.read_csv('../esn/good_series_wholesale_daily.csv')
 
 
 def train(fn, model):
-    series_name = re.search(r'(\([^)]+\))', fn).group(1)
+    series_name = re.search(r'(\(.+\))', fn).group(1)
     pdata = pd.read_csv(fn, parse_dates=['date'])
     series_orig = series_orig_data[series_name]
     series_min = series_orig.min()
@@ -105,7 +105,7 @@ def train(fn, model):
     for i in xrange(300):
         print 'At epoch',i
         bprop.train()
-        if (i+1)%2 == 1:
+        if (i+1)%10 == 1:
             actual = ds['target'][:,0]
             activations_test = net.activateOnDataset(test_ds)
             actual_test = test_ds['target']
