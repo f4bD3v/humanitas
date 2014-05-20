@@ -181,7 +181,7 @@ of hidden layers and the number of neurons in each hidden layer. I have mainly
 worked with the following models of 2 and 3 hidden layers: $(10, 10)$,
 $(10, 10, 5)$, $(15, 15)$, $(15, 20)$, $(20, 20)$. For all the models, I have
 used fully connected layers (i.e. each pair of consecutive layers were fully
-connected).
+connected).\pagebreak
 
 To maximize the prediction power of the trained network, I have used $40$
 inputs to the network:
@@ -208,6 +208,7 @@ inputs to the network:
         \label{subfig:ffnn_pred_2}
         \caption{Wholesale daily prediction for apple in Bareilly (Uttar Pradesh)}
         \end{subfigure}
+    \caption{Four-day-ahead predictions with the FFNN on various time series}
 \end{figure}
 
 Because the prices are sometimes stable for a few days in a row, I am trying to
@@ -229,6 +230,7 @@ $t+1$, $t+2$ and $t+3$ using linear interpolation between $t$ and $t+4$.
         \label{subfig:ffnn_pred_4}
         \caption{Wholesale daily prediction for rice in Bareilly (Uttar Pradesh)}
         \end{subfigure}
+    \caption{Four-day-ahead predictions with the FFNN on various time series}
 \end{figure}
 
 Such a network should be able to predict 4 days in advance without receiving
@@ -251,6 +253,7 @@ hypothesis.
         \label{subfig:ffnn_pred_6}
         \caption{Wholesale daily prediction for potato in Champadanga (West Bengal)}
         \end{subfigure}
+    \caption{Four-day-ahead predictions with the FFNN on various time series}
 \end{figure}
 
 
@@ -266,14 +269,9 @@ feedback on how it's doing, but only every 4 days.
 
 \begin{figure}[H]
     \centering
-        \begin{subfigure}[b]{.45\linewidth}
-        \centering
-        \includegraphics[width=\textwidth]{img/ffnn/7.pdf}
-        \label{subfig:ffnn_pred_7}
-        \caption{Wholesale daily prediction for rice in Champadanga (West Bengal)}
-        \end{subfigure}
-    \caption{Four-day-ahead predictions with the FFNN on various time series}
-    \label{fig:ffnn_pred}
+    \includegraphics[width=.5\textwidth]{img/ffnn/7.pdf}
+    \caption{Wholesale daily prediction for rice in Champadanga (West Bengal)}
+    \label{subfig:ffnn_pred_7}
 \end{figure}
 
 \subsection*{Recurrent Neural Networks (RNN) \footnotesize\emph{Fabian Brix}}
