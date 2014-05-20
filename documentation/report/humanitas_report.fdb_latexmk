@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1400582242 "humanitas_report.tex" "humanitas_report.pdf" "humanitas_report" 1400582246
+["pdflatex"] 1400582923 "humanitas_report.tex" "humanitas_report.pdf" "humanitas_report" 1400582927
   "/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii" 1337017135 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/ifxetex/ifxetex.sty" 1284331290 1458 43ab4710dc82f3edeabecd0d099626b2 ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/gettitlestring.sty" 1303254447 8237 52810bdb4db2270e717422560a104aea ""
@@ -88,12 +88,12 @@
   "/usr/local/texlive/2013/texmf-dist/tex/latex/url/url.sty" 1264379145 21932 e3a9cf32ee9b853b42be14c2f25b873c ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/xcolor/xcolor.sty" 1169481954 55224 a43bab84e0ac5e6efcaf9a98bde73a94 ""
   "/usr/local/texlive/2013/texmf-dist/tex/plain/ifetex/ifetex.tex" 1320621834 1166 4b66ad073c6073cb1bde651c18b7dbb2 ""
-  "chapters/analysis+prediction.tex" 1400582169 47627 335c58ed1c94bbe32bdeed9a12130320 ""
-  "chapters/datacollection+processing.tex" 1400581492 32892 524fbc51db4431f51b8ab3b1e2742fad ""
-  "chapters/visualization.tex" 1400580992 6660 8cbb345f9f30b975a99551186c550950 ""
+  "chapters/analysis+prediction.tex" 1400582918 47642 81ea8d3d45b42c21898d066e73b1ffab ""
+  "chapters/datacollection+processing.tex" 1400582819 32838 7dfb1acaea3a89c0a65d2b4a796ab5f4 ""
+  "chapters/visualization.tex" 1400582867 6696 d8b5a3f46a6d72b8a82e5ed2eb323224 ""
   "conc.tex" 1400536718 2501 7564a3a1ce36a718cd37a9c6b1dda241 ""
-  "humanitas_report.aux" 1400582246 17963 f173951a57600fe9c505cf1e0fb87bd7 ""
-  "humanitas_report.out" 1400582243 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "humanitas_report.aux" 1400582927 17962 5a62c51a3cc42e77481a176caa67119b ""
+  "humanitas_report.out" 1400582924 0 d41d8cd98f00b204e9800998ecf8427e ""
   "humanitas_report.tex" 1400582240 2291 2b7d56a9a2e906daa9afd7910addeb58 ""
   "img/CollectionProcess.pdf" 1397832622 9029 727163cbea9cea179bc9d087d158b918 ""
   "img/ESN_prezi.png" 1400544354 66995 3811e3edb2224a608a54c8eb341dc391 ""
