@@ -143,7 +143,7 @@ Our first idea was to build a continuously running process, which fetches the ne
 
 \subsubsection*{Clustering according to keywords}
 \emph{Gabriel Grill} \\
-Since relevant data was really sparse, we didn't expect much gain from any unsupervised learning techniques and decided to omit clustering.
+Since relevant data was really sparse, we didn't expect much gain from any unsupervised learning techniques and decided to omit clustering. Instead we decided to manually explore a sample of the tweet data and create a list of indicator words used for detecting e.g. poverty, price in/decrease, sentiment and so on. Doing occurrence checks for all crafted words and storing the result, yields feature vectors for every tweet usable for prediction.
 
 \subsubsection*{Issue of storage}
 \emph{Gabriel Grill} \\
@@ -151,7 +151,7 @@ At first we believed that there wouldn't be enough space to store all tweets, bu
 
 \subsection*{Issue of localization}
 \emph{Gabriel Grill} \\
-It's is very important for use to detect the location of tweets, because we want to predict the volatile food prices at regional granularity.
+It's was very important for us to detect the location of tweets, because we wanted to predict volatile food prices at regional granularity. Since Twitter is not widespread in India and localized tweets are rare, we had to come up with heuristics to deal with that.
 
 \subsubsection*{Geolocalized tweets}
 Filtering the available archives of tweets taken from the API yielded near to no geolocalized tweets from India matching our set of keywords. The reason is evident, because the twitter API only allows extraction of 1\% of tweets and only 2\% of tweets are actually geolocalized. In effect, getting tweets that match our keywords specific to food commodities is very unlikely. We had more luck with tweets from Indonesia, however as already explained we were unable to attain enough price sequences from Indonesia to actually train a model. Furthermore, the time constraints didn't allow us to get tweets from India and Indonesia in parallel in order to do some "stand-alone" clustering analysis.
@@ -161,11 +161,13 @@ Filtering the available archives of tweets taken from the API yielded near to no
 To get as many tweets as possible associated with a location we decided to use the locations of user accounts as a simple heuristic. We created a mapping between city and region names and used to to identify valid locations, which were then used during later processing.
 
 \section*{Processing}
-After all tweets were collected we had to process and reformat their content for the neural networks (prediction) and the web visualisation.
+After all tweets were collected, we had to process and reformat their content for the neural networks (prediction) and the web visualisation.
 
 \subsection*{Crafting indicators from tweets}
 \emph{Gabriel Grill} \\
-To use the collected tweets for prediction in the neural network, aggregated indicators had to be extracted from the collection. The result of this processing was then stored in \emph{csv} files.
+To use the collected tweets for prediction in the neural network, aggregated indicators had to be extracted from the collection. The final result of this processing was then stored in \emph{csv} files.
+\\ \\
+Every word occurrence check (either for filtering or feature extraction) in tweet texts was done by iterating over the list of tokens generated from the text. Several NLP techniques were used to improve the word comparison. For every tweet a category/indicator counter was kept to keep track of the number of occurrence of certain predictive words. The processed tweets and their extracted features (indicator counts) were stored in a Cassandra cluster and later queried with Shark. The result of the shark queries was then converted to \emph{csv} files.
 
 \subsubsection*{Sentiment analysis}
 \emph{Anton Ovchinnikov} \\
@@ -205,7 +207,7 @@ Likewise, a category "supply" has "high" polarity:
 and "low":
 
 \emph{'run-out', 'empty', 'depleted', 'rotting'}.
-\\ \\
+\\ \\ \\
 The dictionary with a total of 6 categories (each having at least two polarity word lists) was built (\emph{"predict", "price", "sentiment", "poverty", "needs", "supply"}), let's call it $D$.
 \\ \\
 Then, for each tweet a feature vector is built, representing the amount of words from each category and polarity. Several cases have to be taken into account. First of all, a word may be not in its base form ("price" -> "prices", "increase" -> "increasing"), which will prevent an incoming word from matching one from $D$. Therefore, we use stemming technique to reduce each word to its stem (or root) form. Another problem is misspelled words ("increase" -> "incrase", "incraese"), and for tweets it happens more than usual due to widespread use of mobile devices with tiny keyboards. Our solution to this problem is covered in the next section.
@@ -264,4 +266,4 @@ All these indicators are crafted into a single time series of the form \emph{'Pr
 \emph{Gabriel Grill} \\
 Almost all downloading and processing of tweets was done in parallel on 8 Azure nodes. A script was written to upload public keys to the nodes for seamless access. The same script was used to execute various task on all or specific nodes. To handle the huge amounts of data and do efficient OLAP, we decided to use spark/shark. The data was first stored on each node separately on disk, then processed and afterwards inserted into a Cassandra DB cluster running on the nodes. The Apache Cassandra project is open source implementation of a NoSQL, column-oriented data base. It's known for being fault tolerant, which was very useful during various restarts, and processing many inserts fast. Since we had very limited memory on the non-temporal disk, we experienced 'Out of memory' errors, but because all data has been uploaded to the whole cluster, the scripts could continue running smoothly although some nodes were down. We also experienced node faults whenever the Azure node management 'healed' nodes.
 
-Setting up the Cassandra cluster across multiple Azure subscriptions was tiring, since all used ports had to be opened on all machines manually via the Azure management web interface. Opening ports was regretfully not enough to get a fully functioning Spark cluster running, because Spark uses random ports for communication between running jobs. We tried setting up a VPN, but decided to quit after several hours due to time constraints and because it is not essential for the result that the Spark cluster be made up of all nodes. Luckily Shark on top of Spark with only one node was still fully functional and executed queries at reasonable speed. To connect Shark with Cassandra we used the Hive support for Cassandra driver 'cash' by tuplejump. We experienced several problems (some undocumented) while installing (e.g. libraries missing, wrong paths, ...), but still managed to get it running. To improve speed between the nodes all VMs were created in the same region.
+Setting up the Cassandra cluster across multiple Azure subscriptions was tiring, since all used ports had to be opened on all machines manually via the Azure management web interface. Opening ports was regretfully not enough to get a fully functioning Spark cluster running, because Spark uses random ports for communication between running jobs. We tried setting up a VPN, but decided to quit after several hours due to time constraints and because it was not essential for the result that the Spark cluster had to be made up of all nodes. Luckily Shark on top of Spark with only one node was still fully functional and executed queries at reasonable speed. To connect Shark with Cassandra we used the 'Hive support for Cassandra' driver \emph{cash} by tuplejump. We experienced several problems (some undocumented) while installing (e.g. libraries missing, wrong paths, ...), but still managed to get it running. To improve speed between the nodes all VMs were created in the same region.
