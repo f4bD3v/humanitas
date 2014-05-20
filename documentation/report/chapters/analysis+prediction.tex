@@ -18,9 +18,9 @@ We have conducted the KPSS test for stationarity on some representative series f
 p-value of null hypothesis "Trend" & 0.01 & 0.1\\ \hline
 \end{tabular}
 \label{table:kpss}
+\caption{Table fo results of KPSS-test of stationarity on the sample series (table \ref{table:kpss}): Price of "Jyoti" Potato in West Bengal. A p-value less than 0.05 indicates a rejection of the null hypothesis that the series is stationary under the 95\% confidence level.}
 \end{table}
 
-Result of KPSS-test of stationarity on the sample series (table \ref{table:kpss}): Price of "Jyoti" Potato in West Bengal. A p-value less than 0.05 indicates a rejection of the null hypothesis that the series is stationary under the 95\% confidence level.
 %[1] Kwiatkowski, D.; Phillips, P. C. B.; Schmidt, P.; Shin, Y. (1992). "Testing the null hypothesis of stationarity against the alternative of a unit root". Journal of Econometrics 54 (1–3): 159–178.
 
 \subsubsection*{Autocorrelation of Price Series}
@@ -52,15 +52,15 @@ We decided to evaluate different prediction models on the processed price time s
 \subsubsection*{Regression with ARMA error}
 In our regression model, the target vector is the sum of linear combinations of multiple regressors and an ARMA (Auto-Regressive Moving Average) error shock. Our regression model is formulated as such:
 
-$Y = Beta*X + eps,   eps ~ ARMA(p,q)$,
+$Y = \beta * X + \epsilon,   \epsilon: ARMA(p,q)$,
 
-where Y is the target fitted variables (the price series), X contains the regressors, Beta is a linear coefficient matrix, and eps is the error shock. The ARMA modeling of error shock consists of the auto-regressive part (lag variables) and the moving average part (effects from recent random shocks). The fitting of the ARMA model and the historical error is accomplished by maximum likelihood estimation. On the other hand, through OLS (Ordinary Least Squares) or GLS (General Least Squares) processes, we can obtain an optimal Beta which minimized the mean square error between the predicted Y and the actual Y.
+where Y is the target fitted variables (the price series), X contains the regressors, $\beta$ is a linear coefficient matrix, and $\epsilon$ is the error shock. The ARMA modeling of error shock consists of the auto-regressive part (lag variables) and the moving average part (effects from recent random shocks). The fitting of the ARMA model and the historical error is accomplished by maximum likelihood estimation. On the other hand, through OLS (Ordinary Least Squares) or GLS (General Least Squares) processes, we can obtain an optimal $\beta$ which minimized the mean square error between the predicted Y and the actual Y.
 
 The prediction dataset consists of a food price series, an oil price series, an inflation index series, 2 weather series (temperature and rainfall), and some extra series generated from the previous 3 series with pre-defined time lag in quarters or years. By introducing some extended series, we try to capture the annual cyclic pattern observed in the time series analysis. The food price series is used as the target prediction variable, while the others are regressors.
 
 We use the regression model to predict the price series in a rolling fashion using R. First, a window of some fixed size, such as 3 years, defines the range of the training data. After fitting the model, the algorithm will then forecast a fixed length of future days after the training window. Then, the end of the window moves to the end of the previous forecasted dates so that the process can predict for the next days. This process runs recursively, and our price prediction is in continuous days up to the end of the dataset.
 
-Our experimental result is shown in the figure and table below. The 95% or 99% quantiles of prediction error in the table means that 95% or 99% of the prediction errors fall inside the interval of the quantiles. As forecasting days increase, the root mean square error and the quantiles rise too. The best result is using a moving window size of 3 years and running 1 week price forecasting as 95% of the prediction errors are less than 1 rupee.
+Our experimental result is shown in the figure and table below. The 95\% or 99\% quantiles of prediction error in the table means that 95\% or 99\% of the prediction errors fall inside the interval of the quantiles. As forecasting days increase, the root mean square error and the quantiles rise too. The best result is using a moving window size of 3 years and running 1 week price forecasting as 95\% of the prediction errors are less than 1 rupee.
 
 \begin{table}[h]
 \begin{tabular}{|c|c|c|c|c|c|c|}
