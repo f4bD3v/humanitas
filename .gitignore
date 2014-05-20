@@ -8,7 +8,6 @@ data/india/csv_daily/agmarknet.nic.in/speed*.txt
 *.log
 *.out
 *.thm
-*.pdf
 *.synctex.gz
 *.aux
 *.sublime*
