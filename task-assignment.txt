@@ -35,21 +35,21 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
     * Crawl daily and weekly price data and stocks; sources in data/india/sources.txt
         [Anton, request help where needed]
 
-    * additional data (India+Indonesia): food production, food stocks, weather, Consumer Price Index (CPI), currency exchange rate (w.r.t $), crude oil price 
+    * additional data (India+Indonesia): food production, food stocks, weather, Consumer Price Index (CPI), currency exchange rate (w.r.t $), crude oil price
         [Alex, Joseph, Duy]
-        IMPORTANT: 
+        IMPORTANT:
         - Joseph scrape Indian weather data history from TuTiempo.net, data is located in html tables (Duy helps)
         - Alex: analyze food production against prices before 2011
 
 
 * Twitter analysis
     - Categories for Tweets
-        [Anton, Gabriel, Fabian] 
+        [Anton, Gabriel, Fabian]
     - Normalize tweet indicators and write template query
         [Gabriel]
-        
+
 * Association Rule Mining
-   - implement with the orange package 
+   - implement with the orange package
    - price analysis
         [Alex]
         done
@@ -58,36 +58,37 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
     - All data sources must be tabular, csv with the columns discussed on
       github
         [Anton]
-    - Provide a data source in wide format and with categorial values 
+    - Provide a data source in wide format and with categorial values
         [Alex]
         done
     * Compute statistics and analyze the data to have more information on
       which models can work
         [Ching-Chia, Stefan]
-        -- mostly done
+        done
 
-    * Interpolate the missing values in each (R,C,P,SP) time-series
+    * Data Cleaning and interpolating the missing values in each (R,C,P,SP) time-series
         [Ching-Chia]
         done
 
     * Run PCA (or aggregate with averages) the (R,C,P,SP) time-series into
       (R,P) time-series
-        TODO
+        discarded
         [Ching-Chia, Stefan helps]
 
 
 * Prediction model
-    * detecting seasonal effects (TM analysis)
+    * Time Series Analysis (stationarity, autocorrelations, seasonal patterns)
         [Ching-Chia]
-        *closed* - leaves this to be detected by neural network
+
 
     * Choosing input params (how to relate series):
         Price transmission analysis, Association rule learning
         [Alex, Fabian]
         IMPORTANT: we need to do more work on this part
-    
-   
-    
+
+    * Regression model with ARMA error shock
+        [Ching-Chia]
+
     * FF neural networks
         [Fabian, Stefan]
         -- use pybrain to implement, train and test the model at
@@ -112,25 +113,27 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
     TODO: put map on server, connect to cassandra, style it
     FINAL RESULT: predictions and twitter data interactively accessible through map
 
+    * Organizing price and Tweet indicator dataset (Shark output) into consistent formats for visualization
+      [Ching-Chia]
 
 
-* Documentation: 
+* Documentation:
     * Data collection & processing
         -- Time Series data
                 - Data types
                     [Fabian, Anton, Alex]
-                - Collection (short) 
+                - Collection (short)
                     [Anton]
-                - Choice of commodities 
-                    [Ching-Chia, Fabian] 
-                - Processing
+                - Choice of commodities
+                    [Ching-Chia, Fabian]
+                - Data Preprocessing
                     [Ching-Chia, Stefan]
 
-        -- Twitter 
+        -- Twitter
                 - Issue of localization - mapping tweets to user location
                     [Gabriel]
                 - Historical Tweets
-                    Approach 1 - through API by user (extensive)          
+                    Approach 1 - through API by user (extensive)
                         [Joseph]
 
                     Approach 2 - through webarchive
@@ -142,18 +145,18 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
                     Categorization, basic NLP (stemming, spellchecking)
                         [Anton]
 
-                - Infrastructure, Cassandra 
-                    [Gabriel] 
+                - Infrastructure, Cassandra
+                    [Gabriel]
 
     * Data analysis and prediction
-        * Analysis 
-            -- Time Series analysis 
-                +PCA
+        * Analysis
+            -- Time Series analysis
+                [Ching-Chia]
             -- Association rules
                [Alex]
 
         * Prediction Models
-            -- Time Series Forecasting 
+            -- Time Series Forecasting
                 [Ching-Chia]
             -- (FeedForward NN)
                 [Stefan, Fabian]
@@ -166,6 +169,9 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
     [Joseph]
     * Schema of Prediction Model (e.g. Echo State Network)
     * Demo of Map
+
+    [Ching-Chia]
+    * Data-cleaning slide
 
 Older assignments:
 ============================================================
