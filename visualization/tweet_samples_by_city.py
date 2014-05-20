@@ -1,3 +1,7 @@
+#---------------------------------
+#Joseph Boyd - joseph.boyd@epfl.ch
+#---------------------------------
+
 import json
 
 sample_tweets = {}

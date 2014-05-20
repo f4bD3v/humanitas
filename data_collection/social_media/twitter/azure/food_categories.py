@@ -1,3 +1,7 @@
+#---------------------------------
+#Joseph Boyd - joseph.boyd@epfl.ch
+#---------------------------------
+
 def get_food_words():
     food_words = {}
     food_words['rice'] = list(['rice'])
