@@ -109,13 +109,12 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
         -- very low priority
 
 * Maps, visualizations, displaying the data and results
-    [Duy, Fabian]
-    TODO: put map on server, connect to cassandra, style it
-    FINAL RESULT: predictions and twitter data interactively accessible through map
+    [Duy]
+    -- All mapping and charts
+    -- Data reprocessing into consistent format from raw data in database
 
     * Organizing price and Tweet indicator dataset (Shark output) into consistent formats for visualization
       [Ching-Chia]
-
 
 * Documentation:
     * Data collection & processing
@@ -165,6 +164,12 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
                 Input
                 Training (Teacher forcing), Testing, Evaluation
 
+    * Visualization
+        [Duy]
+
+        * Observations
+            [Duy, Fabian]
+
 * Presentation
     [Joseph]
     * Schema of Prediction Model (e.g. Echo State Network)
@@ -172,6 +177,9 @@ IMPORTANT: everyone is required to document theoretical aspects of their tasks
 
     [Ching-Chia]
     * Data-cleaning slide
+
+    [Duy]
+    * Video demo for visualization
 
 Older assignments:
 ============================================================
