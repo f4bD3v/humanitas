@@ -17,7 +17,7 @@ def main():
             for user in users:
                 unique_users[user['screen_name']] = user
     print "Unique users: %s"%(len(unique_users))
-    print "Paritioning..."
+    print "Partitioning..."
     partition_size = len(unique_users) / num_partitions
     for i in range(num_partitions):
         f_unique_users = open('outputs/%s.pickle'%(i), 'wb')
